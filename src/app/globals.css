@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/* Point Tailwind to your files */
+@source "../components"; 
+@source "../app";
+
+/* TAILWIND V4 FONT CONFIGURATION */
+@theme {
+  --font-family-alpha: var(--font-alpha), sans-serif;
+  --font-family-roobert: var(--font-roobert), sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--color-zinc-950);
+    color: var(--color-zinc-50);
+  }
+}
+
+@media (max-width: 767px) {
+  #tool-start,
+  #tool-start * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  #tool-start h2,
+  #tool-start button,
+  #tool-start select,
+  #tool-start input,
+  #tool-start textarea {
+    overflow-wrap: anywhere;
+  }
+}
