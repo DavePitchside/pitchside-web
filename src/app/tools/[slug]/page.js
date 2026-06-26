@@ -51,6 +51,14 @@ export async function generateMetadata({ params }) {
       url: `${SITE_URL}/tools/${tool.slug}`,
       siteName: "Pitchside AI",
       type: "website",
+      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: tool.metaTitle || tool.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@pitchsideai",
+      title: tool.metaTitle || tool.title,
+      description: tool.metaDescription,
+      images: ["/og-image.png"],
     },
   };
 }
