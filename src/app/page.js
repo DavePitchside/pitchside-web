@@ -35,6 +35,8 @@ const HERO_STATS = [
   { label: "Studio", sub: "Highlights" },
 ];
 
+const HERO_IMAGE_CLASS = "object-cover object-[74%_center] sm:object-[78%_center] md:object-[85%_center]";
+
 // --- REUSABLE COMPONENTS ---
 const LoadingCurtain = ({ onComplete }) => (
   <motion.div
@@ -243,14 +245,14 @@ export default function Home() {
             style={{ y: yParallax, scale: 1.05 }} 
             className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
           >
-            <Image src="/1.png" alt="Cinematic Hero Background" fill className="object-cover object-[74%_center] sm:object-[78%_center] md:object-[85%_center] opacity-95 md:opacity-80" priority />
+            <Image src="/1.png" alt="Cinematic Hero Background" fill className={`${HERO_IMAGE_CLASS} opacity-95 md:opacity-80`} priority />
           </motion.div>
 
           <motion.div 
             style={{ y: yParallax, scale: 1.05, maskImage: maskImage, WebkitMaskImage: maskImage }} 
             className="absolute inset-0 hidden md:block w-full h-full z-10 pointer-events-none transform-gpu will-change-transform"
           >
-            <Image src="/1-neon.png" alt="Revealed Neon Background" fill className="object-cover object-[78%_center] md:object-[85%_center] opacity-100" priority />
+            <Image src="/1-neon.png" alt="Revealed Neon Background" fill className={`${HERO_IMAGE_CLASS} opacity-100`} priority />
           </motion.div>
           
           <div className="absolute inset-0 z-20 bg-gradient-to-b from-[#050505]/62 via-[#050505]/10 to-[#050505]/84 md:bg-gradient-to-r md:from-[#050505] md:via-[#050505]/70 md:to-transparent md:w-[70%] pointer-events-none transform-gpu" />
@@ -274,7 +276,7 @@ export default function Home() {
           <div className="pointer-events-auto">
             <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.05, ease: SMOOTH_EASE }} className="relative w-full">
               <ScrambleText text="OWN THE" className="font-alpha text-[clamp(4rem,18vw,5.8rem)] uppercase tracking-normal text-[#CCFF00] drop-shadow-[0_0_60px_rgba(204,255,0,0.28)] leading-[0.82]" style={{ fontFamily: 'var(--font-alpha)' }} />
-              <ScrambleText text="PITCH." className="font-alpha text-[clamp(4rem,18vw,5.8rem)] uppercase tracking-normal text-[#CCFF00] drop-shadow-[0_0_60px_rgba(204,255,0,0.28)] leading-[0.82]" style={{ fontFamily: 'var(--font-alpha)' }} />
+              <ScrambleText text="CAGE." className="font-alpha text-[clamp(4rem,18vw,5.8rem)] uppercase tracking-normal text-[#CCFF00] drop-shadow-[0_0_60px_rgba(204,255,0,0.28)] leading-[0.82]" style={{ fontFamily: 'var(--font-alpha)' }} />
             </motion.div>
 
             <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.18, ease: SMOOTH_EASE }} className="mt-8 max-w-[20rem] text-sm font-medium leading-relaxed text-zinc-300">
@@ -517,6 +519,68 @@ export default function Home() {
           </div>
         </section>
       </div>
+
+      {/* =========================================
+          FINAL CTA — PAGE CLOSER
+          ========================================= */}
+      <div className="w-full bg-[#F4F3EF] px-3 pb-3 md:px-4 md:pb-4">
+        <section className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0c0c0c] py-14 md:py-28 md:rounded-[2rem]">
+          <FilmGrain />
+
+          {/* Crimson / red glow — top right */}
+          <div className="pointer-events-none absolute -right-8 -top-8 h-72 w-72 rounded-full bg-red-900/30 blur-[110px] transform-gpu" />
+          <div className="pointer-events-none absolute right-0 top-0 h-48 w-48 rounded-full bg-red-800/15 blur-[70px] transform-gpu" />
+
+          {/* Corner marks */}
+          <CornerMark src="/corner-neon.svg" className="top-5 left-5 opacity-30 md:top-8 md:left-8" />
+          <CornerMark src="/corner-neon.svg" className="top-5 right-5 rotate-90 opacity-30 md:top-8 md:right-8" />
+          <CornerMark src="/corner-neon.svg" className="bottom-5 right-5 rotate-180 opacity-50 md:bottom-8 md:right-8" />
+          <CornerMark src="/corner-neon.svg" className="bottom-5 left-5 -rotate-90 opacity-50 md:bottom-8 md:left-8" />
+
+          <div className="relative z-10 mx-auto flex w-full max-w-sm flex-col gap-5 px-5 md:max-w-lg md:px-8">
+
+            {/* Stats row */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: SMOOTH_EASE }}
+              className="grid grid-cols-3 gap-3"
+            >
+              {HERO_STATS.map((stat) => (
+                <div key={stat.sub} className="rounded-2xl border border-white/10 bg-white/[0.05] px-3 py-4 text-center backdrop-blur-sm">
+                  <span className="block text-xl font-black leading-none text-white md:text-2xl">{stat.label}</span>
+                  <span className="mt-2 block text-[8px] font-black uppercase leading-tight tracking-[0.16em] text-zinc-500">{stat.sub}</span>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* CTA buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.12, ease: SMOOTH_EASE }}
+              className="flex flex-col gap-3"
+            >
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist' } }))}
+                className="w-full rounded-xl bg-[#CCFF00] py-4 text-sm font-black uppercase tracking-widest text-black shadow-[0_0_32px_rgba(204,255,0,0.22)] transition-colors duration-300 hover:bg-white active:scale-95"
+              >
+                Join The List
+              </button>
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'invest' } }))}
+                className="w-full rounded-xl border border-white/15 bg-white/[0.04] py-4 text-sm font-bold uppercase tracking-widest text-white/60 transition-all duration-300 hover:bg-white/10 hover:text-white active:scale-95"
+              >
+                Want To Invest?
+              </button>
+            </motion.div>
+
+          </div>
+        </section>
+      </div>
+
     </div>
   );
 }

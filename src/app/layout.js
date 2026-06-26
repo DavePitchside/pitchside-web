@@ -90,7 +90,7 @@ function SiteSchema() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${alphaHeadline.variable} ${roobert.variable}`}>
+    <html lang="en" className={`${alphaHeadline.variable} ${roobert.variable} [overflow-x:clip]`}>
       <head>
         <link rel="preconnect" href="https://firebasestorage.googleapis.com" />
         <link rel="dns-prefetch" href="https://firestore.googleapis.com" />

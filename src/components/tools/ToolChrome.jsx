@@ -217,9 +217,9 @@ export function PremiumToolHero({
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[420px] self-center lg:mx-0 lg:justify-self-end">
-            <div className="absolute -inset-3 hidden rounded-[2rem] bg-[#CCFF00]/10 blur-xl motion-reduce:hidden md:block" />
-            <div className="relative overflow-hidden rounded-[1.25rem] border border-white/10 bg-black/58 p-3 shadow-[0_22px_55px_rgba(0,0,0,0.48)] md:max-h-[430px] md:rounded-[1.5rem] md:p-4">
+          <div className="relative mx-auto hidden w-full max-w-[420px] self-center lg:mx-0 lg:block lg:justify-self-end">
+            <div className="absolute -inset-3 hidden rounded-[2rem] bg-[#CCFF00]/10 blur-xl motion-reduce:hidden lg:block" />
+            <div className="relative overflow-hidden rounded-[1.25rem] border border-white/10 bg-black/58 p-3 shadow-[0_22px_55px_rgba(0,0,0,0.48)] lg:max-h-[430px] lg:rounded-[1.5rem] lg:p-4">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                 <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#CCFF00]">{previewLabel}</p>
                 <span className="h-2 w-2 rounded-full bg-[#CCFF00] shadow-[0_0_14px_#CCFF00]" />
@@ -362,7 +362,7 @@ export function ToolContentBlocks({ blocks = [] }) {
 export function ToolShell({ tool, children }) {
   const hero = tool.hero || {};
   return (
-    <main className="min-h-screen bg-[#050505] font-roobert text-white">
+    <main className="min-h-screen overflow-x-hidden bg-[#050505] font-roobert text-white">
       <PremiumToolHero
         eyebrow={hero.eyebrow || tool.badge || "Pitchside tools"}
         title={hero.displayTitle || tool.title}
@@ -376,9 +376,9 @@ export function ToolShell({ tool, children }) {
         backHref="/tools"
         backLabel="Tools"
       />
-      <section className="overflow-hidden bg-[#F4F3EF] px-0 py-3 text-zinc-950 md:px-4 md:py-4">
-        <div className="max-w-full overflow-hidden rounded-[1.25rem] border-2 border-black bg-[#F4F3EF] px-1 py-8 shadow-[0_0_60px_rgba(0,0,0,0.35)] md:rounded-[2rem] md:px-8 md:py-16">
-          <div className="mx-auto grid max-w-7xl min-w-0 gap-12">
+      <section className="overflow-hidden bg-[#F4F3EF] px-3 py-3 text-zinc-950 md:px-4 md:py-4">
+        <div className="overflow-hidden rounded-[1.5rem] border-2 border-black bg-[#F4F3EF] px-4 py-10 shadow-[0_0_60px_rgba(0,0,0,0.35)] md:rounded-[2rem] md:px-8 md:py-16">
+          <div className="mx-auto grid max-w-7xl min-w-0 grid-cols-1 gap-12">
             {children}
             <ToolContentBlocks blocks={tool.contentBlocks} />
             {tool.links?.length > 0 && (

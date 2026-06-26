@@ -1,14 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Copy, Plus, RefreshCw, RotateCcw, Shuffle, Star, Trophy, Wand2 } from "lucide-react";
+import { Copy, Plus, RefreshCw, RotateCcw, Shuffle, Star, Trophy, Wand2, ChevronDown, ChevronUp } from "lucide-react";
 
-const neon = "#CCFF00";
-const inputClass = "w-full min-w-0 min-h-12 rounded-2xl border-2 border-black bg-white px-4 py-3 text-base font-bold text-black outline-none transition focus:border-[#CCFF00] focus:ring-4 focus:ring-[#CCFF00]/45";
-const smallInputClass = "w-full min-w-0 rounded-xl border border-black/20 bg-white px-3 py-2.5 text-sm font-bold text-black outline-none transition focus:border-[#CCFF00] focus:ring-2 focus:ring-[#CCFF00]/45";
+const inputClass = "w-full min-w-0 min-h-11 rounded-2xl border-2 border-black bg-white px-4 py-2.5 text-sm font-bold text-black outline-none transition focus:border-[#CCFF00] focus:ring-4 focus:ring-[#CCFF00]/45";
+const smallInputClass = "w-full min-w-0 rounded-xl border border-black/20 bg-white px-3 py-2 text-sm font-bold text-black outline-none transition focus:border-[#CCFF00] focus:ring-2 focus:ring-[#CCFF00]/45";
 const labelClass = "text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600";
-const buttonClass = "inline-flex min-h-12 w-full min-w-0 max-w-full items-center justify-center gap-2 whitespace-normal break-words rounded-2xl border-2 border-black bg-black px-4 py-3 text-center text-[11px] font-black uppercase leading-tight tracking-[0.12em] text-[#CCFF00] shadow-[3px_3px_0px_#CCFF00] transition hover:-translate-y-0.5 hover:bg-[#CCFF00] hover:text-black hover:shadow-[3px_3px_0px_#000] focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/45 sm:w-auto sm:px-5 sm:text-xs sm:tracking-widest";
-const secondaryButtonClass = "inline-flex min-h-12 w-full min-w-0 max-w-full items-center justify-center gap-2 whitespace-normal break-words rounded-2xl border-2 border-black bg-white px-4 py-3 text-center text-[11px] font-black uppercase leading-tight tracking-[0.12em] text-black transition hover:bg-black hover:text-[#CCFF00] focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/45 sm:w-auto sm:px-5 sm:text-xs sm:tracking-widest";
+const buttonClass = "inline-flex min-h-11 w-full min-w-0 items-center justify-center gap-2 rounded-2xl border-2 border-black bg-black px-4 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.1em] text-[#CCFF00] shadow-[3px_3px_0px_#CCFF00] transition hover:bg-[#CCFF00] hover:text-black hover:shadow-[3px_3px_0px_#000] active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/45 sm:w-auto";
+const secondaryButtonClass = "inline-flex min-h-11 w-full min-w-0 items-center justify-center gap-2 overflow-hidden rounded-2xl border-2 border-black bg-white px-4 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-black hover:text-[#CCFF00] active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/45 sm:w-auto";
 
 const footballFormats = [
   { value: "5", label: "5-a-side" },
@@ -75,16 +74,38 @@ function positionTone(position) {
   return "bg-zinc-100 text-zinc-700 border-zinc-400";
 }
 
-function CopyButton({ value, label = "Copy" }) {
+const posAbbrev = {
+  "Goalkeeper": "GK", "Defender": "DEF", "Midfielder": "MID", "Winger": "WIN",
+  "Forward": "FWD", "Any": "ANY", "Fix / Defender": "FIX", "Ala / Winger": "ALA",
+  "Pivot / Forward": "PIV", "Right Back": "RB", "Centre Back": "CB", "Left Back": "LB",
+  "Defensive Midfielder": "DM", "Central Midfielder": "CM", "Attacking Midfielder": "AM",
+  "Right Winger": "RW", "Left Winger": "LW", "Striker": "ST",
+};
+
+function positionLabel(pos) {
+  return posAbbrev[pos] || pos.slice(0, 4).toUpperCase();
+}
+
+function CopyButton({ value, label = "Copy", shortLabel }) {
   const [copied, setCopied] = useState(false);
   const copyValue = async () => {
     await navigator.clipboard.writeText(value || "");
     setCopied(true);
     setTimeout(() => setCopied(false), 1400);
   };
+  const displayLabel = copied ? "Copied!" : label;
+  const displayShort = copied ? "Copied!" : (shortLabel || label);
   return (
-    <button type="button" onClick={copyValue} className={`${secondaryButtonClass} overflow-hidden`}>
-      <Copy className="h-4 w-4 shrink-0" /> <span className="min-w-0 whitespace-normal break-words">{copied ? "Copied" : label}</span>
+    <button type="button" onClick={copyValue} className={secondaryButtonClass}>
+      <Copy className="h-4 w-4 shrink-0" />
+      {shortLabel ? (
+        <>
+          <span className="lg:hidden">{displayShort}</span>
+          <span className="hidden lg:inline">{displayLabel}</span>
+        </>
+      ) : (
+        <span className="min-w-0 truncate">{displayLabel}</span>
+      )}
     </button>
   );
 }
@@ -100,9 +121,9 @@ function Field({ label, children, className = "" }) {
 
 function Segmented({ label, options, value, onChange }) {
   return (
-    <div className="grid min-w-0 gap-2">
+    <div className="min-w-0 grid gap-2 [grid-template-columns:minmax(0,1fr)]">
       <span className={labelClass}>{label}</span>
-      <div className="grid min-w-0 gap-2 sm:flex sm:flex-wrap">
+      <div className="grid gap-1.5 [grid-template-columns:repeat(2,minmax(0,1fr))]">
         {options.map((option) => {
           const selected = option.value === value;
           return (
@@ -110,8 +131,8 @@ function Segmented({ label, options, value, onChange }) {
               key={option.value}
               type="button"
               onClick={() => onChange(option.value)}
-              className={`min-h-11 w-full min-w-0 max-w-full whitespace-normal break-words rounded-2xl border-2 px-3 py-2 text-center text-[11px] font-black uppercase leading-tight tracking-[0.12em] transition focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/45 sm:px-4 sm:text-xs sm:tracking-widest ${
-                selected ? "border-black bg-[#CCFF00] text-black shadow-[3px_3px_0px_#000]" : "border-black/20 bg-white text-zinc-600 hover:border-black hover:text-black"
+              className={`min-h-10 w-full min-w-0 overflow-hidden rounded-xl border-2 px-2 py-2 text-center text-[11px] font-black uppercase tracking-[0.06em] transition focus:outline-none active:scale-95 ${
+                selected ? "border-black bg-[#CCFF00] text-black" : "border-black/20 bg-white text-zinc-600 hover:border-black hover:text-black"
               }`}
               aria-pressed={selected}
             >
@@ -126,17 +147,17 @@ function Segmented({ label, options, value, onChange }) {
 
 function ToolPanel({ title, eyebrow, actions, children }) {
   return (
-    <section id="tool-start" className="mx-auto w-full max-w-[calc(100vw-1.5rem)] scroll-mt-28 overflow-hidden rounded-[1.1rem] border-2 border-black bg-white shadow-[3px_3px_0px_#000] sm:max-w-full md:rounded-[1.6rem] md:shadow-[8px_8px_0px_#000]">
-      <div className="overflow-hidden border-b-2 border-black bg-black p-4 text-white md:p-6">
-        <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <section id="tool-start" className="mx-auto w-full scroll-mt-28 overflow-hidden rounded-[1.1rem] border-2 border-black bg-white shadow-[3px_3px_0px_#000] md:rounded-[1.6rem] md:shadow-[8px_8px_0px_#000]">
+      <div className="overflow-hidden border-b-2 border-black bg-black p-4 lg:p-6">
+        <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
-            {eyebrow && <p className="mb-2 max-w-full break-words text-[8px] font-black uppercase leading-tight tracking-[0.14em] text-[#CCFF00] [overflow-wrap:anywhere] md:text-[10px] md:tracking-[0.22em]">{eyebrow}</p>}
-            <h2 className="max-w-full break-words text-base font-black uppercase leading-[1.02] tracking-tight [overflow-wrap:anywhere] md:text-4xl">{title}</h2>
+            {eyebrow && <p className="mb-1.5 max-w-full break-words text-[8px] font-black uppercase leading-tight tracking-[0.14em] text-[#CCFF00] [overflow-wrap:anywhere] md:text-[9px] md:tracking-[0.18em]">{eyebrow}</p>}
+            <h2 className="max-w-full break-words text-sm font-black uppercase leading-[1.05] tracking-tight [overflow-wrap:anywhere] md:text-xl lg:text-3xl xl:text-4xl">{title}</h2>
           </div>
-          <div className="grid w-full min-w-0 gap-3 sm:flex sm:w-auto sm:flex-wrap">{actions}</div>
+          {actions && <div className="flex min-w-0 flex-wrap gap-2 lg:shrink-0">{actions}</div>}
         </div>
       </div>
-      <div className="grid min-w-0 gap-6 p-4 md:p-6">{children}</div>
+      <div className="grid gap-5 p-4 md:p-6 [grid-template-columns:minmax(0,1fr)]">{children}</div>
     </section>
   );
 }
@@ -144,7 +165,7 @@ function ToolPanel({ title, eyebrow, actions, children }) {
 function ResultsGrid({ children, empty }) {
   const items = Array.isArray(children) ? children.filter(Boolean) : children;
   if ((!items || items.length === 0) && empty) {
-    return <div className="grid min-h-56 place-items-center rounded-3xl border-2 border-dashed border-black bg-[#F4F3EF] p-8 text-center text-sm font-black uppercase tracking-widest text-zinc-500">{empty}</div>;
+    return <div className="grid min-h-48 place-items-center rounded-2xl border-2 border-dashed border-black bg-[#F4F3EF] p-6 text-center text-sm font-black uppercase tracking-widest text-zinc-500">{empty}</div>;
   }
   return <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{children}</div>;
 }
@@ -152,12 +173,13 @@ function ResultsGrid({ children, empty }) {
 function ResultCard({ title, children, accent = false }) {
   return (
     <div className={`rounded-2xl border-2 border-black p-4 shadow-[4px_4px_0px_#000] md:rounded-3xl md:p-5 ${accent ? "bg-black text-white shadow-[4px_4px_0px_#CCFF00]" : "bg-[#F4F3EF] text-black"}`}>
-      <h3 className={`text-lg font-black uppercase tracking-tight ${accent ? "text-[#CCFF00]" : "text-black"}`}>{title}</h3>
-      <div className="mt-4">{children}</div>
+      <h3 className={`text-base font-black uppercase tracking-tight ${accent ? "text-[#CCFF00]" : "text-black"}`}>{title}</h3>
+      <div className="mt-3">{children}</div>
     </div>
   );
 }
 
+/* ─── PlayerEditor (used by FormationTool only) ─────────────────────── */
 function PlayerEditor({ players, setPlayers, sport, format, allowTeam = false, teams = ["A", "B"], showStats = false }) {
   const options = positionsFor(sport, format);
   const update = (id, key, value) => {
@@ -170,25 +192,23 @@ function PlayerEditor({ players, setPlayers, sport, format, allowTeam = false, t
   return (
     <div className="grid gap-3">
       {players.map((player, index) => (
-        <div key={player.id} className="rounded-3xl border border-black/15 bg-[#F4F3EF] p-3 md:p-4">
+        <div key={player.id} className="rounded-2xl border border-black/15 bg-[#F4F3EF] p-3">
           <div className="mb-3 flex items-center justify-between gap-3 md:hidden">
             <span className="rounded-full border border-black/15 bg-white px-3 py-1 text-[10px] font-black uppercase tracking-widest text-zinc-500">Player {index + 1}</span>
-            <button type="button" onClick={() => setPlayers((current) => current.filter((item) => item.id !== player.id))} className="rounded-full border border-black bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-black">
-              Remove
-            </button>
+            <button type="button" onClick={() => setPlayers((current) => current.filter((item) => item.id !== player.id))} className="rounded-full border border-black bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-black">Remove</button>
           </div>
-          <div className={`grid gap-3 ${showStats ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-[1.4fr_0.95fr_repeat(8,minmax(70px,0.55fr))_auto]" : "grid-cols-2 md:grid-cols-[1.4fr_1fr_0.6fr_auto]"} items-end`}>
-            <Field label={`Player ${index + 1}`} className={showStats ? "col-span-2 sm:col-span-1" : "col-span-2 md:col-span-1"}>
+          <div className={`grid gap-2 ${showStats ? "grid-cols-6 sm:grid-cols-3 lg:grid-cols-[1.4fr_0.6fr_0.85fr_repeat(8,minmax(55px,0.5fr))_auto]" : "grid-cols-2 md:grid-cols-[1.4fr_1fr_0.6fr_auto]"} items-end`}>
+            <Field label={`Player ${index + 1}`} className={showStats ? "col-span-6 sm:col-span-1" : "col-span-2 md:col-span-1"}>
               <input value={player.name} onChange={(e) => update(player.id, "name", e.target.value)} className={smallInputClass} placeholder="Player name" />
             </Field>
             {allowTeam && (
-              <Field label="Team" className={showStats ? "col-span-1" : ""}>
+              <Field label="Team" className={showStats ? "col-span-3 sm:col-span-1" : ""}>
                 <select value={player.team} onChange={(e) => update(player.id, "team", e.target.value)} className={smallInputClass}>
                   {teams.map((team) => <option key={team} value={team}>{team}</option>)}
                 </select>
               </Field>
             )}
-            <Field label="Position" className={showStats ? "col-span-2 sm:col-span-1" : ""}>
+            <Field label="Position" className={showStats ? "col-span-3 sm:col-span-1" : ""}>
               <select value={player.position} onChange={(e) => update(player.id, "position", e.target.value)} className={smallInputClass}>
                 {options.map((position) => <option key={position} value={position}>{position}</option>)}
               </select>
@@ -199,11 +219,11 @@ function PlayerEditor({ players, setPlayers, sport, format, allowTeam = false, t
               </Field>
             )}
             {showStats && ["goals", "assists", "saves", "conceded", "tackles", "dribbles", "shots", "rating"].map((key) => (
-              <Field key={key} label={key === "conceded" ? "GC" : key}>
+              <Field key={key} label={key === "conceded" ? "GC" : key} className="col-span-2 sm:col-span-1">
                 <input type="number" min="0" max={key === "rating" ? "10" : "99"} value={player[key] ?? 0} onChange={(e) => update(player.id, key, clampNumber(e.target.value, 0, key === "rating" ? 10 : 99))} className={smallInputClass} />
               </Field>
             ))}
-            <button type="button" onClick={() => setPlayers((current) => current.filter((item) => item.id !== player.id))} className={`hidden min-h-11 rounded-xl border-2 border-black bg-white px-3 text-xs font-black uppercase tracking-widest hover:bg-black hover:text-[#CCFF00] md:block ${showStats ? "col-span-2 sm:col-span-3 lg:col-span-1" : ""}`}>
+            <button type="button" onClick={() => setPlayers((current) => current.filter((item) => item.id !== player.id))} className={`hidden min-h-10 rounded-xl border-2 border-black bg-white px-3 text-xs font-black uppercase tracking-widest hover:bg-black hover:text-[#CCFF00] md:block ${showStats ? "col-span-6 sm:col-span-3 lg:col-span-1" : ""}`}>
               Remove
             </button>
           </div>
@@ -222,9 +242,45 @@ function FormatControls({ sport, setSport, format, setFormat }) {
     setFormat(nextSport === "futsal" ? "futsal5" : "5");
   };
   return (
-    <div className="grid gap-4 rounded-3xl border border-black/10 bg-[#F4F3EF] p-4">
+    <div className="grid gap-4 rounded-2xl border border-black/10 bg-[#F4F3EF] p-4">
       <Segmented label="Sport" value={sport} onChange={setSportAndFormat} options={[{ value: "football", label: "Football" }, { value: "futsal", label: "Futsal" }]} />
       <Segmented label="Format" value={format} onChange={setFormat} options={formatsForSport(sport)} />
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RANDOM TEAM GENERATOR — mobile-first redesign
+   ═══════════════════════════════════════════════════════════ */
+
+function RandomPlayerRow({ player, index, onUpdate, onRemove, positions }) {
+  return (
+    <div className="flex min-w-0 overflow-hidden items-center gap-1 rounded-xl border border-black/10 bg-white px-2 py-1.5">
+      <span className="w-5 shrink-0 text-center text-[10px] font-black text-zinc-400">{index + 1}</span>
+      <input
+        value={player.name}
+        onChange={(e) => onUpdate(player.id, "name", e.target.value)}
+        placeholder="Name"
+        className="min-w-0 w-0 flex-1 border-none bg-transparent text-sm font-bold text-black outline-none placeholder:text-zinc-300"
+      />
+      <select
+        value={player.position}
+        onChange={(e) => onUpdate(player.id, "position", e.target.value)}
+        className="w-12 shrink-0 rounded-lg border border-black/10 bg-[#F4F3EF] py-1 pl-1 pr-0 text-[10px] font-black text-black outline-none focus:border-[#CCFF00]"
+        style={{ maxWidth: "3rem" }}
+      >
+        {positions.map((pos) => (
+          <option key={pos} value={pos}>{positionLabel(pos)}</option>
+        ))}
+      </select>
+      <div className="flex shrink-0 items-center gap-0.5">
+        <button type="button" onClick={() => onUpdate(player.id, "rating", Math.max(1, player.rating - 1))} className="flex h-6 w-6 items-center justify-center rounded-md border border-black/15 bg-[#F4F3EF] text-sm font-black transition hover:bg-[#CCFF00] active:scale-90">−</button>
+        <span className="w-4 text-center text-sm font-black text-black">{player.rating}</span>
+        <button type="button" onClick={() => onUpdate(player.id, "rating", Math.min(5, player.rating + 1))} className="flex h-6 w-6 items-center justify-center rounded-md border border-black/15 bg-[#F4F3EF] text-sm font-black transition hover:bg-[#CCFF00] active:scale-90">+</button>
+      </div>
+      <button type="button" onClick={() => onRemove(player.id)} className="shrink-0 flex h-6 w-6 items-center justify-center rounded-md border border-black/10 bg-white text-zinc-400 transition hover:border-rose-300 hover:bg-rose-50 hover:text-rose-500 active:scale-90">
+        ×
+      </button>
     </div>
   );
 }
@@ -233,6 +289,7 @@ function RandomTeamsTool() {
   const [sport, setSport] = useState("football");
   const [format, setFormat] = useState("5");
   const [bulk, setBulk] = useState("");
+  const [showBulk, setShowBulk] = useState(false);
   const [players, setPlayers] = useState([
     { id: "p1", name: "Alex", position: "Forward", rating: 5 },
     { id: "p2", name: "Ben", position: "Defender", rating: 3 },
@@ -250,80 +307,170 @@ function RandomTeamsTool() {
 
   const importBulk = () => {
     const parsed = parseBulkPlayers(bulk);
-    if (parsed.length) setPlayers((current) => [...current, ...parsed]);
-    setBulk("");
+    if (parsed.length) { setPlayers((cur) => [...cur, ...parsed]); setBulk(""); setShowBulk(false); }
   };
 
   const generate = () => {
-    const usable = players.filter((player) => player.name.trim());
-    const output = Array.from({ length: Number(teamCount) }, (_, index) => ({ name: `Team ${teamLetters[index]}`, players: [], score: 0, positions: {} }));
+    const usable = players.filter((p) => p.name.trim());
+    const output = Array.from({ length: Number(teamCount) }, (_, i) => ({
+      name: `Team ${teamLetters[i]}`, players: [], score: 0, positions: {},
+    }));
     const groups = ["Goalkeeper", "Defender", "Midfielder", "Winger", "Forward", "Any"].flatMap((group) =>
-      shuffleList(usable.filter((player) => normalizePosition(player.position) === group)).sort((a, b) => Number(b.rating) - Number(a.rating))
+      shuffleList(usable.filter((p) => normalizePosition(p.position) === group))
+        .sort((a, b) => Number(b.rating) - Number(a.rating))
     );
     groups.forEach((player) => {
       const target = output.reduce((best, team) => {
-        const playerPosition = normalizePosition(player.position);
-        const teamHasPosition = team.positions[playerPosition] || 0;
-        const bestHasPosition = best.positions[playerPosition] || 0;
-        if (teamHasPosition !== bestHasPosition) return teamHasPosition < bestHasPosition ? team : best;
+        const pos = normalizePosition(player.position);
+        const th = team.positions[pos] || 0;
+        const bh = best.positions[pos] || 0;
+        if (th !== bh) return th < bh ? team : best;
         if (team.score !== best.score) return team.score < best.score ? team : best;
         return team.players.length < best.players.length ? team : best;
       }, output[0]);
       target.players.push(player);
       target.score += Number(player.rating) || 3;
-      const normalized = normalizePosition(player.position);
-      target.positions[normalized] = (target.positions[normalized] || 0) + 1;
+      const pos = normalizePosition(player.position);
+      target.positions[pos] = (target.positions[pos] || 0) + 1;
     });
     setTeams(output);
   };
 
-  const copyText = teams.map((team) => `${team.name} (${team.score})\n${team.players.map((player) => `- ${player.name} (${player.position}, ${player.rating}/5)`).join("\n")}`).join("\n\n");
+  const copyText = teams
+    .map((t) => `${t.name} (Rating: ${t.score})\n${t.players.map((p) => `- ${p.name} · ${p.position} · ${p.rating}/5`).join("\n")}`)
+    .join("\n\n");
+
+  const formatHint = sport === "futsal"
+    ? "Spread keepers and pivots across teams for balance."
+    : `${format}v${format}: always spread goalkeepers first, then defenders.`;
 
   return (
-    <ToolPanel title="Random football team generator" eyebrow="Balance keepers, positions and ability" actions={<CopyButton value={copyText} label="Copy to WhatsApp" />}>
-      <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-        <div className="space-y-5">
-          <FormatControls sport={sport} setSport={setSport} format={format} setFormat={setFormat} />
-          <div className="grid gap-4 rounded-3xl border border-black/10 bg-white p-4">
-            <Field label="Bulk paste">
-              <textarea value={bulk} onChange={(e) => setBulk(e.target.value)} rows={4} className={inputClass} placeholder="One player per line, e.g. Sam GK 4" />
-            </Field>
-            <button type="button" onClick={importBulk} className={secondaryButtonClass}>Import pasted players</button>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Number of teams">
-              <input type="number" min="2" max="6" value={teamCount} onChange={(e) => setTeamCount(clampNumber(e.target.value, 2, 6))} className={inputClass} />
-            </Field>
-            <div className="rounded-3xl border border-[#CCFF00]/50 bg-black p-4 text-white">
-              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#CCFF00]">Format hint</p>
-              <p className="mt-2 text-sm font-bold text-zinc-200">{sport === "futsal" ? "Use keeper, fix, ala and pivot roles for cleaner futsal balance." : `${format}-a-side football works best when keepers and defenders are spread first.`}</p>
+    <ToolPanel
+      title="Random Team Generator"
+      eyebrow="Balance keepers, positions and ability"
+      actions={teams.length > 0 ? <CopyButton value={copyText} label="Copy to WhatsApp" shortLabel="Copy" /> : null}
+    >
+      {/* ── Settings ── */}
+      <div className="rounded-2xl border border-black/10 bg-[#F4F3EF] p-4 space-y-4">
+        <Segmented
+          label="Sport"
+          value={sport}
+          onChange={(v) => { setSport(v); setFormat(v === "futsal" ? "futsal5" : "5"); }}
+          options={[{ value: "football", label: "Football" }, { value: "futsal", label: "Futsal" }]}
+        />
+        <Segmented label="Format" value={format} onChange={setFormat} options={formatsForSport(sport)} />
+        <div className="grid gap-3 [grid-template-columns:repeat(2,minmax(0,1fr))]">
+          <div className="min-w-0">
+            <span className={labelClass}>Teams</span>
+            <div className="mt-2 flex items-center justify-between gap-1">
+              <button type="button" onClick={() => setTeamCount((c) => Math.max(2, c - 1))} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-2 border-black bg-white text-xl font-black hover:bg-black hover:text-[#CCFF00] active:scale-90">−</button>
+              <span className="text-2xl font-black text-black">{teamCount}</span>
+              <button type="button" onClick={() => setTeamCount((c) => Math.min(6, c + 1))} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-2 border-black bg-white text-xl font-black hover:bg-black hover:text-[#CCFF00] active:scale-90">+</button>
             </div>
           </div>
-          <PlayerEditor players={players} setPlayers={setPlayers} sport={sport} format={format} />
-          <div className="grid gap-3 sm:flex sm:flex-wrap">
-            <button type="button" onClick={generate} className={buttonClass}><Shuffle className="h-4 w-4" /> Generate</button>
-            <button type="button" onClick={generate} className={secondaryButtonClass}><RefreshCw className="h-4 w-4" /> Regenerate</button>
-            <button type="button" onClick={() => { setTeams([]); setPlayers([]); }} className={secondaryButtonClass}><RotateCcw className="h-4 w-4" /> Reset</button>
+          <div className="min-w-0 flex flex-col justify-center overflow-hidden rounded-xl border border-[#CCFF00]/40 bg-black p-2.5">
+            <p className="text-[9px] font-black uppercase tracking-widest text-[#CCFF00]">Tip</p>
+            <p className="mt-1 break-words text-[10px] font-bold leading-snug text-zinc-300 [overflow-wrap:anywhere]">{formatHint}</p>
           </div>
         </div>
-        <ResultsGrid empty="Generate teams to see balanced Team A, Team B and more.">
-          {teams.map((team) => (
-            <ResultCard key={team.name} title={`${team.name} · rating ${team.score}`} accent>
-              <ul className="space-y-2">
-                {team.players.map((player) => (
-                  <li key={`${team.name}-${player.id}`} className="grid gap-2 rounded-2xl border border-white/10 bg-white/10 px-3 py-3 text-sm font-bold sm:flex sm:items-center sm:justify-between">
-                    <span>{player.name}</span>
-                    <span className={`w-fit rounded-full border px-2 py-1 text-[10px] font-black uppercase ${positionTone(player.position)}`}>{player.position} · {player.rating}/5</span>
-                  </li>
-                ))}
-              </ul>
-            </ResultCard>
-          ))}
-        </ResultsGrid>
       </div>
+
+      {/* ── Players ── */}
+      <div>
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <span className={labelClass}>{players.length} Players · Skill 1–5</span>
+          <button
+            type="button"
+            onClick={() => setShowBulk((v) => !v)}
+            className="flex items-center gap-1.5 rounded-lg border border-black/15 bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-600 transition hover:border-black hover:text-black"
+          >
+            {showBulk ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+            {showBulk ? "Close" : "Bulk paste"}
+          </button>
+        </div>
+
+        {showBulk && (
+          <div className="mb-3 rounded-2xl border border-black/10 bg-white p-3 space-y-2">
+            <p className={`${labelClass} mb-1`}>One per line — e.g. Sam GK 4 · or just Sam</p>
+            <textarea
+              value={bulk}
+              onChange={(e) => setBulk(e.target.value)}
+              rows={4}
+              className={inputClass}
+              placeholder={"Sam GK 4\nAlex FWD 5\nBen DEF 3"}
+            />
+            <button type="button" onClick={importBulk} className={secondaryButtonClass}>
+              <Plus className="h-4 w-4" /> Import players
+            </button>
+          </div>
+        )}
+
+        <PlayerEditor players={players} setPlayers={setPlayers} sport={sport} format={format} />
+      </div>
+
+      {/* ── Generate actions ── */}
+      <div className="flex flex-wrap gap-2">
+        <button type="button" onClick={generate} className={buttonClass}>
+          <Shuffle className="h-4 w-4" /> Generate Teams
+        </button>
+        {teams.length > 0 && (
+          <>
+            <button type="button" onClick={generate} className={secondaryButtonClass}>
+              <RefreshCw className="h-4 w-4" /> Reshuffle
+            </button>
+            <button type="button" onClick={() => { setTeams([]); setPlayers([]); }} className={secondaryButtonClass}>
+              <RotateCcw className="h-4 w-4" /> Reset
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* ── Results ── */}
+      {teams.length > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className={labelClass}>Generated Teams</h3>
+            <CopyButton value={copyText} label="Copy all to WhatsApp" shortLabel="Copy All" />
+          </div>
+          {teams.map((team) => {
+            const teamCopy = `${team.name} (Rating: ${team.score})\n${team.players.map((p) => `- ${p.name} · ${p.position} · ${p.rating}/5`).join("\n")}`;
+            return (
+              <div key={team.name} className="overflow-hidden rounded-2xl border-2 border-black bg-black shadow-[4px_4px_0px_#CCFF00]">
+                <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+                  <div>
+                    <h4 className="text-base font-black uppercase tracking-tight text-[#CCFF00]">{team.name}</h4>
+                    <p className="text-[10px] font-bold text-zinc-500">Rating {team.score} · {team.players.length} players</p>
+                  </div>
+                  <CopyButton value={teamCopy} label="Copy team" shortLabel="Copy" />
+                </div>
+                <ul className="divide-y divide-white/[0.06] px-1 py-1">
+                  {team.players.map((player) => (
+                    <li key={player.id} className="flex items-center justify-between px-3 py-2.5">
+                      <span className="text-sm font-bold text-white">{player.name}</span>
+                      <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-black uppercase ${positionTone(player.position)}`}>
+                        {positionLabel(player.position)} · {player.rating}★
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {teams.length === 0 && (
+        <div className="grid min-h-32 place-items-center rounded-2xl border-2 border-dashed border-black/20 bg-[#F4F3EF] p-6 text-center">
+          <p className="text-xs font-black uppercase tracking-widest text-zinc-400">Add players above, then hit Generate</p>
+        </div>
+      )}
     </ToolPanel>
   );
 }
+
+/* ═══════════════════════════════════════════════════════════
+   FORMATION BUILDER (unchanged)
+   ═══════════════════════════════════════════════════════════ */
 
 const formationOptions = {
   football: {
@@ -415,7 +562,7 @@ function FormationTool() {
             <Field label="Team A formation">
               <select value={safeFormationA} onChange={(e) => setFormationA(e.target.value)} className={inputClass}>{options.map((item) => <option key={item}>{item}</option>)}</select>
             </Field>
-            <label className="flex min-h-12 items-center gap-3 rounded-2xl border-2 border-black bg-white px-4 py-3 text-sm font-black uppercase tracking-widest">
+            <label className="flex min-h-11 items-center gap-3 rounded-2xl border-2 border-black bg-white px-4 py-3 text-sm font-black uppercase tracking-widest">
               <input type="checkbox" checked={includeB} onChange={(e) => setIncludeB(e.target.checked)} className="h-5 w-5 accent-[#CCFF00]" /> Add Team B
             </label>
           </div>
@@ -432,7 +579,7 @@ function FormationTool() {
               </div>
             </ResultCard>
           )}
-          <div className="rounded-3xl border-2 border-black bg-black p-5 text-[#CCFF00] shadow-[4px_4px_0px_#CCFF00]">
+          <div className="rounded-2xl border-2 border-black bg-black p-5 text-[#CCFF00] shadow-[4px_4px_0px_#CCFF00]">
             <p className="text-[10px] font-black uppercase tracking-[0.22em]">Tactical note</p>
             <p className="mt-2 text-sm font-bold leading-relaxed text-zinc-100">{tacticalNote}</p>
           </div>
@@ -445,6 +592,10 @@ function FormationTool() {
     </ToolPanel>
   );
 }
+
+/* ═══════════════════════════════════════════════════════════
+   TEAM NAME GENERATOR (unchanged)
+   ═══════════════════════════════════════════════════════════ */
 
 const nameBanks = {
   "5-a-side": ["Five Alive FC", "Cage Kings", "Back Post Five", "Nutmeg Unit", "Astro Authority", "The Bib Rotation", "Slot Finishers", "Small Goals Big Talk"],
@@ -494,6 +645,10 @@ function TeamNameTool() {
   );
 }
 
+/* ═══════════════════════════════════════════════════════════
+   LEAGUE TABLE GENERATOR (unchanged)
+   ═══════════════════════════════════════════════════════════ */
+
 function LeagueTableTool() {
   const [sport, setSport] = useState("football");
   const [leagueType, setLeagueType] = useState("5-a-side");
@@ -514,15 +669,7 @@ function LeagueTableTool() {
       if (!isA && !isB) return row;
       const gf = isA ? Number(result.scoreA) : Number(result.scoreB);
       const ga = isA ? Number(result.scoreB) : Number(result.scoreA);
-      return {
-        ...row,
-        played: Number(row.played) + 1,
-        wins: Number(row.wins) + (gf > ga ? 1 : 0),
-        draws: Number(row.draws) + (gf === ga ? 1 : 0),
-        losses: Number(row.losses) + (gf < ga ? 1 : 0),
-        gf: Number(row.gf) + gf,
-        ga: Number(row.ga) + ga,
-      };
+      return { ...row, played: Number(row.played) + 1, wins: Number(row.wins) + (gf > ga ? 1 : 0), draws: Number(row.draws) + (gf === ga ? 1 : 0), losses: Number(row.losses) + (gf < ga ? 1 : 0), gf: Number(row.gf) + gf, ga: Number(row.ga) + ga };
     }));
   };
   const copyText = ["Team | P | W | D | L | GF | GA | GD | PTS", ...table.map((row) => `${row.team} | ${row.played} | ${row.wins} | ${row.draws} | ${row.losses} | ${row.gf} | ${row.ga} | ${row.gd} | ${row.pts}`)].join("\n");
@@ -546,38 +693,25 @@ function LeagueTableTool() {
         <div className="space-y-4">
           <div className="grid gap-3 md:hidden">
             {rows.map((row, index) => (
-              <div key={`mobile-row-${index}`} className="rounded-3xl border-2 border-black bg-white p-4 shadow-[4px_4px_0px_#000]">
+              <div key={`mobile-row-${index}`} className="rounded-2xl border-2 border-black bg-white p-4 shadow-[4px_4px_0px_#000]">
                 <Field label={`Team ${index + 1}`}>
                   <input type="text" value={row.team} onChange={(e) => update(index, "team", e.target.value)} className={smallInputClass} />
                 </Field>
                 <div className="mt-3 grid grid-cols-3 gap-2">
-                  {[
-                    ["played", "P"],
-                    ["wins", "W"],
-                    ["draws", "D"],
-                    ["losses", "L"],
-                    ["gf", "GF"],
-                    ["ga", "GA"],
-                  ].map(([key, label]) => (
+                  {[["played", "P"], ["wins", "W"], ["draws", "D"], ["losses", "L"], ["gf", "GF"], ["ga", "GA"]].map(([key, label]) => (
                     <Field key={key} label={label}>
                       <input type="number" min="0" value={row[key]} onChange={(e) => update(index, key, e.target.value)} className={smallInputClass} />
                     </Field>
                   ))}
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-2">
-                  <div className="rounded-2xl border border-black/10 bg-[#F4F3EF] p-3">
-                    <p className={labelClass}>GD</p>
-                    <p className="mt-1 text-xl font-black text-black">{Number(row.gf) - Number(row.ga)}</p>
-                  </div>
-                  <div className="rounded-2xl border border-black/10 bg-[#CCFF00] p-3">
-                    <p className={labelClass}>PTS</p>
-                    <p className="mt-1 text-xl font-black text-black">{Number(row.wins) * 3 + Number(row.draws)}</p>
-                  </div>
+                  <div className="rounded-xl border border-black/10 bg-[#F4F3EF] p-3"><p className={labelClass}>GD</p><p className="mt-1 text-xl font-black text-black">{Number(row.gf) - Number(row.ga)}</p></div>
+                  <div className="rounded-xl border border-black/10 bg-[#CCFF00] p-3"><p className={labelClass}>PTS</p><p className="mt-1 text-xl font-black text-black">{Number(row.wins) * 3 + Number(row.draws)}</p></div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="hidden overflow-x-auto rounded-3xl border-2 border-black shadow-[6px_6px_0px_#000] md:block">
+          <div className="hidden overflow-x-auto rounded-2xl border-2 border-black shadow-[6px_6px_0px_#000] md:block">
             <table className="w-full min-w-[900px] border-collapse bg-white text-left">
               <thead className="bg-black text-[#CCFF00]">
                 <tr>{["Team", "P", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((header) => <th key={header} className="p-3 text-xs font-black uppercase tracking-widest">{header}</th>)}</tr>
@@ -586,9 +720,7 @@ function LeagueTableTool() {
                 {rows.map((row, index) => (
                   <tr key={index} className="border-t border-zinc-200">
                     {["team", "played", "wins", "draws", "losses", "gf", "ga"].map((key) => (
-                      <td key={key} className="p-2">
-                        <input type={key === "team" ? "text" : "number"} min="0" value={row[key]} onChange={(e) => update(index, key, e.target.value)} className={smallInputClass} />
-                      </td>
+                      <td key={key} className="p-2"><input type={key === "team" ? "text" : "number"} min="0" value={row[key]} onChange={(e) => update(index, key, e.target.value)} className={smallInputClass} /></td>
                     ))}
                     <td className="p-3 font-black">{Number(row.gf) - Number(row.ga)}</td>
                     <td className="p-3 font-black">{Number(row.wins) * 3 + Number(row.draws)}</td>
@@ -615,53 +747,212 @@ function LeagueTableTool() {
   );
 }
 
+/* ═══════════════════════════════════════════════════════════
+   STATS TRACKER — mobile-first redesign
+   ═══════════════════════════════════════════════════════════ */
+
+const STAT_FIELDS = [
+  { key: "goals", label: "G" },
+  { key: "assists", label: "A" },
+  { key: "saves", label: "SV" },
+  { key: "conceded", label: "GC" },
+  { key: "tackles", label: "TK" },
+  { key: "dribbles", label: "DR" },
+  { key: "shots", label: "SH" },
+  { key: "rating", label: "★", max: 10 },
+];
+
+function StatsPlayerCard({ player, onUpdate, onRemove, options, teams, teamAName, teamBName }) {
+  const [expanded, setExpanded] = useState(false);
+  const isTeamB = player.team === "B";
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-black/10 bg-white">
+      {/* ── Collapsed header ── */}
+      <div className="flex min-w-0 items-center gap-2 px-3 py-2.5">
+        <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${isTeamB ? "bg-sky-400" : "bg-[#CCFF00]"}`} />
+        <input
+          value={player.name}
+          onChange={(e) => onUpdate(player.id, "name", e.target.value)}
+          placeholder="Player name"
+          className="min-w-0 flex-1 border-none bg-transparent text-sm font-bold text-black outline-none placeholder:text-zinc-300"
+        />
+        <span className="shrink-0 rounded-full bg-[#F4F3EF] px-2 py-0.5 text-[10px] font-black uppercase text-zinc-500">
+          {positionLabel(player.position)}
+        </span>
+        <span className="shrink-0 text-[11px] font-black text-zinc-400">★{player.rating}</span>
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="shrink-0 flex h-7 w-7 items-center justify-center rounded-lg border border-black/10 bg-[#F4F3EF] text-zinc-500 transition hover:bg-[#CCFF00] hover:text-black active:scale-90"
+        >
+          {expanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+        </button>
+      </div>
+
+      {/* ── Expanded edit area ── */}
+      {expanded && (
+        <div className="border-t border-black/5 p-3 space-y-3">
+          <div className="grid grid-cols-2 gap-2">
+            <Field label="Position">
+              <select value={player.position} onChange={(e) => onUpdate(player.id, "position", e.target.value)} className={smallInputClass}>
+                {options.map((pos) => <option key={pos} value={pos}>{pos}</option>)}
+              </select>
+            </Field>
+            {teams.length > 1 && (
+              <Field label="Team">
+                <select value={player.team} onChange={(e) => onUpdate(player.id, "team", e.target.value)} className={smallInputClass}>
+                  <option value="A">{teamAName || "Team A"}</option>
+                  <option value="B">{teamBName || "Team B"}</option>
+                </select>
+              </Field>
+            )}
+          </div>
+
+          {/* Stat inputs — 4 cols on mobile */}
+          <div className="grid grid-cols-4 gap-2">
+            {STAT_FIELDS.map(({ key, label, max }) => (
+              <label key={key} className="grid gap-1 text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-zinc-500">{label}</span>
+                <input
+                  type="number"
+                  min="0"
+                  max={max || 99}
+                  value={player[key] ?? 0}
+                  onChange={(e) => onUpdate(player.id, key, clampNumber(e.target.value, 0, max || 99))}
+                  className="w-full rounded-lg border border-black/10 bg-[#F4F3EF] py-2 text-center text-sm font-black text-black outline-none focus:border-[#CCFF00] focus:ring-2 focus:ring-[#CCFF00]/40"
+                />
+              </label>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => onRemove(player.id)}
+            className="w-full rounded-xl border border-rose-200 bg-rose-50 py-2 text-[11px] font-black uppercase tracking-wider text-rose-600 transition hover:bg-rose-100 active:scale-95"
+          >
+            Remove Player
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function StatsTrackerTool() {
   const [sport, setSport] = useState("football");
   const [format, setFormat] = useState("5");
   const [trackSecond, setTrackSecond] = useState(false);
-  const [match, setMatch] = useState({ teamA: "Pitchside FC", teamB: "Astro United", date: new Date().toISOString().slice(0, 10), scoreA: 8, scoreB: 6 });
+  const [match, setMatch] = useState({
+    teamA: "Pitchside FC", teamB: "Astro United",
+    date: new Date().toISOString().slice(0, 10),
+    scoreA: 8, scoreB: 6,
+  });
   const [players, setPlayers] = useState([
     { id: "s1", name: "Alex", team: "A", position: "Forward", goals: 3, assists: 1, saves: 0, conceded: 0, tackles: 2, dribbles: 4, shots: 6, rating: 9 },
     { id: "s2", name: "Ben", team: "A", position: "Defender", goals: 1, assists: 3, saves: 0, conceded: 0, tackles: 4, dribbles: 1, shots: 2, rating: 8 },
     { id: "s3", name: "Chris", team: "A", position: "Goalkeeper", goals: 0, assists: 0, saves: 9, conceded: 6, tackles: 1, dribbles: 0, shots: 0, rating: 8 },
-    { id: "s4", name: "Opponent 9", team: "B", position: "Forward", goals: 3, assists: 0, saves: 0, conceded: 0, tackles: 1, dribbles: 2, shots: 5, rating: 7 },
   ]);
-  const visiblePlayers = players.filter((player) => trackSecond || player.team !== "B");
-  const scorePlayer = (p) => Number(p.goals) * 4 + Number(p.assists) * 3 + Number(p.saves) * 1.5 + Number(p.tackles) * 2 + Number(p.dribbles) + Number(p.rating);
-  const ranked = useMemo(() => [...visiblePlayers].map((p) => ({ ...p, score: scorePlayer(p) })).sort((a, b) => b.score - a.score), [visiblePlayers]);
+
+  const visiblePlayers = players.filter((p) => trackSecond || p.team !== "B");
+
+  const scorePlayer = (p) =>
+    Number(p.goals) * 4 + Number(p.assists) * 3 + Number(p.saves) * 1.5 + Number(p.tackles) * 2 + Number(p.dribbles) + Number(p.rating);
+
+  const ranked = useMemo(() =>
+    [...visiblePlayers].map((p) => ({ ...p, score: scorePlayer(p) })).sort((a, b) => b.score - a.score),
+    [visiblePlayers]
+  );
   const topScorer = [...visiblePlayers].sort((a, b) => Number(b.goals) - Number(a.goals))[0];
   const topAssister = [...visiblePlayers].sort((a, b) => Number(b.assists) - Number(a.assists))[0];
   const bestKeeper = [...visiblePlayers].sort((a, b) => Number(b.saves) - Number(a.saves))[0];
   const potm = ranked[0];
-  const recap = `${match.teamA} ${match.scoreA}-${match.scoreB} ${match.teamB} (${match.date})\n${sport === "futsal" ? "Futsal 5-a-side" : `Football ${format}-a-side`}\n\nTop scorer: ${topScorer?.name || "TBC"} (${topScorer?.goals || 0})\nTop assister: ${topAssister?.name || "TBC"} (${topAssister?.assists || 0})\nBest goalkeeper / saves: ${bestKeeper?.name || "TBC"} (${bestKeeper?.saves || 0})\nPlayer of the match suggestion: ${potm?.name || "TBC"}\n\n${visiblePlayers.map((p) => `${p.team === "B" ? match.teamB : match.teamA} - ${p.name} (${p.position}): ${p.goals}G ${p.assists}A ${p.saves}SV ${p.tackles}T ${p.dribbles}D ${p.shots}SH rating ${p.rating}`).join("\n")}\n\nTrack manually now, automate later with Pitchside.`;
+
+  const recap = `${match.teamA} ${match.scoreA}–${match.scoreB} ${match.teamB} (${match.date})\n${sport === "futsal" ? "Futsal 5-a-side" : `Football ${format}-a-side`}\n\nTop scorer: ${topScorer?.name || "TBC"} (${topScorer?.goals || 0})\nTop assister: ${topAssister?.name || "TBC"} (${topAssister?.assists || 0})\nBest GK / saves: ${bestKeeper?.name || "TBC"} (${bestKeeper?.saves || 0})\nPOTM suggestion: ${potm?.name || "TBC"}\n\n${visiblePlayers.map((p) => `${p.team === "B" ? match.teamB : match.teamA} - ${p.name} (${p.position}): ${p.goals}G ${p.assists}A ${p.saves}SV ${p.tackles}T ${p.dribbles}D ${p.shots}SH ★${p.rating}`).join("\n")}\n\nTrack manually now, automate later with Pitchside.`;
 
   return (
-    <ToolPanel title="5-a-side football stats tracker" eyebrow="Match setup, second team stats and recap" actions={<CopyButton value={recap} label="Copy recap" />}>
+    <ToolPanel
+      title="5-a-side Stats Tracker"
+      eyebrow="Match setup, player stats and recap"
+      actions={<CopyButton value={recap} label="Copy recap" shortLabel="Copy" />}
+    >
+      {/* ── Sport / Format ── */}
       <FormatControls sport={sport} setSport={setSport} format={format} setFormat={setFormat} />
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-4">
-        <Field label="Team A"><input value={match.teamA} onChange={(e) => setMatch({ ...match, teamA: e.target.value })} className={inputClass} /></Field>
-        <Field label="Team B / opponent"><input value={match.teamB} onChange={(e) => setMatch({ ...match, teamB: e.target.value })} className={inputClass} /></Field>
-        <Field label="Date" className="col-span-2 md:col-span-1"><input type="date" value={match.date} onChange={(e) => setMatch({ ...match, date: e.target.value })} className={inputClass} /></Field>
-        <Field label="Score A"><input type="number" min="0" value={match.scoreA} onChange={(e) => setMatch({ ...match, scoreA: clampNumber(e.target.value, 0, 99) })} className={inputClass} /></Field>
-        <Field label="Score B"><input type="number" min="0" value={match.scoreB} onChange={(e) => setMatch({ ...match, scoreB: clampNumber(e.target.value, 0, 99) })} className={inputClass} /></Field>
+
+      {/* ── Match info ── */}
+      <div className="rounded-2xl border border-black/10 bg-[#F4F3EF] p-4">
+        <span className={`${labelClass} mb-3 block`}>Match info</span>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <Field label="Team A">
+            <input value={match.teamA} onChange={(e) => setMatch({ ...match, teamA: e.target.value })} className={smallInputClass} />
+          </Field>
+          <Field label="Team B">
+            <input value={match.teamB} onChange={(e) => setMatch({ ...match, teamB: e.target.value })} className={smallInputClass} />
+          </Field>
+          <Field label="Date" className="col-span-2 sm:col-span-1">
+            <input type="date" value={match.date} onChange={(e) => setMatch({ ...match, date: e.target.value })} className={smallInputClass} />
+          </Field>
+          <Field label={`Score — ${match.teamA || "A"}`}>
+            <input type="number" min="0" value={match.scoreA} onChange={(e) => setMatch({ ...match, scoreA: clampNumber(e.target.value, 0, 99) })} className={smallInputClass} />
+          </Field>
+          <Field label={`Score — ${match.teamB || "B"}`}>
+            <input type="number" min="0" value={match.scoreB} onChange={(e) => setMatch({ ...match, scoreB: clampNumber(e.target.value, 0, 99) })} className={smallInputClass} />
+          </Field>
+        </div>
       </div>
-      <label className="flex min-h-12 items-center gap-3 rounded-2xl border-2 border-black bg-white px-4 py-3 text-sm font-black uppercase tracking-widest">
-        <input type="checkbox" checked={trackSecond} onChange={(e) => setTrackSecond(e.target.checked)} className="h-5 w-5 accent-[#CCFF00]" /> Track opponent / second team stats
+
+      {/* ── Track second team toggle ── */}
+      <label className="flex min-h-11 items-center gap-3 rounded-2xl border-2 border-black bg-white px-4 py-3 text-sm font-black uppercase tracking-widest cursor-pointer">
+        <input type="checkbox" checked={trackSecond} onChange={(e) => setTrackSecond(e.target.checked)} className="h-5 w-5 accent-[#CCFF00]" />
+        Track opponent / second team stats
       </label>
-      <PlayerEditor players={visiblePlayers} setPlayers={(next) => setPlayers((current) => {
-        const hidden = current.filter((player) => !trackSecond && player.team === "B");
-        return [...next, ...hidden];
-      })} sport={sport} format={format} allowTeam teams={trackSecond ? ["A", "B"] : ["A"]} showStats />
-      <ResultsGrid empty="">
-        <ResultCard title="Top scorer" accent><p className="text-sm font-black text-white">{topScorer?.name || "TBC"} · {topScorer?.goals || 0} goals</p></ResultCard>
-        <ResultCard title="Top assister"><p className="text-sm font-black text-zinc-700">{topAssister?.name || "TBC"} · {topAssister?.assists || 0} assists</p></ResultCard>
-        <ResultCard title="Best goalkeeper / saves"><p className="text-sm font-black text-zinc-700">{bestKeeper?.name || "TBC"} · {bestKeeper?.saves || 0} saves</p></ResultCard>
-        <ResultCard title="POTM suggestion"><p className="text-sm font-black text-zinc-700">{potm?.name || "TBC"} · score {Math.round(potm?.score || 0)}</p></ResultCard>
-      </ResultsGrid>
-      <pre className="max-w-full overflow-x-auto whitespace-pre-wrap break-words rounded-3xl border-2 border-black bg-black p-4 text-xs font-bold leading-relaxed text-[#CCFF00] md:p-5 md:text-sm">{recap}</pre>
+
+      {/* ── Player list ── */}
+      <PlayerEditor
+        players={players}
+        setPlayers={setPlayers}
+        sport={sport}
+        format={format}
+        allowTeam={trackSecond}
+        teams={["A", "B"]}
+        showStats
+      />
+
+      {/* ── Summary cards ── */}
+      <div className="grid gap-3 [grid-template-columns:repeat(2,minmax(0,1fr))] md:[grid-template-columns:repeat(4,minmax(0,1fr))]">
+        <ResultCard title="Top scorer" accent>
+          <p className="text-sm font-black text-white">{topScorer?.name || "TBC"}</p>
+          <p className="mt-1 text-[11px] font-bold text-zinc-400">{topScorer?.goals || 0} goals</p>
+        </ResultCard>
+        <ResultCard title="Top assister">
+          <p className="text-sm font-black text-black">{topAssister?.name || "TBC"}</p>
+          <p className="mt-1 text-[11px] font-bold text-zinc-500">{topAssister?.assists || 0} assists</p>
+        </ResultCard>
+        <ResultCard title="Best GK">
+          <p className="text-sm font-black text-black">{bestKeeper?.name || "TBC"}</p>
+          <p className="mt-1 text-[11px] font-bold text-zinc-500">{bestKeeper?.saves || 0} saves</p>
+        </ResultCard>
+        <ResultCard title="POTM">
+          <p className="text-sm font-black text-black">{potm?.name || "TBC"}</p>
+          <p className="mt-1 text-[11px] font-bold text-zinc-500">Score {Math.round(potm?.score || 0)}</p>
+        </ResultCard>
+      </div>
+
+      {/* ── Recap ── */}
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <span className={labelClass}>Match recap</span>
+          <CopyButton value={recap} label="Copy recap" shortLabel="Copy" />
+        </div>
+        <pre className="max-w-full overflow-x-auto whitespace-pre-wrap break-words rounded-2xl border-2 border-black bg-black p-4 text-xs font-bold leading-relaxed text-[#CCFF00]">{recap}</pre>
+      </div>
     </ToolPanel>
   );
 }
+
+/* ═══════════════════════════════════════════════════════════
+   EXPORT
+   ═══════════════════════════════════════════════════════════ */
 
 export default function ToolClient({ slug }) {
   if (slug === "random-5-a-side-team-generator") return <RandomTeamsTool />;
