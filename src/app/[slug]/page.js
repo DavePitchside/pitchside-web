@@ -5,6 +5,8 @@ import { db } from "@/lib/firebase";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import DynamicPageClient from "./DynamicPageClient";
 
+export const dynamic = "force-dynamic";
+
 const SITE_URL = "https://pitchside.ai";
 
 function serializeData(data) {

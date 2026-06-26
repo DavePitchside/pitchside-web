@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, CheckCircle2, ChevronDown } from "lucide-react";

@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
+  async redirects() {
+    return [
+      {
+        source: "/football-stats-without-gps",
+        destination: "/blog/track-football-stats-without-gps-vest",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
