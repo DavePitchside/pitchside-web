@@ -39,6 +39,10 @@ export default function ContactPage() {
       await addDoc(collection(db, "leads"), {
         ...formData,
         intent,
+        sourcePage: "/contact",
+        sourceUrl: typeof window !== "undefined" ? window.location.href : "/contact",
+        sourcePlacement: "Contact page form",
+        sourceComponent: "ContactPage",
         createdAt: new Date().toISOString(),
       });
       setStatus("success");
@@ -94,7 +98,7 @@ export default function ContactPage() {
                     </div>
                     <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 text-zinc-950">Transmission Received</h3>
                     <p className="text-zinc-800 text-base font-medium leading-relaxed mb-8">
-                      We've securely logged your information into our system. Our team will be in touch shortly.
+                      We&apos;ve securely logged your information into our system. Our team will be in touch shortly.
                     </p>
                     <button 
                       onClick={() => { setStatus("idle"); setFormData({ name: "", email: "", message: "" }); }}

@@ -209,7 +209,7 @@ export function PremiumToolHero({
               </a>
               <button
                 type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist" } }))}
+                onClick={() => window.dispatchEvent(new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist", sourcePlacement: "Tool page hero secondary CTA", sourceComponent: "PremiumToolHero" } }))}
                 className="inline-flex min-h-12 items-center justify-center rounded-lg border-2 border-white/25 bg-white/[0.04] px-8 py-4 text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:border-white/50 hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/25 active:scale-95"
               >
                 {secondaryLabel}
@@ -249,7 +249,7 @@ export function ToolCTA({ cta }) {
           </p>
         </div>
         <button
-          onClick={() => window.dispatchEvent(new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist" } }))}
+          onClick={() => window.dispatchEvent(new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist", sourcePlacement: "Tool page CTA block", sourceComponent: "ToolCTA" } }))}
           className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border-2 border-black bg-black px-6 py-4 text-xs font-black uppercase tracking-widest text-[#CCFF00] transition-colors hover:bg-white hover:text-black"
         >
           {cta?.buttonText || "Join the waitlist"} <ArrowUpRight className="h-4 w-4" />

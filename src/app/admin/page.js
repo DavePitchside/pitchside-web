@@ -1,6 +1,7 @@
 "use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench } from "lucide-react";
 import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
@@ -70,7 +71,7 @@ export default function AdminDashboard() {
     } catch (error) {}
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       // Both core_pages and landing_pages read from the "pages" collection in Firebase
@@ -87,13 +88,13 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeTab]);
 
   useEffect(() => {
     if (view === "list" && user && activeTab !== "footer") {
       fetchData();
     }
-  }, [activeTab, view, user]);
+  }, [activeTab, fetchData, view, user]);
 
   const handleDelete = async (id) => {
     const isDeletionQueue = activeTab === "deletions";
@@ -363,7 +364,12 @@ export default function AdminDashboard() {
                                 </span>
                               </td>
                               <td className="p-6 text-zinc-400 text-xs leading-relaxed max-w-xs truncate">
-                                {item.message || "No message provided."}
+                                <div>{item.message || "No message provided."}</div>
+                                {(item.sourcePage || item.sourcePlacement) && (
+                                  <div className="mt-2 text-[10px] font-mono uppercase tracking-widest text-[#CCFF00]">
+                                    {item.sourcePage || "Unknown page"} | {item.sourcePlacement || "Unknown placement"}
+                                  </div>
+                                )}
                               </td>
                             </>
                           ) : activeTab === "deletions" ? (
@@ -433,7 +439,7 @@ function FooterManager() {
     const fetchFooterData = async () => {
       try {
         const docSnap = await getDoc(doc(db, "settings", "footer"));
-        if (docSnap.exists()) setLinks({ ...links, ...docSnap.data() });
+        if (docSnap.exists()) setLinks((currentLinks) => ({ ...currentLinks, ...docSnap.data() }));
       } catch (error) {} finally { setLoading(false); }
     };
     fetchFooterData();

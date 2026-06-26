@@ -1,6 +1,8 @@
 "use client";
+/* eslint-disable react-hooks/purity, react-hooks/set-state-in-effect, react-hooks/static-components */
 
 import { useState, useRef, useEffect } from "react";
+import NextImage from "next/image";
 import { ArrowLeft, Save, Plus, Trash2, Lock, ShieldAlert, Heading2, Heading3, AlignLeft, List as ListIcon, ArrowUp, ArrowDown, Table as TableIcon, Code, FileText, Image as ImageIcon, Star, UploadCloud, FileJson, Video } from "lucide-react";
 import { collection, addDoc, updateDoc, doc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -107,7 +109,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         }
       }
     }
-  }, []);
+  }, [DRAFT_KEY, initialData]);
 
   useEffect(() => {
     if (!initialData && formData.title) {
@@ -116,7 +118,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       }, 1000);
       return () => clearTimeout(timeout);
     }
-  }, [formData, initialData]);
+  }, [DRAFT_KEY, formData, initialData]);
 
 
   // --- JSON IMPORT ENGINE ---
@@ -455,7 +457,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                        {formData.heroBackground.includes('.mp4') || formData.heroBackground.includes('video') ? (
                          <video src={formData.heroBackground} className="object-cover w-full h-full" muted />
                        ) : (
-                         <img src={formData.heroBackground} className="object-cover w-full h-full" alt="Bg preview" />
+                         <NextImage src={formData.heroBackground} className="object-cover w-full h-full" alt="Bg preview" fill unoptimized />
                        )}
                      </div>
                      <button type="button" onClick={() => setFormData({...formData, heroBackground: ""})} className="text-red-500 text-xs hover:underline">Remove Background</button>
@@ -574,7 +576,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                           
                           {block.content && (
                             <div className={`relative inline-block mt-2 border-2 rounded-xl overflow-hidden transition-colors ${formData.primaryImage === block.content ? 'border-[#CCFF00]' : 'border-zinc-800'}`}>
-                              <img src={block.content} className="max-h-64 object-contain" alt="Preview" />
+                              <NextImage src={block.content} className="max-h-64 object-contain" alt="Preview" width={640} height={360} unoptimized />
                               {formData.primaryImage === block.content ? (
                                 <div className="absolute top-2 left-2 bg-[#CCFF00] text-black text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded shadow-md flex items-center gap-1">
                                   <Star className="w-3 h-3 fill-current" /> Primary Thumbnail

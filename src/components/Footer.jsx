@@ -58,8 +58,8 @@ export default function Footer() {
   const logoOpacity = useTransform(scrollYProgress, [0.4, 1], [0, 1]);
   const logoY = useTransform(scrollYProgress, [0.4, 1], [100, 0]);
 
-  const triggerModal = (type) => {
-    window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type } }));
+  const triggerModal = (type, sourcePlacement) => {
+    window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type, sourcePlacement, sourceComponent: 'Footer' } }));
   };
 
   if (pathname.startsWith('/admin')) return null;
@@ -75,8 +75,8 @@ export default function Footer() {
           <div className="w-full px-8 md:px-16 pt-16 md:pt-24 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             <div className="flex flex-col items-start gap-4">
               <span className="text-[#CCFF00] font-mono text-[10px] font-bold uppercase tracking-widest mb-2">Take Action</span>
-              <button onClick={() => triggerModal('waitlist')} className="text-white text-sm font-bold uppercase tracking-widest hover:text-[#CCFF00] transition-colors">Join the List</button>
-              <button onClick={() => triggerModal('invest')} className="text-white text-sm font-bold uppercase tracking-widest hover:text-[#CCFF00] transition-colors">Investor Relations</button>
+              <button onClick={() => triggerModal('waitlist', 'Footer take action join button')} className="text-white text-sm font-bold uppercase tracking-widest hover:text-[#CCFF00] transition-colors">Join the List</button>
+              <button onClick={() => triggerModal('invest', 'Footer take action investor relations button')} className="text-white text-sm font-bold uppercase tracking-widest hover:text-[#CCFF00] transition-colors">Investor Relations</button>
             </div>
 
             <div className="flex flex-col items-start gap-4">

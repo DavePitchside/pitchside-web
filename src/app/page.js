@@ -293,10 +293,10 @@ export default function Home() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.38, ease: SMOOTH_EASE }} className="mt-10 flex w-full max-w-[16rem] flex-col gap-4">
-              <button onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist' } }))} className="w-full rounded-lg bg-[#CCFF00] px-6 py-4 text-sm font-black uppercase tracking-widest text-black transition-all duration-300 hover:bg-white active:scale-95">
+              <button onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist', sourcePlacement: 'Home mobile hero join button', sourceComponent: 'Home hero' } }))} className="w-full rounded-lg bg-[#CCFF00] px-6 py-4 text-sm font-black uppercase tracking-widest text-black transition-all duration-300 hover:bg-white active:scale-95">
                 Join The List
               </button>
-              <button onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'invest' } }))} className="w-full rounded-lg border-2 border-white/30 bg-white/5 px-6 py-4 text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 hover:border-white/50 hover:bg-white/10 active:scale-95">
+              <button onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'invest', sourcePlacement: 'Home mobile hero invest button', sourceComponent: 'Home hero' } }))} className="w-full rounded-lg border-2 border-white/30 bg-white/5 px-6 py-4 text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 hover:border-white/50 hover:bg-white/10 active:scale-95">
                 Want To Invest?
               </button>
             </motion.div>
@@ -328,17 +328,16 @@ export default function Home() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: SMOOTH_EASE }} className="flex w-full max-w-[21.5rem] sm:max-w-none flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 pointer-events-auto">
-              <button onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist' } }))} className="w-full sm:w-auto bg-[#CCFF00] text-black px-6 sm:px-8 py-4 sm:py-4 rounded-lg font-black uppercase tracking-widest text-xs sm:text-sm hover:bg-white transition-all duration-300 active:scale-95 sm:min-w-[180px]">
+              <button onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist', sourcePlacement: 'Home desktop hero join button', sourceComponent: 'Home hero' } }))} className="w-full sm:w-auto bg-[#CCFF00] text-black px-6 sm:px-8 py-4 sm:py-4 rounded-lg font-black uppercase tracking-widest text-xs sm:text-sm hover:bg-white transition-all duration-300 active:scale-95 sm:min-w-[180px]">
                 Join The List
               </button>
-              <button onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'invest' } }))} className="w-full sm:w-auto bg-white/5 border-2 border-white/30 text-white px-6 sm:px-8 py-4 sm:py-4 rounded-lg font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-white/10 hover:border-white/50 transition-all duration-300 active:scale-95 sm:min-w-[212px]">
+              <button onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'invest', sourcePlacement: 'Home desktop hero invest button', sourceComponent: 'Home hero' } }))} className="w-full sm:w-auto bg-white/5 border-2 border-white/30 text-white px-6 sm:px-8 py-4 sm:py-4 rounded-lg font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-white/10 hover:border-white/50 transition-all duration-300 active:scale-95 sm:min-w-[212px]">
                 Want To Invest?
               </button>
             </motion.div>
           </div>
         </div>
       </section>
-
       {/* =========================================
           SECTION 2
           ========================================= */}
@@ -520,66 +519,6 @@ export default function Home() {
         </section>
       </div>
 
-      {/* =========================================
-          FINAL CTA — PAGE CLOSER
-          ========================================= */}
-      <div className="w-full bg-[#F4F3EF] px-3 pb-3 md:px-4 md:pb-4">
-        <section className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0c0c0c] py-14 md:py-28 md:rounded-[2rem]">
-          <FilmGrain />
-
-          {/* Crimson / red glow — top right */}
-          <div className="pointer-events-none absolute -right-8 -top-8 h-72 w-72 rounded-full bg-red-900/30 blur-[110px] transform-gpu" />
-          <div className="pointer-events-none absolute right-0 top-0 h-48 w-48 rounded-full bg-red-800/15 blur-[70px] transform-gpu" />
-
-          {/* Corner marks */}
-          <CornerMark src="/corner-neon.svg" className="top-5 left-5 opacity-30 md:top-8 md:left-8" />
-          <CornerMark src="/corner-neon.svg" className="top-5 right-5 rotate-90 opacity-30 md:top-8 md:right-8" />
-          <CornerMark src="/corner-neon.svg" className="bottom-5 right-5 rotate-180 opacity-50 md:bottom-8 md:right-8" />
-          <CornerMark src="/corner-neon.svg" className="bottom-5 left-5 -rotate-90 opacity-50 md:bottom-8 md:left-8" />
-
-          <div className="relative z-10 mx-auto flex w-full max-w-sm flex-col gap-5 px-5 md:max-w-lg md:px-8">
-
-            {/* Stats row */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: SMOOTH_EASE }}
-              className="grid grid-cols-3 gap-3"
-            >
-              {HERO_STATS.map((stat) => (
-                <div key={stat.sub} className="rounded-2xl border border-white/10 bg-white/[0.05] px-3 py-4 text-center backdrop-blur-sm">
-                  <span className="block text-xl font-black leading-none text-white md:text-2xl">{stat.label}</span>
-                  <span className="mt-2 block text-[8px] font-black uppercase leading-tight tracking-[0.16em] text-zinc-500">{stat.sub}</span>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* CTA buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.12, ease: SMOOTH_EASE }}
-              className="flex flex-col gap-3"
-            >
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist' } }))}
-                className="w-full rounded-xl bg-[#CCFF00] py-4 text-sm font-black uppercase tracking-widest text-black shadow-[0_0_32px_rgba(204,255,0,0.22)] transition-colors duration-300 hover:bg-white active:scale-95"
-              >
-                Join The List
-              </button>
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'invest' } }))}
-                className="w-full rounded-xl border border-white/15 bg-white/[0.04] py-4 text-sm font-bold uppercase tracking-widest text-white/60 transition-all duration-300 hover:bg-white/10 hover:text-white active:scale-95"
-              >
-                Want To Invest?
-              </button>
-            </motion.div>
-
-          </div>
-        </section>
-      </div>
 
     </div>
   );

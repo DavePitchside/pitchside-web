@@ -217,7 +217,7 @@ export default function TechnologyPage() {
               </p>
               
               <button 
-                onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist' } }))}
+                onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist', sourcePlacement: 'Technology page engine CTA', sourceComponent: 'Technology page' } }))}
                 className="inline-flex items-center justify-center gap-2 bg-black text-[#CCFF00] px-8 md:px-10 py-4 md:py-5 rounded-xl font-bold uppercase tracking-widest text-xs md:text-sm hover:bg-zinc-800 transition-colors shadow-[8px_8px_0px_rgba(0,0,0,0.5)] hover:shadow-[10px_10px_0px_rgba(0,0,0,0.6)] hover:-translate-y-1 active:translate-y-0 active:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] duration-200"
                 style={{ fontFamily: 'var(--font-roobert)' }}
               >

@@ -298,7 +298,7 @@ export default function AboutPage() {
                   <p className="text-sm md:text-lg font-medium text-zinc-400 mb-10 max-w-lg mx-auto">Join thousands of amateur players who are done letting their best moments fade into memory.</p>
                   
                   <button 
-                    onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist' } }))}
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist', sourcePlacement: 'About page final CTA', sourceComponent: 'About page' } }))}
                     className="inline-flex items-center gap-2 bg-[#CCFF00] text-black px-8 py-4 md:py-5 rounded-xl font-bold uppercase tracking-widest text-xs md:text-sm hover:bg-white transition-colors shadow-[0_0_30px_rgba(204,255,0,0.3)] active:scale-95"
                   >
                     Join the Waiting List <ArrowUpRight className="w-5 h-5" />

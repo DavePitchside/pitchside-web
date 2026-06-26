@@ -16,7 +16,7 @@ export default function Header() {
   const [hoveredPath, setHoveredPath] = useState(null);
   const [headerTheme, setHeaderTheme] = useState('dark'); // 'dark' = green logo, 'light' = black logo
 
-  const [modalConfig, setModalConfig] = useState({ isOpen: false, type: 'waitlist' });
+  const [modalConfig, setModalConfig] = useState({ isOpen: false, type: 'waitlist', source: {} });
   const [formData, setFormData] = useState({ name: '', email: '' });
   const [submitStatus, setSubmitStatus] = useState('idle'); 
 
@@ -77,10 +77,10 @@ export default function Header() {
 
   const activeHoverPath = hoveredPath ?? pathname;
 
-  const openModal = useCallback((type) => {
+  const openModal = useCallback((type, source = {}) => {
     setIsMobileMenuOpen(false);
     setSubmitStatus('idle');
-    setModalConfig({ isOpen: true, type });
+    setModalConfig({ isOpen: true, type, source });
   }, []);
 
   const closeModal = useCallback(() => {
@@ -94,7 +94,10 @@ export default function Header() {
   // --- CUSTOM EVENT LISTENER ---
   useEffect(() => {
     const handleOpenModal = (e) => {
-      openModal(e.detail?.type || 'waitlist');
+      openModal(e.detail?.type || 'waitlist', {
+        placement: e.detail?.sourcePlacement || e.detail?.placement || 'Page CTA',
+        component: e.detail?.sourceComponent || e.detail?.component || 'Page UI',
+      });
     };
     window.addEventListener('open-pitchside-modal', handleOpenModal);
     return () => window.removeEventListener('open-pitchside-modal', handleOpenModal);
@@ -111,7 +114,11 @@ export default function Header() {
       await addDoc(collection(db, "leads"), {
         ...formData,
         intent: modalConfig.type,
-        message: "Quick capture from UI", 
+        message: `Quick capture from ${modalConfig.source?.placement || 'UI'}`,
+        sourcePage: pathname,
+        sourceUrl: typeof window !== 'undefined' ? window.location.href : pathname,
+        sourcePlacement: modalConfig.source?.placement || 'UI',
+        sourceComponent: modalConfig.source?.component || 'Header',
         createdAt: new Date().toISOString(),
       });
       setSubmitStatus("success");
@@ -203,7 +210,7 @@ export default function Header() {
           {/* 3. BUTTONS AREA (Anchored Right) */}
           <div className="flex-1 hidden md:flex items-center justify-end gap-3 pointer-events-auto">
             <button 
-              onClick={() => openModal('waitlist')} 
+              onClick={() => openModal('waitlist', { placement: 'Header desktop join button', component: 'Header' })} 
               className={`bg-transparent border rounded-full font-bold tracking-widest uppercase transition-all duration-500 active:scale-95 whitespace-nowrap px-5 py-2.5 text-xs
                 ${headerTheme === 'light' 
                   ? 'border-black/30 text-black hover:border-black hover:bg-black hover:text-[#CCFF00]' 
@@ -213,7 +220,7 @@ export default function Header() {
               Join the List
             </button>
             <button 
-              onClick={() => openModal('invest')} 
+              onClick={() => openModal('invest', { placement: 'Header desktop invest button', component: 'Header' })} 
               className={`rounded-full font-bold tracking-widest uppercase transition-all duration-500 shadow-lg active:scale-95 whitespace-nowrap px-6 py-2.5 text-xs
                 ${headerTheme === 'light'
                   ? 'bg-black text-white hover:text-[#CCFF00]'
@@ -309,8 +316,8 @@ export default function Header() {
               ))}
             </nav>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} transition={{ delay: 0.5 }} className="mt-auto pt-12 border-t border-white/10 w-full flex flex-col gap-4 relative z-10">
-              <button onClick={() => openModal('waitlist')} className="bg-transparent border-2 border-white/20 text-white flex items-center justify-center gap-2 py-4 rounded-xl font-black uppercase tracking-widest text-xs active:scale-95 transition-all hover:border-[#CCFF00] hover:text-[#CCFF00]">Join the List</button>
-              <button onClick={() => openModal('invest')} className="bg-[#CCFF00] text-zinc-950 flex items-center justify-center gap-2 py-4 rounded-xl font-black uppercase tracking-widest text-xs shadow-[0_0_20px_rgba(204,255,0,0.2)] active:scale-95 transition-transform">Invest <ArrowUpRight className="w-4 h-4" /></button>
+              <button onClick={() => openModal('waitlist', { placement: 'Mobile menu join button', component: 'Header mobile menu' })} className="bg-transparent border-2 border-white/20 text-white flex items-center justify-center gap-2 py-4 rounded-xl font-black uppercase tracking-widest text-xs active:scale-95 transition-all hover:border-[#CCFF00] hover:text-[#CCFF00]">Join the List</button>
+              <button onClick={() => openModal('invest', { placement: 'Mobile menu invest button', component: 'Header mobile menu' })} className="bg-[#CCFF00] text-zinc-950 flex items-center justify-center gap-2 py-4 rounded-xl font-black uppercase tracking-widest text-xs shadow-[0_0_20px_rgba(204,255,0,0.2)] active:scale-95 transition-transform">Invest <ArrowUpRight className="w-4 h-4" /></button>
             </motion.div>
           </motion.div>
         )}

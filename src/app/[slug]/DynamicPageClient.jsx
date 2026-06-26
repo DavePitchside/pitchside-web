@@ -315,7 +315,7 @@ export default function DynamicPageClient({ data, dataSource }) {
                 <button
                   onClick={() =>
                     window.dispatchEvent(
-                      new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist" } })
+                      new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist", sourcePlacement: "Dynamic landing page CTA block", sourceComponent: "DynamicPageClient" } })
                     )
                   }
                   className="inline-block bg-[#CCFF00] text-black text-[11px] font-bold uppercase tracking-[0.2em] px-10 py-5 rounded-full hover:bg-white transition-colors"
