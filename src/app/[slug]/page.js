@@ -8,6 +8,11 @@ import DynamicPageClient from "./DynamicPageClient";
 export const dynamic = "force-dynamic";
 
 const SITE_URL = "https://pitchside.ai";
+const DELETED_SLUGS = new Set([
+  "football-highlights-app",
+  "best-football-stats-apps",
+  "sunday-league-football",
+]);
 
 function serializeData(data) {
   if (!data) return data;
@@ -37,6 +42,7 @@ const getPageData = cache(async (slug) => {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  if (DELETED_SLUGS.has(slug)) return {};
   const data = await getPageData(slug);
   if (!data) return {};
 
@@ -67,6 +73,7 @@ export async function generateMetadata({ params }) {
 
 export default async function DynamicPage({ params }) {
   const { slug } = await params;
+  if (DELETED_SLUGS.has(slug)) notFound();
   const data = await getPageData(slug);
   if (!data) notFound();
 

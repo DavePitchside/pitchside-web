@@ -3,16 +3,73 @@
 
 import { useState, useRef, useEffect } from "react";
 import NextImage from "next/image";
-import { ArrowLeft, Save, Plus, Trash2, Lock, ShieldAlert, Heading2, Heading3, AlignLeft, List as ListIcon, ArrowUp, ArrowDown, Table as TableIcon, Code, FileText, Image as ImageIcon, Star, UploadCloud, FileJson, Video } from "lucide-react";
+import { ArrowLeft, Save, Plus, Trash2, Lock, ShieldAlert, Heading2, Heading3, AlignLeft, List as ListIcon, ArrowUp, ArrowDown, Table as TableIcon, Code, FileText, Image as ImageIcon, Star, UploadCloud, FileJson, Video, Link2 } from "lucide-react";
 import { collection, addDoc, updateDoc, doc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase"; // Ensure storage is exported from your firebase.js config
 import { createImageThumbnailBlob } from "@/lib/imageThumbnails";
 
 const cleanStorageFileName = (fileName) => fileName.replace(/[^a-zA-Z0-9.]/g, '');
+const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
 const defaultCtaBlock = { headline: "", description: "", buttonText: "", buttonUrl: "" };
 
 const getBlockKey = (block, index) => block.id || `${block.type || "block"}-${index}`;
+
+function LinkableTextarea({ value, onChange }) {
+  const textareaRef = useRef(null);
+  const [selection, setSelection] = useState(null);
+
+  const captureSelection = (event) => {
+    const { selectionStart, selectionEnd } = event.currentTarget;
+    setSelection(selectionEnd > selectionStart ? { start: selectionStart, end: selectionEnd } : null);
+  };
+
+  const addLink = () => {
+    if (!selection) return;
+
+    const enteredUrl = window.prompt("Enter the link URL:", "https://");
+    if (!enteredUrl) return;
+
+    const url = enteredUrl.trim();
+    if (!/^(https?:\/\/|mailto:|tel:|\/|#)/i.test(url)) {
+      window.alert("Use a full URL beginning with https://, or a relative URL beginning with /. ");
+      return;
+    }
+
+    const safeUrl = url.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    const selectedText = value.slice(selection.start, selection.end);
+    const linkedText = `<a href="${safeUrl}">${selectedText}</a>`;
+    const nextValue = `${value.slice(0, selection.start)}${linkedText}${value.slice(selection.end)}`;
+    onChange(nextValue);
+    setSelection(null);
+
+    requestAnimationFrame(() => textareaRef.current?.focus());
+  };
+
+  return (
+    <div className="relative">
+      <textarea
+        ref={textareaRef}
+        placeholder="Write your content here..."
+        rows="4"
+        className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-zinc-300 focus:border-[#CCFF00] outline-none leading-relaxed"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        onSelect={captureSelection}
+      />
+      {selection && (
+        <button
+          type="button"
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={addLink}
+          className="absolute right-2 top-2 flex items-center gap-1.5 rounded-lg border border-[#CCFF00]/30 bg-black px-3 py-2 text-[9px] font-bold uppercase tracking-widest text-[#CCFF00] shadow-lg"
+        >
+          <Link2 className="h-3 w-3" /> Add link
+        </button>
+      )}
+    </div>
+  );
+}
 
 const normalizeContentBlocks = (blocks = []) => {
   const seenIds = new Set();
@@ -235,8 +292,8 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       updateBlockContent(blockId, publicUrl);
       setFormData(prev => ({
         ...prev,
-        primaryImage: prev.primaryImage || publicUrl,
-        thumbnail: prev.thumbnail || thumbnailUrl || publicUrl,
+        primaryImage: !prev.primaryImage || isLegacyPlaceholderImage(prev.primaryImage) ? publicUrl : prev.primaryImage,
+        thumbnail: thumbnailUrl || publicUrl,
       }));
     } catch (err) {
       console.error("Firebase upload error:", err);
@@ -271,7 +328,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       setFormData(prev => ({
         ...prev,
         heroBackground: publicUrl,
-        thumbnail: thumbnailUrl || prev.thumbnail,
+        thumbnail: thumbnailUrl || publicUrl,
       }));
     } catch (err) {
       console.error("Firebase upload error:", err);
@@ -594,7 +651,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                       {/* TEXT BLOCKS */}
                       {block.type === "h2" && <input type="text" placeholder="Main Section Title..." className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-[#CCFF00] font-black text-xl focus:border-[#CCFF00] outline-none" value={block.content || ""} onChange={(e) => updateBlockContent(block.id, e.target.value)} />}
                       {block.type === "h3" && <input type="text" placeholder="Sub-section Title..." className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white font-bold text-lg focus:border-[#CCFF00] outline-none" value={block.content || ""} onChange={(e) => updateBlockContent(block.id, e.target.value)} />}
-                      {block.type === "paragraph" && <textarea placeholder="Write your content here..." rows="4" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-zinc-300 focus:border-[#CCFF00] outline-none leading-relaxed" value={block.content || ""} onChange={(e) => updateBlockContent(block.id, e.target.value)} />}
+                      {block.type === "paragraph" && <LinkableTextarea value={block.content || ""} onChange={(value) => updateBlockContent(block.id, value)} />}
                       
                       {/* LIST BLOCK */}
                       {block.type === "list" && (

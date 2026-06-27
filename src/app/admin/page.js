@@ -2,7 +2,8 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench } from "lucide-react";
+import Image from "next/image";
+import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench, ExternalLink } from "lucide-react";
 import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "@/lib/firebase"; 
@@ -22,6 +23,38 @@ const CORE_STATIC_PAGES = [
   { id: "terms", title: "Terms of Service", slug: "terms" },
   { id: "cookies", title: "Cookie Policy", slug: "cookies" },
 ];
+
+const getUploadedImages = (item) => {
+  const images = [];
+  if (item.thumbnail) images.push(item.thumbnail);
+  if (item.primaryImage) images.push(item.primaryImage);
+  const contentImage = item.contentBlocks?.find((block) => block.type === "image" && block.content)?.content;
+  if (contentImage) images.push(contentImage);
+  if (item.heroBackground && !/\.(mp4|webm|ogg)(?:[?#]|$)|video/i.test(item.heroBackground)) images.push(item.heroBackground);
+  return [...new Set(images)];
+};
+
+const hasUploadedImage = (item) => getUploadedImages(item).length > 0;
+
+function AdminImagePreview({ item }) {
+  const images = getUploadedImages(item);
+  const [sourceIndex, setSourceIndex] = useState(0);
+  const source = images[sourceIndex];
+
+  if (!source) return null;
+
+  return (
+    <Image
+      src={source}
+      alt={`${item.title || "Blog post"} thumbnail`}
+      width={48}
+      height={32}
+      className="h-8 w-12 rounded-md border border-white/10 object-cover"
+      unoptimized
+      onError={() => setSourceIndex((current) => current + 1)}
+    />
+  );
+}
 
 export default function AdminDashboard() {
   const [user, setUser] = useState(null);
@@ -273,6 +306,7 @@ export default function AdminDashboard() {
                           <>
                             <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Title</th>
                             <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">{activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "tools" ? "Route" : "Slug"}</th>
+                            {(activeTab === "landing_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Image</th>}
                             {(activeTab === "core_pages" || activeTab === "tools") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Status</th>}
                           </>
                         )}
@@ -309,8 +343,16 @@ export default function AdminDashboard() {
                         <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
                           <td className="p-6 font-bold text-white text-sm">{page.title}</td>
                           <td className="p-6 text-[#CCFF00] text-xs font-mono">/{page.slug}</td>
+                          <td className="p-6">
+                            <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest ${hasUploadedImage(page) ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}`}>
+                              {hasUploadedImage(page) ? "Uploaded" : "Missing"}
+                            </span>
+                          </td>
                           <td className="p-6 text-right">
                             <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                              <a href={`/${page.slug}`} target="_blank" rel="noopener noreferrer" title="Open public landing page" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
                               <button onClick={() => handleEdit(page, "landing")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
                                 <Edit2 className="w-4 h-4" />
                               </button>
@@ -387,14 +429,29 @@ export default function AdminDashboard() {
                             <>
                               <td className="p-6 font-bold text-white text-sm">{item.title}</td>
                               <td className="p-6 text-zinc-500 text-xs font-mono">/{item.slug}</td>
+                              <td className="p-6">
+                                <div className="flex items-center gap-3">
+                                  {hasUploadedImage(item) && (
+                                    <AdminImagePreview item={item} />
+                                  )}
+                                  <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest ${hasUploadedImage(item) ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}`}>
+                                    {hasUploadedImage(item) ? "Uploaded" : "Missing"}
+                                  </span>
+                                </div>
+                              </td>
                             </>
                           )}
                           <td className="p-6 text-right">
                             <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
                               {(activeTab !== "leads" && activeTab !== "deletions") && (
-                                <button onClick={() => handleEdit(item, "post")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
-                                  <Edit2 className="w-4 h-4" />
-                                </button>
+                                <>
+                                  <a href={`/blog/${item.slug}`} target="_blank" rel="noopener noreferrer" title="Open public blog post" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                    <ExternalLink className="w-4 h-4" />
+                                  </a>
+                                  <button onClick={() => handleEdit(item, "post")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                    <Edit2 className="w-4 h-4" />
+                                  </button>
+                                </>
                               )}
                               <button onClick={() => handleDelete(item.id)} className={`p-2.5 rounded-xl border transition-all shadow-md ${activeTab === 'deletions' ? 'text-zinc-400 hover:text-white hover:bg-green-600 border-white/10' : 'text-zinc-400 hover:text-white hover:bg-red-500 border-white/10'}`} title={activeTab === 'deletions' ? "Mark as Resolved/Deleted" : "Delete Record"}>
                                 {activeTab === "deletions" ? <CheckCircle2 className="w-4 h-4" /> : <Trash2 className="w-4 h-4" />}

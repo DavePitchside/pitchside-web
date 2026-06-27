@@ -100,9 +100,10 @@ export default function AboutPage() {
               className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] sm:w-[450px] md:w-[550px] lg:w-[650px] h-[70%] md:h-[80%] z-40 group block"
             >
               <Image 
-                src="/davidcoombs.jpg" 
+                src="/davidcoombs-cutout.png"
                 alt="Dave Coombs" 
                 fill 
+                sizes="(max-width: 639px) 90vw, (max-width: 767px) 450px, (max-width: 1023px) 550px, 650px"
                 className="object-contain object-bottom transition-transform duration-700 group-hover:scale-[1.02]" 
                 priority 
               />

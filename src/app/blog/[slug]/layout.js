@@ -3,6 +3,13 @@ import { db } from "@/lib/firebase";
 
 const SITE_URL = "https://pitchside.ai";
 const FALLBACK_OG_IMAGE = `${SITE_URL}/og-image.png`;
+const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
+
+const getPostImage = (data) => {
+  const contentImage = data?.contentBlocks?.find((block) => block.type === "image" && block.content)?.content;
+  const candidates = [data?.primaryImage, data?.thumbnail, contentImage, data?.heroBackground].filter(Boolean);
+  return candidates.find((url) => !isLegacyPlaceholderImage(url)) || candidates[0] || FALLBACK_OG_IMAGE;
+};
 
 async function getPostData(slug) {
   try {
@@ -22,7 +29,7 @@ export async function generateMetadata(props) {
 
   const seoTitle = data?.metaTitle || data?.title || "Pitchside AI Blog";
   const seoDesc = data?.metaDescription || "Read the latest news and insights on Pitchside AI.";
-  const ogImage = data?.primaryImage || data?.heroBackground || FALLBACK_OG_IMAGE;
+  const ogImage = getPostImage(data);
   const canonicalUrl = `${SITE_URL}/blog/${slug}`;
 
   const datePublished = data?.createdAt?.seconds
@@ -75,7 +82,7 @@ export default async function BlogSlugLayout({ children, params }) {
         "@type": "BlogPosting",
         headline: data.metaTitle || data.title,
         description: data.metaDescription,
-        image: data.primaryImage || data.heroBackground || FALLBACK_OG_IMAGE,
+        image: getPostImage(data),
         datePublished,
         dateModified,
         author: {

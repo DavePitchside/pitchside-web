@@ -37,12 +37,13 @@ export default function SchemaMarkup({ data, type = "WebPage", url }) {
   }
 
   // 2. FAQ SCHEMA: Automatically generated if FAQs exist in the data
+  const visibleFaqs = data.faqs?.filter((faq) => faq?.question) || [];
   let faqSchema = null;
-  if (data.faqs && data.faqs.length > 0 && data.faqs[0].question !== "") {
+  if (visibleFaqs.length > 0) {
     faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "mainEntity": data.faqs.map(faq => ({
+      "mainEntity": visibleFaqs.map(faq => ({
         "@type": "Question",
         "name": faq.question,
         "acceptedAnswer": {

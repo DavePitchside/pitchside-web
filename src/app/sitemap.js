@@ -2,6 +2,12 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { tools } from "@/lib/tools";
 
+const DELETED_SLUGS = new Set([
+  "football-highlights-app",
+  "best-football-stats-apps",
+  "sunday-league-football",
+]);
+
 export default async function sitemap() {
   const baseUrl = "https://pitchside.ai";
 
@@ -24,7 +30,7 @@ export default async function sitemap() {
   let dynamicPages = [];
   try {
     const pagesSnap = await getDocs(collection(db, "pages"));
-    dynamicPages = pagesSnap.docs.map((doc) => {
+    dynamicPages = pagesSnap.docs.filter((doc) => !DELETED_SLUGS.has(doc.data().slug)).map((doc) => {
       const data = doc.data();
       const modified = data.updatedAt?.toDate() ?? data.createdAt?.toDate() ?? new Date();
       return {
@@ -42,7 +48,7 @@ export default async function sitemap() {
   let dynamicPosts = [];
   try {
     const postsSnap = await getDocs(collection(db, "posts"));
-    dynamicPosts = postsSnap.docs.map((doc) => {
+    dynamicPosts = postsSnap.docs.filter((doc) => !DELETED_SLUGS.has(doc.data().slug)).map((doc) => {
       const data = doc.data();
       const modified = data.updatedAt?.toDate() ?? data.createdAt?.toDate() ?? new Date();
       return {

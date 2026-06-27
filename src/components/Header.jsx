@@ -27,7 +27,7 @@ export default function Header() {
       setIsScrolled(window.scrollY > 50);
 
       // 2. Explicit Section Scanning (Ignores borders/gradients)
-      const sections = document.querySelectorAll('section');
+      const sections = document.querySelectorAll('section, [data-header-theme]');
       const headerHitZoneY = 60; // The Y-coordinate we check (middle of the header)
       let currentTheme = 'dark'; // Default to dark background (green logo)
       
@@ -37,7 +37,7 @@ export default function Header() {
         // If this specific section is currently sitting under the header
         if (rect.top <= headerHitZoneY && rect.bottom >= headerHitZoneY) {
            // Explicitly check if the section uses your light background class
-           if (section.classList.contains('bg-[#F4F3EF]') || section.classList.contains('bg-white')) {
+           if (section.dataset.headerTheme === 'light' || section.classList.contains('bg-[#F4F3EF]') || section.classList.contains('bg-white')) {
              currentTheme = 'light';
            } else {
              currentTheme = 'dark';
@@ -51,7 +51,7 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initialize on mount
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
 
   // Lock body scroll when menus are open
   useEffect(() => {
@@ -213,7 +213,7 @@ export default function Header() {
               onClick={() => openModal('waitlist', { placement: 'Header desktop join button', component: 'Header' })} 
               className={`bg-transparent border rounded-full font-bold tracking-widest uppercase transition-all duration-500 active:scale-95 whitespace-nowrap px-5 py-2.5 text-xs
                 ${headerTheme === 'light' 
-                  ? 'border-black/30 text-black hover:border-black hover:bg-black hover:text-[#CCFF00]' 
+                  ? 'border-[#CCFF00] bg-[#CCFF00] text-black shadow-[0_0_18px_rgba(204,255,0,0.45)] hover:bg-black hover:text-[#CCFF00] hover:shadow-[0_0_24px_rgba(204,255,0,0.7)]'
                   : 'border-white/20 text-white hover:border-[#CCFF00] hover:text-[#CCFF00]'}
               `}
             >
@@ -233,7 +233,14 @@ export default function Header() {
 
           {/* MOBILE MENU TOGGLE */}
           <div className="lg:hidden flex-1 flex justify-end items-center pointer-events-auto">
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={`w-10 h-10 backdrop-blur-md border rounded-full flex flex-col items-center justify-center gap-1.5 focus:outline-none relative transition-colors ${headerTheme === 'light' ? 'bg-black/5 border-black/10' : 'bg-black/50 border-white/10'}`}>
+            <button
+              type="button"
+              aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation-menu"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`w-10 h-10 backdrop-blur-md border rounded-full flex flex-col items-center justify-center gap-1.5 focus:outline-none relative transition-colors ${headerTheme === 'light' ? 'bg-black/5 border-black/10' : 'bg-black/50 border-white/10'}`}
+            >
               <motion.span animate={isMobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }} className={`w-5 h-[2px] block transition-colors ${isMobileMenuOpen ? 'bg-[#CCFF00]' : (headerTheme === 'light' ? 'bg-black' : 'bg-white')}`} />
               <motion.span animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }} className={`w-5 h-[2px] block transition-opacity ${headerTheme === 'light' ? 'bg-black' : 'bg-white'}`} />
               <motion.span animate={isMobileMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }} className={`w-5 h-[2px] block transition-colors ${isMobileMenuOpen ? 'bg-[#CCFF00]' : (headerTheme === 'light' ? 'bg-black' : 'bg-white')}`} />
@@ -303,7 +310,7 @@ export default function Header() {
       {/* MOBILE MENU */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div initial={{ opacity: 0, y: "-100%" }} animate={{ opacity: 1, y: "0%" }} exit={{ opacity: 0, y: "-100%" }} transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.6 }} className="fixed inset-0 z-[90] bg-[#050505] flex flex-col pt-32 px-8 pb-12 overflow-y-auto">
+          <motion.div id="mobile-navigation-menu" initial={{ opacity: 0, y: "-100%" }} animate={{ opacity: 1, y: "0%" }} exit={{ opacity: 0, y: "-100%" }} transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.6 }} className="fixed inset-0 z-[90] bg-[#050505] flex flex-col pt-32 px-8 pb-12 overflow-y-auto">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:8vw_8vw] pointer-events-none z-0" />
             <nav className="flex flex-col gap-8 mt-8 relative z-10">
               {navLinks.map((link, i) => (

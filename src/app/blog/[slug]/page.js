@@ -9,6 +9,13 @@ import Image from "next/image";
 import { ArrowLeft, CheckCircle2, ChevronDown } from "lucide-react";
 
 const SITE_URL = "https://pitchside.ai";
+const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
+
+const getPostImage = (post) => {
+  const contentImage = post.contentBlocks?.find((block) => block.type === "image" && block.content)?.content;
+  const candidates = [post.primaryImage, post.thumbnail, contentImage, post.heroBackground].filter(Boolean);
+  return candidates.find((url) => !isLegacyPlaceholderImage(url)) || candidates[0] || "";
+};
 
 const getPost = cache(async (slug) => {
   const q = query(collection(db, "posts"), where("slug", "==", slug));
@@ -22,7 +29,7 @@ export async function generateMetadata({ params }) {
   const post = await getPost(slug);
   if (!post) return {};
 
-  const image = post.primaryImage || post.heroBackground || `${SITE_URL}/og-image.png`;
+  const image = getPostImage(post) || `${SITE_URL}/og-image.png`;
   const title = post.metaTitle || post.heroH1 || post.title;
 
   return {
@@ -52,7 +59,7 @@ export default async function BlogPost({ params }) {
   const post = await getPost(slug);
   if (!post) notFound();
 
-  const displayImage = post.heroBackground || post.primaryImage;
+  const displayImage = getPostImage(post);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -106,7 +113,7 @@ export default async function BlogPost({ params }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       )}
 
-      <main className="w-full min-h-screen bg-[#F4F3EF] text-zinc-950 pt-32 pb-24 px-6 font-sans">
+      <main data-header-theme="light" className="w-full min-h-screen bg-[#F4F3EF] text-zinc-950 pt-32 pb-24 px-6 font-sans">
         <article className="max-w-3xl mx-auto">
           <Link
             href="/blog"

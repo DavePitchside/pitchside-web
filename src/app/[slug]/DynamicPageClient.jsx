@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
+import React from "react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ChevronDown, ArrowLeft, Zap } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,8 +9,31 @@ import useLenis from "@/lib/useLenis";
 
 const customEase = [0.16, 1, 0.3, 1];
 
+const deletedLinkReplacements = {
+  "/football-highlights-app": "/technology",
+  "/best-football-stats-apps": "/tools",
+  "/sunday-league-football": "/tools-for-sunday-league-football",
+};
+
+const cleanInternalHref = (href = "") => {
+  for (const [deletedPath, replacement] of Object.entries(deletedLinkReplacements)) {
+    if (href === deletedPath || href.startsWith(`${deletedPath}?`) || href.startsWith(`${deletedPath}#`)) return replacement;
+
+    for (const origin of ["https://pitchside.ai", "https://www.pitchside.ai"]) {
+      const absolutePath = `${origin}${deletedPath}`;
+      if (href === absolutePath || href.startsWith(`${absolutePath}?`) || href.startsWith(`${absolutePath}#`)) return replacement;
+    }
+  }
+
+  return href;
+};
+
+const cleanCmsHtml = (html = "") => String(html).replace(
+  /href=(['"])([^'"]+)\1/gi,
+  (_match, quote, href) => `href=${quote}${cleanInternalHref(href)}${quote}`,
+);
+
 export default function DynamicPageClient({ data, dataSource }) {
-  const [activeFaq, setActiveFaq] = useState(null);
   const lenisRef = useLenis();
 
   const { scrollYProgress, scrollY } = useScroll();
@@ -94,7 +117,7 @@ export default function DynamicPageClient({ data, dataSource }) {
       </header>
 
       {/* Sliding content area */}
-      <div className="relative z-20 w-full bg-white rounded-t-[2.5rem] md:rounded-t-[4rem] shadow-[0_-20px_60px_rgba(0,0,0,0.6)] pt-16 md:pt-24 pb-32 px-6 md:px-12 lg:px-24 mt-[100vh]">
+      <div data-header-theme="light" className="relative z-20 w-full bg-white rounded-t-[2.5rem] md:rounded-t-[4rem] shadow-[0_-20px_60px_rgba(0,0,0,0.6)] pt-16 md:pt-24 pb-32 px-6 md:px-12 lg:px-24 mt-[100vh]">
         <div className="absolute top-6 left-1/2 -translate-x-1/2 w-16 h-1.5 bg-zinc-200 rounded-full" />
         <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24 relative mt-8">
 
@@ -149,7 +172,7 @@ export default function DynamicPageClient({ data, dataSource }) {
                     (point, i) =>
                       point && (
                         <li key={i} className="flex items-start gap-4 text-zinc-800 text-lg font-medium leading-relaxed">
-                          <span dangerouslySetInnerHTML={{ __html: point }} />
+                          <span dangerouslySetInnerHTML={{ __html: cleanCmsHtml(point) }} />
                         </li>
                       )
                   )}
@@ -159,7 +182,7 @@ export default function DynamicPageClient({ data, dataSource }) {
 
             {data.aeoQuickAnswer && (
               <div className="text-2xl md:text-3xl font-light text-zinc-900 leading-snug mb-16 border-l-[3px] border-[#CCFF00] pl-8 py-2 bg-gradient-to-r from-[#CCFF00]/10 to-transparent">
-                <p dangerouslySetInnerHTML={{ __html: data.aeoQuickAnswer }} />
+                <p dangerouslySetInnerHTML={{ __html: cleanCmsHtml(data.aeoQuickAnswer) }} />
               </div>
             )}
 
@@ -171,7 +194,7 @@ export default function DynamicPageClient({ data, dataSource }) {
                       key={block.id}
                       className="my-16 -mx-4 md:-mx-12 rounded-3xl overflow-hidden relative aspect-video bg-zinc-100 shadow-md"
                     >
-                      <Image src={block.content} alt="Article media" fill className="object-cover" />
+                      <Image src={block.content} alt="Article media" fill sizes="(max-width: 768px) 100vw, 896px" className="object-cover" />
                     </div>
                   );
                 }
@@ -199,7 +222,7 @@ export default function DynamicPageClient({ data, dataSource }) {
                   );
                 }
                 if (block.type === "paragraph" && block.content) {
-                  return <p key={block.id} dangerouslySetInnerHTML={{ __html: block.content }} />;
+                  return <p key={block.id} dangerouslySetInnerHTML={{ __html: cleanCmsHtml(block.content) }} />;
                 }
                 if (block.type === "list" && block.items?.length > 0) {
                   return (
@@ -208,8 +231,8 @@ export default function DynamicPageClient({ data, dataSource }) {
                         (item, idx) =>
                           item && (
                             <li key={idx} className="flex items-start gap-4 text-zinc-700">
-                              <span className="text-[#CCFF00] font-mono text-xl font-bold leading-none">/</span>
-                              <span dangerouslySetInnerHTML={{ __html: item }} />
+                              <span aria-hidden="true" className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-[#CCFF00]" />
+                              <span dangerouslySetInnerHTML={{ __html: cleanCmsHtml(item) }} />
                             </li>
                           )
                       )}
@@ -243,7 +266,7 @@ export default function DynamicPageClient({ data, dataSource }) {
                                   key={cIdx}
                                   className={`p-5 font-light text-zinc-700 text-base ${cIdx !== 0 ? "text-center" : ""}`}
                                 >
-                                  <span dangerouslySetInnerHTML={{ __html: td }} />
+                                  <span dangerouslySetInnerHTML={{ __html: cleanCmsHtml(td) }} />
                                 </td>
                               ))}
                             </tr>
@@ -266,34 +289,20 @@ export default function DynamicPageClient({ data, dataSource }) {
                   {data.faqs.map(
                     (faq, index) =>
                       faq.question && (
-                        <div key={index} className="border-b border-zinc-200">
-                          <button
-                            onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                            className="w-full py-6 flex items-center justify-between text-left focus:outline-none group"
-                          >
+                        <details key={index} className="group border-b border-zinc-200">
+                          <summary className="w-full py-6 flex cursor-pointer list-none items-center justify-between text-left focus:outline-none [&::-webkit-details-marker]:hidden">
                             <span className="font-bold text-lg md:text-xl text-zinc-900 pr-8 group-hover:text-[#CCFF00] transition-colors duration-300">
                               {faq.question}
                             </span>
                             <ChevronDown
-                              className={`w-5 h-5 text-zinc-400 transition-transform duration-500 flex-shrink-0 ${activeFaq === index ? "rotate-180 text-zinc-900" : ""}`}
+                              className="w-5 h-5 text-zinc-400 transition-transform duration-500 flex-shrink-0 group-open:rotate-180 group-open:text-zinc-900"
                             />
-                          </button>
-                          <AnimatePresence>
-                            {activeFaq === index && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                className="overflow-hidden"
-                              >
-                                <p
-                                  className="pb-8 text-zinc-600 font-light leading-relaxed pr-8"
-                                  dangerouslySetInnerHTML={{ __html: faq.answer }}
-                                />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
+                          </summary>
+                          <div
+                            className="pb-8 text-zinc-600 font-light leading-relaxed pr-8"
+                            dangerouslySetInnerHTML={{ __html: cleanCmsHtml(faq.answer) }}
+                          />
+                        </details>
                       )
                   )}
                 </div>
