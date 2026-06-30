@@ -163,7 +163,7 @@ export default async function BlogPost({ params }) {
 
           {post.aeoQuickAnswer && (
             <div className="text-xl md:text-2xl font-serif italic text-zinc-800 leading-relaxed mb-10 border-l-4 border-zinc-950 pl-6">
-              {post.aeoQuickAnswer}
+              <span dangerouslySetInnerHTML={{ __html: post.aeoQuickAnswer }} />
             </div>
           )}
 
@@ -268,7 +268,7 @@ export default async function BlogPost({ params }) {
           {post.ctaBlock?.headline && (
             <div className="bg-[#CCFF00] text-zinc-950 p-8 md:p-12 rounded-xl text-center my-16 border-4 border-zinc-950 shadow-[8px_8px_0px_rgba(9,9,11,1)]">
               <h3 className="text-3xl font-black uppercase tracking-tighter mb-4">{post.ctaBlock.headline}</h3>
-              <p className="text-lg font-medium mb-8 max-w-lg mx-auto">{post.ctaBlock.description}</p>
+              <p className="text-lg font-medium mb-8 max-w-lg mx-auto" dangerouslySetInnerHTML={{ __html: post.ctaBlock.description || "" }} />
               <Link
                 href={post.ctaBlock.buttonUrl || "/contact"}
                 className="inline-block bg-zinc-950 text-white font-bold uppercase tracking-widest px-8 py-4 hover:bg-transparent hover:text-zinc-950 border-4 border-zinc-950 transition-colors"

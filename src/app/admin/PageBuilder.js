@@ -15,7 +15,7 @@ const defaultCtaBlock = { headline: "", description: "", buttonText: "", buttonU
 
 const getBlockKey = (block, index) => block.id || `${block.type || "block"}-${index}`;
 
-function LinkableTextarea({ value, onChange }) {
+function LinkableTextarea({ value, onChange, rows = 4 }) {
   const textareaRef = useRef(null);
   const [selection, setSelection] = useState(null);
 
@@ -51,7 +51,7 @@ function LinkableTextarea({ value, onChange }) {
       <textarea
         ref={textareaRef}
         placeholder="Write your content here..."
-        rows="4"
+        rows={rows}
         className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-zinc-300 focus:border-[#CCFF00] outline-none leading-relaxed"
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -147,7 +147,9 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     },
     tldrPoints: initialData?.tldrPoints || [""], 
     aeoQuickAnswer: initialData?.aeoQuickAnswer || "",
-    contentBlocks: initialData?.contentBlocks?.length ? normalizeContentBlocks(initialData.contentBlocks) : [],
+    contentBlocks: initialData?.contentBlocks?.length
+      ? normalizeContentBlocks(initialData.contentBlocks).filter((block) => !isToolPage || block.type !== "image")
+      : [],
     ctaBlock: { ...defaultCtaBlock, ...(initialData?.ctaBlock || {}) },
     faqs: initialData?.faqs || [{ question: "", answer: "" }]
   });
@@ -393,10 +395,38 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     setStatus("saving");
     try {
       const cleanData = JSON.parse(JSON.stringify(formData));
-      if (cleanData.hero?.previewDataJson !== undefined) delete cleanData.hero.previewDataJson;
+      if (isToolPage && cleanData.hero) {
+        let previewData = cleanData.hero.previewData;
+        if (previewData === undefined && typeof cleanData.hero.previewDataJson === "string") {
+          try {
+            previewData = JSON.parse(cleanData.hero.previewDataJson);
+          } catch {
+            throw new Error("Cannot save tool: hero preview data is not valid JSON.");
+          }
+        }
+        cleanData.hero.previewDataJson = JSON.stringify(previewData || {});
+        delete cleanData.hero.previewData;
+      }
       if (isToolPage) {
-        const { setDoc } = await import("firebase/firestore");
-        await setDoc(doc(db, "tools", initialData.id), { ...cleanData, updatedAt: serverTimestamp() }, { merge: true });
+        cleanData.contentBlocksJson = JSON.stringify((cleanData.contentBlocks || []).filter((block) => block.type !== "image"));
+        delete cleanData.contentBlocks;
+        delete cleanData.thumbnail;
+        delete cleanData.primaryImage;
+        delete cleanData.heroBackground;
+      }
+      if (isToolPage) {
+        const toolDocumentId = initialData?.id || initialData?.slug || cleanData.slug;
+        if (!toolDocumentId) throw new Error("Cannot save tool: missing document ID and slug.");
+        const { deleteField, setDoc } = await import("firebase/firestore");
+        await setDoc(doc(db, "tools", toolDocumentId), {
+          ...cleanData,
+          slug: initialData?.slug || cleanData.slug || toolDocumentId,
+          contentBlocks: deleteField(),
+          heroBackground: deleteField(),
+          primaryImage: deleteField(),
+          thumbnail: deleteField(),
+          updatedAt: serverTimestamp(),
+        }, { merge: true });
       }
       else if (initialData?.id && !isStaticCorePage) await updateDoc(doc(db, collectionName, initialData.id), { ...cleanData, updatedAt: serverTimestamp() });
       else if (isStaticCorePage) await updateDoc(doc(db, "pages", initialData.id), { ...cleanData, updatedAt: serverTimestamp() }).catch(async () => { const { setDoc } = await import("firebase/firestore"); await setDoc(doc(db, "pages", initialData.id), { ...cleanData, createdAt: serverTimestamp() }); });
@@ -419,7 +449,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         <button type="button" onClick={() => insertContentBlock(index, "h3")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><Heading3 className="w-4 h-4" /></button>
         <button type="button" onClick={() => insertContentBlock(index, "paragraph")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><AlignLeft className="w-4 h-4" /></button>
         <button type="button" onClick={() => insertContentBlock(index, "list")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><ListIcon className="w-4 h-4" /></button>
-        <button type="button" onClick={() => insertContentBlock(index, "image")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><ImageIcon className="w-4 h-4" /></button>
+        {!isToolPage && <button type="button" onClick={() => insertContentBlock(index, "image")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><ImageIcon className="w-4 h-4" /></button>}
         <button type="button" onClick={() => insertContentBlock(index, "table")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><TableIcon className="w-4 h-4" /></button>
       </div>
     </div>
@@ -496,7 +526,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
               </div>
               
               {/* HERO BACKGROUND UPLOADER */}
-              <div className="space-y-3 bg-zinc-950 p-4 rounded-xl border border-zinc-800">
+              {!isToolPage && <div className="space-y-3 bg-zinc-950 p-4 rounded-xl border border-zinc-800">
                 <label className="text-[#CCFF00] text-[10px] uppercase font-bold tracking-widest flex items-center gap-2">
                   <Video className="w-4 h-4" /> Hero Background Media (Optional)
                 </label>
@@ -520,7 +550,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                      <button type="button" onClick={() => setFormData({...formData, heroBackground: ""})} className="text-red-500 text-xs hover:underline">Remove Background</button>
                   </div>
                 )}
-              </div>
+              </div>}
 
               <div className="space-y-2">
                 <label className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest pl-1">Main Page Headline (H1)</label>
@@ -551,7 +581,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest pl-1">Hero Paragraph</label>
-                    <textarea rows="3" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={formData.intro} onChange={(e) => setFormData({...formData, intro: e.target.value})} />
+                    <LinkableTextarea rows={3} value={formData.intro} onChange={(value) => setFormData({...formData, intro: value})} />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
@@ -575,13 +605,13 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
               )}
               <div className="space-y-2">
                 <label className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest pl-1">AEO Quick Answer</label>
-                <textarea rows="3" placeholder="Direct Google Answer..." className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-white border-l-4 border-l-[#CCFF00] focus:border-[#CCFF00] outline-none" value={formData.aeoQuickAnswer} onChange={(e) => setFormData({...formData, aeoQuickAnswer: e.target.value})} />
+                <LinkableTextarea value={formData.aeoQuickAnswer} onChange={(value) => setFormData({...formData, aeoQuickAnswer: value})} />
               </div>
               <div className="space-y-2">
                 <label className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest pl-1">TL;DR Summary Points</label>
                 {formData.tldrPoints.map((point, i) => (
                   <div key={i} className="flex gap-2">
-                    <input type="text" className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={point} onChange={(e) => handleArrayChange("tldrPoints", i, e.target.value)} />
+                    <div className="flex-1"><LinkableTextarea rows={2} value={point} onChange={(value) => handleArrayChange("tldrPoints", i, value)} /></div>
                     <button type="button" onClick={() => removeArrayItem("tldrPoints", i)} className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 ))}
@@ -659,7 +689,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                           {(block.items || []).map((item, i) => (
                             <div key={i} className="flex gap-2 items-start">
                               <div className="mt-3 w-1.5 h-1.5 rounded-full bg-[#CCFF00] shrink-0" />
-                              <input type="text" className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={item || ""} onChange={(e) => updateListBlockItem(block.id, i, e.target.value)} />
+                              <div className="flex-1"><LinkableTextarea rows={2} value={item || ""} onChange={(value) => updateListBlockItem(block.id, i, value)} /></div>
                               <button type="button" onClick={() => removeListBlockItem(block.id, i)} className="p-3 bg-red-500/5 text-red-500/50 rounded-xl hover:bg-red-500 hover:text-white transition-colors"><Trash2 className="w-4 h-4" /></button>
                             </div>
                           ))}
@@ -691,7 +721,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                                 <tr key={rIdx} className="border-b border-zinc-800 last:border-b-0 hover:bg-white/5 group/tr">
                                   {(row.cells || []).map((cell, cIdx) => (
                                     <td key={cIdx} className="p-2 border-r border-zinc-800 last:border-r-0">
-                                      <input type="text" className="w-full bg-transparent text-sm text-zinc-400 text-center focus:outline-none focus:text-white" value={cell || ""} onChange={(e) => updateTableCell(block.id, rIdx, cIdx, e.target.value)} />
+                                      <LinkableTextarea rows={2} value={cell || ""} onChange={(value) => updateTableCell(block.id, rIdx, cIdx, value)} />
                                     </td>
                                   ))}
                                   <td className="w-10 text-center">
@@ -728,7 +758,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                   <div key={i} className="space-y-2 p-4 bg-zinc-950 border border-zinc-800 rounded-xl relative">
                     <button type="button" onClick={() => removeArrayItem("faqs", i)} className="absolute top-4 right-4 text-zinc-600 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4"/></button>
                     <input type="text" placeholder="Question" className="w-full bg-transparent border-b border-zinc-800 pb-2 pr-8 text-white font-bold outline-none focus:border-[#CCFF00]" value={faq.question || ""} onChange={(e) => { const newFaqs = [...formData.faqs]; newFaqs[i].question = e.target.value; setFormData({...formData, faqs: newFaqs}); }} />
-                    <textarea rows="2" placeholder="Answer" className="w-full bg-transparent pt-2 text-zinc-400 outline-none focus:text-white" value={faq.answer || ""} onChange={(e) => { const newFaqs = [...formData.faqs]; newFaqs[i].answer = e.target.value; setFormData({...formData, faqs: newFaqs}); }} />
+                    <LinkableTextarea rows={3} value={faq.answer || ""} onChange={(value) => { const newFaqs = [...formData.faqs]; newFaqs[i].answer = value; setFormData({...formData, faqs: newFaqs}); }} />
                   </div>
                 ))}
                 <button type="button" onClick={() => addArrayItem("faqs", { question: "", answer: "" })} className="text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest mt-2 pl-1">+ Add FAQ</button>
@@ -738,7 +768,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                 <div className="absolute inset-0 bg-[#CCFF00]/5 pointer-events-none" />
                 <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest text-xs mb-4 relative z-10">5. Premium CTA Box</h2>
                 <input type="text" placeholder="Headline" className="w-full bg-black border border-white/10 rounded-xl p-3 text-white relative z-10 focus:border-[#CCFF00] outline-none" value={formData.ctaBlock.headline || ""} onChange={(e) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, headline: e.target.value}})} />
-                <textarea placeholder="Description" className="w-full bg-black border border-white/10 rounded-xl p-3 text-white relative z-10 focus:border-[#CCFF00] outline-none" value={formData.ctaBlock.description || ""} onChange={(e) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, description: e.target.value}})} />
+                <LinkableTextarea rows={3} value={formData.ctaBlock.description || ""} onChange={(value) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, description: value}})} />
                 <div className="flex gap-2 relative z-10">
                   <input type="text" placeholder="Button Text" className="w-1/2 bg-black border border-white/10 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={formData.ctaBlock.buttonText || ""} onChange={(e) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, buttonText: e.target.value}})} />
                   <input type="text" placeholder="URL (/contact)" className="w-1/2 bg-black border border-white/10 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={formData.ctaBlock.buttonUrl || ""} onChange={(e) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, buttonUrl: e.target.value}})} />

@@ -11,6 +11,10 @@
 }
 
 @layer base {
+  a {
+    font-weight: 700;
+  }
+
   body {
     background-color: var(--color-zinc-950);
     color: var(--color-zinc-50);

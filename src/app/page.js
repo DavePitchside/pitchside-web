@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useMotionValue, useSpring, useScroll, useTransform, useMotionTemplate } from "framer-motion";
-import { tools } from "@/lib/tools";
+import { stripHtml, tools } from "@/lib/tools";
 
 import { 
   Star, ArrowUpRight, ChevronLeft, ChevronRight, Target, CornerDownLeft, 
@@ -473,7 +473,7 @@ export default function Home() {
                 <Link key={tool.slug} href={`/tools/${tool.slug}`} className="group min-h-48 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-[4px_4px_0px_#CCFF00] transition-transform hover:-translate-y-1 flex flex-col justify-between">
                   <div>
                     <h3 className="text-xl font-black uppercase tracking-tight text-white">{tool.shortTitle}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-zinc-400">{tool.intro}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-zinc-400">{stripHtml(tool.intro)}</p>
                   </div>
                   <span className="mt-6 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.22em] text-[#CCFF00] group-hover:text-white">
                     Use tool <ArrowUpRight className="w-3.5 h-3.5" />

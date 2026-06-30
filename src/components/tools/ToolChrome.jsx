@@ -202,7 +202,7 @@ export function PremiumToolHero({
             <h1 className="max-w-[11ch] font-alpha text-[clamp(2.95rem,8.4vw,8.6rem)] uppercase leading-[0.86] text-white drop-shadow-[0_0_58px_rgba(204,255,0,0.10)] sm:max-w-[12ch] md:text-[clamp(4.6rem,8vw,8.6rem)] lg:text-[clamp(4.8rem,7.1vw,8.2rem)]" style={{ fontFamily: "var(--font-alpha)", letterSpacing: 0 }}>
               {title}
             </h1>
-            <p className="mt-4 max-w-xl text-sm font-medium leading-relaxed text-zinc-300 md:mt-5 md:text-base lg:text-lg">{description}</p>
+            <p className="mt-4 max-w-xl text-sm font-medium leading-relaxed text-zinc-300 md:mt-5 md:text-base lg:text-lg" dangerouslySetInnerHTML={{ __html: description || "" }} />
             <div className="mt-6 flex flex-col gap-3 sm:flex-row md:mt-7">
               <a href={primaryHref} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-white px-8 py-4 text-xs font-black uppercase tracking-widest text-black transition-all duration-300 hover:bg-[#CCFF00] focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/35 active:scale-95">
                 {primaryLabel}
@@ -238,22 +238,31 @@ export function PremiumToolHero({
 }
 
 export function ToolCTA({ cta }) {
+  const buttonClass = "inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border-2 border-black bg-black px-6 py-4 text-xs font-black uppercase tracking-widest text-[#CCFF00] transition-colors hover:bg-white hover:text-black";
+  const buttonContent = <>{cta?.buttonText || "Join the waitlist"} <ArrowUpRight className="h-4 w-4" /></>;
+
   return (
     <div className="relative overflow-hidden rounded-3xl border-2 border-black bg-[#CCFF00] p-6 md:p-8 text-black shadow-[8px_8px_0px_#000]">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.06)_1px,transparent_1px)] bg-[size:28px_28px]" />
       <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="max-w-2xl">
           <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight">{cta?.headline || "Join the Pitchside waitlist"}</h2>
-          <p className="mt-3 text-sm md:text-base font-medium leading-relaxed text-black/75">
-            {cta?.description || "Get early access to Pitchside as the platform develops."}
-          </p>
+          <p
+            className="mt-3 text-sm md:text-base font-medium leading-relaxed text-black/75"
+            dangerouslySetInnerHTML={{ __html: cta?.description || "Get early access to Pitchside as the platform develops." }}
+          />
         </div>
-        <button
-          onClick={() => window.dispatchEvent(new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist", sourcePlacement: "Tool page CTA block", sourceComponent: "ToolCTA" } }))}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border-2 border-black bg-black px-6 py-4 text-xs font-black uppercase tracking-widest text-[#CCFF00] transition-colors hover:bg-white hover:text-black"
-        >
-          {cta?.buttonText || "Join the waitlist"} <ArrowUpRight className="h-4 w-4" />
-        </button>
+        {cta?.buttonUrl ? (
+          <Link href={cta.buttonUrl} className={buttonClass}>{buttonContent}</Link>
+        ) : (
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist", sourcePlacement: "Tool page CTA block", sourceComponent: "ToolCTA" } }))}
+            className={buttonClass}
+          >
+            {buttonContent}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -361,11 +370,12 @@ export function ToolContentBlocks({ blocks = [] }) {
 
 export function ToolShell({ tool, children }) {
   const hero = tool.hero || {};
+  const summaryPoints = (tool.tldrPoints || []).filter(Boolean);
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#050505] font-roobert text-white">
       <PremiumToolHero
         eyebrow={hero.eyebrow || tool.badge || "Pitchside tools"}
-        title={hero.displayTitle || tool.title}
+        title={hero.displayTitle || tool.title || tool.heroH1}
         description={tool.intro || tool.metaDescription}
         primaryLabel={hero.primaryCtaLabel || "Use the tool"}
         primaryHref="#tool-start"
@@ -380,6 +390,29 @@ export function ToolShell({ tool, children }) {
         <div className="overflow-hidden rounded-[1.5rem] border-2 border-black bg-[#F4F3EF] px-4 py-10 shadow-[0_0_60px_rgba(0,0,0,0.35)] md:rounded-[2rem] md:px-8 md:py-16">
           <div className="mx-auto grid max-w-7xl min-w-0 grid-cols-1 gap-12">
             {children}
+            {(summaryPoints.length > 0 || tool.aeoQuickAnswer) && (
+              <section className="grid gap-6 lg:grid-cols-2">
+                {summaryPoints.length > 0 && (
+                  <div className="rounded-3xl border-2 border-black bg-black p-6 text-white shadow-[6px_6px_0px_#CCFF00]">
+                    <h2 className="text-xs font-black uppercase tracking-[0.2em] text-[#CCFF00]">Key points</h2>
+                    <ul className="mt-5 grid gap-3">
+                      {summaryPoints.map((point, index) => (
+                        <li key={index} className="flex gap-3 text-sm leading-relaxed text-zinc-200">
+                          <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#CCFF00]" />
+                          <span dangerouslySetInnerHTML={{ __html: point }} />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {tool.aeoQuickAnswer && (
+                  <div className="rounded-3xl border-2 border-black bg-white p-6 shadow-[6px_6px_0px_#000]">
+                    <h2 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500">Quick answer</h2>
+                    <div className="mt-5 text-lg font-bold leading-relaxed text-black" dangerouslySetInnerHTML={{ __html: tool.aeoQuickAnswer }} />
+                  </div>
+                )}
+              </section>
+            )}
             <ToolContentBlocks blocks={tool.contentBlocks} />
             {tool.links?.length > 0 && (
               <section className="rounded-3xl border-2 border-black bg-white p-6 shadow-[6px_6px_0px_#000]">

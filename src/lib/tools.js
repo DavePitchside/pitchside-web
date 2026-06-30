@@ -779,57 +779,90 @@ export function getToolBySlug(slug) {
   return tools.find((tool) => tool.slug === slug) || null;
 }
 
+const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value || {}, key);
+
+function getAdminHero(adminData) {
+  const hero = adminData?.hero || {};
+  let previewData = hero.previewData;
+
+  if (typeof hero.previewDataJson === "string") {
+    try {
+      previewData = JSON.parse(hero.previewDataJson);
+    } catch {
+      previewData = undefined;
+    }
+  }
+
+  return { ...hero, previewData };
+}
+
+function getAdminContentBlocks(adminData) {
+  if (hasOwn(adminData, "contentBlocks")) return adminData.contentBlocks;
+  if (typeof adminData?.contentBlocksJson !== "string") return undefined;
+
+  try {
+    const blocks = JSON.parse(adminData.contentBlocksJson);
+    return Array.isArray(blocks) ? blocks : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export function mergeToolContent(tool, adminData) {
   if (!adminData) return tool;
+  const adminHero = getAdminHero(adminData);
+  const adminContentBlocks = getAdminContentBlocks(adminData);
   return {
     ...tool,
     ...adminData,
     id: tool.id,
     slug: tool.slug,
     links: tool.links,
-    badge: adminData.badge || tool.badge,
-    intro: adminData.intro || tool.intro,
+    badge: hasOwn(adminData, "badge") ? adminData.badge : tool.badge,
+    intro: hasOwn(adminData, "intro") ? adminData.intro : tool.intro,
     hero: {
       ...(tool.hero || {}),
-      ...(adminData.hero || {}),
+      ...adminHero,
       previewData: {
         ...(tool.hero?.previewData || {}),
-        ...(adminData.hero?.previewData || {}),
+        ...(adminHero.previewData || {}),
       },
     },
     outputLabel: tool.outputLabel,
-    llmDescription: adminData.llmDescription || tool.llmDescription,
+    llmDescription: hasOwn(adminData, "llmDescription") ? adminData.llmDescription : tool.llmDescription,
     ctaBlock: {
       ...tool.ctaBlock,
       ...(adminData.ctaBlock || {}),
     },
-    faqs: adminData.faqs?.length ? adminData.faqs : tool.faqs,
-    contentBlocks: adminData.contentBlocks?.length ? adminData.contentBlocks : tool.contentBlocks,
+    faqs: hasOwn(adminData, "faqs") ? adminData.faqs : tool.faqs,
+    contentBlocks: adminContentBlocks ?? tool.contentBlocks,
   };
 }
 
 export function mergeToolsHubContent(adminData) {
   if (!adminData) return toolsHub;
+  const adminHero = getAdminHero(adminData);
+  const adminContentBlocks = getAdminContentBlocks(adminData);
   return {
     ...toolsHub,
     ...adminData,
     id: toolsHub.id,
     slug: toolsHub.slug,
-    intro: adminData.intro || toolsHub.intro,
-    badge: adminData.badge || toolsHub.badge,
+    intro: hasOwn(adminData, "intro") ? adminData.intro : toolsHub.intro,
+    badge: hasOwn(adminData, "badge") ? adminData.badge : toolsHub.badge,
     hero: {
       ...(toolsHub.hero || {}),
-      ...(adminData.hero || {}),
+      ...adminHero,
       previewData: {
         ...(toolsHub.hero?.previewData || {}),
-        ...(adminData.hero?.previewData || {}),
+        ...(adminHero.previewData || {}),
       },
     },
     ctaBlock: {
       ...toolsHub.ctaBlock,
       ...(adminData.ctaBlock || {}),
     },
-    contentBlocks: adminData.contentBlocks?.length ? adminData.contentBlocks : toolsHub.contentBlocks,
+    contentBlocks: adminContentBlocks ?? toolsHub.contentBlocks,
   };
 }
 

@@ -318,9 +318,7 @@ export default function DynamicPageClient({ data, dataSource }) {
                 >
                   {data.ctaBlock.headline}
                 </h3>
-                <p className="text-lg font-light mb-10 max-w-md mx-auto text-zinc-400">
-                  {data.ctaBlock.description}
-                </p>
+                <p className="text-lg font-light mb-10 max-w-md mx-auto text-zinc-400" dangerouslySetInnerHTML={{ __html: cleanCmsHtml(data.ctaBlock.description) }} />
                 <button
                   onClick={() =>
                     window.dispatchEvent(

@@ -19,9 +19,9 @@ export default function ToolsHub({ hub = defaultToolsHub, tools = defaultTools }
     <main className="min-h-screen bg-[#050505] font-roobert text-white">
       <PremiumToolHero
         eyebrow={hero.eyebrow || hub.badge || "Pitchside tools"}
-        title={hero.displayTitle || hub.title || "Free Football Tools"}
+        title={hero.displayTitle || hub.title || hub.heroH1 || "Free Football Tools"}
         description={
-          hero.description ||
+          hero.description || hub.intro || hub.metaDescription ||
           "Build teams, plan formations, create league tables and track 5-a-side or futsal stats before Pitchside launches."
         }
         primaryLabel={hero.primaryCtaLabel || "Explore tools"}

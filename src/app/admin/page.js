@@ -9,7 +9,7 @@ import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebas
 import { db, auth } from "@/lib/firebase"; 
 import PageBuilder from "./PageBuilder"; 
 import useLenis from "@/lib/useLenis";
-import { tools, toolsHub } from "@/lib/tools";
+import { mergeToolContent, mergeToolsHubContent, tools, toolsHub } from "@/lib/tools";
 
 // --- FIXED CORE PAGES ---
 const CORE_STATIC_PAGES = [
@@ -368,8 +368,10 @@ export default function AdminDashboard() {
                       {activeTab === "tools" && [toolsHub, ...tools].map((tool) => {
                         const docId = tool.id || tool.slug;
                         const dbData = contentList.find(c => c.id === docId) || {};
-                        const merged = { ...tool, ...dbData, id: docId, slug: tool.slug };
                         const isConfigured = contentList.some(c => c.id === docId);
+                        const merged = tool.slug === "tools"
+                          ? mergeToolsHubContent(isConfigured ? dbData : null)
+                          : mergeToolContent(tool, isConfigured ? dbData : null);
                         const route = tool.slug === "tools" ? "/tools" : `/tools/${tool.slug}`;
                         return (
                           <tr key={docId} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
