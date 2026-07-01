@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { canonicalInternalHref, canonicalizeInternalLinks, isIndexableContent } from "@/lib/contentPolicy";
 
 export const dynamic = "force-dynamic";
 import Link from "next/link";
@@ -20,7 +21,7 @@ const getPostImage = (post) => {
 const getPost = cache(async (slug) => {
   const q = query(collection(db, "posts"), where("slug", "==", slug));
   const snap = await getDocs(q);
-  if (!snap.empty) return snap.docs[0].data();
+  if (!snap.empty && isIndexableContent(snap.docs[0].data())) return snap.docs[0].data();
   return null;
 });
 
@@ -207,7 +208,7 @@ export default async function BlogPost({ params }) {
                 );
               }
               if (block.type === "paragraph" && block.content) {
-                return <p key={block.id} dangerouslySetInnerHTML={{ __html: block.content }} />;
+                return <p key={block.id} dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(block.content) }} />;
               }
               if (block.type === "list" && block.items?.length > 0) {
                 return (
@@ -217,7 +218,7 @@ export default async function BlogPost({ params }) {
                         item && (
                           <li key={idx} className="flex items-start gap-3 text-zinc-800">
                             <span className="w-2 h-2 rounded-full bg-zinc-950 mt-2.5 shrink-0" />
-                            <span dangerouslySetInnerHTML={{ __html: item }} />
+                            <span dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(item) }} />
                           </li>
                         )
                     )}
@@ -251,7 +252,7 @@ export default async function BlogPost({ params }) {
                                 key={cIdx}
                                 className="p-4 border-r border-zinc-200 last:border-r-0 font-medium text-zinc-800 text-sm md:text-base"
                               >
-                                <span dangerouslySetInnerHTML={{ __html: td }} />
+                                <span dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(td) }} />
                               </td>
                             ))}
                           </tr>
@@ -270,7 +271,7 @@ export default async function BlogPost({ params }) {
               <h3 className="text-3xl font-black uppercase tracking-tighter mb-4">{post.ctaBlock.headline}</h3>
               <p className="text-lg font-medium mb-8 max-w-lg mx-auto" dangerouslySetInnerHTML={{ __html: post.ctaBlock.description || "" }} />
               <Link
-                href={post.ctaBlock.buttonUrl || "/contact"}
+                href={canonicalInternalHref(post.ctaBlock.buttonUrl || "/contact")}
                 className="inline-block bg-zinc-950 text-white font-bold uppercase tracking-widest px-8 py-4 hover:bg-transparent hover:text-zinc-950 border-4 border-zinc-950 transition-colors"
               >
                 {post.ctaBlock.buttonText || "Learn More"}

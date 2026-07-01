@@ -6,7 +6,22 @@ const nextConfig = {
       {
         source: "/football-stats-without-gps",
         destination: "/blog/track-football-stats-without-gps-vest",
-        permanent: true,
+        statusCode: 301,
+      },
+      {
+        source: "/football-highlights-app",
+        destination: "/technology",
+        statusCode: 301,
+      },
+      {
+        source: "/best-football-stats-apps",
+        destination: "/tools",
+        statusCode: 301,
+      },
+      {
+        source: "/sunday-league-football",
+        destination: "/tools-for-sunday-league-football",
+        statusCode: 301,
       },
     ];
   },

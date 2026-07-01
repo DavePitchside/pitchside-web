@@ -1,5 +1,6 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { isIndexableContent } from "@/lib/contentPolicy";
 
 export async function GET(request, { params }) {
   // Await params in Next.js 15
@@ -7,6 +8,7 @@ export async function GET(request, { params }) {
 
   try {
     let pageData = null;
+    let dataSource = null;
 
     // 1. Check the 'pages' collection (SEO Landing Pages)
     const qPage = query(collection(db, "pages"), where("slug", "==", slug));
@@ -14,18 +16,24 @@ export async function GET(request, { params }) {
 
     if (!pageSnap.empty) {
       pageData = pageSnap.docs[0].data();
+      dataSource = "pages";
     } else {
       // 2. Fallback: Check the 'posts' collection (Standard Blog Posts)
       const qPost = query(collection(db, "posts"), where("slug", "==", slug));
       const postSnap = await getDocs(qPost);
       if (!postSnap.empty) {
         pageData = postSnap.docs[0].data();
+        dataSource = "posts";
       }
     }
 
     // 3. 404 if no old or new page exists in the database
-    if (!pageData) {
+    if (!isIndexableContent(pageData)) {
       return new Response("Content not found. Return to Pitchside.ai", { status: 404 });
+    }
+
+    if (dataSource === "posts") {
+      return Response.redirect(new URL(`/blog/${slug}/llms.txt`, request.url), 301);
     }
 
     // 4. Construct the Machine-Readable Markdown Profile

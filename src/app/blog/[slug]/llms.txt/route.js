@@ -1,6 +1,7 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { stripHtml } from "@/lib/tools";
+import { isIndexableContent } from "@/lib/contentPolicy";
 
 export async function GET(request, { params }) {
   const { slug } = await params;
@@ -12,6 +13,7 @@ export async function GET(request, { params }) {
     if (snap.empty) return new Response("Post not found.", { status: 404 });
 
     const post = snap.docs[0].data();
+    if (!isIndexableContent(post)) return new Response("Post not found.", { status: 404 });
 
     let md = `# ${post.heroH1 || post.title}\n\n`;
 

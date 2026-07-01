@@ -1,12 +1,9 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { tools } from "@/lib/tools";
+import { isIndexableContent } from "@/lib/contentPolicy";
 
-const DELETED_SLUGS = new Set([
-  "football-highlights-app",
-  "best-football-stats-apps",
-  "sunday-league-football",
-]);
+export const dynamic = "force-dynamic";
 
 export default async function sitemap() {
   const baseUrl = "https://pitchside.ai";
@@ -30,7 +27,7 @@ export default async function sitemap() {
   let dynamicPages = [];
   try {
     const pagesSnap = await getDocs(collection(db, "pages"));
-    dynamicPages = pagesSnap.docs.filter((doc) => !DELETED_SLUGS.has(doc.data().slug)).map((doc) => {
+    dynamicPages = pagesSnap.docs.filter((doc) => isIndexableContent(doc.data())).map((doc) => {
       const data = doc.data();
       const modified = data.updatedAt?.toDate() ?? data.createdAt?.toDate() ?? new Date();
       return {
@@ -48,7 +45,7 @@ export default async function sitemap() {
   let dynamicPosts = [];
   try {
     const postsSnap = await getDocs(collection(db, "posts"));
-    dynamicPosts = postsSnap.docs.filter((doc) => !DELETED_SLUGS.has(doc.data().slug)).map((doc) => {
+    dynamicPosts = postsSnap.docs.filter((doc) => isIndexableContent(doc.data())).map((doc) => {
       const data = doc.data();
       const modified = data.updatedAt?.toDate() ?? data.createdAt?.toDate() ?? new Date();
       return {
@@ -63,5 +60,6 @@ export default async function sitemap() {
   }
 
   // Combine and return all routes
-  return [...staticRoutes, ...toolRoutes, ...dynamicPages, ...dynamicPosts];
+  const routes = [...staticRoutes, ...toolRoutes, ...dynamicPages, ...dynamicPosts];
+  return [...new Map(routes.map((route) => [route.url, route])).values()];
 }

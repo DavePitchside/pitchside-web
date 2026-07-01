@@ -1,19 +1,14 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import DynamicPageClient from "./DynamicPageClient";
+import { DELETED_SLUGS, isIndexableContent } from "@/lib/contentPolicy";
 
 export const dynamic = "force-dynamic";
 
 const SITE_URL = "https://pitchside.ai";
-const DELETED_SLUGS = new Set([
-  "football-highlights-app",
-  "best-football-stats-apps",
-  "sunday-league-football",
-]);
-
 function serializeData(data) {
   if (!data) return data;
   const result = { ...data };
@@ -29,12 +24,12 @@ function serializeData(data) {
 const getPageData = cache(async (slug) => {
   const q = query(collection(db, "pages"), where("slug", "==", slug));
   const pagesSnap = await getDocs(q);
-  if (!pagesSnap.empty) {
+  if (!pagesSnap.empty && isIndexableContent(pagesSnap.docs[0].data())) {
     return serializeData({ ...pagesSnap.docs[0].data(), _dataSource: "pages" });
   }
   const qPost = query(collection(db, "posts"), where("slug", "==", slug));
   const postsSnap = await getDocs(qPost);
-  if (!postsSnap.empty) {
+  if (!postsSnap.empty && isIndexableContent(postsSnap.docs[0].data())) {
     return serializeData({ ...postsSnap.docs[0].data(), _dataSource: "posts" });
   }
   return null;
@@ -76,6 +71,8 @@ export default async function DynamicPage({ params }) {
   if (DELETED_SLUGS.has(slug)) notFound();
   const data = await getPageData(slug);
   if (!data) notFound();
+
+  if (data._dataSource === "posts") permanentRedirect(`/blog/${slug}`);
 
   const { _dataSource: dataSource, ...pageData } = data;
 

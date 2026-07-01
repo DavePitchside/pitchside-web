@@ -1,6 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { tools, toolsHub, SITE_URL } from "@/lib/tools";
+import { isIndexableContent } from "@/lib/contentPolicy";
 
 export async function GET() {
   try {
@@ -22,7 +23,7 @@ export async function GET() {
 
     if (!pagesSnapshot.empty) {
       md += `## Landing Pages\n\n`;
-      pagesSnapshot.docs.forEach((doc) => {
+      pagesSnapshot.docs.filter((doc) => isIndexableContent(doc.data())).forEach((doc) => {
         const data = doc.data();
         if (!data.slug) return;
         md += `- [${data.metaTitle || data.title}](${SITE_URL}/${data.slug})\n`;
@@ -43,7 +44,7 @@ export async function GET() {
 
     if (!postsSnapshot.empty) {
       md += `## The Dugout (Blog)\n\n`;
-      postsSnapshot.docs.forEach((doc) => {
+      postsSnapshot.docs.filter((doc) => isIndexableContent(doc.data())).forEach((doc) => {
         const data = doc.data();
         if (!data.slug) return;
         md += `- [${data.metaTitle || data.heroH1 || data.title}](${SITE_URL}/blog/${data.slug})\n`;

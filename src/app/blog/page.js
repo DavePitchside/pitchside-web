@@ -1,6 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import BlogListingClient from "./BlogListingClient";
+import { isIndexableContent } from "@/lib/contentPolicy";
 
 export const dynamic = "force-dynamic";
 
@@ -41,13 +42,14 @@ export default async function BlogPage() {
       getDocs(collection(db, "pages")),
     ]);
 
-    const fetchedPosts = postsSnap.docs.map((doc) => ({
+    const fetchedPosts = postsSnap.docs.filter((doc) => isIndexableContent(doc.data())).map((doc) => ({
       id: doc.id,
       contentType: "post",
       ...doc.data(),
     }));
 
     const fetchedPages = pagesSnap.docs
+      .filter((doc) => isIndexableContent(doc.data()))
       .map((doc) => ({ id: doc.id, contentType: "page", ...doc.data() }))
       .filter((page) => {
         const s = (page.slug || "").trim().toLowerCase();

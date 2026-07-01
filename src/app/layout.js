@@ -31,6 +31,7 @@ export const metadata = {
   },
   description:
     "Pitchside AI automatically tracks, captures, and turns your amateur football matches into studio-quality highlight reels and player stats. No wearables. No setup. Just your best moments.",
+  alternates: { canonical: SITE_URL },
   openGraph: {
     type: "website",
     siteName: "Pitchside AI",
