@@ -6,6 +6,7 @@ import { ChevronDown, ArrowLeft, Zap } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import useLenis from "@/lib/useLenis";
+import { contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 
 const customEase = [0.16, 1, 0.3, 1];
 
@@ -33,7 +34,7 @@ const cleanCmsHtml = (html = "") => String(html).replace(
   (_match, quote, href) => `href=${quote}${cleanInternalHref(href)}${quote}`,
 );
 
-export default function DynamicPageClient({ data, dataSource }) {
+export default function DynamicPageClient({ data, dataSource, childPosts = [] }) {
   const lenisRef = useLenis();
 
   const { scrollYProgress, scrollY } = useScroll();
@@ -62,6 +63,9 @@ export default function DynamicPageClient({ data, dataSource }) {
   const hasMedia = !!data.heroBackground || !!data.primaryImage;
   const mediaSrc = data.heroBackground || data.primaryImage;
   const isVideo = hasMedia && (mediaSrc.match(/\.(mp4|webm|ogg)/i) || mediaSrc.includes("video"));
+  const publishedDate = getPublishedDate(data);
+  const updatedDate = getUpdatedDate(data);
+  const author = getContentAuthor(data);
 
   return (
     <main className="relative flex flex-col w-full font-roobert overflow-x-hidden bg-[#050505] text-zinc-900 selection:bg-[#CCFF00] selection:text-black">
@@ -88,12 +92,16 @@ export default function DynamicPageClient({ data, dataSource }) {
               <ArrowLeft className="w-4 h-4 mr-3" /> Return to Journal
             </Link>
           )}
-          <div className="flex items-center justify-center gap-4 text-[10px] font-mono tracking-[0.2em] uppercase mb-8">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-[10px] font-mono tracking-[0.2em] uppercase mb-5">
             <span className="bg-[#CCFF00] text-black px-4 py-1.5 rounded-full font-bold">
               {data.category || "Editorial"}
             </span>
-            <span className="text-zinc-500">{data.date || "Recent"}</span>
+            <span className="text-zinc-500">Uploaded <time dateTime={contentDateToIso(publishedDate)}>{formatContentDate(publishedDate)}</time></span>
+            <span className="text-zinc-500">Updated <time dateTime={contentDateToIso(updatedDate)}>{formatContentDate(updatedDate)}</time></span>
           </div>
+          <a href={author.url} target="_blank" rel="noopener noreferrer" className="mb-8 text-xs font-bold text-white underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-[#CCFF00]">
+            By {author.name}
+          </a>
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -134,7 +142,7 @@ export default function DynamicPageClient({ data, dataSource }) {
                         onClick={() => scrollToElement(item.id)}
                         className="text-left text-sm font-medium text-zinc-500 hover:text-black hover:translate-x-1 transition-all duration-300"
                       >
-                        {item.content}
+                        {String(item.content || "").replace(/<[^>]+>/g, "")}
                       </button>
                     </li>
                   ))}
@@ -203,11 +211,10 @@ export default function DynamicPageClient({ data, dataSource }) {
                     <h2
                       id={block.id}
                       key={block.id}
-                      className="font-alpha text-3xl md:text-4xl uppercase tracking-tighter text-zinc-900 mt-20 mb-6 scroll-mt-32"
+                      className="font-alpha text-3xl md:text-4xl uppercase tracking-tighter text-zinc-900 mt-20 mb-6 scroll-mt-32 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-4 [&_a]:underline-offset-4"
                       style={{ fontFamily: "var(--font-alpha)" }}
-                    >
-                      {block.content}
-                    </h2>
+                      dangerouslySetInnerHTML={{ __html: cleanCmsHtml(block.content) }}
+                    />
                   );
                 }
                 if (block.type === "h3" && block.content) {
@@ -215,10 +222,9 @@ export default function DynamicPageClient({ data, dataSource }) {
                     <h3
                       id={block.id}
                       key={block.id}
-                      className="text-xl md:text-2xl font-bold tracking-tight text-zinc-900 mt-12 mb-4 scroll-mt-32"
-                    >
-                      {block.content}
-                    </h3>
+                      className="text-xl md:text-2xl font-bold tracking-tight text-zinc-900 mt-12 mb-4 scroll-mt-32 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-2 [&_a]:underline-offset-4"
+                      dangerouslySetInnerHTML={{ __html: cleanCmsHtml(block.content) }}
+                    />
                   );
                 }
                 if (block.type === "paragraph" && block.content) {
@@ -305,6 +311,26 @@ export default function DynamicPageClient({ data, dataSource }) {
                         </details>
                       )
                   )}
+                </div>
+              </section>
+            )}
+
+            {childPosts.length > 0 && (
+              <section className="mt-24 border-t border-zinc-200 pt-16">
+                <div className="mb-10 flex items-end justify-between gap-6">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#7a9900]">Related guides</span>
+                    <h2 className="mt-3 font-alpha text-4xl uppercase tracking-tighter text-zinc-900" style={{ fontFamily: "var(--font-alpha)" }}>Read More</h2>
+                  </div>
+                </div>
+                <div className="grid gap-4">
+                  {childPosts.map((post) => (
+                    <Link key={post.id || post.slug} href={`/blog/${post.slug}`} className="group rounded-2xl border border-zinc-200 bg-zinc-50 p-6 transition-all hover:-translate-y-1 hover:border-[#CCFF00] hover:bg-white hover:shadow-lg">
+                      <h3 className="text-xl font-bold tracking-tight text-zinc-900 group-hover:text-[#7a9900]">{post.title}</h3>
+                      {post.description && <p className="mt-3 text-base font-light leading-relaxed text-zinc-600">{post.description}</p>}
+                      <span className="mt-5 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-900">Read article →</span>
+                    </Link>
+                  ))}
                 </div>
               </section>
             )}

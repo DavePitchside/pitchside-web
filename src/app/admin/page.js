@@ -4,12 +4,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench, ExternalLink } from "lucide-react";
-import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc, addDoc, serverTimestamp } from "firebase/firestore";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "@/lib/firebase"; 
 import PageBuilder from "./PageBuilder"; 
 import useLenis from "@/lib/useLenis";
 import { mergeToolContent, mergeToolsHubContent, tools, toolsHub } from "@/lib/tools";
+import { formatContentDate, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { isDefaultPageImage } from "@/lib/pageImages";
 
 // --- FIXED CORE PAGES ---
 const CORE_STATIC_PAGES = [
@@ -26,11 +28,11 @@ const CORE_STATIC_PAGES = [
 
 const getUploadedImages = (item) => {
   const images = [];
-  if (item.thumbnail) images.push(item.thumbnail);
-  if (item.primaryImage) images.push(item.primaryImage);
+  if (item.thumbnail && !isDefaultPageImage(item.thumbnail)) images.push(item.thumbnail);
+  if (item.primaryImage && !isDefaultPageImage(item.primaryImage)) images.push(item.primaryImage);
   const contentImage = item.contentBlocks?.find((block) => block.type === "image" && block.content)?.content;
-  if (contentImage) images.push(contentImage);
-  if (item.heroBackground && !/\.(mp4|webm|ogg)(?:[?#]|$)|video/i.test(item.heroBackground)) images.push(item.heroBackground);
+  if (contentImage && !isDefaultPageImage(contentImage)) images.push(contentImage);
+  if (item.heroBackground && !isDefaultPageImage(item.heroBackground) && !/\.(mp4|webm|ogg)(?:[?#]|$)|video/i.test(item.heroBackground)) images.push(item.heroBackground);
   return [...new Set(images)];
 };
 
@@ -124,7 +126,7 @@ export default function AdminDashboard() {
   }, [activeTab]);
 
   useEffect(() => {
-    if (view === "list" && user && activeTab !== "footer") {
+    if (view === "list" && user && !["footer", "authors"].includes(activeTab)) {
       fetchData();
     }
   }, [activeTab, fetchData, view, user]);
@@ -212,6 +214,7 @@ export default function AdminDashboard() {
     { id: "landing_pages", label: "SEO Landing Pages", icon: Target },
     { id: "posts", label: "Blog Engine", icon: FileText },
     { id: "tools", label: "Tools", icon: Wrench },
+    { id: "authors", label: "Authors", icon: Users },
     { id: "footer", label: "Global Footer", icon: LinkIcon },
     { id: "leads", label: "Contacts & Leads", icon: Users },
     { id: "deletions", label: "Data Deletions", icon: UserX },
@@ -261,6 +264,7 @@ export default function AdminDashboard() {
                 {activeTab === "core_pages" ? "Manage SEO metadata for your hardcoded system routes." : 
                  activeTab === "landing_pages" ? "Build & deploy dynamic competitor / SEO landing pages." :
                  activeTab === "tools" ? "Edit SEO, page copy, FAQs, and CTA content for fixed public tools." :
+                 activeTab === "authors" ? "Manage blog authors and their LinkedIn profiles." :
                  activeTab === "footer" ? "Manage external links and global footer presence." : 
                  activeTab === "deletions" ? "Process user account deletion requests." :
                  "Manage your platform data and incoming requests."}
@@ -278,6 +282,8 @@ export default function AdminDashboard() {
           <div className="flex-1 overflow-y-auto p-8 md:p-12 z-0">
             {activeTab === "footer" ? (
               <FooterManager />
+            ) : activeTab === "authors" ? (
+              <AuthorsManager />
             ) : (
             <div className="bg-[#0A0A0A] border border-white/10 rounded-[1.5rem] overflow-hidden shadow-2xl">
               {loading ? (
@@ -307,6 +313,7 @@ export default function AdminDashboard() {
                             <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Title</th>
                             <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">{activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "tools" ? "Route" : "Slug"}</th>
                             {(activeTab === "landing_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Image</th>}
+                            {(activeTab === "landing_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Uploaded / Updated</th>}
                             {(activeTab === "core_pages" || activeTab === "tools") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Status</th>}
                           </>
                         )}
@@ -347,6 +354,10 @@ export default function AdminDashboard() {
                             <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest ${hasUploadedImage(page) ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}`}>
                               {hasUploadedImage(page) ? "Uploaded" : "Missing"}
                             </span>
+                          </td>
+                          <td className="p-6 text-xs text-zinc-400">
+                            <div><span className="text-zinc-600">Uploaded:</span> {formatContentDate(getPublishedDate(page))}</div>
+                            <div className="mt-1"><span className="text-zinc-600">Updated:</span> {formatContentDate(getUpdatedDate(page))}</div>
                           </td>
                           <td className="p-6 text-right">
                             <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
@@ -441,6 +452,10 @@ export default function AdminDashboard() {
                                   </span>
                                 </div>
                               </td>
+                              <td className="p-6 text-xs text-zinc-400">
+                                <div><span className="text-zinc-600">Uploaded:</span> {formatContentDate(getPublishedDate(item))}</div>
+                                <div className="mt-1"><span className="text-zinc-600">Updated:</span> {formatContentDate(getUpdatedDate(item))}</div>
+                              </td>
                             </>
                           )}
                           <td className="p-6 text-right">
@@ -481,6 +496,79 @@ export default function AdminDashboard() {
           </div>
         </section>
       </main>
+    </div>
+  );
+}
+
+function AuthorsManager() {
+  const [authors, setAuthors] = useState([]);
+  const [name, setName] = useState("");
+  const [url, setUrl] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  const loadAuthors = useCallback(async () => {
+    setLoading(true);
+    try {
+      const snapshot = await getDocs(collection(db, "authors"));
+      setAuthors(snapshot.docs.map((authorDoc) => ({ id: authorDoc.id, ...authorDoc.data() })));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { loadAuthors(); }, [loadAuthors]);
+
+  const addAuthor = async (event) => {
+    event.preventDefault();
+    const trimmedName = name.trim();
+    const trimmedUrl = url.trim();
+    if (!trimmedName || !/^https:\/\/(?:[a-z]{2,3}\.)?linkedin\.com\//i.test(trimmedUrl)) {
+      window.alert("Enter an author name and a valid LinkedIn URL.");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await addDoc(collection(db, "authors"), { name: trimmedName, url: trimmedUrl, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+      setName("");
+      setUrl("");
+      await loadAuthors();
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const removeAuthor = async (author) => {
+    if (!window.confirm(`Delete ${author.name} from the author list? Existing posts will keep their saved author.`)) return;
+    await deleteDoc(doc(db, "authors", author.id));
+    setAuthors((current) => current.filter((item) => item.id !== author.id));
+  };
+
+  return (
+    <div className="mx-auto max-w-3xl space-y-8">
+      <form onSubmit={addAuthor} className="space-y-5 rounded-[1.5rem] border border-white/10 bg-[#0A0A0A] p-8 shadow-2xl">
+        <h2 className="text-xl font-black uppercase tracking-widest text-white">Add author</h2>
+        <div className="grid gap-4 md:grid-cols-2">
+          <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Author name" className="rounded-xl border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#CCFF00]" required />
+          <input type="url" value={url} onChange={(event) => setUrl(event.target.value)} placeholder="https://linkedin.com/in/..." className="rounded-xl border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#CCFF00]" required />
+        </div>
+        <button disabled={saving} className="rounded-xl bg-[#CCFF00] px-6 py-3 text-xs font-black uppercase tracking-widest text-black disabled:opacity-50">{saving ? "Adding..." : "Add author"}</button>
+      </form>
+
+      <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0A0A0A]">
+        {loading ? <div className="p-8 text-sm text-zinc-500">Loading authors...</div> : authors.length === 0 ? (
+          <div className="p-8 text-sm text-zinc-500">No managed authors yet. Abdullah Luqman remains the default author.</div>
+        ) : authors.map((author) => (
+          <div key={author.id} className="flex items-center justify-between gap-4 border-b border-white/5 p-6 last:border-b-0">
+            <div>
+              <div className="font-bold text-white">{author.name}</div>
+              <a href={author.url} target="_blank" rel="noopener noreferrer" className="mt-1 block text-xs text-[#CCFF00] hover:underline">{author.url}</a>
+            </div>
+            <button onClick={() => removeAuthor(author)} className="rounded-lg border border-red-500/20 p-2 text-red-400 hover:bg-red-500 hover:text-white" title="Delete author"><Trash2 className="h-4 w-4" /></button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,9 @@
 import React from 'react';
+import { contentDateToIso, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 
 export default function SchemaMarkup({ data, type = "WebPage", url }) {
   if (!data) return null;
+  const author = getContentAuthor(data);
 
   // 1. BASE SCHEMA: Defines the page type (Article vs Landing Page)
   const baseSchema = {
@@ -11,9 +13,9 @@ export default function SchemaMarkup({ data, type = "WebPage", url }) {
     "description": data.metaDescription || "Pitchside AI Platform",
     "image": data.primaryImage || data.heroBackground || "https://pitchside.ai/logo.png",
     "author": {
-      "@type": "Organization",
-      "name": "Pitchside AI",
-      "url": "https://pitchside.ai"
+      "@type": "Person",
+      "name": author.name,
+      "url": author.url
     },
     "publisher": {
       "@type": "Organization",
@@ -30,11 +32,10 @@ export default function SchemaMarkup({ data, type = "WebPage", url }) {
   };
 
   // Add date published if available (especially good for blogs)
-  if (data.date) {
-    baseSchema.datePublished = new Date(data.date).toISOString();
-  } else if (data.createdAt && data.createdAt.seconds) {
-    baseSchema.datePublished = new Date(data.createdAt.seconds * 1000).toISOString();
-  }
+  const publishedDate = contentDateToIso(getPublishedDate(data));
+  const updatedDate = contentDateToIso(getUpdatedDate(data));
+  if (publishedDate) baseSchema.datePublished = publishedDate;
+  if (updatedDate) baseSchema.dateModified = updatedDate;
 
   // 2. FAQ SCHEMA: Automatically generated if FAQs exist in the data
   const visibleFaqs = data.faqs?.filter((faq) => faq?.question) || [];

@@ -4,14 +4,113 @@
 import { useState, useRef, useEffect } from "react";
 import NextImage from "next/image";
 import { ArrowLeft, Save, Plus, Trash2, Lock, ShieldAlert, Heading2, Heading3, AlignLeft, List as ListIcon, ArrowUp, ArrowDown, Table as TableIcon, Code, FileText, Image as ImageIcon, Star, UploadCloud, FileJson, Video, Link2 } from "lucide-react";
-import { collection, addDoc, updateDoc, doc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc, serverTimestamp, getDocs } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase"; // Ensure storage is exported from your firebase.js config
 import { createImageThumbnailBlob } from "@/lib/imageThumbnails";
+import { canonicalInternalHref } from "@/lib/contentPolicy";
+import { CONTENT_AUTHOR, formatContentDate, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { tools, toolsHub } from "@/lib/tools";
 
 const cleanStorageFileName = (fileName) => fileName.replace(/[^a-zA-Z0-9.]/g, '');
 const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
 const defaultCtaBlock = { headline: "", description: "", buttonText: "", buttonUrl: "" };
+
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const escapeHtmlAttribute = (value) => value
+  .replaceAll("&", "&amp;")
+  .replaceAll('"', "&quot;")
+  .replaceAll("<", "&lt;")
+  .replaceAll(">", "&gt;");
+
+const normalizeInternalHref = (value) => {
+  if (typeof value !== "string") return null;
+
+  const href = value.trim();
+  if (!href) return null;
+
+  if (href.startsWith("/")) return canonicalInternalHref(href);
+
+  try {
+    const url = new URL(href);
+    if (!/^https?:$/i.test(url.protocol) || !["pitchside.ai", "www.pitchside.ai"].includes(url.hostname.toLowerCase())) return null;
+    return canonicalInternalHref(`${url.pathname}${url.search}${url.hash}`);
+  } catch {
+    return null;
+  }
+};
+
+const applyInternalLinksToImport = (data) => {
+  if (!Array.isArray(data.internalLinks) || data.internalLinks.length === 0) {
+    return { data, linksAdded: 0 };
+  }
+
+  const links = data.internalLinks
+    .map((link) => {
+      const text = typeof link?.text === "string" ? link.text.trim() : "";
+      const href = normalizeInternalHref(link?.url ?? link?.href);
+      const requestedMax = Number(link?.maxUses);
+      const maxUses = Number.isInteger(requestedMax) && requestedMax > 0 ? requestedMax : 1;
+      return text && href ? { text, href, maxUses, used: 0 } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.text.length - a.text.length);
+  const linkPattern = links.length
+    ? new RegExp(links.map((link) => escapeRegExp(link.text)).join("|"), "gi")
+    : null;
+
+  let linksAdded = 0;
+  const linkText = (value) => {
+    if (typeof value !== "string" || !value) return value;
+
+    // Keep existing anchors and HTML tags intact. Replacements only run in text nodes.
+    const parts = value.split(/(<a\b[^>]*>[\s\S]*?<\/a>|<[^>]+>)/gi);
+    return parts.map((part) => {
+      if (/^</.test(part)) return part;
+
+      if (!linkPattern) return part;
+      return part.replace(linkPattern, (match) => {
+        const link = links.find((candidate) => candidate.text.toLowerCase() === match.toLowerCase());
+        if (!link || link.used >= link.maxUses) return match;
+
+        link.used += 1;
+        linksAdded += 1;
+        return `<a href="${escapeHtmlAttribute(link.href)}">${match}</a>`;
+      });
+    }).join("");
+  };
+
+  const contentBlocks = Array.isArray(data.contentBlocks)
+    ? data.contentBlocks.map((block) => {
+        if (block?.type === "list") return { ...block, items: (block.items || []).map(linkText) };
+        if (block?.type === "table") {
+          return {
+            ...block,
+            rows: (block.rows || []).map((row) => ({ ...row, cells: (row.cells || []).map(linkText) })),
+          };
+        }
+        if (["paragraph", "h2", "h3"].includes(block?.type)) return { ...block, content: linkText(block.content) };
+        return block;
+      })
+    : data.contentBlocks;
+
+  return {
+    linksAdded,
+    data: {
+      ...data,
+      contentBlocks,
+      faqs: Array.isArray(data.faqs)
+        ? data.faqs.map((faq) => ({ ...faq, answer: linkText(faq?.answer) }))
+        : data.faqs,
+      aeoQuickAnswer: linkText(data.aeoQuickAnswer),
+      tldrPoints: Array.isArray(data.tldrPoints) ? data.tldrPoints.map(linkText) : data.tldrPoints,
+      intro: linkText(data.intro),
+      ctaBlock: data.ctaBlock
+        ? { ...data.ctaBlock, description: linkText(data.ctaBlock.description) }
+        : data.ctaBlock,
+    },
+  };
+};
 
 const getBlockKey = (block, index) => block.id || `${block.type || "block"}-${index}`;
 
@@ -116,10 +215,13 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   const [showJsonImport, setShowJsonImport] = useState(false);
   const [importString, setImportString] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const [parentOptions, setParentOptions] = useState([]);
+  const [authorOptions, setAuthorOptions] = useState([]);
   
   const fileInputRef = useRef(null);
   const isStaticCorePage = pageType === "core";
   const isToolPage = pageType === "tool";
+  const isArticlePage = pageType === "post" || pageType === "landing";
   const isSlugLocked = isStaticCorePage || isToolPage;
 
   // INITIALIZE STATE
@@ -131,6 +233,9 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     intro: initialData?.intro || "",
     badge: initialData?.badge || "",
     llmDescription: initialData?.llmDescription || "",
+    authorName: initialData?.authorName || CONTENT_AUTHOR.name,
+    authorUrl: initialData?.authorUrl || CONTENT_AUTHOR.url,
+    parentPage: initialData?.parentPage || null,
     thumbnail: initialData?.thumbnail || "",
     primaryImage: initialData?.primaryImage || "", 
     
@@ -155,6 +260,40 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   });
 
   const DRAFT_KEY = `pitchside_draft_${collectionName}`;
+
+  useEffect(() => {
+    if (pageType !== "post") return;
+
+    const loadBlogRelationships = async () => {
+      try {
+        const [pagesSnapshot, authorsSnapshot] = await Promise.all([
+          getDocs(collection(db, "pages")),
+          getDocs(collection(db, "authors")),
+        ]);
+        const reservedSlugs = new Set(["", "/", "home", "technology", "about", "blog", "contact", "account-deletion", "privacy", "terms", "cookies"]);
+        const landingPages = pagesSnapshot.docs
+          .map((pageDoc) => ({ id: pageDoc.id, ...pageDoc.data() }))
+          .filter((page) => page.slug && !reservedSlugs.has(page.slug))
+          .map((page) => ({ type: "landing", id: page.id, title: page.title || page.heroH1 || page.slug, url: `/${page.slug}` }));
+        const toolPages = [toolsHub, ...tools].map((tool) => ({
+          type: "tool",
+          id: tool.id || tool.slug,
+          title: tool.title,
+          url: tool.slug === "tools" ? "/tools" : `/tools/${tool.slug}`,
+        }));
+        const managedAuthors = authorsSnapshot.docs.map((authorDoc) => ({ id: authorDoc.id, ...authorDoc.data() }));
+
+        setParentOptions([...landingPages, ...toolPages]);
+        setAuthorOptions(managedAuthors.length ? managedAuthors : [CONTENT_AUTHOR]);
+      } catch (error) {
+        console.error("Unable to load blog relationships:", error);
+        setParentOptions([toolsHub, ...tools].map((tool) => ({ type: "tool", id: tool.id || tool.slug, title: tool.title, url: tool.slug === "tools" ? "/tools" : `/tools/${tool.slug}` })));
+        setAuthorOptions([CONTENT_AUTHOR]);
+      }
+    };
+
+    loadBlogRelationships();
+  }, [pageType]);
 
   // --- AUTO-SAVE & DRAFT RECOVERY ---
   useEffect(() => {
@@ -184,15 +323,19 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   const handleJsonImport = () => {
     try {
       const parsedData = JSON.parse(importString);
+      if (!parsedData || Array.isArray(parsedData) || typeof parsedData !== "object") {
+        throw new Error("The imported JSON must be an object.");
+      }
+      const { data: linkedData, linksAdded } = applyInternalLinksToImport(parsedData);
       setFormData(prev => ({
         ...prev,
-        ...parsedData,
-        contentBlocks: parsedData.contentBlocks ? normalizeContentBlocks(parsedData.contentBlocks) : prev.contentBlocks,
-        ctaBlock: { ...defaultCtaBlock, ...(prev.ctaBlock || {}), ...(parsedData.ctaBlock || {}) },
+        ...linkedData,
+        contentBlocks: linkedData.contentBlocks ? normalizeContentBlocks(linkedData.contentBlocks) : prev.contentBlocks,
+        ctaBlock: { ...defaultCtaBlock, ...(prev.ctaBlock || {}), ...(linkedData.ctaBlock || {}) },
       }));
       setImportString("");
       setShowJsonImport(false);
-      alert("JSON Imported Successfully!");
+      alert(`JSON imported successfully. ${linksAdded} internal link${linksAdded === 1 ? "" : "s"} added.`);
     } catch (e) {
       alert("Invalid JSON format. Please check your syntax.");
     }
@@ -395,6 +538,10 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     setStatus("saving");
     try {
       const cleanData = JSON.parse(JSON.stringify(formData));
+      if (isArticlePage) {
+        cleanData.authorName = formData.authorName || CONTENT_AUTHOR.name;
+        cleanData.authorUrl = formData.authorUrl || CONTENT_AUTHOR.url;
+      }
       if (isToolPage && cleanData.hero) {
         let previewData = cleanData.hero.previewData;
         if (previewData === undefined && typeof cleanData.hero.previewDataJson === "string") {
@@ -430,7 +577,13 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       }
       else if (initialData?.id && !isStaticCorePage) await updateDoc(doc(db, collectionName, initialData.id), { ...cleanData, updatedAt: serverTimestamp() });
       else if (isStaticCorePage) await updateDoc(doc(db, "pages", initialData.id), { ...cleanData, updatedAt: serverTimestamp() }).catch(async () => { const { setDoc } = await import("firebase/firestore"); await setDoc(doc(db, "pages", initialData.id), { ...cleanData, createdAt: serverTimestamp() }); });
-      else await addDoc(collection(db, collectionName), { ...cleanData, date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }), createdAt: serverTimestamp() });
+      else await addDoc(collection(db, collectionName), {
+        ...cleanData,
+        date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        publishedAt: serverTimestamp(),
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
       
       localStorage.removeItem(DRAFT_KEY);
       setStatus("success");
@@ -519,6 +672,63 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
 
         {!isStaticCorePage && (
           <>
+            {isArticlePage && (
+              <div className="grid gap-4 rounded-[1.5rem] border border-zinc-800 bg-zinc-900 p-6 shadow-xl md:grid-cols-3">
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500">Author</span>
+                  <a href={formData.authorUrl || CONTENT_AUTHOR.url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm font-bold text-[#CCFF00] hover:underline">
+                    {formData.authorName || CONTENT_AUTHOR.name}
+                  </a>
+                </div>
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500">Uploaded</span>
+                  <span className="mt-2 block text-sm font-bold text-white">{initialData ? formatContentDate(getPublishedDate(initialData)) : "Set automatically on publish"}</span>
+                </div>
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500">Last updated</span>
+                  <span className="mt-2 block text-sm font-bold text-white">{initialData ? formatContentDate(getUpdatedDate(initialData)) : "Set automatically on publish"}</span>
+                </div>
+              </div>
+            )}
+            {pageType === "post" && (
+              <div className="grid gap-5 rounded-[1.5rem] border border-[#CCFF00]/20 bg-zinc-900 p-6 shadow-xl md:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Blog author</label>
+                  <select
+                    value={`${formData.authorName}|${formData.authorUrl}`}
+                    onChange={(event) => {
+                      const selected = authorOptions.find((author) => `${author.name}|${author.url}` === event.target.value);
+                      if (selected) setFormData({ ...formData, authorName: selected.name, authorUrl: selected.url });
+                    }}
+                    className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
+                  >
+                    {!authorOptions.some((author) => author.name === formData.authorName && author.url === formData.authorUrl) && (
+                      <option value={`${formData.authorName}|${formData.authorUrl}`}>{formData.authorName}</option>
+                    )}
+                    {authorOptions.map((author) => <option key={author.id || author.url} value={`${author.name}|${author.url}`}>{author.name}</option>)}
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Parent landing page or tool</label>
+                  <select
+                    value={formData.parentPage?.url || ""}
+                    onChange={(event) => {
+                      const selected = parentOptions.find((option) => option.url === event.target.value) || null;
+                      setFormData({ ...formData, parentPage: selected });
+                    }}
+                    className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
+                  >
+                    <option value="">No parent page</option>
+                    <optgroup label="SEO landing pages">
+                      {parentOptions.filter((option) => option.type === "landing").map((option) => <option key={option.url} value={option.url}>{option.title}</option>)}
+                    </optgroup>
+                    <optgroup label="Tools">
+                      {parentOptions.filter((option) => option.type === "tool").map((option) => <option key={option.url} value={option.url}>{option.title}</option>)}
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+            )}
             {/* 2. Hero & AEO */}
             <div className="bg-zinc-900 p-6 rounded-[1.5rem] border border-zinc-800 space-y-6 shadow-xl">
               <div className="flex items-center justify-between border-b border-zinc-800 pb-4">

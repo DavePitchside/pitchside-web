@@ -3,6 +3,7 @@ import { cache } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { canonicalInternalHref, canonicalizeInternalLinks, isIndexableContent } from "@/lib/contentPolicy";
+import { contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 
 export const dynamic = "force-dynamic";
 import Link from "next/link";
@@ -32,6 +33,9 @@ export async function generateMetadata({ params }) {
 
   const image = getPostImage(post) || `${SITE_URL}/og-image.png`;
   const title = post.metaTitle || post.heroH1 || post.title;
+  const publishedTime = contentDateToIso(getPublishedDate(post));
+  const modifiedTime = contentDateToIso(getUpdatedDate(post));
+  const author = getContentAuthor(post);
 
   return {
     title,
@@ -43,6 +47,9 @@ export async function generateMetadata({ params }) {
       url: `${SITE_URL}/blog/${slug}`,
       siteName: "Pitchside AI",
       type: "article",
+      publishedTime,
+      modifiedTime,
+      authors: [author.name],
       images: [{ url: image, width: 1200, height: 630, alt: title }],
     },
     twitter: {
@@ -61,6 +68,11 @@ export default async function BlogPost({ params }) {
   if (!post) notFound();
 
   const displayImage = getPostImage(post);
+  const publishedDate = getPublishedDate(post);
+  const updatedDate = getUpdatedDate(post);
+  const publishedIso = contentDateToIso(publishedDate);
+  const updatedIso = contentDateToIso(updatedDate);
+  const author = getContentAuthor(post);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -68,13 +80,21 @@ export default async function BlogPost({ params }) {
     headline: post.heroH1 || post.title,
     description: post.metaDescription || "",
     image: displayImage || `${SITE_URL}/og-image.png`,
-    author: { "@type": "Organization", name: "Pitchside AI", url: SITE_URL },
+    author: { "@type": "Person", name: author.name, url: author.url },
     publisher: {
       "@type": "Organization",
       name: "Pitchside AI",
       logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` },
     },
-    ...(post.date && { datePublished: new Date(post.date).toISOString() }),
+    ...(publishedIso && { datePublished: publishedIso }),
+    ...(updatedIso && { dateModified: updatedIso }),
+    ...(post.parentPage?.url && {
+      isPartOf: {
+        "@type": "WebPage",
+        name: post.parentPage.title,
+        url: `${SITE_URL}${post.parentPage.url}`,
+      },
+    }),
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/blog/${slug}` },
   };
 
@@ -124,7 +144,18 @@ export default async function BlogPost({ params }) {
           </Link>
 
           <header className="mb-12">
-            <p className="text-sm font-bold font-mono text-zinc-500 mb-4">{post.date || "Recent"}</p>
+            <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold text-zinc-500">
+              <span>By <a href={author.url} target="_blank" rel="noopener noreferrer" className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-zinc-600">{author.name}</a></span>
+              <span aria-hidden="true">•</span>
+              <span>Uploaded <time dateTime={publishedIso}>{formatContentDate(publishedDate)}</time></span>
+              <span aria-hidden="true">•</span>
+              <span>Updated <time dateTime={updatedIso}>{formatContentDate(updatedDate)}</time></span>
+            </div>
+            {post.parentPage?.url && (
+              <p className="mb-5 text-sm font-bold text-zinc-500">
+                Read <Link href={post.parentPage.url} className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4">{post.parentPage.title}</Link>
+              </p>
+            )}
             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9] mb-8">
               {post.heroH1 || post.title}
             </h1>
@@ -191,20 +222,18 @@ export default async function BlogPost({ params }) {
                 return (
                   <h2
                     key={block.id}
-                    className="text-3xl font-black uppercase tracking-tighter text-zinc-950 mt-16 mb-6"
-                  >
-                    {block.content}
-                  </h2>
+                    className="text-3xl font-black uppercase tracking-tighter text-zinc-950 mt-16 mb-6 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-4 [&_a]:underline-offset-4"
+                    dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(block.content) }}
+                  />
                 );
               }
               if (block.type === "h3" && block.content) {
                 return (
                   <h3
                     key={block.id}
-                    className="text-2xl font-bold tracking-tight text-zinc-900 mt-8 mb-4"
-                  >
-                    {block.content}
-                  </h3>
+                    className="text-2xl font-bold tracking-tight text-zinc-900 mt-8 mb-4 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-2 [&_a]:underline-offset-4"
+                    dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(block.content) }}
+                  />
                 );
               }
               if (block.type === "paragraph" && block.content) {

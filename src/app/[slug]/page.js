@@ -12,11 +12,10 @@ const SITE_URL = "https://pitchside.ai";
 function serializeData(data) {
   if (!data) return data;
   const result = { ...data };
-  if (result.createdAt?.seconds !== undefined) {
-    result.createdAt = new Date(result.createdAt.seconds * 1000).toISOString();
-  }
-  if (result.updatedAt?.seconds !== undefined) {
-    result.updatedAt = new Date(result.updatedAt.seconds * 1000).toISOString();
+  for (const field of ["publishedAt", "createdAt", "updatedAt"]) {
+    if (result[field]?.seconds !== undefined) {
+      result[field] = new Date(result[field].seconds * 1000).toISOString();
+    }
   }
   return result;
 }
@@ -33,6 +32,21 @@ const getPageData = cache(async (slug) => {
     return serializeData({ ...postsSnap.docs[0].data(), _dataSource: "posts" });
   }
   return null;
+});
+
+const getChildPosts = cache(async (parentUrl) => {
+  const childQuery = query(collection(db, "posts"), where("parentPage.url", "==", parentUrl));
+  const snapshot = await getDocs(childQuery);
+
+  return snapshot.docs
+    .map((postDoc) => ({ id: postDoc.id, ...postDoc.data() }))
+    .filter(isIndexableContent)
+    .map((post) => ({
+      id: post.id,
+      slug: post.slug,
+      title: post.heroH1 || post.title,
+      description: post.metaDescription || post.intro || "",
+    }));
 });
 
 export async function generateMetadata({ params }) {
@@ -75,11 +89,12 @@ export default async function DynamicPage({ params }) {
   if (data._dataSource === "posts") permanentRedirect(`/blog/${slug}`);
 
   const { _dataSource: dataSource, ...pageData } = data;
+  const childPosts = dataSource === "pages" ? await getChildPosts(`/${slug}`) : [];
 
   return (
     <>
       <SchemaMarkup data={pageData} type={dataSource === "posts" ? "BlogPosting" : "WebPage"} url={`/${slug}`} />
-      <DynamicPageClient data={pageData} dataSource={dataSource} />
+      <DynamicPageClient data={pageData} dataSource={dataSource} childPosts={childPosts} />
     </>
   );
 }
