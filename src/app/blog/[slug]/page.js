@@ -4,6 +4,8 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { canonicalInternalHref, canonicalizeInternalLinks, isIndexableContent } from "@/lib/contentPolicy";
 import { contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { getMoreToRead } from "@/lib/recommendations";
+import MoreToRead from "@/components/MoreToRead";
 
 export const dynamic = "force-dynamic";
 import Link from "next/link";
@@ -73,6 +75,7 @@ export default async function BlogPost({ params }) {
   const publishedIso = contentDateToIso(publishedDate);
   const updatedIso = contentDateToIso(updatedDate);
   const author = getContentAuthor(post);
+  const moreToRead = await getMoreToRead(post, `/blog/${slug}`);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -332,6 +335,7 @@ export default async function BlogPost({ params }) {
               </div>
             </section>
           )}
+          <MoreToRead items={moreToRead} />
         </article>
       </main>
     </>

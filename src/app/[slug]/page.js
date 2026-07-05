@@ -5,6 +5,7 @@ import { db } from "@/lib/firebase";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import DynamicPageClient from "./DynamicPageClient";
 import { DELETED_SLUGS, isIndexableContent } from "@/lib/contentPolicy";
+import { getMoreToRead } from "@/lib/recommendations";
 
 export const dynamic = "force-dynamic";
 
@@ -90,11 +91,12 @@ export default async function DynamicPage({ params }) {
 
   const { _dataSource: dataSource, ...pageData } = data;
   const childPosts = dataSource === "pages" ? await getChildPosts(`/${slug}`) : [];
+  const moreToRead = await getMoreToRead(pageData, `/${slug}`);
 
   return (
     <>
       <SchemaMarkup data={pageData} type={dataSource === "posts" ? "BlogPosting" : "WebPage"} url={`/${slug}`} />
-      <DynamicPageClient data={pageData} dataSource={dataSource} childPosts={childPosts} />
+      <DynamicPageClient data={pageData} dataSource={dataSource} childPosts={childPosts} moreToRead={moreToRead} />
     </>
   );
 }

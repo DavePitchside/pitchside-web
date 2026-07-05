@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import useLenis from "@/lib/useLenis";
 import { contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import MoreToRead from "@/components/MoreToRead";
 
 const customEase = [0.16, 1, 0.3, 1];
 
@@ -34,7 +35,7 @@ const cleanCmsHtml = (html = "") => String(html).replace(
   (_match, quote, href) => `href=${quote}${cleanInternalHref(href)}${quote}`,
 );
 
-export default function DynamicPageClient({ data, dataSource, childPosts = [] }) {
+export default function DynamicPageClient({ data, dataSource, childPosts = [], moreToRead = [] }) {
   const lenisRef = useLenis();
 
   const { scrollYProgress, scrollY } = useScroll();
@@ -129,24 +130,24 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [] })
         <div className="absolute top-6 left-1/2 -translate-x-1/2 w-16 h-1.5 bg-zinc-200 rounded-full" />
         <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24 relative mt-8">
 
-          {tocItems.length > 0 && (
+          {(tocItems.length > 0 || moreToRead.length > 0) && (
             <aside className="hidden lg:block w-[280px] flex-shrink-0">
               <div className="sticky top-32">
-                <span className="block text-[10px] font-mono uppercase tracking-[0.2em] text-[#CCFF00] mb-6 border-b border-zinc-200 pb-4">
-                  Contents
-                </span>
-                <ul className="space-y-4">
-                  {tocItems.map((item, idx) => (
-                    <li key={idx} className={item.type === "h3" ? "ml-4" : ""}>
-                      <button
-                        onClick={() => scrollToElement(item.id)}
-                        className="text-left text-sm font-medium text-zinc-500 hover:text-black hover:translate-x-1 transition-all duration-300"
-                      >
-                        {String(item.content || "").replace(/<[^>]+>/g, "")}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                {tocItems.length > 0 && (
+                  <>
+                    <span className="block text-[10px] font-mono uppercase tracking-[0.2em] text-[#CCFF00] mb-6 border-b border-zinc-200 pb-4">Contents</span>
+                    <ul className="space-y-4">
+                      {tocItems.map((item, idx) => (
+                        <li key={idx} className={item.type === "h3" ? "ml-4" : ""}>
+                          <button onClick={() => scrollToElement(item.id)} className="text-left text-sm font-medium text-zinc-500 hover:text-black hover:translate-x-1 transition-all duration-300">
+                            {String(item.content || "").replace(/<[^>]+>/g, "")}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                <MoreToRead items={moreToRead} compact />
               </div>
             </aside>
           )}

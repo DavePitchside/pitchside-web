@@ -252,6 +252,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   const [isUploading, setIsUploading] = useState(false);
   const [parentOptions, setParentOptions] = useState([]);
   const [authorOptions, setAuthorOptions] = useState([]);
+  const [recommendationOptions, setRecommendationOptions] = useState([]);
   
   const isStaticCorePage = pageType === "core";
   const isToolPage = pageType === "tool";
@@ -270,6 +271,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     authorName: initialData?.authorName || CONTENT_AUTHOR.name,
     authorUrl: initialData?.authorUrl || CONTENT_AUTHOR.url,
     parentPage: initialData?.parentPage || null,
+    moreToRead: initialData?.moreToRead || [],
     thumbnail: initialData?.thumbnail || "",
     primaryImage: initialData?.primaryImage || "", 
     
@@ -296,10 +298,20 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   const DRAFT_KEY = `pitchside_draft_${collectionName}`;
 
   useEffect(() => {
-    if (pageType !== "post") return;
+    if (!isArticlePage) return;
 
     const loadBlogRelationships = async () => {
       try {
+        const postsSnapshot = await getDocs(collection(db, "posts"));
+        const blogOptions = postsSnapshot.docs
+          .map((postDoc) => ({ id: postDoc.id, ...postDoc.data() }))
+          .filter((post) => post.slug && post.slug !== formData.slug)
+          .map((post) => ({ type: "blog", id: post.id, title: post.heroH1 || post.title || post.slug, url: `/blog/${post.slug}`, description: post.metaDescription || post.intro || "" }));
+        const toolRecommendations = tools.map((tool) => ({ type: "tool", id: tool.id || tool.slug, title: tool.title, url: `/tools/${tool.slug}`, description: tool.metaDescription || tool.description || "" }));
+        setRecommendationOptions([...blogOptions, ...toolRecommendations]);
+
+        if (pageType !== "post") return;
+
         const pagesSnapshot = await getDocs(collection(db, "pages"));
         const reservedSlugs = new Set(["", "/", "home", "technology", "about", "blog", "contact", "account-deletion", "privacy", "terms", "cookies"]);
         const landingPages = pagesSnapshot.docs
@@ -326,11 +338,12 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         console.error("Unable to load blog relationships:", error);
         setParentOptions([toolsHub, ...tools].map((tool) => ({ type: "tool", id: tool.id || tool.slug, title: tool.title, url: tool.slug === "tools" ? "/tools" : `/tools/${tool.slug}` })));
         setAuthorOptions([CONTENT_AUTHOR]);
+        setRecommendationOptions(tools.map((tool) => ({ type: "tool", id: tool.id || tool.slug, title: tool.title, url: `/tools/${tool.slug}`, description: tool.metaDescription || tool.description || "" })));
       }
     };
 
     loadBlogRelationships();
-  }, [pageType]);
+  }, [formData.slug, isArticlePage, pageType]);
 
   // --- AUTO-SAVE & DRAFT RECOVERY ---
   useEffect(() => {
@@ -917,6 +930,88 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
             </div>
 
             {/* 4. FAQs & CTA */}
+            <div className="rounded-[1.5rem] border border-zinc-800 bg-zinc-900 p-6 shadow-xl">
+              <div className="mb-5 flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-[#CCFF00]">More to read</h2>
+                  <p className="mt-2 text-xs text-zinc-500">Select up to four articles or tools. Leave everything unchecked to show automatic suggestions.</p>
+                </div>
+                <span className="text-xs font-bold text-zinc-500">{formData.moreToRead.length}/4</span>
+              </div>
+              {formData.moreToRead.length > 0 && (
+                <div className="mb-6 space-y-3 rounded-2xl border border-[#CCFF00]/20 bg-black/30 p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Selected links — title and URL are editable</p>
+                  {formData.moreToRead.map((item, index) => (
+                    <div key={`${index}:${item.url}`} className="grid gap-2 rounded-xl border border-zinc-800 bg-zinc-950 p-3 md:grid-cols-[120px_1fr_1fr_auto]">
+                      <select
+                        value={item.type || "blog"}
+                        onChange={(event) => setFormData((current) => ({ ...current, moreToRead: current.moreToRead.map((entry, entryIndex) => entryIndex === index ? { ...entry, type: event.target.value } : entry) }))}
+                        className="rounded-lg border border-zinc-800 bg-black p-2 text-xs text-white outline-none focus:border-[#CCFF00]"
+                      >
+                        <option value="blog">Article</option>
+                        <option value="tool">Tool</option>
+                      </select>
+                      <input
+                        type="text"
+                        value={item.title || ""}
+                        placeholder="Link title"
+                        onChange={(event) => setFormData((current) => ({ ...current, moreToRead: current.moreToRead.map((entry, entryIndex) => entryIndex === index ? { ...entry, title: event.target.value } : entry) }))}
+                        className="rounded-lg border border-zinc-800 bg-black p-2 text-sm text-white outline-none focus:border-[#CCFF00]"
+                      />
+                      <input
+                        type="text"
+                        value={item.url || ""}
+                        placeholder="/blog/article-slug"
+                        onChange={(event) => setFormData((current) => ({ ...current, moreToRead: current.moreToRead.map((entry, entryIndex) => entryIndex === index ? { ...entry, url: event.target.value } : entry) }))}
+                        className="rounded-lg border border-zinc-800 bg-black p-2 font-mono text-xs text-white outline-none focus:border-[#CCFF00]"
+                      />
+                      <button type="button" onClick={() => setFormData((current) => ({ ...current, moreToRead: current.moreToRead.filter((_, entryIndex) => entryIndex !== index) }))} className="rounded-lg p-2 text-red-400 hover:bg-red-500 hover:text-white" title="Remove link">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Choose existing content</p>
+                <button
+                  type="button"
+                  disabled={formData.moreToRead.length >= 4}
+                  onClick={() => setFormData((current) => ({ ...current, moreToRead: [...current.moreToRead, { type: "blog", title: "", url: "", description: "" }] }))}
+                  className="rounded-lg border border-[#CCFF00]/30 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-[#CCFF00] hover:bg-[#CCFF00] hover:text-black disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  + Custom link
+                </button>
+              </div>
+              <div className="grid max-h-72 gap-2 overflow-y-auto pr-2 md:grid-cols-2">
+                {recommendationOptions.map((option) => {
+                  const selected = formData.moreToRead.some((item) => item.url === option.url);
+                  const disabled = !selected && formData.moreToRead.length >= 4;
+                  return (
+                    <label key={`${option.type}:${option.url}`} className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${selected ? "border-[#CCFF00]/50 bg-[#CCFF00]/10" : "border-zinc-800 bg-zinc-950"} ${disabled ? "cursor-not-allowed opacity-40" : "hover:border-zinc-600"}`}>
+                      <input
+                        type="checkbox"
+                        checked={selected}
+                        disabled={disabled}
+                        onChange={() => setFormData((current) => ({
+                          ...current,
+                          moreToRead: selected
+                            ? current.moreToRead.filter((item) => item.url !== option.url)
+                            : [...current.moreToRead, option],
+                        }))}
+                        className="mt-1 accent-[#CCFF00]"
+                      />
+                      <span>
+                        <span className="block text-[9px] font-bold uppercase tracking-widest text-[#CCFF00]">{option.type}</span>
+                        <span className="mt-1 block text-sm font-bold leading-snug text-white">{option.title}</span>
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 5. FAQs & CTA */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-8 border-t border-zinc-900">
               <div className="bg-zinc-900 p-6 rounded-[1.5rem] border border-zinc-800 space-y-4 shadow-xl">
                 <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest text-xs mb-4">4. FAQs (Schema Ready)</h2>
