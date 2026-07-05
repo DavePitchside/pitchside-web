@@ -506,12 +506,19 @@ function AuthorsManager() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   const loadAuthors = useCallback(async () => {
     setLoading(true);
+    setError("");
     try {
       const snapshot = await getDocs(collection(db, "authors"));
       setAuthors(snapshot.docs.map((authorDoc) => ({ id: authorDoc.id, ...authorDoc.data() })));
+    } catch (loadError) {
+      console.error("Unable to load authors:", loadError);
+      setError(loadError?.code === "permission-denied"
+        ? "Firestore denied access to the authors collection. Add authenticated read/write access for /authors/{authorId} in your Firestore rules."
+        : loadError?.message || "Unable to load authors.");
     } finally {
       setLoading(false);
     }
@@ -523,17 +530,30 @@ function AuthorsManager() {
     event.preventDefault();
     const trimmedName = name.trim();
     const trimmedUrl = url.trim();
-    if (!trimmedName || !/^https:\/\/(?:[a-z]{2,3}\.)?linkedin\.com\//i.test(trimmedUrl)) {
+    let linkedInUrl;
+    try {
+      linkedInUrl = new URL(trimmedUrl);
+    } catch {
+      linkedInUrl = null;
+    }
+    if (!trimmedName || linkedInUrl?.protocol !== "https:" || !/(^|\.)linkedin\.com$/i.test(linkedInUrl.hostname)) {
       window.alert("Enter an author name and a valid LinkedIn URL.");
       return;
     }
 
     setSaving(true);
+    setError("");
     try {
-      await addDoc(collection(db, "authors"), { name: trimmedName, url: trimmedUrl, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+      const author = { name: trimmedName, url: linkedInUrl.toString(), createdAt: serverTimestamp(), updatedAt: serverTimestamp() };
+      await addDoc(collection(db, "authors"), author);
       setName("");
       setUrl("");
       await loadAuthors();
+    } catch (saveError) {
+      console.error("Unable to add author:", saveError);
+      setError(saveError?.code === "permission-denied"
+        ? "Firestore denied this save. Add authenticated read/write access for /authors/{authorId} in your Firestore rules."
+        : saveError?.message || "Unable to add the author.");
     } finally {
       setSaving(false);
     }
@@ -554,6 +574,7 @@ function AuthorsManager() {
           <input type="url" value={url} onChange={(event) => setUrl(event.target.value)} placeholder="https://linkedin.com/in/..." className="rounded-xl border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#CCFF00]" required />
         </div>
         <button disabled={saving} className="rounded-xl bg-[#CCFF00] px-6 py-3 text-xs font-black uppercase tracking-widest text-black disabled:opacity-50">{saving ? "Adding..." : "Add author"}</button>
+        {error && <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">{error}</p>}
       </form>
 
       <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0A0A0A]">

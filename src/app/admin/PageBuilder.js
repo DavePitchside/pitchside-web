@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import NextImage from "next/image";
-import { ArrowLeft, Save, Plus, Trash2, Lock, ShieldAlert, Heading2, Heading3, AlignLeft, List as ListIcon, ArrowUp, ArrowDown, Table as TableIcon, Code, FileText, Image as ImageIcon, Star, UploadCloud, FileJson, Video, Link2 } from "lucide-react";
+import { ArrowLeft, Save, Plus, Trash2, Lock, ShieldAlert, Heading2, Heading3, AlignLeft, List as ListIcon, ArrowUp, ArrowDown, Table as TableIcon, Image as ImageIcon, Star, UploadCloud, FileJson, Video, Link2 } from "lucide-react";
 import { collection, addDoc, updateDoc, doc, serverTimestamp, getDocs } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase"; // Ensure storage is exported from your firebase.js config
@@ -47,7 +47,8 @@ const applyInternalLinksToImport = (data) => {
 
   const links = data.internalLinks
     .map((link) => {
-      const text = typeof link?.text === "string" ? link.text.trim() : "";
+      const linkLabel = link?.text ?? link?.anchor;
+      const text = typeof linkLabel === "string" ? linkLabel.trim() : "";
       const href = normalizeInternalHref(link?.url ?? link?.href);
       const requestedMax = Number(link?.maxUses);
       const maxUses = Number.isInteger(requestedMax) && requestedMax > 0 ? requestedMax : 1;
@@ -82,6 +83,9 @@ const applyInternalLinksToImport = (data) => {
 
   const contentBlocks = Array.isArray(data.contentBlocks)
     ? data.contentBlocks.map((block) => {
+        if (block?.type === "section") {
+          return { ...block, heading: linkText(block.heading), body: linkText(block.body) };
+        }
         if (block?.type === "list") return { ...block, items: (block.items || []).map(linkText) };
         if (block?.type === "table") {
           return {
@@ -173,21 +177,53 @@ function LinkableTextarea({ value, onChange, rows = 4 }) {
 const normalizeContentBlocks = (blocks = []) => {
   const seenIds = new Set();
 
-  return blocks.map((block, index) => {
-    const fallbackId = `${block.type || "block"}-${index}`;
-    const baseId = block.id || fallbackId;
-    const id = seenIds.has(baseId) ? `${baseId}-${index}` : baseId;
+  const uniqueId = (requestedId, fallbackId) => {
+    const baseId = requestedId || fallbackId;
+    let id = baseId;
+    let suffix = 1;
+    while (seenIds.has(id)) {
+      id = `${baseId}-${suffix}`;
+      suffix += 1;
+    }
     seenIds.add(id);
+    return id;
+  };
+
+  return blocks.flatMap((block, index) => {
+    if (!block || typeof block !== "object") return [];
+
+    // Accept the concise AI/content-writer schema as well as native editor blocks.
+    if (block.type === "section") {
+      const sectionBlocks = [];
+      if (typeof block.heading === "string" && block.heading.trim()) {
+        sectionBlocks.push({
+          id: uniqueId(block.id, `section-${index}-heading`),
+          type: "h2",
+          content: block.heading.trim(),
+        });
+      }
+      if (typeof block.body === "string" && block.body.trim()) {
+        sectionBlocks.push({
+          id: uniqueId(null, `section-${index}-body`),
+          type: "paragraph",
+          content: block.body.trim(),
+        });
+      }
+      return sectionBlocks;
+    }
+
+    const fallbackId = `${block.type || "block"}-${index}`;
+    const id = uniqueId(block.id, fallbackId);
 
     if (block.type === "list") {
-      return { ...block, id, items: block.items || [] };
+      return [{ ...block, id, items: block.items || [] }];
     }
 
     if (block.type === "table") {
-      return { ...block, id, headers: block.headers || [], rows: block.rows || [] };
+      return [{ ...block, id, headers: block.headers || [], rows: block.rows || [] }];
     }
 
-    return { ...block, id, content: block.content || "" };
+    return [{ ...block, id, content: block.content || "" }];
   });
 };
 
@@ -211,14 +247,12 @@ const uploadThumbnailForImage = async (file, baseFolder, cleanFileName) => {
 
 export default function PageBuilder({ initialData, collectionName, pageType, onBack }) {
   const [status, setStatus] = useState("idle");
-  const [showHtmlImport, setShowHtmlImport] = useState(false);
   const [showJsonImport, setShowJsonImport] = useState(false);
   const [importString, setImportString] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [parentOptions, setParentOptions] = useState([]);
   const [authorOptions, setAuthorOptions] = useState([]);
   
-  const fileInputRef = useRef(null);
   const isStaticCorePage = pageType === "core";
   const isToolPage = pageType === "tool";
   const isArticlePage = pageType === "post" || pageType === "landing";
@@ -266,10 +300,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
 
     const loadBlogRelationships = async () => {
       try {
-        const [pagesSnapshot, authorsSnapshot] = await Promise.all([
-          getDocs(collection(db, "pages")),
-          getDocs(collection(db, "authors")),
-        ]);
+        const pagesSnapshot = await getDocs(collection(db, "pages"));
         const reservedSlugs = new Set(["", "/", "home", "technology", "about", "blog", "contact", "account-deletion", "privacy", "terms", "cookies"]);
         const landingPages = pagesSnapshot.docs
           .map((pageDoc) => ({ id: pageDoc.id, ...pageDoc.data() }))
@@ -281,10 +312,16 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
           title: tool.title,
           url: tool.slug === "tools" ? "/tools" : `/tools/${tool.slug}`,
         }));
-        const managedAuthors = authorsSnapshot.docs.map((authorDoc) => ({ id: authorDoc.id, ...authorDoc.data() }));
-
         setParentOptions([...landingPages, ...toolPages]);
-        setAuthorOptions(managedAuthors.length ? managedAuthors : [CONTENT_AUTHOR]);
+
+        try {
+          const authorsSnapshot = await getDocs(collection(db, "authors"));
+          const managedAuthors = authorsSnapshot.docs.map((authorDoc) => ({ id: authorDoc.id, ...authorDoc.data() }));
+          setAuthorOptions(managedAuthors.length ? managedAuthors : [CONTENT_AUTHOR]);
+        } catch (error) {
+          console.error("Unable to load managed authors:", error);
+          setAuthorOptions([CONTENT_AUTHOR]);
+        }
       } catch (error) {
         console.error("Unable to load blog relationships:", error);
         setParentOptions([toolsHub, ...tools].map((tool) => ({ type: "tool", id: tool.id || tool.slug, title: tool.title, url: tool.slug === "tools" ? "/tools" : `/tools/${tool.slug}` })));
@@ -341,77 +378,6 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     }
   };
 
-
-  // --- HTML / DOCX ENGINE ---
-  const processHtmlToBlocks = (rawHtml) => {
-    try {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(rawHtml, 'text/html');
-      
-      const newMetaTitle = doc.querySelector('title')?.innerText || null;
-      const newMetaDesc = doc.querySelector('meta[name="description"]')?.content || null;
-      const newH1 = doc.querySelector('h1')?.innerText || null;
-
-      const newBlocks = [];
-      const elements = doc.body.querySelectorAll('h2, h3, p, ul, table, img');
-      
-      elements.forEach((el, index) => {
-        const id = Date.now().toString() + index;
-        if (el.tagName === 'H2') newBlocks.push({ id, type: 'h2', content: el.innerText.replace(/Section \d+/g, '').trim() });
-        else if (el.tagName === 'H3') newBlocks.push({ id, type: 'h3', content: el.innerText.trim() });
-        else if (el.tagName === 'P') { if (el.innerText.trim()) newBlocks.push({ id, type: 'paragraph', content: el.innerHTML.trim() }); }
-        else if (el.tagName === 'UL') {
-          const items = Array.from(el.querySelectorAll('li')).map(li => li.innerHTML.trim());
-          if (items.length > 0) newBlocks.push({ id, type: 'list', items });
-        }
-        else if (el.tagName === 'IMG') { if (el.src) newBlocks.push({ id, type: 'image', content: el.src }); }
-        else if (el.tagName === 'TABLE') {
-          const headers = Array.from(el.querySelectorAll('th')).map(th => th.innerText.trim());
-          const rows = Array.from(el.querySelectorAll('tbody tr')).map(tr => ({ cells: Array.from(tr.querySelectorAll('td')).map(td => td.innerText.trim()) }));
-          if (headers.length > 0 || rows.length > 0) newBlocks.push({ id, type: 'table', headers: headers.length > 0 ? headers : ["Col 1", "Col 2"], rows: rows });
-        }
-      });
-
-      setFormData(prev => ({
-        ...prev,
-        metaTitle: newMetaTitle || prev.metaTitle,
-        metaDescription: newMetaDesc || prev.metaDescription,
-        heroH1: newH1 || prev.heroH1,
-        contentBlocks: [...prev.contentBlocks, ...newBlocks]
-      }));
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const handleHtmlImport = () => {
-    if (processHtmlToBlocks(importString)) {
-      setImportString(""); setShowHtmlImport(false); alert("HTML Parsed Successfully!");
-    } else alert("Failed to parse HTML.");
-  };
-
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setStatus("saving"); 
-    try {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const arrayBuffer = event.target.result;
-        const mammoth = await import("mammoth/mammoth.browser");
-        const htmlResult = await mammoth.convertToHtml({ arrayBuffer });
-        if (processHtmlToBlocks(htmlResult.value)) alert(".DOCX Parsed Successfully!");
-        else alert("Failed to parse .DOCX file.");
-        setStatus("idle");
-      };
-      reader.readAsArrayBuffer(file);
-    } catch (err) {
-      alert("Error reading file.");
-      setStatus("idle");
-    }
-    e.target.value = null;
-  };
 
   // --- FIREBASE UPLOAD: GENERAL MEDIA ---
   const handleBlockImageUpload = async (e, blockId) => {
@@ -610,8 +576,6 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
 
   return (
     <div className="w-full pb-32">
-      <input type="file" accept=".docx" className="hidden" ref={fileInputRef} onChange={handleFileUpload} />
-
       {/* TOP HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 border-b border-zinc-900 pb-8 gap-4">
         <div className="flex items-center gap-4">
@@ -627,14 +591,8 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         <div className="flex flex-wrap gap-2">
           {!isStaticCorePage && (
             <>
-              <button type="button" onClick={() => { setShowJsonImport(true); setShowHtmlImport(false); setImportString(""); }} className="flex items-center gap-2 bg-purple-500/10 text-purple-400 border border-purple-500/30 px-4 py-3 font-bold uppercase tracking-widest text-xs hover:bg-purple-500 hover:text-white transition-all rounded-xl">
+              <button type="button" onClick={() => { setShowJsonImport(true); setImportString(""); }} className="flex items-center gap-2 bg-purple-500/10 text-purple-400 border border-purple-500/30 px-4 py-3 font-bold uppercase tracking-widest text-xs hover:bg-purple-500 hover:text-white transition-all rounded-xl">
                 <FileJson className="w-4 h-4" /> Import JSON
-              </button>
-              <button type="button" onClick={() => fileInputRef.current.click()} className="flex items-center gap-2 bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/30 px-4 py-3 font-bold uppercase tracking-widest text-xs hover:bg-[#CCFF00] hover:text-black transition-all rounded-xl">
-                <FileText className="w-4 h-4" /> Import .DOCX
-              </button>
-              <button type="button" onClick={() => { setShowHtmlImport(true); setShowJsonImport(false); setImportString(""); }} className="flex items-center gap-2 bg-zinc-900 text-white border border-zinc-700 px-4 py-3 font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all rounded-xl">
-                <Code className="w-4 h-4" /> Import HTML
               </button>
             </>
           )}
@@ -645,15 +603,13 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       </div>
 
       {/* IMPORT MODALS */}
-      {(showHtmlImport || showJsonImport) && (
-        <div className={`bg-${showHtmlImport ? 'blue' : 'purple'}-500/10 border border-${showHtmlImport ? 'blue' : 'purple'}-500/30 p-6 rounded-2xl mb-8 space-y-4`}>
-          <h2 className={`text-${showHtmlImport ? 'blue' : 'purple'}-400 font-bold uppercase tracking-widest text-xs`}>
-            {showHtmlImport ? 'HTML Auto-Converter' : 'Strict JSON Import'}
-          </h2>
-          <textarea value={importString} onChange={(e) => setImportString(e.target.value)} rows="6" className={`w-full bg-black/50 border border-${showHtmlImport ? 'blue' : 'purple'}-500/30 rounded-xl p-4 text-zinc-300 font-mono text-xs focus:outline-none`} placeholder="Paste code here..."></textarea>
+      {showJsonImport && (
+        <div className="rounded-2xl border border-purple-500/30 bg-purple-500/10 p-6 mb-8 space-y-4">
+          <h2 className="text-purple-400 font-bold uppercase tracking-widest text-xs">Strict JSON Import</h2>
+          <textarea value={importString} onChange={(e) => setImportString(e.target.value)} rows="6" className="w-full rounded-xl border border-purple-500/30 bg-black/50 p-4 font-mono text-xs text-zinc-300 focus:outline-none" placeholder="Paste JSON here..."></textarea>
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={() => { setShowHtmlImport(false); setShowJsonImport(false); }} className="px-4 py-2 text-zinc-400 text-xs font-bold uppercase tracking-widest">Cancel</button>
-            <button type="button" onClick={showHtmlImport ? handleHtmlImport : handleJsonImport} className={`bg-${showHtmlImport ? 'blue' : 'purple'}-500 text-white px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest`}>Process & Import</button>
+            <button type="button" onClick={() => setShowJsonImport(false)} className="px-4 py-2 text-zinc-400 text-xs font-bold uppercase tracking-widest">Cancel</button>
+            <button type="button" onClick={handleJsonImport} className="rounded-lg bg-purple-500 px-6 py-2 text-xs font-bold uppercase tracking-widest text-white">Process & Import</button>
           </div>
         </div>
       )}
