@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench, ExternalLink } from "lucide-react";
+import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench, ExternalLink, Cpu } from "lucide-react";
 import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc, addDoc, serverTimestamp } from "firebase/firestore";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "@/lib/firebase"; 
@@ -25,6 +25,111 @@ const CORE_STATIC_PAGES = [
   { id: "terms", title: "Terms of Service", slug: "terms" },
   { id: "cookies", title: "Cookie Policy", slug: "cookies" },
 ];
+
+const TECHNOLOGY_PAGE_DEFAULTS = {
+  id: "technology",
+  title: "Technology",
+  slug: "technology",
+  metaTitle: "The Technology Behind Pitchside AI | Small-Sided Football Analysis",
+  metaDescription: "See how Pitchside AI uses custom machine learning and computer vision trained on small-sided football footage to generate stats, highlights and player moments.",
+  badge: "Technology",
+  heroH1: "The Technology Behind Pitchside AI",
+  intro: "Pitchside AI uses a custom machine learning and computer vision model built specifically for small-sided football. Instead of forcing a professional 11-a-side model onto grassroots games, Pitchside is trained around the reality of 5-a-side, 6-a-side and 7-a-side football: tighter pitches, different camera angles, floodlit conditions, faster transitions and player-first moments.",
+  technologyStats: [
+    { value: "5-a-side trained", label: "Custom Model" },
+    { value: "5, 6 and 7-a-side", label: "Supported Formats" },
+    { value: "Improving with footage", label: "Beta Status" },
+  ],
+  technologyStack: [
+    {
+      id: "vision",
+      icon: "vision",
+      title: "Custom Small-Sided Football Model",
+      desc: "Pitchside is built for 5, 6 and 7-a-side football, where tighter spaces, faster transitions and real grassroots camera angles need a different model from professional 11-a-side broadcast analysis.",
+    },
+    {
+      id: "ai",
+      icon: "ai",
+      title: "Built for 5, 6 and 7-a-side",
+      desc: "The product is focused on small-sided football first, using local match footage and frame-by-frame annotation to learn goals, saves, passes, tackles, assists and player moments.",
+    },
+    {
+      id: "hardware",
+      icon: "hardware",
+      title: "Accuracy Improving During Beta",
+      desc: "Pitchside should be presented honestly as a learning model. Accuracy is improving as more footage is processed across different lighting, pitch types, camera heights and game formats.",
+    },
+    {
+      id: "cloud",
+      icon: "cloud",
+      title: "Upload Flow Improving",
+      desc: "The current upload process can take up to 45 minutes. A future upload flow will reduce the processing wait time by moving upload work into the recording period.",
+    },
+  ],
+  technologySections: [
+    { h2: "Custom Machine Learning Model for Small-Sided Football", content: ["Pitchside is powered by a custom machine learning model trained specifically on small-sided football footage. The model was built this way because grassroots football does not look like professional 11-a-side football.", "Small-sided games have tighter spaces, shorter passing patterns, faster transitions, different camera angles and more crowded visual cues. A model trained only on professional broadcast footage would miss too much context. Pitchside is designed around the footage real amateur teams can actually capture."] },
+    { h2: "Why Pitchside Is Trained on 5-a-Side Footage", content: ["Pitchside started with 5-a-side because it is one of the hardest and most useful grassroots formats to understand. The game is fast, compact and full of repeated actions: goals, saves, passes, tackles, assists and quick turnovers.", "The model has been trained using local small-sided game footage, with many hours spent annotating clips frame by frame. This helps Pitchside learn the visual patterns of real grassroots football instead of relying on assumptions from elite-level match footage.", "The same approach also supports 6-a-side and 7-a-side football, where the pitch is still smaller than full 11-a-side and the game remains player-moment heavy."] },
+    { h2: "Computer Vision, Event Detection and Player Identification", content: ["Pitchside uses computer vision to read match footage and identify football actions from video. The goal is to understand what happened in the game, not just store a recording.", "The system is being built to detect key football events, assign those events to teams and players, and turn long recordings into useful match output. That includes statistics, highlights and leaderboards for players who want proof of performance."] },
+    { h2: "What Pitchside Can Currently Detect", content: ["The first release is designed to generate full match highlights and assign core football statistics to teams and individual players.", "The planned first-release stats include goals, assists, saves, passes and tackles. Pitchside can identify players and assign those same statistics to individuals, which allows teams to create leaderboards and compete across each stat.", "This makes Pitchside different from a basic football camera app. The goal is not only to record football matches, but to turn the footage into stats, highlights and player moments."], table: { headers: ["Output", "What Pitchside Is Being Built to Do"], rows: [["Goals", "Detect and assign goals to teams and players"], ["Assists", "Identify assisting actions and connect them to players"], ["Saves", "Track goalkeeper saves and key defensive moments"], ["Passes", "Assign passing actions to players and teams"], ["Tackles", "Detect defensive actions from match footage"], ["Highlights", "Generate full match highlights from recorded footage"], ["Leaderboards", "Let players compete across individual stats"]] } },
+    { h2: "Best Footage Setup for Pitchside AI", content: ["Pitchside works best when the match is recorded from the halfway line, above head height and facing toward one goal. The ideal setup is two phones: one pointing toward each goal. The app can then combine the data and highlights from both recordings.", "A one-phone setup can also work if it captures the full pitch clearly. Ball-tracking tripods may also work well because they can help keep the main action in frame.", "Most training footage was captured during British winter conditions: dark outside but floodlit. That is currently where Pitchside sees some of its best results. The system can still operate in sunlight, and performance should improve over time as more footage is processed."] },
+    { h2: "Current Limitations", content: ["Pitchside is still improving. Accuracy is not perfect yet, and the system should be presented honestly as a learning model that gets better with more footage.", "The current upload process can also take longer than ideal. At the moment, footage may take up to 45 minutes to upload and process because the system waits until the game has finished recording before uploading.", "A future improvement is to stream the upload during the recording period, which should reduce waiting time after the match."], table: { headers: ["Limitation", "Current Reality", "Planned Direction"], rows: [["Accuracy", "Improving, but not perfect yet", "Gets better as more footage is processed"], ["Upload time", "Can currently take up to 45 minutes", "Future livestream-style upload during recording"], ["Footage quality", "Angle, height and lighting affect results", "Clear recording guidelines help improve output"], ["Format", "Best suited to 5, 6 and 7-a-side", "Built around small-sided football first"]] } },
+    { h2: "What Improves Over Time", content: ["Pitchside is built around a learning algorithm, so the product should improve as it processes more match footage. More recordings help the system understand different lighting conditions, player movements, pitch types and camera setups.", "The long-term goal is to make football video analysis easier for grassroots players: record the game, upload the footage, receive stats, generate highlights and compete on player leaderboards without needing GPS vests or expensive camera hardware."] },
+    { h2: "Why This Matters for Grassroots Football", content: ["Most amateur players do not have analysts, camera operators or expensive football tracking systems. They have phones, teammates and matches worth remembering. Pitchside is being built for that reality.", "The technology is designed to support football camera app searches, AI football analysis, football video analysis, Veo alternative comparisons, GPS vest alternative searches and football stats app users, but the product focus is simple: make grassroots match footage useful."] },
+  ],
+  aeoQuickAnswer: "PITCHSIDE.AI uses football-tuned computer vision to detect players, track movement, identify match events, and transform video into coaching and scouting intelligence without requiring specialist stadium hardware.",
+  tldrPoints: [
+    "Computer vision detects players, ball movement, and match structure from video.",
+    "Event intelligence converts raw footage into football actions, phases, and tactical patterns.",
+    "Editable technology pages and subpages can be managed from the admin dashboard.",
+  ],
+  contentBlocks: [
+    { id: "technology-core-h2", type: "h2", content: "Core Infrastructure" },
+    { id: "technology-core-intro", type: "paragraph", content: "The platform is built around a football-specific analysis layer that reads match footage, normalizes events, and prepares insights for coaches, analysts, clubs, and players." },
+    { id: "technology-vision-h3", type: "h3", content: "Spatial Computer Vision" },
+    { id: "technology-vision-copy", type: "paragraph", content: "Player and ball tracking are interpreted against the pitch, team shape, pressure zones, and transition moments so the output reflects how football is actually coached." },
+    { id: "technology-events-h3", type: "h3", content: "Autonomous Event Detection" },
+    { id: "technology-events-copy", type: "paragraph", content: "The system identifies repeatable football actions such as possession changes, attacking sequences, defensive pressure, and chance creation signals." },
+    { id: "technology-hardware-h3", type: "h3", content: "No Specialist Hardware Required" },
+    { id: "technology-hardware-copy", type: "paragraph", content: "The workflow is designed to work from accessible video sources, reducing the barrier for clubs and academies that need practical analysis without enterprise broadcast infrastructure." },
+  ],
+  ctaBlock: {
+    headline: "Join the Pitchside AI Beta",
+    description: "Pitchside is being built to turn small-sided football footage into stats, highlights and player leaderboards. Join the list and be first to try it.",
+    buttonText: "Join the List",
+    buttonUrl: "/contact",
+  },
+  faqs: [
+    { question: "Can the technology page be edited in admin?", answer: "Yes. Open System Pages, edit Technology, change the content blocks, and publish the page." },
+    { question: "Can technology subpages be added?", answer: "Yes. Use Technology Pages in the admin dashboard to create pages under /technology/[slug]." },
+  ],
+};
+
+const hasOldTechnologyClaim = (value) => {
+  const text = JSON.stringify(value || "").toLowerCase();
+  return text.includes("98%")
+    || text.includes("<3m")
+    || text.includes("event accuracy")
+    || text.includes("processing time")
+    || text.includes("broadcast-quality")
+    || text.includes("instantly categorize")
+    || text.includes("thousands of hours");
+};
+
+const mergeTechnologyPageData = (savedData) => {
+  const merged = savedData ? { ...TECHNOLOGY_PAGE_DEFAULTS, ...savedData } : TECHNOLOGY_PAGE_DEFAULTS;
+  return {
+    ...merged,
+    metaTitle: savedData?.metaTitle && !hasOldTechnologyClaim(savedData.metaTitle) ? savedData.metaTitle : TECHNOLOGY_PAGE_DEFAULTS.metaTitle,
+    metaDescription: savedData?.metaDescription && !hasOldTechnologyClaim(savedData.metaDescription) ? savedData.metaDescription : TECHNOLOGY_PAGE_DEFAULTS.metaDescription,
+    badge: savedData?.badge || savedData?.heroLabel || TECHNOLOGY_PAGE_DEFAULTS.badge,
+    heroH1: savedData?.heroH1 && savedData.heroH1.toLowerCase() !== "the engine." ? savedData.heroH1 : TECHNOLOGY_PAGE_DEFAULTS.heroH1,
+    intro: savedData?.intro && !hasOldTechnologyClaim(savedData.intro) ? savedData.intro : savedData?.heroIntro || TECHNOLOGY_PAGE_DEFAULTS.intro,
+    technologyStats: savedData?.technologyStats?.length && !hasOldTechnologyClaim(savedData.technologyStats) ? savedData.technologyStats : (savedData?.trustStats?.length ? savedData.trustStats : TECHNOLOGY_PAGE_DEFAULTS.technologyStats),
+    technologyStack: savedData?.technologyStack?.length && !hasOldTechnologyClaim(savedData.technologyStack) ? savedData.technologyStack : TECHNOLOGY_PAGE_DEFAULTS.technologyStack,
+    technologySections: savedData?.technologySections?.length ? savedData.technologySections : (savedData?.sections?.length ? savedData.sections : TECHNOLOGY_PAGE_DEFAULTS.technologySections),
+    ctaBlock: savedData?.ctaBlock || savedData?.cta || TECHNOLOGY_PAGE_DEFAULTS.ctaBlock,
+  };
+};
 
 const getUploadedImages = (item) => {
   const images = [];
@@ -110,7 +215,7 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       // Both core_pages and landing_pages read from the "pages" collection in Firebase
-      const targetCollection = (activeTab === "core_pages" || activeTab === "landing_pages") ? "pages" : activeTab;
+      const targetCollection = (activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages") ? "pages" : activeTab;
       
       if (["posts", "pages", "tools", "leads", "deletions"].includes(targetCollection)) {
         const querySnapshot = targetCollection === "tools"
@@ -138,7 +243,7 @@ export default function AdminDashboard() {
       : "Are you sure you want to permanently delete this record?";
 
     if (window.confirm(msg)) {
-      const targetCollection = (activeTab === "core_pages" || activeTab === "landing_pages") ? "pages" : activeTab;
+      const targetCollection = (activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages") ? "pages" : activeTab;
       await deleteDoc(doc(db, targetCollection, id));
       setContentList(contentList.filter(item => item.id !== id));
     }
@@ -151,7 +256,7 @@ export default function AdminDashboard() {
   };
 
   const handleCreateNew = () => {
-    setEditorType(activeTab === "posts" ? "post" : "landing");
+    setEditorType(activeTab === "posts" ? "post" : activeTab === "technology_pages" ? "technology" : "landing");
     setEditingItem(null);
     setView("builder");
   };
@@ -212,6 +317,7 @@ export default function AdminDashboard() {
   const tabs = [
     { id: "core_pages", label: "System Pages", icon: LayoutTemplate },
     { id: "landing_pages", label: "SEO Landing Pages", icon: Target },
+    { id: "technology_pages", label: "Technology Pages", icon: Cpu },
     { id: "posts", label: "Blog Engine", icon: FileText },
     { id: "tools", label: "Tools", icon: Wrench },
     { id: "authors", label: "Authors", icon: Users },
@@ -263,6 +369,7 @@ export default function AdminDashboard() {
               <p className="text-zinc-500 text-sm mt-2">
                 {activeTab === "core_pages" ? "Manage SEO metadata for your hardcoded system routes." : 
                  activeTab === "landing_pages" ? "Build & deploy dynamic competitor / SEO landing pages." :
+                 activeTab === "technology_pages" ? "Build editable subpages under /technology." :
                  activeTab === "tools" ? "Edit SEO, page copy, FAQs, and CTA content for fixed public tools." :
                  activeTab === "authors" ? "Manage blog authors and their LinkedIn profiles." :
                  activeTab === "footer" ? "Manage external links and global footer presence." : 
@@ -272,9 +379,9 @@ export default function AdminDashboard() {
             </div>
             
             {/* Create New Button is active for Posts & Landing Pages */}
-            {(activeTab === "posts" || activeTab === "landing_pages") && (
+            {(activeTab === "posts" || activeTab === "landing_pages" || activeTab === "technology_pages") && (
               <button onClick={handleCreateNew} className="flex items-center gap-2 bg-transparent border-2 border-[#CCFF00] text-[#CCFF00] px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] md:text-xs hover:bg-[#CCFF00] hover:text-black transition-all shadow-[0_0_20px_rgba(204,255,0,0.1)] active:scale-95">
-                <Plus className="w-4 h-4" /> {activeTab === "posts" ? "New Blog Post" : "Create Landing Page"}
+                <Plus className="w-4 h-4" /> {activeTab === "posts" ? "New Blog Post" : activeTab === "technology_pages" ? "Create Technology Page" : "Create Landing Page"}
               </button>
             )}
           </header>
@@ -311,9 +418,9 @@ export default function AdminDashboard() {
                         ) : (
                           <>
                             <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Title</th>
-                            <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">{activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "tools" ? "Route" : "Slug"}</th>
-                            {(activeTab === "landing_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Image</th>}
-                            {(activeTab === "landing_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Uploaded / Updated</th>}
+                            <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">{activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "tools" ? "Route" : "Slug"}</th>
+                            {(activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Image</th>}
+                            {(activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Uploaded / Updated</th>}
                             {(activeTab === "core_pages" || activeTab === "tools") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Status</th>}
                           </>
                         )}
@@ -324,7 +431,11 @@ export default function AdminDashboard() {
                       
                       {/* --- TAB 1: CORE SYSTEM PAGES --- */}
                       {activeTab === "core_pages" && CORE_STATIC_PAGES.map((page) => {
-                        const dbData = contentList.find(c => c.id === page.id) || page;
+                        const fallbackData = page.id === "technology" ? { ...page, ...TECHNOLOGY_PAGE_DEFAULTS } : page;
+                        const savedData = contentList.find(c => c.id === page.id);
+                        const dbData = page.id === "technology"
+                          ? { ...page, ...mergeTechnologyPageData(savedData) }
+                          : savedData ? { ...fallbackData, ...savedData } : fallbackData;
                         return (
                           <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
                             <td className="p-6 font-bold text-white text-sm">{dbData.title || page.title}</td>
@@ -336,7 +447,7 @@ export default function AdminDashboard() {
                             </td>
                             <td className="p-6 text-right">
                               <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onClick={() => handleEdit({ id: page.id, ...page, ...dbData }, "core")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                <button onClick={() => handleEdit({ id: page.id, ...fallbackData, ...dbData }, "core")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
                                   <Edit2 className="w-4 h-4" />
                                 </button>
                               </div>
@@ -346,10 +457,13 @@ export default function AdminDashboard() {
                       })}
 
                       {/* --- TAB 2: SEO LANDING PAGES --- */}
-                      {activeTab === "landing_pages" && contentList.filter(c => !CORE_STATIC_PAGES.some(core => core.id === c.id)).map((page) => (
+                      {activeTab === "landing_pages" && contentList.filter(c => !CORE_STATIC_PAGES.some(core => core.id === c.id)).map((page) => {
+                        const isTechnologyChild = page.parentPage?.url === "/technology";
+                        const route = isTechnologyChild ? `/technology/${page.slug}` : `/${page.slug}`;
+                        return (
                         <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
                           <td className="p-6 font-bold text-white text-sm">{page.title}</td>
-                          <td className="p-6 text-[#CCFF00] text-xs font-mono">/{page.slug}</td>
+                          <td className="p-6 text-[#CCFF00] text-xs font-mono">{route}</td>
                           <td className="p-6">
                             <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest ${hasUploadedImage(page) ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}`}>
                               {hasUploadedImage(page) ? "Uploaded" : "Missing"}
@@ -361,10 +475,40 @@ export default function AdminDashboard() {
                           </td>
                           <td className="p-6 text-right">
                             <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
-                              <a href={`/${page.slug}`} target="_blank" rel="noopener noreferrer" title="Open public landing page" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                              <a href={route} target="_blank" rel="noopener noreferrer" title="Open public landing page" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
                                 <ExternalLink className="w-4 h-4" />
                               </a>
                               <button onClick={() => handleEdit(page, "landing")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                <Edit2 className="w-4 h-4" />
+                              </button>
+                              <button onClick={() => handleDelete(page.id)} className="p-2.5 text-zinc-400 hover:text-white hover:bg-red-500 rounded-xl border border-white/10 transition-all shadow-md">
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );})}
+
+                      {/* --- TAB: TECHNOLOGY SUBPAGES --- */}
+                      {activeTab === "technology_pages" && contentList.filter(c => c.parentPage?.url === "/technology").map((page) => (
+                        <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
+                          <td className="p-6 font-bold text-white text-sm">{page.title}</td>
+                          <td className="p-6 text-[#CCFF00] text-xs font-mono">/technology/{page.slug}</td>
+                          <td className="p-6">
+                            <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest ${hasUploadedImage(page) ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}`}>
+                              {hasUploadedImage(page) ? "Uploaded" : "Missing"}
+                            </span>
+                          </td>
+                          <td className="p-6 text-xs text-zinc-400">
+                            <div><span className="text-zinc-600">Uploaded:</span> {formatContentDate(getPublishedDate(page))}</div>
+                            <div className="mt-1"><span className="text-zinc-600">Updated:</span> {formatContentDate(getUpdatedDate(page))}</div>
+                          </td>
+                          <td className="p-6 text-right">
+                            <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                              <a href={`/technology/${page.slug}`} target="_blank" rel="noopener noreferrer" title="Open public technology page" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
+                              <button onClick={() => handleEdit(page, "technology")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
                                 <Edit2 className="w-4 h-4" />
                               </button>
                               <button onClick={() => handleDelete(page.id)} className="p-2.5 text-zinc-400 hover:text-white hover:bg-red-500 rounded-xl border border-white/10 transition-all shadow-md">
@@ -479,7 +623,8 @@ export default function AdminDashboard() {
                       ))}
                       
                       {/* Empty State Handlers */}
-                      {((activeTab === "landing_pages" && contentList.filter(c => !CORE_STATIC_PAGES.some(core => core.id === c.id)).length === 0) || 
+                      {((activeTab === "landing_pages" && contentList.filter(c => !CORE_STATIC_PAGES.some(core => core.id === c.id)).length === 0) ||
+                        (activeTab === "technology_pages" && contentList.filter(c => c.parentPage?.url === "/technology").length === 0) ||
                         (["posts", "leads", "deletions"].includes(activeTab) && contentList.length === 0)) && (
                         <tr>
                           <td colSpan="4" className="p-16 text-center text-zinc-600 font-mono text-xs uppercase tracking-widest">

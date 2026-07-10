@@ -24,8 +24,9 @@ function serializeData(data) {
 const getPageData = cache(async (slug) => {
   const q = query(collection(db, "pages"), where("slug", "==", slug));
   const pagesSnap = await getDocs(q);
-  if (!pagesSnap.empty && isIndexableContent(pagesSnap.docs[0].data())) {
-    return serializeData({ ...pagesSnap.docs[0].data(), _dataSource: "pages" });
+  const pageDoc = pagesSnap.docs.find((docSnapshot) => docSnapshot.data()?.parentPage?.url !== "/technology");
+  if (pageDoc && isIndexableContent(pageDoc.data())) {
+    return serializeData({ ...pageDoc.data(), _dataSource: "pages" });
   }
   const qPost = query(collection(db, "posts"), where("slug", "==", slug));
   const postsSnap = await getDocs(qPost);

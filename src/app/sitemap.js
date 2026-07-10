@@ -30,8 +30,9 @@ export default async function sitemap() {
     dynamicPages = pagesSnap.docs.filter((doc) => isIndexableContent(doc.data())).map((doc) => {
       const data = doc.data();
       const modified = data.updatedAt?.toDate() ?? data.createdAt?.toDate() ?? new Date();
+      const path = data.parentPage?.url === "/technology" ? `/technology/${data.slug}` : `/${data.slug}`;
       return {
-        url: `${baseUrl}/${data.slug}`,
+        url: `${baseUrl}${path}`,
         lastModified: modified,
         changeFrequency: "weekly",
         priority: 0.9,

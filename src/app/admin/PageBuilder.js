@@ -117,6 +117,7 @@ const applyInternalLinksToImport = (data) => {
 };
 
 const getBlockKey = (block, index) => block.id || `${block.type || "block"}-${index}`;
+const technologyParentPage = { type: "landing", id: "technology", title: "Technology", url: "/technology" };
 
 function LinkableTextarea({ value, onChange, rows = 4 }) {
   const textareaRef = useRef(null);
@@ -256,7 +257,9 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   
   const isStaticCorePage = pageType === "core";
   const isToolPage = pageType === "tool";
-  const isArticlePage = pageType === "post" || pageType === "landing";
+  const isTechnologyCorePage = isStaticCorePage && initialData?.id === "technology";
+  const isEditableContentPage = !isStaticCorePage || isTechnologyCorePage;
+  const isArticlePage = pageType === "post" || pageType === "landing" || pageType === "technology" || isTechnologyCorePage;
   const isSlugLocked = isStaticCorePage || isToolPage;
 
   // INITIALIZE STATE
@@ -270,12 +273,47 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     llmDescription: initialData?.llmDescription || "",
     authorName: initialData?.authorName || CONTENT_AUTHOR.name,
     authorUrl: initialData?.authorUrl || CONTENT_AUTHOR.url,
-    parentPage: initialData?.parentPage || null,
+    parentPage: initialData?.parentPage || (pageType === "technology" ? technologyParentPage : null),
     moreToRead: initialData?.moreToRead || [],
     thumbnail: initialData?.thumbnail || "",
     primaryImage: initialData?.primaryImage || "", 
     
     heroBackground: initialData?.heroBackground || "",
+    technologyStats: initialData?.technologyStats?.length
+      ? initialData.technologyStats
+      : [
+          { value: "98%", label: "Event\nAccuracy" },
+          { value: "<3m", label: "Processing\nTime" },
+        ],
+    technologyStack: initialData?.technologyStack?.length
+      ? initialData.technologyStack
+      : [
+          {
+            id: "vision",
+            icon: "vision",
+            title: "Spatial Computer Vision",
+            desc: "Our proprietary optical engine maps the 3D space of the pitch using standard 2D smartphone footage. It tracks player vectors, ball trajectory, and spatial relationships without requiring calibrated multi-camera setups.",
+          },
+          {
+            id: "ai",
+            icon: "ai",
+            title: "Autonomous Detection",
+            desc: "Trained on thousands of hours of grassroots football. The neural network recognizes biomechanical patterns to instantly categorize tackles, shots, saves, and passes with 98% accuracy.",
+          },
+          {
+            id: "hardware",
+            icon: "hardware",
+            title: "Zero Hardware Required",
+            desc: "No GPS vests. No expensive camera rigs. The Pitchside engine processes all telemetry natively via the software layer, democratizing pro-level analytics for every player.",
+          },
+          {
+            id: "cloud",
+            icon: "cloud",
+            title: "Edge-to-Cloud Pipeline",
+            desc: "Footage is pre-processed on-device to reduce payload size, then beamed to our high-performance cloud GPUs where the heavy computational rendering creates broadcast-quality highlights in minutes.",
+          },
+        ],
+    technologySections: initialData?.technologySections || [],
 
     heroH1: initialData?.heroH1 || "",
     hero: initialData?.hero || {
@@ -376,7 +414,17 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       if (!parsedData || Array.isArray(parsedData) || typeof parsedData !== "object") {
         throw new Error("The imported JSON must be an object.");
       }
-      const { data: linkedData, linksAdded } = applyInternalLinksToImport(parsedData);
+      const mappedData = isTechnologyCorePage
+        ? {
+            ...parsedData,
+            badge: parsedData.badge || parsedData.heroLabel,
+            intro: parsedData.intro || parsedData.heroIntro,
+            technologyStats: parsedData.technologyStats || parsedData.trustStats,
+            technologySections: parsedData.technologySections || parsedData.sections,
+            ctaBlock: parsedData.ctaBlock || parsedData.cta,
+          }
+        : parsedData;
+      const { data: linkedData, linksAdded } = applyInternalLinksToImport(mappedData);
       setFormData(prev => ({
         ...prev,
         ...linkedData,
@@ -502,6 +550,81 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   const addArrayItem = (field, emptyValue) => setFormData({ ...formData, [field]: [...formData[field], emptyValue] });
   const removeArrayItem = (field, index) => setFormData({ ...formData, [field]: formData[field].filter((_, i) => i !== index) });
   const updateHeroField = (field, value) => setFormData({ ...formData, hero: { ...(formData.hero || {}), [field]: value } });
+  const updateTechnologyStat = (index, field, value) => setFormData({
+    ...formData,
+    technologyStats: formData.technologyStats.map((stat, statIndex) => statIndex === index ? { ...stat, [field]: value } : stat),
+  });
+  const addTechnologyStat = () => setFormData({ ...formData, technologyStats: [...formData.technologyStats, { value: "", label: "" }] });
+  const removeTechnologyStat = (index) => setFormData({ ...formData, technologyStats: formData.technologyStats.filter((_, statIndex) => statIndex !== index) });
+  const updateTechnologyStack = (index, field, value) => setFormData({
+    ...formData,
+    technologyStack: formData.technologyStack.map((item, itemIndex) => itemIndex === index ? { ...item, [field]: value } : item),
+  });
+  const addTechnologyStackItem = () => setFormData({
+    ...formData,
+    technologyStack: [
+      ...formData.technologyStack,
+      { id: `tech-${Date.now()}`, icon: "ai", title: "New Technology Section", desc: "" },
+    ],
+  });
+  const removeTechnologyStackItem = (index) => setFormData({ ...formData, technologyStack: formData.technologyStack.filter((_, itemIndex) => itemIndex !== index) });
+  const updateTechnologySection = (index, field, value) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, sectionIndex) => sectionIndex === index ? { ...section, [field]: value } : section),
+  });
+  const addTechnologySection = () => setFormData({
+    ...formData,
+    technologySections: [...formData.technologySections, { h2: "New Technology Section", content: [""], table: null }],
+  });
+  const removeTechnologySection = (index) => setFormData({ ...formData, technologySections: formData.technologySections.filter((_, sectionIndex) => sectionIndex !== index) });
+  const updateTechnologyParagraph = (sectionIndex, paragraphIndex, value) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, index) => index === sectionIndex
+      ? { ...section, content: (section.content || []).map((paragraph, pIndex) => pIndex === paragraphIndex ? value : paragraph) }
+      : section),
+  });
+  const addTechnologyParagraph = (sectionIndex) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, index) => index === sectionIndex
+      ? { ...section, content: [...(section.content || []), ""] }
+      : section),
+  });
+  const removeTechnologyParagraph = (sectionIndex, paragraphIndex) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, index) => index === sectionIndex
+      ? { ...section, content: (section.content || []).filter((_, pIndex) => pIndex !== paragraphIndex) }
+      : section),
+  });
+  const addTechnologyTable = (sectionIndex) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, index) => index === sectionIndex
+      ? { ...section, table: section.table || { headers: ["Column 1", "Column 2"], rows: [["", ""]] } }
+      : section),
+  });
+  const removeTechnologyTable = (sectionIndex) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, index) => index === sectionIndex ? { ...section, table: null } : section),
+  });
+  const updateTechnologyTableHeader = (sectionIndex, headerIndex, value) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, index) => index === sectionIndex
+      ? { ...section, table: { ...(section.table || {}), headers: (section.table?.headers || []).map((header, hIndex) => hIndex === headerIndex ? value : header) } }
+      : section),
+  });
+  const updateTechnologyTableCell = (sectionIndex, rowIndex, cellIndex, value) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, index) => index === sectionIndex
+      ? { ...section, table: { ...(section.table || {}), rows: (section.table?.rows || []).map((row, rIndex) => rIndex === rowIndex ? row.map((cell, cIndex) => cIndex === cellIndex ? value : cell) : row) } }
+      : section),
+  });
+  const addTechnologyTableRow = (sectionIndex) => setFormData({
+    ...formData,
+    technologySections: formData.technologySections.map((section, index) => {
+      if (index !== sectionIndex) return section;
+      const headers = section.table?.headers || ["Column 1", "Column 2"];
+      return { ...section, table: { ...section.table, headers, rows: [...(section.table?.rows || []), headers.map(() => "")] } };
+    }),
+  });
   const updateHeroPreviewJson = (value) => {
     let parsed = formData.hero?.previewData || {};
     try {
@@ -520,6 +643,9 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       if (isArticlePage) {
         cleanData.authorName = formData.authorName || CONTENT_AUTHOR.name;
         cleanData.authorUrl = formData.authorUrl || CONTENT_AUTHOR.url;
+      }
+      if (pageType === "technology") {
+        cleanData.parentPage = technologyParentPage;
       }
       if (isToolPage && cleanData.hero) {
         let previewData = cleanData.hero.previewData;
@@ -595,14 +721,14 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
           <button onClick={onBack} className="p-3 bg-zinc-900 rounded-full hover:bg-[#CCFF00] hover:text-black transition-colors"><ArrowLeft className="w-5 h-5" /></button>
           <div>
             <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-white">
-              {isStaticCorePage ? "System Route Meta" : isToolPage ? "Tool Content Editor" : pageType === "post" ? "Blog Editor" : "SEO Landing Page Builder"}
+              {isTechnologyCorePage ? "Technology Page Editor" : isStaticCorePage ? "System Route Meta" : isToolPage ? "Tool Content Editor" : pageType === "post" ? "Blog Editor" : pageType === "technology" ? "Technology Subpage Builder" : "SEO Landing Page Builder"}
             </h1>
             {!initialData && <p className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest mt-1">Auto-saving draft locally...</p>}
           </div>
         </div>
         
         <div className="flex flex-wrap gap-2">
-          {!isStaticCorePage && (
+          {isEditableContentPage && (
             <>
               <button type="button" onClick={() => { setShowJsonImport(true); setImportString(""); }} className="flex items-center gap-2 bg-purple-500/10 text-purple-400 border border-purple-500/30 px-4 py-3 font-bold uppercase tracking-widest text-xs hover:bg-purple-500 hover:text-white transition-all rounded-xl">
                 <FileJson className="w-4 h-4" /> Import JSON
@@ -635,11 +761,172 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
             <div className="space-y-1.5"><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Internal Title</label><input type="text" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} /></div>
             <div className="space-y-1.5 relative"><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Route / Slug</label><input type="text" className={`w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-zinc-400 font-mono outline-none ${isSlugLocked ? 'opacity-60 cursor-not-allowed' : 'focus:border-[#CCFF00]'}`} value={formData.slug} onChange={(e) => setFormData({...formData, slug: e.target.value})} disabled={isSlugLocked} />{isSlugLocked && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />}</div>
           </div>
+          {pageType === "landing" && (
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Publish Location</label>
+              <select
+                value={formData.parentPage?.url === "/technology" ? "/technology" : ""}
+                onChange={(event) => setFormData({ ...formData, parentPage: event.target.value === "/technology" ? technologyParentPage : null })}
+                className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
+              >
+                <option value="">Root SEO page: /{formData.slug || "slug"}</option>
+                <option value="/technology">Technology landing page: /technology/{formData.slug || "slug"}</option>
+              </select>
+            </div>
+          )}
           <div className="space-y-1.5 mt-2"><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Meta Title</label><input type="text" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white font-bold focus:border-[#CCFF00] outline-none" value={formData.metaTitle} onChange={(e) => setFormData({...formData, metaTitle: e.target.value})} /></div>
           <div className="space-y-1.5"><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Meta Description</label><textarea rows="2" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={formData.metaDescription} onChange={(e) => setFormData({...formData, metaDescription: e.target.value})} /></div>
         </div>
 
-        {!isStaticCorePage && (
+        {isTechnologyCorePage && (
+          <>
+            <div className="bg-zinc-900 p-6 rounded-[1.5rem] border border-zinc-800 space-y-6 shadow-xl">
+              <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest text-xs">2. Technology Hero</h2>
+              <div className="space-y-1.5">
+                <label className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest pl-1">H1 Heading</label>
+                <input
+                  type="text"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-white text-xl font-black focus:border-[#CCFF00] outline-none"
+                  value={formData.heroH1}
+                  onChange={(e) => setFormData({...formData, heroH1: e.target.value})}
+                  placeholder="The Technology Behind Pitchside AI"
+                />
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest pl-1">Eyebrow</label>
+                  <input type="text" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={formData.badge} onChange={(e) => setFormData({...formData, badge: e.target.value})} />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest pl-1">Hero Paragraph</label>
+                <LinkableTextarea rows={3} value={formData.intro} onChange={(value) => setFormData({...formData, intro: value})} />
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest">Hero Stat Boxes</h3>
+                  <button type="button" onClick={addTechnologyStat} className="text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest">+ Add Stat</button>
+                </div>
+                {formData.technologyStats.map((stat, index) => (
+                  <div key={index} className="grid grid-cols-1 gap-3 rounded-xl border border-zinc-800 bg-zinc-950 p-4 md:grid-cols-[1fr_2fr_auto]">
+                    <input type="text" placeholder="98%" className="rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none focus:border-[#CCFF00]" value={stat.value || ""} onChange={(e) => updateTechnologyStat(index, "value", e.target.value)} />
+                    <textarea rows={2} placeholder={"Event\nAccuracy"} className="rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none focus:border-[#CCFF00]" value={stat.label || ""} onChange={(e) => updateTechnologyStat(index, "label", e.target.value)} />
+                    <button type="button" onClick={() => removeTechnologyStat(index)} className="rounded-xl p-3 text-red-400 hover:bg-red-500 hover:text-white"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-zinc-900 p-6 rounded-[1.5rem] border border-zinc-800 space-y-5 shadow-xl">
+              <div className="flex items-center justify-between gap-4">
+                <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest text-xs">3. Core Infrastructure Cards</h2>
+                <button type="button" onClick={addTechnologyStackItem} className="text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest">+ Add Card</button>
+              </div>
+              {formData.technologyStack.map((item, index) => (
+                <div key={item.id || index} className="space-y-3 rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Card {index + 1}</span>
+                    <button type="button" onClick={() => removeTechnologyStackItem(index)} className="rounded-lg p-2 text-red-400 hover:bg-red-500 hover:text-white"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-[160px_1fr]">
+                    <select className="rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none focus:border-[#CCFF00]" value={item.icon || "ai"} onChange={(e) => updateTechnologyStack(index, "icon", e.target.value)}>
+                      <option value="vision">Vision icon</option>
+                      <option value="ai">AI chip icon</option>
+                      <option value="hardware">Shield icon</option>
+                      <option value="cloud">Server icon</option>
+                    </select>
+                    <input type="text" placeholder="Card title" className="rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none focus:border-[#CCFF00]" value={item.title || ""} onChange={(e) => updateTechnologyStack(index, "title", e.target.value)} />
+                  </div>
+                  <LinkableTextarea rows={3} value={item.desc || ""} onChange={(value) => updateTechnologyStack(index, "desc", value)} />
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-zinc-900 p-6 rounded-[1.5rem] border border-zinc-800 space-y-5 shadow-xl">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest text-xs">4. EEAT Technology Sections</h2>
+                  <p className="mt-2 text-xs text-zinc-500">Edit the long-form Technology page sections, paragraphs, and comparison tables.</p>
+                </div>
+                <button type="button" onClick={addTechnologySection} className="text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest">+ Add Section</button>
+              </div>
+              {formData.technologySections.map((section, sectionIndex) => (
+                <div key={section.id || sectionIndex} className="space-y-4 rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Section {sectionIndex + 1}</span>
+                    <button type="button" onClick={() => removeTechnologySection(sectionIndex)} className="rounded-lg p-2 text-red-400 hover:bg-red-500 hover:text-white"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Section heading"
+                    className="w-full rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none focus:border-[#CCFF00]"
+                    value={section.h2 || ""}
+                    onChange={(e) => updateTechnologySection(sectionIndex, "h2", e.target.value)}
+                  />
+                  <div className="space-y-3">
+                    {(section.content || []).map((paragraph, paragraphIndex) => (
+                      <div key={paragraphIndex} className="grid gap-2 md:grid-cols-[1fr_auto]">
+                        <LinkableTextarea rows={3} value={paragraph || ""} onChange={(value) => updateTechnologyParagraph(sectionIndex, paragraphIndex, value)} />
+                        <button type="button" onClick={() => removeTechnologyParagraph(sectionIndex, paragraphIndex)} className="rounded-xl p-3 text-red-400 hover:bg-red-500 hover:text-white"><Trash2 className="w-4 h-4" /></button>
+                      </div>
+                    ))}
+                    <button type="button" onClick={() => addTechnologyParagraph(sectionIndex)} className="text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest">+ Add Paragraph</button>
+                  </div>
+                  {section.table ? (
+                    <div className="space-y-3 rounded-xl border border-[#CCFF00]/20 bg-black/40 p-4">
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#CCFF00]">Editable Table</span>
+                        <div className="flex gap-2">
+                          <button type="button" onClick={() => addTechnologyTableRow(sectionIndex)} className="rounded-lg border border-white/10 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-white hover:bg-white/10">+ Row</button>
+                          <button type="button" onClick={() => removeTechnologyTable(sectionIndex)} className="rounded-lg border border-red-500/30 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-red-400 hover:bg-red-500 hover:text-white">Remove Table</button>
+                        </div>
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="w-full min-w-[640px] border-collapse">
+                          <thead>
+                            <tr>
+                              {(section.table.headers || []).map((header, headerIndex) => (
+                                <th key={headerIndex} className="border border-zinc-800 p-2">
+                                  <input className="w-full bg-zinc-950 p-2 text-xs font-bold uppercase tracking-widest text-white outline-none focus:text-[#CCFF00]" value={header || ""} onChange={(e) => updateTechnologyTableHeader(sectionIndex, headerIndex, e.target.value)} />
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {(section.table.rows || []).map((row, rowIndex) => (
+                              <tr key={rowIndex}>
+                                {row.map((cell, cellIndex) => (
+                                  <td key={cellIndex} className="border border-zinc-800 p-2">
+                                    <textarea rows={2} className="w-full rounded-lg bg-zinc-950 p-2 text-sm text-zinc-300 outline-none focus:text-white" value={cell || ""} onChange={(e) => updateTechnologyTableCell(sectionIndex, rowIndex, cellIndex, e.target.value)} />
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  ) : (
+                    <button type="button" onClick={() => addTechnologyTable(sectionIndex)} className="text-[#CCFF00] text-[10px] font-bold uppercase tracking-widest">+ Add Table</button>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-[#050505] p-6 rounded-[1.5rem] border border-[#CCFF00]/30 space-y-4 shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-[#CCFF00]/5 pointer-events-none" />
+              <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest text-xs relative z-10">5. Technology CTA</h2>
+              <input type="text" placeholder="Headline" className="w-full bg-black border border-white/10 rounded-xl p-3 text-white relative z-10 focus:border-[#CCFF00] outline-none" value={formData.ctaBlock.headline || ""} onChange={(e) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, headline: e.target.value}})} />
+              <LinkableTextarea rows={3} value={formData.ctaBlock.description || ""} onChange={(value) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, description: value}})} />
+              <div className="flex gap-2 relative z-10">
+                <input type="text" placeholder="Button Text" className="w-1/2 bg-black border border-white/10 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={formData.ctaBlock.buttonText || ""} onChange={(e) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, buttonText: e.target.value}})} />
+                <input type="text" placeholder="URL (/contact)" className="w-1/2 bg-black border border-white/10 rounded-xl p-3 text-white focus:border-[#CCFF00] outline-none" value={formData.ctaBlock.buttonUrl || ""} onChange={(e) => setFormData({...formData, ctaBlock: {...formData.ctaBlock, buttonUrl: e.target.value}})} />
+              </div>
+            </div>
+          </>
+        )}
+
+        {isEditableContentPage && !isTechnologyCorePage && (
           <>
             {isArticlePage && (
               <div className="grid gap-4 rounded-[1.5rem] border border-zinc-800 bg-zinc-900 p-6 shadow-xl md:grid-cols-3">

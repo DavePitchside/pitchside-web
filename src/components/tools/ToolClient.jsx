@@ -1,13 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Copy, Plus, RefreshCw, RotateCcw, Shuffle, Star, Trophy, Wand2, ChevronDown, ChevronUp } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Copy, Download, FileText, PanelLeftClose, PanelLeftOpen, Plus, RefreshCw, RotateCcw, Shuffle, Star, Trophy, Wand2, ChevronDown } from "lucide-react";
 
-const inputClass = "w-full min-w-0 min-h-11 rounded-2xl border-2 border-black bg-white px-4 py-2.5 text-sm font-bold text-black outline-none transition focus:border-[#CCFF00] focus:ring-4 focus:ring-[#CCFF00]/45";
-const smallInputClass = "w-full min-w-0 rounded-xl border border-black/20 bg-white px-3 py-2 text-sm font-bold text-black outline-none transition focus:border-[#CCFF00] focus:ring-2 focus:ring-[#CCFF00]/45";
+const inputClass = "w-full min-w-0 min-h-11 rounded-2xl border-2 border-black bg-white px-4 py-2.5 text-sm font-bold text-black outline-none transition focus:border-[#43F58B] focus:ring-4 focus:ring-[#43F58B]/45";
+const smallInputClass = "w-full min-w-0 rounded-xl border border-black/20 bg-white px-3 py-2 text-sm font-bold text-black outline-none transition focus:border-[#43F58B] focus:ring-2 focus:ring-[#43F58B]/45";
 const labelClass = "text-[10px] font-black uppercase tracking-[0.22em] text-zinc-600";
-const buttonClass = "inline-flex min-h-11 w-full min-w-0 items-center justify-center gap-2 rounded-2xl border-2 border-black bg-black px-4 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.1em] text-[#CCFF00] shadow-[3px_3px_0px_#CCFF00] transition hover:bg-[#CCFF00] hover:text-black hover:shadow-[3px_3px_0px_#000] active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/45 sm:w-auto";
-const secondaryButtonClass = "inline-flex min-h-11 w-full min-w-0 items-center justify-center gap-2 overflow-hidden rounded-2xl border-2 border-black bg-white px-4 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-black hover:text-[#CCFF00] active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#CCFF00]/45 sm:w-auto";
+const buttonClass = "inline-flex min-h-11 w-full min-w-0 items-center justify-center gap-2 rounded-2xl border-2 border-black bg-black px-4 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.1em] text-[#43F58B] shadow-[3px_3px_0px_#43F58B] transition hover:bg-[#43F58B] hover:text-black hover:shadow-[3px_3px_0px_#000] active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#43F58B]/45 sm:w-auto";
+const secondaryButtonClass = "inline-flex min-h-11 w-full min-w-0 items-center justify-center gap-2 overflow-hidden rounded-2xl border-2 border-black bg-white px-4 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.1em] text-black transition hover:bg-black hover:text-[#43F58B] active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#43F58B]/45 sm:w-auto";
 
 const footballFormats = [
   { value: "5", label: "5-a-side" },
@@ -66,7 +66,7 @@ function parseBulkPlayers(raw, options = {}) {
 
 function positionTone(position) {
   const normalized = normalizePosition(position);
-  if (normalized === "Goalkeeper") return "bg-[#CCFF00] text-black border-black";
+  if (normalized === "Goalkeeper") return "bg-[#43F58B] text-black border-black";
   if (normalized === "Defender") return "bg-emerald-100 text-emerald-950 border-emerald-800";
   if (normalized === "Midfielder") return "bg-sky-100 text-sky-950 border-sky-800";
   if (normalized === "Winger") return "bg-violet-100 text-violet-950 border-violet-800";
@@ -132,7 +132,7 @@ function Segmented({ label, options, value, onChange }) {
               type="button"
               onClick={() => onChange(option.value)}
               className={`min-h-10 w-full min-w-0 overflow-hidden rounded-xl border-2 px-2 py-2 text-center text-[11px] font-black uppercase tracking-[0.06em] transition focus:outline-none active:scale-95 ${
-                selected ? "border-black bg-[#CCFF00] text-black" : "border-black/20 bg-white text-zinc-600 hover:border-black hover:text-black"
+                selected ? "border-black bg-[#43F58B] text-black" : "border-black/20 bg-white text-zinc-600 hover:border-black hover:text-black"
               }`}
               aria-pressed={selected}
             >
@@ -151,7 +151,7 @@ function ToolPanel({ title, eyebrow, actions, children }) {
       <div className="overflow-hidden border-b-2 border-black bg-black p-4 lg:p-6">
         <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
-            {eyebrow && <p className="mb-1.5 max-w-full break-words text-[8px] font-black uppercase leading-tight tracking-[0.14em] text-[#CCFF00] [overflow-wrap:anywhere] md:text-[9px] md:tracking-[0.18em]">{eyebrow}</p>}
+            {eyebrow && <p className="mb-1.5 max-w-full break-words text-[8px] font-black uppercase leading-tight tracking-[0.14em] text-[#43F58B] [overflow-wrap:anywhere] md:text-[9px] md:tracking-[0.18em]">{eyebrow}</p>}
             <h2 className="max-w-full break-words text-sm font-black uppercase leading-[1.05] tracking-tight [overflow-wrap:anywhere] md:text-xl lg:text-3xl xl:text-4xl">{title}</h2>
           </div>
           {actions && <div className="flex min-w-0 flex-wrap gap-2 lg:shrink-0">{actions}</div>}
@@ -172,8 +172,8 @@ function ResultsGrid({ children, empty }) {
 
 function ResultCard({ title, children, accent = false }) {
   return (
-    <div className={`rounded-2xl border-2 border-black p-4 shadow-[4px_4px_0px_#000] md:rounded-3xl md:p-5 ${accent ? "bg-black text-white shadow-[4px_4px_0px_#CCFF00]" : "bg-[#F4F3EF] text-black"}`}>
-      <h3 className={`text-base font-black uppercase tracking-tight ${accent ? "text-[#CCFF00]" : "text-black"}`}>{title}</h3>
+    <div className={`rounded-2xl border-2 border-black p-4 shadow-[4px_4px_0px_#000] md:rounded-3xl md:p-5 ${accent ? "bg-black text-white shadow-[4px_4px_0px_#43F58B]" : "bg-[#F4F3EF] text-black"}`}>
+      <h3 className={`text-base font-black uppercase tracking-tight ${accent ? "text-[#43F58B]" : "text-black"}`}>{title}</h3>
       <div className="mt-3">{children}</div>
     </div>
   );
@@ -223,7 +223,7 @@ function PlayerEditor({ players, setPlayers, sport, format, allowTeam = false, t
                 <input type="number" min="0" max={key === "rating" ? "10" : "99"} value={player[key] ?? 0} onChange={(e) => update(player.id, key, clampNumber(e.target.value, 0, key === "rating" ? 10 : 99))} className={smallInputClass} />
               </Field>
             ))}
-            <button type="button" onClick={() => setPlayers((current) => current.filter((item) => item.id !== player.id))} className={`hidden min-h-10 rounded-xl border-2 border-black bg-white px-3 text-xs font-black uppercase tracking-widest hover:bg-black hover:text-[#CCFF00] md:block ${showStats ? "col-span-6 sm:col-span-3 lg:col-span-1" : ""}`}>
+            <button type="button" onClick={() => setPlayers((current) => current.filter((item) => item.id !== player.id))} className={`hidden min-h-10 rounded-xl border-2 border-black bg-white px-3 text-xs font-black uppercase tracking-widest hover:bg-black hover:text-[#43F58B] md:block ${showStats ? "col-span-6 sm:col-span-3 lg:col-span-1" : ""}`}>
               Remove
             </button>
           </div>
@@ -249,36 +249,54 @@ function FormatControls({ sport, setSport, format, setFormat }) {
   );
 }
 
+function recommendedFormationFor(sport, format, playerCount = 5) {
+  if (sport === "futsal") return "1-2-1 Diamond";
+  if (format === "11" || playerCount >= 11) return "4-3-3";
+  if (format === "7" || playerCount >= 7) return "2-3-1";
+  if (format === "6" || playerCount >= 6) return "2-2-1";
+  return "1-2-1";
+}
+
+function readPendingFormationSetup() {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem("pitchside_pending_formation");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════
    RANDOM TEAM GENERATOR — mobile-first redesign
    ═══════════════════════════════════════════════════════════ */
 
 function RandomPlayerRow({ player, index, onUpdate, onRemove, positions }) {
   return (
-    <div className="flex min-w-0 overflow-hidden items-center gap-1 rounded-xl border border-black/10 bg-white px-2 py-1.5">
-      <span className="w-5 shrink-0 text-center text-[10px] font-black text-zinc-400">{index + 1}</span>
+    <div className="grid min-w-0 grid-cols-[32px_minmax(76px,1fr)_64px] items-center gap-2 rounded-xl border border-white/10 bg-[#0c1320] p-2 sm:grid-cols-[34px_minmax(120px,1fr)_76px_92px_28px]">
+      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[#43F58B] bg-[#43F58B]/10 text-[11px] font-black text-[#43F58B]">{player.name.slice(0, 1) || index + 1}</span>
       <input
         value={player.name}
         onChange={(e) => onUpdate(player.id, "name", e.target.value)}
         placeholder="Name"
-        className="min-w-0 w-0 flex-1 border-none bg-transparent text-sm font-bold text-black outline-none placeholder:text-zinc-300"
+        className="min-w-0 rounded-lg border border-white/10 bg-[#08111d] px-2 py-2 text-sm font-black text-white outline-none placeholder:text-slate-500 focus:border-[#43F58B]"
       />
       <select
         value={player.position}
         onChange={(e) => onUpdate(player.id, "position", e.target.value)}
-        className="w-12 shrink-0 rounded-lg border border-black/10 bg-[#F4F3EF] py-1 pl-1 pr-0 text-[10px] font-black text-black outline-none focus:border-[#CCFF00]"
-        style={{ maxWidth: "3rem" }}
+        className="min-h-8 w-full shrink-0 rounded-lg border border-white/10 bg-[#111827] px-1 text-[10px] font-black text-white outline-none focus:border-[#43F58B]"
       >
         {positions.map((pos) => (
           <option key={pos} value={pos}>{positionLabel(pos)}</option>
         ))}
       </select>
-      <div className="flex shrink-0 items-center gap-0.5">
-        <button type="button" onClick={() => onUpdate(player.id, "rating", Math.max(1, player.rating - 1))} className="flex h-6 w-6 items-center justify-center rounded-md border border-black/15 bg-[#F4F3EF] text-sm font-black transition hover:bg-[#CCFF00] active:scale-90">−</button>
-        <span className="w-4 text-center text-sm font-black text-black">{player.rating}</span>
-        <button type="button" onClick={() => onUpdate(player.id, "rating", Math.min(5, player.rating + 1))} className="flex h-6 w-6 items-center justify-center rounded-md border border-black/15 bg-[#F4F3EF] text-sm font-black transition hover:bg-[#CCFF00] active:scale-90">+</button>
+      <div className="col-span-2 flex shrink-0 items-center justify-start gap-1 sm:col-span-1 sm:justify-end">
+        <span className="text-[10px] font-black uppercase text-zinc-500">Skl:</span>
+        <button type="button" onClick={() => onUpdate(player.id, "rating", Math.max(1, player.rating - 1))} className="flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-[#111827] text-sm font-black text-white transition hover:bg-[#43F58B] hover:text-black active:scale-90">−</button>
+        <span className="w-4 text-center text-sm font-black text-[#43F58B]">{player.rating}</span>
+        <button type="button" onClick={() => onUpdate(player.id, "rating", Math.min(5, player.rating + 1))} className="flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-[#111827] text-sm font-black text-white transition hover:bg-[#43F58B] hover:text-black active:scale-90">+</button>
       </div>
-      <button type="button" onClick={() => onRemove(player.id)} className="shrink-0 flex h-6 w-6 items-center justify-center rounded-md border border-black/10 bg-white text-zinc-400 transition hover:border-rose-300 hover:bg-rose-50 hover:text-rose-500 active:scale-90">
+      <button type="button" onClick={() => onRemove(player.id)} className="shrink-0 flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-[#111827] text-zinc-500 transition hover:border-rose-300 hover:bg-rose-500 hover:text-white active:scale-90">
         ×
       </button>
     </div>
@@ -304,10 +322,21 @@ function RandomTeamsTool() {
   ]);
   const [teamCount, setTeamCount] = useState(2);
   const [teams, setTeams] = useState([]);
+  const isFutsal = sport === "futsal";
 
   const importBulk = () => {
     const parsed = parseBulkPlayers(bulk);
     if (parsed.length) { setPlayers((cur) => [...cur, ...parsed]); setBulk(""); setShowBulk(false); }
+  };
+  const rosterPositions = positionsFor(sport, format);
+  const updateRosterPlayer = (id, key, value) => {
+    setPlayers((current) => current.map((player) => (player.id === id ? { ...player, [key]: value } : player)));
+  };
+  const removeRosterPlayer = (id) => {
+    setPlayers((current) => current.filter((player) => player.id !== id));
+  };
+  const addRosterPlayer = () => {
+    setPlayers((current) => [...current, { id: `p-${Date.now()}`, name: "", position: rosterPositions[0], rating: 3 }]);
   };
 
   const generate = () => {
@@ -336,6 +365,24 @@ function RandomTeamsTool() {
     setTeams(output);
   };
 
+  const openInFormationBuilder = () => {
+    if (teams.length < 2) return;
+    const [teamOne, teamTwo] = teams;
+    const formationA = recommendedFormationFor(sport, format, teamOne.players.length);
+    const formationB = recommendedFormationFor(sport, format, teamTwo.players.length);
+    const payload = {
+      sport,
+      format,
+      includeB: true,
+      formationA,
+      formationB,
+      teamA: teamOne.players.map((player, index) => ({ ...player, id: `a-${player.id || index}` })),
+      teamB: teamTwo.players.map((player, index) => ({ ...player, id: `b-${player.id || index}` })),
+    };
+    window.localStorage.setItem("pitchside_pending_formation", JSON.stringify(payload));
+    window.location.href = "/tools/football-formation-builder#tool-start";
+  };
+
   const copyText = teams
     .map((t) => `${t.name} (Rating: ${t.score})\n${t.players.map((p) => `- ${p.name} · ${p.position} · ${p.rating}/5`).join("\n")}`)
     .join("\n\n");
@@ -345,80 +392,116 @@ function RandomTeamsTool() {
     : `${format}v${format}: always spread goalkeepers first, then defenders.`;
 
   return (
-    <ToolPanel
-      title="Random Team Generator"
-      eyebrow="Balance keepers, positions and ability"
-      actions={teams.length > 0 ? <CopyButton value={copyText} label="Copy to WhatsApp" shortLabel="Copy" /> : null}
-    >
+    <section id="tool-start" className="mx-auto w-full scroll-mt-28 overflow-hidden rounded-2xl border border-white/10 bg-[#08111d] p-4 text-white shadow-[0_24px_80px_rgba(0,0,0,0.45)] md:p-6">
       {/* ── Settings ── */}
-      <div className="rounded-2xl border border-black/10 bg-[#F4F3EF] p-4 space-y-4">
-        <Segmented
-          label="Sport"
-          value={sport}
-          onChange={(v) => { setSport(v); setFormat(v === "futsal" ? "futsal5" : "5"); }}
-          options={[{ value: "football", label: "Football" }, { value: "futsal", label: "Futsal" }]}
-        />
-        <Segmented label="Format" value={format} onChange={setFormat} options={formatsForSport(sport)} />
-        <div className="grid gap-3 [grid-template-columns:repeat(2,minmax(0,1fr))]">
-          <div className="min-w-0">
-            <span className={labelClass}>Teams</span>
-            <div className="mt-2 flex items-center justify-between gap-1">
-              <button type="button" onClick={() => setTeamCount((c) => Math.max(2, c - 1))} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-2 border-black bg-white text-xl font-black hover:bg-black hover:text-[#CCFF00] active:scale-90">−</button>
-              <span className="text-2xl font-black text-black">{teamCount}</span>
-              <button type="button" onClick={() => setTeamCount((c) => Math.min(6, c + 1))} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border-2 border-black bg-white text-xl font-black hover:bg-black hover:text-[#CCFF00] active:scale-90">+</button>
+      <div className="rounded-2xl border border-white/10 bg-[#0b1220] p-4">
+        <div className="grid gap-5 md:grid-cols-[1fr_1.4fr_0.8fr] md:items-end">
+          <div>
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.18em] text-zinc-400">Sport selection</p>
+            <div className="grid grid-cols-2 overflow-hidden rounded-xl border border-white/10 bg-black">
+              {[{ value: "football", label: "Football" }, { value: "futsal", label: "Futsal" }].map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => { setSport(option.value); setFormat(option.value === "futsal" ? "futsal5" : "5"); }}
+                  className={`min-h-11 text-sm font-black transition ${sport === option.value ? "bg-[#43F58B] text-black" : "text-zinc-400 hover:text-white"}`}
+                >
+                  {option.label}
+                </button>
+              ))}
             </div>
           </div>
-          <div className="min-w-0 flex flex-col justify-center overflow-hidden rounded-xl border border-[#CCFF00]/40 bg-black p-2.5">
-            <p className="text-[9px] font-black uppercase tracking-widest text-[#CCFF00]">Tip</p>
-            <p className="mt-1 break-words text-[10px] font-bold leading-snug text-zinc-300 [overflow-wrap:anywhere]">{formatHint}</p>
+          <div>
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.18em] text-zinc-400">Format</p>
+            <div className={`grid overflow-hidden rounded-xl border border-white/10 bg-black ${isFutsal ? "grid-cols-1" : "grid-cols-4"}`}>
+              {formatsForSport(sport).map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setFormat(option.value)}
+                  className={`min-h-11 px-2 text-xs font-black transition ${format === option.value ? "bg-[#43F58B] text-black" : "text-zinc-400 hover:text-white"}`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-3 text-[10px] font-black uppercase tracking-[0.18em] text-zinc-400">Team count</p>
+            <div className="flex items-center gap-4">
+              <button type="button" onClick={() => setTeamCount((c) => Math.max(2, c - 1))} className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-black text-xl font-black text-white hover:bg-[#43F58B] hover:text-black active:scale-90">−</button>
+              <span className="min-w-8 text-center text-3xl font-black text-[#43F58B]">{teamCount}</span>
+              <button type="button" onClick={() => setTeamCount((c) => Math.min(6, c + 1))} className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-black text-xl font-black text-white hover:bg-[#43F58B] hover:text-black active:scale-90">+</button>
+            </div>
           </div>
         </div>
+        <p className="mt-4 rounded-xl border border-[#43F58B]/30 bg-[#43F58B]/10 p-3 text-[11px] font-bold leading-relaxed text-zinc-300">{formatHint}</p>
       </div>
 
       {/* ── Players ── */}
-      <div>
-        <div className="mb-3 flex items-center justify-between gap-2">
-          <span className={labelClass}>{players.length} Players · Skill 1–5</span>
+      <div className="mt-6">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-3xl font-black tracking-tight text-white">Player Roster</h2>
+            <p className="mt-1 text-sm font-bold text-zinc-400">Configure players and skill levels for balanced generation.</p>
+          </div>
           <button
             type="button"
             onClick={() => setShowBulk((v) => !v)}
-            className="flex items-center gap-1.5 rounded-lg border border-black/15 bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-600 transition hover:border-black hover:text-black"
+            className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-[#43F58B]/60 bg-black px-5 text-[11px] font-black uppercase tracking-widest text-[#43F58B] transition hover:bg-[#43F58B] hover:text-black"
           >
-            {showBulk ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${showBulk ? "rotate-180" : ""}`} />
             {showBulk ? "Close" : "Bulk paste"}
           </button>
         </div>
 
         {showBulk && (
-          <div className="mb-3 rounded-2xl border border-black/10 bg-white p-3 space-y-2">
-            <p className={`${labelClass} mb-1`}>One per line — e.g. Sam GK 4 · or just Sam</p>
+          <div className="mb-3 rounded-2xl border border-white/10 bg-[#0b1220] p-3 space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">One per line - e.g. Sam GK 4 or just Sam</p>
             <textarea
               value={bulk}
               onChange={(e) => setBulk(e.target.value)}
               rows={4}
-              className={inputClass}
+              className="w-full rounded-xl border border-white/10 bg-black p-3 text-sm font-bold text-white outline-none focus:border-[#43F58B]"
               placeholder={"Sam GK 4\nAlex FWD 5\nBen DEF 3"}
             />
-            <button type="button" onClick={importBulk} className={secondaryButtonClass}>
+            <button type="button" onClick={importBulk} className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-[#43F58B] px-4 text-xs font-black uppercase tracking-widest text-black">
               <Plus className="h-4 w-4" /> Import players
             </button>
           </div>
         )}
 
-        <PlayerEditor players={players} setPlayers={setPlayers} sport={sport} format={format} />
+        <div className="grid gap-3 rounded-2xl border border-white/10 bg-[#0b1220] p-3 md:grid-cols-2 xl:grid-cols-3">
+          {players.map((player, index) => (
+            <RandomPlayerRow
+              key={player.id}
+              player={player}
+              index={index}
+              onUpdate={updateRosterPlayer}
+              onRemove={removeRosterPlayer}
+              positions={rosterPositions}
+            />
+          ))}
+          <button type="button" onClick={addRosterPlayer} className="min-h-14 rounded-xl border-2 border-dashed border-white/15 bg-black/10 text-sm font-black text-zinc-400 transition hover:border-[#43F58B] hover:text-[#43F58B] md:col-span-2 xl:col-span-3">
+            <Plus className="mr-2 inline h-4 w-4" /> Add Another Player to Roster
+          </button>
+        </div>
       </div>
 
       {/* ── Generate actions ── */}
-      <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={generate} className={buttonClass}>
-          <Shuffle className="h-4 w-4" /> Generate Teams
+      <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <button type="button" onClick={generate} className="inline-flex min-h-16 items-center justify-center gap-3 rounded-full bg-[#43F58B] px-10 text-lg font-black text-black transition hover:bg-white active:scale-95">
+          <Shuffle className="h-5 w-5" /> Generate Balanced Teams
         </button>
         {teams.length > 0 && (
           <>
-            <button type="button" onClick={generate} className={secondaryButtonClass}>
+            <button type="button" onClick={openInFormationBuilder} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#43F58B]/60 bg-black px-5 text-[11px] font-black uppercase tracking-widest text-[#43F58B] hover:bg-[#43F58B] hover:text-black">
+              <PanelLeftOpen className="h-4 w-4" /> Arrange in formation
+            </button>
+            <button type="button" onClick={generate} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-black px-5 text-[11px] font-black uppercase tracking-widest text-white hover:border-[#43F58B]">
               <RefreshCw className="h-4 w-4" /> Reshuffle
             </button>
-            <button type="button" onClick={() => { setTeams([]); setPlayers([]); }} className={secondaryButtonClass}>
+            <button type="button" onClick={() => { setTeams([]); setPlayers([]); }} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-black px-5 text-[11px] font-black uppercase tracking-widest text-white hover:border-[#43F58B]">
               <RotateCcw className="h-4 w-4" /> Reset
             </button>
           </>
@@ -429,16 +512,16 @@ function RandomTeamsTool() {
       {teams.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-2">
-            <h3 className={labelClass}>Generated Teams</h3>
+            <h3 className="text-[10px] font-black uppercase tracking-[0.22em] text-[#43F58B]">Generated Teams</h3>
             <CopyButton value={copyText} label="Copy all to WhatsApp" shortLabel="Copy All" />
           </div>
           {teams.map((team) => {
             const teamCopy = `${team.name} (Rating: ${team.score})\n${team.players.map((p) => `- ${p.name} · ${p.position} · ${p.rating}/5`).join("\n")}`;
             return (
-              <div key={team.name} className="overflow-hidden rounded-2xl border-2 border-black bg-black shadow-[4px_4px_0px_#CCFF00]">
+              <div key={team.name} className="overflow-hidden rounded-2xl border-2 border-black bg-black shadow-[4px_4px_0px_#43F58B]">
                 <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
                   <div>
-                    <h4 className="text-base font-black uppercase tracking-tight text-[#CCFF00]">{team.name}</h4>
+                    <h4 className="text-base font-black uppercase tracking-tight text-[#43F58B]">{team.name}</h4>
                     <p className="text-[10px] font-bold text-zinc-500">Rating {team.score} · {team.players.length} players</p>
                   </div>
                   <CopyButton value={teamCopy} label="Copy team" shortLabel="Copy" />
@@ -460,11 +543,11 @@ function RandomTeamsTool() {
       )}
 
       {teams.length === 0 && (
-        <div className="grid min-h-32 place-items-center rounded-2xl border-2 border-dashed border-black/20 bg-[#F4F3EF] p-6 text-center">
+        <div className="mt-6 grid min-h-32 place-items-center rounded-2xl border-2 border-dashed border-white/10 bg-[#0b1220] p-6 text-center">
           <p className="text-xs font-black uppercase tracking-widest text-zinc-400">Add players above, then hit Generate</p>
         </div>
       )}
-    </ToolPanel>
+    </section>
   );
 }
 
@@ -511,85 +594,507 @@ function makeLineup(players, formation) {
   return roles.map((role, index) => ({ role, player: players[index]?.name || "TBC" }));
 }
 
-function FormationPitch({ lineup, label }) {
+const darkInputClass = "w-full min-w-0 rounded-lg border border-emerald-300/20 bg-[#0c1320] px-3 py-2 text-xs font-bold text-white outline-none transition placeholder:text-slate-500 focus:border-[#43F58B] focus:ring-2 focus:ring-[#43F58B]/25";
+
+function formationShapeParts(formation) {
+  const compact = formation.match(/\d(?:-\d)+/)?.[0] || "1-2-1";
+  return compact.split("-").map((value) => Number(value)).filter(Boolean);
+}
+
+function distributeFormationX(count) {
+  const points = {
+    1: [50],
+    2: [34, 66],
+    3: [24, 50, 76],
+    4: [16, 39, 61, 84],
+    5: [11, 30, 50, 70, 89],
+  };
+  return points[count] || Array.from({ length: count }, (_, index) => 12 + (76 / Math.max(1, count - 1)) * index);
+}
+
+function makePitchLineup(players, formation, savedPositions = {}) {
+  const roles = roleTemplates[formation] || roleTemplates["1-2-1"];
+  const shape = formationShapeParts(formation);
+  const rows = [[roles[0]], ...shape.map((lineSize, lineIndex) => roles.slice(1 + shape.slice(0, lineIndex).reduce((sum, value) => sum + value, 0), 1 + shape.slice(0, lineIndex + 1).reduce((sum, value) => sum + value, 0)))];
+  const yValues = rows.length === 5 ? [90, 72, 54, 35, 14] : rows.length === 4 ? [90, 66, 42, 16] : rows.length === 3 ? [90, 55, 18] : [90, 18];
+  let playerIndex = 0;
+
+  return rows.flatMap((row, rowIndex) => {
+    const xs = distributeFormationX(row.length);
+    return row.map((role, roleIndex) => {
+      const player = players[playerIndex] || {};
+      const id = player.id || `${role}-${playerIndex}`;
+      const saved = savedPositions[id];
+      const output = {
+        id,
+        role,
+        player: player.name || "TBC",
+        rating: player.rating || 3,
+        left: saved?.left ?? xs[roleIndex],
+        top: saved?.top ?? yValues[rowIndex] ?? 50,
+      };
+      playerIndex += 1;
+      return output;
+    });
+  });
+}
+
+function FormationPlayerCard({ item, teamTone, accent = "#43F58B", onMove, onNameChange }) {
+  const moveCard = (pitch, clientX, clientY) => {
+    const rect = pitch.getBoundingClientRect();
+    const left = clampNumber(((clientX - rect.left) / rect.width) * 100, 8, 92);
+    const top = clampNumber(((clientY - rect.top) / rect.height) * 100, 8, 92);
+    onMove(item.id, { left, top });
+  };
+  const getPitch = (target) => target.closest("[data-formation-pitch]");
+  const startPointerDrag = (event) => {
+    if (event.target.closest("input")) return;
+    const pitch = getPitch(event.currentTarget);
+    if (!pitch) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+
+    const move = (moveEvent) => {
+      moveCard(pitch, moveEvent.clientX, moveEvent.clientY);
+    };
+
+    const stop = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", stop);
+    };
+
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", stop, { once: true });
+    move(event);
+  };
+  const startMouseDrag = (event) => {
+    if (event.target.closest("input")) return;
+    const pitch = getPitch(event.currentTarget);
+    if (!pitch) return;
+    event.preventDefault();
+
+    const move = (moveEvent) => moveCard(pitch, moveEvent.clientX, moveEvent.clientY);
+    const stop = () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseup", stop);
+    };
+
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", stop, { once: true });
+    move(event);
+  };
+  const startTouchDrag = (event) => {
+    if (event.target.closest("input")) return;
+    const pitch = getPitch(event.currentTarget);
+    const touch = event.touches[0];
+    if (!pitch || !touch) return;
+
+    const move = (moveEvent) => {
+      const nextTouch = moveEvent.touches[0];
+      if (nextTouch) moveCard(pitch, nextTouch.clientX, nextTouch.clientY);
+    };
+    const stop = () => {
+      window.removeEventListener("touchmove", move);
+      window.removeEventListener("touchend", stop);
+    };
+
+    window.addEventListener("touchmove", move, { passive: false });
+    window.addEventListener("touchend", stop, { once: true });
+    moveCard(pitch, touch.clientX, touch.clientY);
+  };
+
   return (
-    <div className="rounded-[1.4rem] border-2 border-black bg-[#102b19] p-3 shadow-[6px_6px_0px_#000]">
-      <div className="relative min-h-[390px] overflow-hidden rounded-2xl border-2 border-[#CCFF00]/80 bg-[radial-gradient(circle_at_center,rgba(204,255,0,0.12),transparent_34%),linear-gradient(90deg,rgba(255,255,255,0.07)_50%,transparent_50%)] bg-[length:auto,70px_70px] p-3 md:min-h-[520px] md:p-4">
-        <div className="absolute inset-x-6 top-1/2 h-px bg-[#CCFF00]/70" />
-        <div className="absolute left-1/2 top-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#CCFF00]/70" />
-        <p className="relative z-10 mb-4 text-center text-[10px] font-black uppercase tracking-[0.22em] text-[#CCFF00]">{label}</p>
-        <div className="relative z-10 grid h-full gap-3">
-          {lineup.map((item, index) => (
-            <div key={`${item.role}-${index}`} className="mx-auto w-full max-w-sm rounded-2xl border-2 border-black bg-white/95 px-4 py-3 text-center text-black shadow-[3px_3px_0px_#CCFF00]">
-              <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{item.role}</div>
-              <div className="truncate text-lg font-black uppercase tracking-tight">{item.player}</div>
-            </div>
-          ))}
-        </div>
+    <div
+      onPointerDown={startPointerDrag}
+      onMouseDown={startMouseDrag}
+      onTouchStart={startTouchDrag}
+      className={`absolute z-20 w-[64px] -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-lg border bg-[#111827]/95 px-1.5 py-1.5 text-center shadow-[0_0_20px_rgba(67,245,139,0.24)] active:cursor-grabbing md:w-[76px] ${teamTone}`}
+      style={{ left: `${item.left}%`, top: `${item.top}%`, borderColor: accent, boxShadow: `0 0 22px ${accent}40`, background: `linear-gradient(180deg, ${accent}24, rgba(17,24,39,0.98) 44%)` }}
+    >
+      <div className="mx-auto mb-1 grid h-5 w-5 place-items-center rounded-full border text-[8px] font-black text-black md:h-6 md:w-6 md:text-[9px]" style={{ backgroundColor: accent, borderColor: accent }}>
+        {item.player.slice(0, 1)}
+      </div>
+      <input
+        value={item.player}
+        onChange={(event) => onNameChange(item.id, event.target.value)}
+        className="w-full rounded bg-transparent text-center text-[8px] font-black uppercase leading-none text-white outline-none focus:bg-white/10 md:text-[10px]"
+        aria-label={`${item.role} player name`}
+      />
+      <p className="mt-0.5 truncate text-center text-[7px] font-black uppercase tracking-widest" style={{ color: accent }}>{positionLabel(item.role)}</p>
+      <div className="mt-0.5 grid grid-cols-3 gap-x-0.5 gap-y-0.5 text-center text-[6px] font-black uppercase text-slate-400">
+        <span>POS</span>
+        <span>ATK</span>
+        <span>AVG</span>
+        <span className="text-white">{Math.max(35, item.rating * 18)}</span>
+        <span className="text-white">{Math.max(40, item.rating * 17)}</span>
+        <span className="text-white">{Math.max(50, item.rating * 19)}</span>
       </div>
     </div>
   );
 }
 
+function FormationPitch({ lineup, label, tone = "border-[#43F58B]/60", accent = "#43F58B", onMove, onNameChange, exportId }) {
+  return (
+    <div id={exportId} data-formation-pitch className={`relative mx-auto aspect-[7/10] min-h-[520px] w-full max-w-[620px] overflow-hidden rounded-2xl border ${tone} bg-[#12361f] shadow-[0_0_24px_rgba(67,245,139,0.22)] sm:min-h-[560px] xl:max-w-none`}>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(67,245,139,0.22),transparent_34%),linear-gradient(90deg,rgba(255,255,255,0.06)_50%,transparent_50%),linear-gradient(rgba(255,255,255,0.035)_50%,transparent_50%)] bg-[length:auto,88px_88px,88px_88px]" />
+      <div className="absolute inset-5 rounded-xl border-2 border-white/60" />
+      <div className="absolute inset-x-5 top-1/2 h-0.5 bg-white/60" />
+      <div className="absolute left-1/2 top-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white/60" />
+      <div className="absolute inset-x-[18%] top-5 h-[13%] border-x-2 border-b-2 border-white/60" />
+      <div className="absolute inset-x-[34%] top-5 h-[6%] border-x-2 border-b-2 border-white/60" />
+      <div className="absolute inset-x-[18%] bottom-5 h-[13%] border-x-2 border-t-2 border-white/60" />
+      <div className="absolute inset-x-[34%] bottom-5 h-[6%] border-x-2 border-t-2 border-white/60" />
+      <p className="absolute left-4 top-4 z-30 rounded-full border border-[#43F58B]/40 bg-[#08111d]/80 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-[#43F58B]">{label}</p>
+      {lineup.map((item, index) => (
+        <FormationPlayerCard key={`${label}-${item.role}-${index}`} item={item} teamTone={tone} accent={accent} onMove={onMove} onNameChange={onNameChange} />
+      ))}
+    </div>
+  );
+}
+
+function SidebarSection({ title, children, defaultOpen = false }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-white/10 bg-[#111827]/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+      <button
+        type="button"
+        onClick={() => setIsOpen((current) => !current)}
+        className="flex min-h-11 w-full items-center justify-between gap-3 px-3 py-3 text-left transition hover:bg-white/[0.04]"
+        aria-expanded={isOpen}
+      >
+        <h3 className="text-[10px] font-black uppercase tracking-[0.18em] text-white">{title}</h3>
+        <ChevronDown className={`h-3.5 w-3.5 text-slate-500 transition-transform ${isOpen ? "rotate-180 text-[#43F58B]" : ""}`} />
+      </button>
+      {isOpen && <div className="px-3 pb-3">{children}</div>}
+    </div>
+  );
+}
+
+function SidebarButtonGroup({ label, options, value, onChange }) {
+  return (
+    <div>
+      <p className="mb-2 text-[9px] font-black uppercase tracking-widest text-slate-400">{label}</p>
+      <div className="grid grid-cols-2 gap-1.5">
+        {options.map((option) => {
+          const selected = option.value === value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => onChange(option.value)}
+              className={`min-h-9 rounded-lg border px-2 text-[10px] font-black uppercase transition ${selected ? "border-[#43F58B] bg-[#43F58B]/15 text-[#43F58B]" : "border-white/10 bg-[#0c1320] text-slate-300 hover:border-[#43F58B]/60"}`}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function CompactFormationPlayers({ title, players, setPlayers, sport, format }) {
+  const options = positionsFor(sport, format);
+  const update = (id, key, value) => setPlayers((current) => current.map((player) => (player.id === id ? { ...player, [key]: value } : player)));
+  const addPlayer = () => setPlayers((current) => [...current, { id: `${title}-${Date.now()}`, name: "", position: options[0], rating: 3 }]);
+
+  return (
+    <SidebarSection title={title}>
+      <div className="grid gap-2">
+        {players.map((player) => (
+          <div key={player.id} className="grid grid-cols-[28px_minmax(0,1fr)_52px] items-center gap-2 rounded-lg border border-white/8 bg-[#0c1320] p-2">
+            <div className="grid h-7 w-7 place-items-center rounded-full border border-[#43F58B]/50 bg-[#43F58B]/15 text-[10px] font-black text-[#43F58B]">{player.name.slice(0, 1) || "P"}</div>
+            <div className="min-w-0">
+              <input value={player.name} onChange={(event) => update(player.id, "name", event.target.value)} className="w-full bg-transparent text-xs font-black uppercase text-white outline-none placeholder:text-slate-600" placeholder="Player" />
+              <select value={player.position} onChange={(event) => update(player.id, "position", event.target.value)} className="mt-1 w-full bg-transparent text-[9px] font-bold uppercase text-slate-400 outline-none">
+                {options.map((position) => <option key={position} value={position}>{position}</option>)}
+              </select>
+            </div>
+            <input type="number" min="1" max="5" value={player.rating} onChange={(event) => update(player.id, "rating", clampNumber(event.target.value, 1, 5))} className="rounded-md border border-white/10 bg-[#111827] px-2 py-1.5 text-center text-xs font-black text-white outline-none focus:border-[#43F58B]" />
+          </div>
+        ))}
+        <button type="button" onClick={addPlayer} className="min-h-9 rounded-lg border border-[#43F58B]/40 bg-[#43F58B]/10 text-[10px] font-black uppercase tracking-widest text-[#43F58B] hover:bg-[#43F58B] hover:text-black">
+          Add player
+        </button>
+      </div>
+    </SidebarSection>
+  );
+}
+
+function FormationSidebar({
+  open,
+  sport,
+  setSport,
+  format,
+  setFormat,
+  includeB,
+  setIncludeB,
+  options,
+  safeFormationA,
+  setFormationA,
+  safeFormationB,
+  setFormationB,
+  teamA,
+  setTeamA,
+  teamB,
+  setTeamB,
+  tacticalNote,
+  setSidebarOpen,
+}) {
+  if (!open) {
+    return (
+      <aside className="hidden rounded-2xl border-2 border-black bg-black p-2 text-[#43F58B] shadow-[4px_4px_0px_#43F58B] lg:block">
+        <div className="grid gap-2">
+          {["Sport", "Shape", "Team"].map((item) => (
+            <div key={item} className="grid min-h-16 place-items-center rounded-xl border border-white/10 bg-white/[0.04] text-[9px] font-black uppercase tracking-widest [writing-mode:vertical-rl]">
+              {item}
+            </div>
+          ))}
+        </div>
+      </aside>
+    );
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setSidebarOpen(false)}
+        className="fixed inset-0 z-40 bg-black/45 backdrop-blur-[1px] lg:hidden"
+        aria-label="Dismiss controls backdrop"
+      />
+      <aside className="fixed inset-y-0 left-0 z-50 w-[min(72vw,340px)] overflow-y-auto overscroll-contain border-r border-white/10 bg-[#08111d] p-4 text-white shadow-[18px_0_50px_rgba(0,0,0,0.45)] [scrollbar-color:#43F58B_#111827] [scrollbar-width:thin] lg:sticky lg:top-4 lg:z-auto lg:max-h-[calc(100svh-2rem)] lg:w-auto lg:self-start lg:rounded-xl lg:border lg:border-white/10 lg:bg-transparent lg:p-3 lg:shadow-none">
+      <div className="sticky top-0 z-10 -mx-4 mb-4 flex items-center justify-between gap-3 border-b border-white/10 bg-[#08111d]/95 px-4 py-3 backdrop-blur lg:hidden">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-widest text-[#43F58B]">Builder controls</p>
+          <h3 className="text-xl font-black uppercase tracking-tight text-white">Formation setup</h3>
+        </div>
+        <button type="button" onClick={() => setSidebarOpen(false)} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#43F58B]/40 bg-[#43F58B]/10 px-3 text-[10px] font-black uppercase tracking-widest text-[#43F58B]" aria-label="Close controls">
+          <PanelLeftClose className="h-5 w-5" />
+          Close
+        </button>
+      </div>
+      <div className="space-y-4 pb-4">
+        <SidebarSection title="Team settings">
+          <div className="grid gap-3">
+            <SidebarButtonGroup label="Sport" value={sport} onChange={(value) => { setSport(value); setFormat(value === "futsal" ? "futsal5" : "5"); }} options={[{ value: "football", label: "Football" }, { value: "futsal", label: "Futsal" }]} />
+            <SidebarButtonGroup label="Format" value={format} onChange={setFormat} options={formatsForSport(sport)} />
+            <label className="flex min-h-9 items-center gap-2 rounded-lg border border-white/10 bg-[#0c1320] px-3 text-[10px] font-black uppercase tracking-widest text-slate-300">
+              <input type="checkbox" checked={includeB} onChange={(e) => setIncludeB(e.target.checked)} className="h-4 w-4 accent-[#43F58B]" /> Preview Team B
+            </label>
+          </div>
+        </SidebarSection>
+        {includeB && (
+          <SidebarSection title="Team B setup">
+            <div className="grid gap-3">
+              <label className="grid gap-2">
+                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Formation</span>
+                <select value={safeFormationB} onChange={(e) => setFormationB(e.target.value)} className={darkInputClass}>{options.map((item) => <option key={item}>{item}</option>)}</select>
+              </label>
+              <div>
+                <p className="mb-2 text-[9px] font-black uppercase tracking-widest text-slate-400">Templates</p>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {options.map((item) => (
+                    <button key={item} type="button" onClick={() => setFormationB(item)} className={`min-h-9 rounded-lg border px-2 text-[10px] font-black uppercase ${safeFormationB === item ? "border-sky-400 bg-sky-400/15 text-sky-300" : "border-white/10 bg-[#0c1320] text-slate-300"}`}>{item}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </SidebarSection>
+        )}
+        {includeB && (
+          <CompactFormationPlayers title="Team B players" players={teamB} setPlayers={setTeamB} sport={sport} format={format} />
+        )}
+        <SidebarSection title="Team A setup">
+          <div className="grid gap-3">
+            <label className="grid gap-2">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Formation</span>
+              <select value={safeFormationA} onChange={(e) => setFormationA(e.target.value)} className={darkInputClass}>{options.map((item) => <option key={item}>{item}</option>)}</select>
+            </label>
+            <div>
+              <p className="mb-2 text-[9px] font-black uppercase tracking-widest text-slate-400">Templates</p>
+              <div className="grid grid-cols-3 gap-1.5">
+                {options.map((item) => (
+                  <button key={item} type="button" onClick={() => setFormationA(item)} className={`min-h-9 rounded-lg border px-2 text-[10px] font-black uppercase ${safeFormationA === item ? "border-[#43F58B] bg-[#43F58B]/15 text-[#43F58B]" : "border-white/10 bg-[#0c1320] text-slate-300"}`}>{item}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </SidebarSection>
+        <CompactFormationPlayers title="Team A players" players={teamA} setPlayers={setTeamA} sport={sport} format={format} />
+        <SidebarSection title="Tactical notes">
+          <textarea value={tacticalNote} readOnly className="min-h-28 w-full resize-none rounded-lg border border-white/10 bg-[#0c1320] p-3 text-xs font-bold leading-relaxed text-slate-200 outline-none" />
+        </SidebarSection>
+      </div>
+      </aside>
+    </>
+  );
+}
+
 function FormationTool() {
-  const [sport, setSport] = useState("football");
-  const [format, setFormat] = useState("5");
-  const [formationA, setFormationA] = useState("1-2-1");
-  const [formationB, setFormationB] = useState("1-2-1");
-  const [includeB, setIncludeB] = useState(false);
-  const [teamA, setTeamA] = useState([
+  const pendingSetup = useMemo(() => readPendingFormationSetup(), []);
+  const [sport, setSport] = useState(pendingSetup?.sport || "football");
+  const [format, setFormat] = useState(pendingSetup?.format || "5");
+  const [formationA, setFormationA] = useState(pendingSetup?.formationA || "1-2-1");
+  const [formationB, setFormationB] = useState(pendingSetup?.formationB || "1-2-1");
+  const [includeB, setIncludeB] = useState(pendingSetup?.includeB ?? true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [saveStatus, setSaveStatus] = useState("");
+  const [positions, setPositions] = useState({ A: {}, B: {} });
+  const [teamA, setTeamA] = useState(pendingSetup?.teamA?.length ? pendingSetup.teamA : [
     { id: "a1", name: "Alex", position: "Goalkeeper", rating: 3 },
     { id: "a2", name: "Ben", position: "Defender", rating: 3 },
     { id: "a3", name: "Chris", position: "Midfielder", rating: 3 },
     { id: "a4", name: "Dani", position: "Winger", rating: 3 },
     { id: "a5", name: "Elliot", position: "Forward", rating: 3 },
   ]);
-  const [teamB, setTeamB] = useState([{ id: "b1", name: "Opponent GK", position: "Goalkeeper", rating: 3 }]);
+  const [teamB, setTeamB] = useState(pendingSetup?.teamB?.length ? pendingSetup.teamB : [
+    { id: "b1", name: "Kai", position: "Goalkeeper", rating: 3 },
+    { id: "b2", name: "Mia", position: "Defender", rating: 3 },
+    { id: "b3", name: "Leo", position: "Midfielder", rating: 3 },
+    { id: "b4", name: "Nia", position: "Winger", rating: 3 },
+    { id: "b5", name: "Omar", position: "Forward", rating: 3 },
+  ]);
   const options = formationOptions[sport][format] || formationOptions.football["5"];
   const safeFormationA = options.includes(formationA) ? formationA : options[0];
   const safeFormationB = options.includes(formationB) ? formationB : options[0];
-  const lineupA = makeLineup(teamA, safeFormationA);
-  const lineupB = makeLineup(teamB, safeFormationB);
+  const lineupA = makePitchLineup(teamA, safeFormationA, positions.A);
+  const lineupB = makePitchLineup(teamB, safeFormationB, positions.B);
   const tacticalNote = sport === "futsal" ? "Rotate the ala players, keep the fix available as a reset, and avoid leaving the pivot isolated." : format === "11" ? "Keep the distances between lines compact and use the wide roles to stretch the opponent before switching play." : "Keep one player behind the ball, one central outlet, and rotate wide runners after attacks.";
   const copyText = [`Team A · ${safeFormationA}`, ...lineupA.map((item) => `${item.role}: ${item.player}`), includeB ? `\nTeam B · ${safeFormationB}\n${lineupB.map((item) => `${item.role}: ${item.player}`).join("\n")}` : "", `\nNote: ${tacticalNote}`].filter(Boolean).join("\n");
 
+  const sidebarToggleLabel = sidebarOpen ? "Hide controls" : "Show controls";
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setSidebarOpen(window.matchMedia("(min-width: 1024px)").matches);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  const updatePosition = (team, id, position) => {
+    setPositions((current) => ({ ...current, [team]: { ...current[team], [id]: position } }));
+  };
+  const updatePlayerName = (team, id, name) => {
+    const setter = team === "A" ? setTeamA : setTeamB;
+    setter((current) => current.map((player) => (player.id === id ? { ...player, name } : player)));
+  };
+  const chooseExportTarget = () => {
+    const answer = window.prompt("Download which formation? Type A, B, or Both.", includeB ? "Both" : "A");
+    if (!answer) return null;
+    const normalized = answer.trim().toLowerCase();
+    if (["a", "team a", "teama"].includes(normalized)) return "A";
+    if (includeB && ["b", "team b", "teamb"].includes(normalized)) return "B";
+    if (includeB && ["both", "all", "a+b"].includes(normalized)) return "Both";
+    window.alert("Choose A, B, or Both.");
+    return null;
+  };
+  const exportFormationPdf = () => {
+    const target = chooseExportTarget();
+    if (!target) return;
+    const ids = target === "Both" ? ["formation-team-a", "formation-team-b"] : [`formation-team-${target.toLowerCase()}`];
+    const formationHtml = ids.map((id) => document.getElementById(id)?.outerHTML).filter(Boolean).join("");
+    if (!formationHtml) return;
+    const styles = [...document.querySelectorAll('link[rel="stylesheet"], style')].map((node) => node.outerHTML).join("");
+    const printWindow = window.open("", "_blank", "width=1100,height=900");
+    if (!printWindow) return;
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>${target} formation</title>
+          ${styles}
+          <style>
+            * { box-sizing: border-box; }
+            body { margin: 0; background: #08111d; padding: 24px; font-family: Arial, sans-serif; }
+            .print-grid { display: grid; grid-template-columns: repeat(${target === "Both" ? 2 : 1}, minmax(0, 1fr)); gap: 24px; align-items: start; }
+            [data-formation-pitch] { min-height: 760px !important; }
+            @media print { body { padding: 12px; } .print-grid { gap: 12px; } }
+          </style>
+        </head>
+        <body><div class="print-grid">${formationHtml}</div><script>window.onload = () => { window.print(); };</script></body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+  const saveFormation = () => {
+    const data = { savedAt: new Date().toISOString(), sport, format, formationA: safeFormationA, formationB: safeFormationB, includeB, teamA, teamB, positions };
+    localStorage.setItem("pitchside_formation_builder", JSON.stringify(data));
+    setSaveStatus("Saved locally");
+    setTimeout(() => setSaveStatus(""), 1600);
+  };
+
   return (
-    <ToolPanel title="Football formation builder" eyebrow="Lineups, roles and second team planning" actions={<CopyButton value={copyText} label="Copy lineup" />}>
-      <div className="grid gap-6 xl:grid-cols-[0.88fr_1.12fr]">
-        <div className="space-y-5">
-          <FormatControls sport={sport} setSport={(value) => { setSport(value); setFormat(value === "futsal" ? "futsal5" : "5"); }} format={format} setFormat={setFormat} />
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Team A formation">
-              <select value={safeFormationA} onChange={(e) => setFormationA(e.target.value)} className={inputClass}>{options.map((item) => <option key={item}>{item}</option>)}</select>
-            </Field>
-            <label className="flex min-h-11 items-center gap-3 rounded-2xl border-2 border-black bg-white px-4 py-3 text-sm font-black uppercase tracking-widest">
-              <input type="checkbox" checked={includeB} onChange={(e) => setIncludeB(e.target.checked)} className="h-5 w-5 accent-[#CCFF00]" /> Add Team B
-            </label>
+    <section id="tool-start" className="mx-auto w-full scroll-mt-28 overflow-hidden rounded-2xl border border-white/10 bg-[#08111d] text-white shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+      <div className="border-b border-white/10 bg-[#0b1220] px-4 py-4 md:px-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex justify-start">
+            <button type="button" onClick={() => setSidebarOpen((value) => !value)} className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-white/10 bg-[#111827] px-3 text-[10px] font-black uppercase tracking-widest text-white hover:border-[#43F58B]/60" aria-expanded={sidebarOpen}>
+              {sidebarOpen ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeftOpen className="h-4 w-4" />}
+              {sidebarToggleLabel}
+            </button>
           </div>
-          <ResultCard title="Team A players">
-            <PlayerEditor players={teamA} setPlayers={setTeamA} sport={sport} format={format} />
-          </ResultCard>
-          {includeB && (
-            <ResultCard title="Team B players">
-              <Field label="Team B formation">
-                <select value={safeFormationB} onChange={(e) => setFormationB(e.target.value)} className={inputClass}>{options.map((item) => <option key={item}>{item}</option>)}</select>
-              </Field>
-              <div className="mt-4">
-                <PlayerEditor players={teamB} setPlayers={setTeamB} sport={sport} format={format} />
-              </div>
-            </ResultCard>
-          )}
-          <div className="rounded-2xl border-2 border-black bg-black p-5 text-[#CCFF00] shadow-[4px_4px_0px_#CCFF00]">
-            <p className="text-[10px] font-black uppercase tracking-[0.22em]">Tactical note</p>
-            <p className="mt-2 text-sm font-bold leading-relaxed text-zinc-100">{tacticalNote}</p>
+          <div className="flex flex-wrap justify-start gap-2 sm:justify-end">
+            <CopyButton value={copyText} label="Copy lineup" shortLabel="Copy" />
+            <button type="button" onClick={exportFormationPdf} className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#43F58B] px-3 text-[10px] font-black uppercase tracking-widest text-black">
+              <FileText className="h-4 w-4" /> Export PDF
+            </button>
+            <button type="button" onClick={saveFormation} className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#43F58B] px-3 text-[10px] font-black uppercase tracking-widest text-black">
+              <Download className="h-4 w-4" /> {saveStatus || "Save formation"}
+            </button>
           </div>
-        </div>
-        <div className={`grid gap-5 ${includeB ? "lg:grid-cols-2" : ""}`}>
-          <FormationPitch label={`Team A · ${safeFormationA}`} lineup={lineupA} />
-          {includeB && <FormationPitch label={`Team B · ${safeFormationB}`} lineup={lineupB} />}
         </div>
       </div>
-    </ToolPanel>
+      {!sidebarOpen && (
+        <button type="button" onClick={() => setSidebarOpen(true)} className="m-4 flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[#43F58B]/50 bg-[#43F58B]/10 px-4 py-3 text-xs font-black uppercase tracking-widest text-[#43F58B] lg:hidden">
+          <PanelLeftOpen className="h-4 w-4" /> Open controls
+        </button>
+      )}
+      <div className={`grid gap-5 p-4 ${sidebarOpen ? "lg:grid-cols-[minmax(320px,380px)_minmax(0,1fr)]" : "lg:grid-cols-[70px_minmax(0,1fr)]"}`}>
+        <FormationSidebar
+          open={sidebarOpen}
+          sport={sport}
+          setSport={setSport}
+          format={format}
+          setFormat={setFormat}
+          includeB={includeB}
+          setIncludeB={setIncludeB}
+          options={options}
+          safeFormationA={safeFormationA}
+          setFormationA={setFormationA}
+          safeFormationB={safeFormationB}
+          setFormationB={setFormationB}
+          teamA={teamA}
+          setTeamA={setTeamA}
+          teamB={teamB}
+          setTeamB={setTeamB}
+          tacticalNote={tacticalNote}
+          setSidebarOpen={setSidebarOpen}
+        />
+        <div className={`grid gap-4 ${includeB ? "xl:grid-cols-2" : ""}`}>
+          <FormationPitch
+            exportId="formation-team-a"
+            label={`Team A · ${safeFormationA}`}
+            lineup={lineupA}
+            tone="border-[#43F58B]/60"
+            accent="#43F58B"
+            onMove={(id, position) => updatePosition("A", id, position)}
+            onNameChange={(id, name) => updatePlayerName("A", id, name)}
+          />
+          {includeB && (
+            <FormationPitch
+              exportId="formation-team-b"
+              label={`Team B · ${safeFormationB}`}
+              lineup={lineupB}
+              tone="border-sky-400/60"
+              accent="#38BDF8"
+              onMove={(id, position) => updatePosition("B", id, position)}
+              onNameChange={(id, name) => updatePlayerName("B", id, name)}
+            />
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -706,14 +1211,14 @@ function LeagueTableTool() {
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-2">
                   <div className="rounded-xl border border-black/10 bg-[#F4F3EF] p-3"><p className={labelClass}>GD</p><p className="mt-1 text-xl font-black text-black">{Number(row.gf) - Number(row.ga)}</p></div>
-                  <div className="rounded-xl border border-black/10 bg-[#CCFF00] p-3"><p className={labelClass}>PTS</p><p className="mt-1 text-xl font-black text-black">{Number(row.wins) * 3 + Number(row.draws)}</p></div>
+                  <div className="rounded-xl border border-black/10 bg-[#43F58B] p-3"><p className={labelClass}>PTS</p><p className="mt-1 text-xl font-black text-black">{Number(row.wins) * 3 + Number(row.draws)}</p></div>
                 </div>
               </div>
             ))}
           </div>
           <div className="hidden overflow-x-auto rounded-2xl border-2 border-black shadow-[6px_6px_0px_#000] md:block">
             <table className="w-full min-w-[900px] border-collapse bg-white text-left">
-              <thead className="bg-black text-[#CCFF00]">
+              <thead className="bg-black text-[#43F58B]">
                 <tr>{["Team", "P", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((header) => <th key={header} className="p-3 text-xs font-black uppercase tracking-widest">{header}</th>)}</tr>
               </thead>
               <tbody>
@@ -770,7 +1275,7 @@ function StatsPlayerCard({ player, onUpdate, onRemove, options, teams, teamAName
     <div className="overflow-hidden rounded-xl border border-black/10 bg-white">
       {/* ── Collapsed header ── */}
       <div className="flex min-w-0 items-center gap-2 px-3 py-2.5">
-        <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${isTeamB ? "bg-sky-400" : "bg-[#CCFF00]"}`} />
+        <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${isTeamB ? "bg-sky-400" : "bg-[#43F58B]"}`} />
         <input
           value={player.name}
           onChange={(e) => onUpdate(player.id, "name", e.target.value)}
@@ -784,9 +1289,9 @@ function StatsPlayerCard({ player, onUpdate, onRemove, options, teams, teamAName
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="shrink-0 flex h-7 w-7 items-center justify-center rounded-lg border border-black/10 bg-[#F4F3EF] text-zinc-500 transition hover:bg-[#CCFF00] hover:text-black active:scale-90"
+          className="shrink-0 flex h-7 w-7 items-center justify-center rounded-lg border border-black/10 bg-[#F4F3EF] text-zinc-500 transition hover:bg-[#43F58B] hover:text-black active:scale-90"
         >
-          {expanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+          <ChevronDown className={`h-3.5 w-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} />
         </button>
       </div>
 
@@ -820,7 +1325,7 @@ function StatsPlayerCard({ player, onUpdate, onRemove, options, teams, teamAName
                   max={max || 99}
                   value={player[key] ?? 0}
                   onChange={(e) => onUpdate(player.id, key, clampNumber(e.target.value, 0, max || 99))}
-                  className="w-full rounded-lg border border-black/10 bg-[#F4F3EF] py-2 text-center text-sm font-black text-black outline-none focus:border-[#CCFF00] focus:ring-2 focus:ring-[#CCFF00]/40"
+                  className="w-full rounded-lg border border-black/10 bg-[#F4F3EF] py-2 text-center text-sm font-black text-black outline-none focus:border-[#43F58B] focus:ring-2 focus:ring-[#43F58B]/40"
                 />
               </label>
             ))}
@@ -903,7 +1408,7 @@ function StatsTrackerTool() {
 
       {/* ── Track second team toggle ── */}
       <label className="flex min-h-11 items-center gap-3 rounded-2xl border-2 border-black bg-white px-4 py-3 text-sm font-black uppercase tracking-widest cursor-pointer">
-        <input type="checkbox" checked={trackSecond} onChange={(e) => setTrackSecond(e.target.checked)} className="h-5 w-5 accent-[#CCFF00]" />
+        <input type="checkbox" checked={trackSecond} onChange={(e) => setTrackSecond(e.target.checked)} className="h-5 w-5 accent-[#43F58B]" />
         Track opponent / second team stats
       </label>
 
@@ -944,7 +1449,7 @@ function StatsTrackerTool() {
           <span className={labelClass}>Match recap</span>
           <CopyButton value={recap} label="Copy recap" shortLabel="Copy" />
         </div>
-        <pre className="max-w-full overflow-x-auto whitespace-pre-wrap break-words rounded-2xl border-2 border-black bg-black p-4 text-xs font-bold leading-relaxed text-[#CCFF00]">{recap}</pre>
+        <pre className="max-w-full overflow-x-auto whitespace-pre-wrap break-words rounded-2xl border-2 border-black bg-black p-4 text-xs font-bold leading-relaxed text-[#43F58B]">{recap}</pre>
       </div>
     </ToolPanel>
   );
