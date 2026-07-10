@@ -3,7 +3,7 @@ import { cache } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { canonicalInternalHref, canonicalizeInternalLinks, isIndexableContent } from "@/lib/contentPolicy";
-import { contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { cleanMetaTitle, contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 import { getMoreToRead } from "@/lib/recommendations";
 import MoreToRead from "@/components/MoreToRead";
 
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }) {
   if (!post) return {};
 
   const image = getPostImage(post) || `${SITE_URL}/og-image.png`;
-  const title = post.metaTitle || post.heroH1 || post.title;
+  const title = cleanMetaTitle(post.metaTitle || post.heroH1 || post.title);
   const publishedTime = contentDateToIso(getPublishedDate(post));
   const modifiedTime = contentDateToIso(getUpdatedDate(post));
   const author = getContentAuthor(post);

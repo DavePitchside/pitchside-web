@@ -47,7 +47,7 @@ export const toolsHub = {
     {
       type: "paragraph",
       content:
-        "Use the team generator for fair sides, the formation builder for 5-a-side, futsal, 7-a-side or 11-a-side shape, the name generator for team identity, the league table generator for standings and the stats tracker for goals, assists, saves and tackles.",
+        "Use the team generator for fair sides, the formation builder for 5-a-side, futsal and 7-a-side shapes, the name generator for team identity, the league table generator for standings and the stats tracker for goals, assists, saves and tackles.",
     },
     {
       type: "h2",
@@ -107,7 +107,7 @@ const rawTools = [
       {
         question: "Can I split players by position?",
         answer:
-          "Yes. Add each player with a position such as goalkeeper, defender, midfielder, winger, forward or any. For 11-a-side squads, use more specific roles such as full-back, centre-back, winger and striker. Ratings can also help balance ability.",
+          "Yes. Add each player with a position such as goalkeeper, defender, midfielder, winger, forward or any. Ratings can also help balance ability for small-sided, futsal and casual squads.",
       },
       {
         question: "Can I use this for futsal?",
@@ -198,7 +198,7 @@ const rawTools = [
       { href: "/tools", label: "View all football tools" },
       { href: "/tools/football-formation-builder", label: "Build a formation" },
       { href: "/tools/5-a-side-football-stats-tracker", label: "Track match stats" },
-      { href: "/best-way-to-track-5aside-stats", label: "Read the 5-a-side stats guide" },
+      { href: "/blog/what-stats-matter-in-5-a-side-football", label: "Read the 5-a-side stats guide" },
     ],
   },
   {
@@ -208,14 +208,14 @@ const rawTools = [
     shortTitle: "Formation Builder",
     metaTitle: "Football Formation Builder & Futsal Tactics Board",
     metaDescription:
-      "Build football and futsal formations for 5-a-side, 7-a-side and 11-a-side teams. Create lineups, position players and plan tactics free.",
+      "Build football and futsal formations for 5-a-side, 6-a-side and 7-a-side teams. Create lineups, position players and plan tactics free.",
     llmDescription:
-      "Free tool for creating football and futsal formations, including 5-a-side, 7-a-side and 11-a-side lineups.",
-    heroH1: "Football Formation Builder for 5-a-Side, Futsal and 11-a-Side Teams",
+      "Free tool for creating football and futsal formations, including 5-a-side, 6-a-side and 7-a-side lineups.",
+    heroH1: "Football Formation Builder for 5-a-Side, Futsal and 7-a-Side Teams",
     intro:
-      "Create a football lineup, position players and plan a simple tactical shape for 5-a-side, 6-a-side, 7-a-side, futsal or 11-a-side matches.",
+      "Create a football lineup, position players and plan a simple tactical shape for 5-a-side, 6-a-side, 7-a-side or futsal matches.",
     aeoQuickAnswer:
-      "The football formation builder works as a lineup creator and tactics board for small-sided football, futsal and 11-a-side teams. Choose a format, pick a style and add player names to generate a shape.",
+      "The football formation builder works as a lineup creator and tactics board for small-sided football and futsal teams. Choose a format, pick a style and add player names to generate a shape.",
     badge: "Lineup Planner",
     hero: {
       eyebrow: "Lineup planner",
@@ -243,9 +243,9 @@ const rawTools = [
     },
     faqs: [
       {
-        question: "Can I build 11-a-side football formations?",
+        question: "Is Pitchside focused on full 11-a-side football?",
         answer:
-          "Yes. Choose the 11-a-side option to create a simple lineup with positions such as goalkeeper, full-backs, centre-backs, midfielders, wingers and striker.",
+          "Pitchside's product focus is small-sided and grassroots football during private beta. The formation planner may include larger tactical templates for planning, but the analysis product should not be read as confirmed full 11-a-side support.",
       },
       {
         question: "Can I use this as a futsal formation builder?",
@@ -299,12 +299,12 @@ const rawTools = [
       },
       {
         type: "h2",
-        content: "5-a-side, futsal, 7-a-side and 11-a-side setups",
+        content: "5-a-side, futsal and 7-a-side setups",
       },
       {
         type: "paragraph",
         content:
-          "In 5-a-side and futsal, compact shapes such as <strong>1-2-1</strong> and <strong>2-2</strong> keep the team connected. In 7-a-side, <strong>2-3-1</strong> gives width and a clear striker. In 11-a-side, <strong>4-3-3</strong>, <strong>4-4-2</strong> and <strong>4-2-3-1</strong> are common starting points.",
+          "In 5-a-side and futsal, compact shapes such as <strong>1-2-1</strong> and <strong>2-2</strong> keep the team connected. In 7-a-side, <strong>2-3-1</strong> gives width and a clear striker. Use the builder as a planning board, then adjust based on the players and venue.",
       },
       {
         type: "h2",
@@ -609,7 +609,7 @@ const rawTools = [
       { href: "/tools", label: "View all football tools" },
       { href: "/tools/5-a-side-football-stats-tracker", label: "Track match stats" },
       { href: "/tools/random-5-a-side-team-generator", label: "Generate teams" },
-      { href: "/best-way-to-track-5aside-stats", label: "Read the 5-a-side stats guide" },
+      { href: "/blog/what-stats-matter-in-5-a-side-football", label: "Read the 5-a-side stats guide" },
     ],
   },
   {
@@ -754,7 +754,7 @@ const rawTools = [
     ],
     links: [
       { href: "/tools", label: "View all football tools" },
-      { href: "/best-way-to-track-5aside-stats", label: "Read the 5-a-side stats guide" },
+      { href: "/blog/what-stats-matter-in-5-a-side-football", label: "Read the 5-a-side stats guide" },
       { href: "/tools/football-league-table-generator", label: "Update the league table" },
       { href: "/tools/football-formation-builder", label: "Plan the next lineup" },
       { href: "/technology", label: "See Pitchside technology" },
@@ -808,13 +808,40 @@ function getAdminContentBlocks(adminData) {
   }
 }
 
+function getAdminToolOverrides(adminData) {
+  if (!adminData) return {};
+  const allowedFields = [
+    "title",
+    "shortTitle",
+    "metaTitle",
+    "metaDescription",
+    "llmDescription",
+    "heroH1",
+    "intro",
+    "badge",
+    "hero",
+    "outputLabel",
+    "ctaBlock",
+    "faqs",
+    "tldrPoints",
+    "aeoQuickAnswer",
+  ];
+
+  return Object.fromEntries(
+    allowedFields
+      .filter((field) => hasOwn(adminData, field))
+      .map((field) => [field, adminData[field]])
+  );
+}
+
 export function mergeToolContent(tool, adminData) {
   if (!adminData) return tool;
+  const adminOverrides = getAdminToolOverrides(adminData);
   const adminHero = getAdminHero(adminData);
   const adminContentBlocks = getAdminContentBlocks(adminData);
   return {
     ...tool,
-    ...adminData,
+    ...adminOverrides,
     id: tool.id,
     slug: tool.slug,
     links: tool.links,
@@ -841,11 +868,12 @@ export function mergeToolContent(tool, adminData) {
 
 export function mergeToolsHubContent(adminData) {
   if (!adminData) return toolsHub;
+  const adminOverrides = getAdminToolOverrides(adminData);
   const adminHero = getAdminHero(adminData);
   const adminContentBlocks = getAdminContentBlocks(adminData);
   return {
     ...toolsHub,
-    ...adminData,
+    ...adminOverrides,
     id: toolsHub.id,
     slug: toolsHub.slug,
     intro: hasOwn(adminData, "intro") ? adminData.intro : toolsHub.intro,

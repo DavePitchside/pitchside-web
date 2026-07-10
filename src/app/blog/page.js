@@ -29,8 +29,29 @@ function serializeDeep(value) {
   return value;
 }
 
-function serializeItem(data) {
-  return serializeDeep(data);
+function getListingItem(data) {
+  const item = {
+    id: data.id,
+    contentType: data.contentType,
+    slug: data.slug,
+    title: data.title,
+    heroH1: data.heroH1,
+    metaDescription: data.metaDescription,
+    date: data.date,
+    category: data.category,
+    thumbnail: data.thumbnail,
+    heroBackground: data.heroBackground,
+    primaryImage: data.primaryImage,
+    featuredImage: data.featuredImage,
+    heroImage: data.heroImage,
+    image: data.image,
+    coverImage: data.coverImage,
+    ogImage: data.ogImage,
+    mediaUrl: data.mediaUrl,
+    createdAt: data.createdAt,
+  };
+
+  return serializeDeep(item);
 }
 
 export default async function BlogPage() {
@@ -66,7 +87,7 @@ export default async function BlogPage() {
     };
 
     const merged = [...fetchedPosts, ...fetchedPages].sort((a, b) => getMs(b) - getMs(a));
-    posts = merged.map(serializeItem);
+    posts = merged.map(getListingItem);
   } catch (err) {
     console.error("Blog listing: failed to fetch content:", err);
   }

@@ -8,6 +8,7 @@ import Image from "next/image";
 import useLenis from "@/lib/useLenis";
 import { contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 import MoreToRead from "@/components/MoreToRead";
+import ProductStatusNotice from "@/components/ProductStatusNotice";
 
 const customEase = [0.16, 1, 0.3, 1];
 
@@ -153,6 +154,8 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
           )}
 
           <article className="w-full max-w-[800px] mx-auto lg:mx-0">
+            {dataSource === "pages" && <ProductStatusNotice className="mb-12 bg-zinc-950 text-zinc-200" />}
+
             {hasMedia && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}

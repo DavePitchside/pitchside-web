@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import ProductStatusNotice from "@/components/ProductStatusNotice";
 
 const FilmGrain = () => (
   <div
@@ -292,6 +293,34 @@ export function ToolFAQ({ faqs = [] }) {
   );
 }
 
+export function ToolRelatedGuides({ items = [] }) {
+  if (!items.length) return null;
+
+  return (
+    <section className="rounded-3xl border-2 border-black bg-white p-6 shadow-[6px_6px_0px_#000]">
+      <div className="mb-6">
+        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#7a9900]">Related guides</span>
+        <h2 className="mt-2 text-2xl font-black uppercase tracking-tight text-black">Read more for this tool</h2>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        {items.map((item) => (
+          <Link
+            key={`${item.url}-${item.title}`}
+            href={item.url}
+            className="group rounded-2xl border-2 border-black bg-[#F4F3EF] p-5 transition-all hover:-translate-y-1 hover:bg-[#CCFF00] hover:shadow-[4px_4px_0px_#000]"
+          >
+            <h3 className="text-lg font-black uppercase tracking-tight text-black">{item.title}</h3>
+            {item.description && <p className="mt-3 text-sm font-medium leading-relaxed text-zinc-700">{item.description}</p>}
+            <span className="mt-5 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-black">
+              Open guide <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function ToolContentBlocks({ blocks = [] }) {
   const visibleBlocks = blocks.filter((block) => block?.content || block?.items?.length || block?.headers?.length);
   if (!visibleBlocks.length) return null;
@@ -368,7 +397,7 @@ export function ToolContentBlocks({ blocks = [] }) {
   );
 }
 
-export function ToolShell({ tool, children }) {
+export function ToolShell({ tool, children, relatedGuides = [] }) {
   const hero = tool.hero || {};
   const summaryPoints = (tool.tldrPoints || []).filter(Boolean);
   return (
@@ -389,6 +418,7 @@ export function ToolShell({ tool, children }) {
       <section className="overflow-hidden bg-[#F4F3EF] px-3 py-3 text-zinc-950 md:px-4 md:py-4">
         <div className="overflow-hidden rounded-[1.5rem] border-2 border-black bg-[#F4F3EF] px-4 py-10 shadow-[0_0_60px_rgba(0,0,0,0.35)] md:rounded-[2rem] md:px-8 md:py-16">
           <div className="mx-auto grid max-w-7xl min-w-0 grid-cols-1 gap-12">
+            <ProductStatusNotice className="max-w-3xl bg-zinc-950 text-zinc-200" />
             {children}
             {(summaryPoints.length > 0 || tool.aeoQuickAnswer) && (
               <section className="grid gap-6 lg:grid-cols-2">
@@ -428,6 +458,7 @@ export function ToolShell({ tool, children }) {
             )}
             <ToolCTA cta={tool.ctaBlock} />
             <ToolFAQ faqs={tool.faqs} />
+            <ToolRelatedGuides items={relatedGuides} />
           </div>
         </div>
       </section>

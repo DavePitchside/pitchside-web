@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import SquareScannerCursor from "@/components/SquareScannerCursor";
+import { PRODUCT_STATUS_NOTICE } from "@/lib/productStatus";
 
 const alphaHeadline = localFont({
   src: "./fonts/AlphaHeadline-Regular.ttf",
@@ -30,7 +31,7 @@ export const metadata = {
     template: "%s | Pitchside AI",
   },
   description:
-    "Pitchside AI automatically tracks, captures, and turns your amateur football matches into studio-quality highlight reels and player stats. No wearables. No setup. Just your best moments.",
+    "Pitchside AI is a private-beta football analysis platform being developed to turn phone-recorded grassroots matches into stats, highlights and player moments.",
   alternates: { canonical: SITE_URL },
   openGraph: {
     type: "website",
@@ -70,7 +71,7 @@ function SiteSchema() {
       sameAs: ["https://www.linkedin.com/company/pitchside-ai"],
       foundingDate: "2024",
       description:
-        "Pitchside AI is an AI-powered football camera and highlights app for amateur and grassroots players. Automatically tracks goals, assists, tackles and generates shareable highlight reels. No wearables required.",
+        PRODUCT_STATUS_NOTICE,
     },
     {
       "@context": "https://schema.org",

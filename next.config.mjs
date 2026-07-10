@@ -23,6 +23,16 @@ const nextConfig = {
         destination: "/tools-for-sunday-league-football",
         statusCode: 301,
       },
+      {
+        source: "/how-pitchside-ai-works",
+        destination: "/technology/how-pitchside-ai-works",
+        statusCode: 301,
+      },
+      {
+        source: "/best-way-to-track-5aside-stats",
+        destination: "/blog/what-stats-matter-in-5-a-side-football",
+        statusCode: 301,
+      },
     ];
   },
   images: {

@@ -30,9 +30,9 @@ const HERO_PARTICLES = Array.from({ length: 30 }).map((_, i) => ({
 }));
 
 const HERO_STATS = [
-  { label: "100%", sub: "Autonomous AI" },
+  { label: "Beta", sub: "Private access" },
   { label: "Zero", sub: "Wearables" },
-  { label: "Studio", sub: "Highlights" },
+  { label: "Phone", sub: "Recorded footage" },
 ];
 
 const HERO_IMAGE_CLASS = "object-cover object-[74%_center] sm:object-[78%_center] md:object-[85%_center]";
@@ -220,9 +220,9 @@ export default function Home() {
   };
 
   const features = [
-    { id: 0, title: "RECORD.", img: "/mockup-4.jpg", subtitle: "Zero Wearables Required", desc: "Hit record with the full pitch in view. Our state-of-the-art spatial AI tracks every player, ball movement, and key event autonomously." },
-    { id: 1, title: "PLAY.", img: "/mockup-2.jpg", subtitle: "Focus on the Game", desc: "Play your best game and have fun. The engine processes the footage in real-time, knowing any moments of magic will be captured safely." },
-    { id: 2, title: "REPLAY.", img: "/mockup-3.jpg", subtitle: "Studio-Grade Analysis", desc: "Enjoy post-match analysis with your squad. Generate broadcast-quality highlights, heatmaps, and shareable clips instantly." }
+    { id: 0, title: "RECORD.", img: "/mockup-4.jpg", subtitle: "Zero Wearables Required", desc: "Record the match with a clear phone setup. Pitchside is being developed to identify players and important moments from small-sided football footage." },
+    { id: 1, title: "PLAY.", img: "/mockup-2.jpg", subtitle: "Focus on the Game", desc: "Play your match while Pitchside tests a phone-first workflow for turning footage into useful review material after full time." },
+    { id: 2, title: "REPLAY.", img: "/mockup-3.jpg", subtitle: "Beta Match Review", desc: "Review beta highlights, player moments and match clips as the private-beta workflow improves during testing." }
   ];
 
   return (
@@ -280,7 +280,7 @@ export default function Home() {
             </motion.div>
 
             <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.18, ease: SMOOTH_EASE }} className="mt-8 max-w-[20rem] text-sm font-medium leading-relaxed text-zinc-300">
-              Capture every moment of your game with AI-powered spatial tracking. No wearables. No setup. Just pure performance data and highlight-reel moments.
+              Pitchside AI is being built to turn phone-recorded grassroots football into stats, highlights and player moments during private beta.
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.28, ease: SMOOTH_EASE }} className="mt-8 grid w-full max-w-[22rem] grid-cols-3 gap-4">
@@ -315,9 +315,8 @@ export default function Home() {
 
           <div className="w-full md:contents">
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: SMOOTH_EASE }} className="font-roobert md:text-base text-zinc-300/90 md:max-w-xl mb-8 leading-relaxed pointer-events-auto">
-              Capture every moment of your game with AI-powered spatial tracking. No wearables. No setup. Just pure performance data and highlight-reel moments.
+              Pitchside AI is being built to turn phone-recorded grassroots football into stats, highlights and player moments during private beta.
             </motion.p>
-            
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: SMOOTH_EASE }} className="flex flex-wrap gap-8 mb-10 pointer-events-auto">
               {HERO_STATS.map((feat, i) => (
                 <div key={i} className="flex min-w-0 flex-col items-start border-l-2 border-[#CCFF00] pl-3 md:pl-4">
@@ -358,7 +357,7 @@ export default function Home() {
               
               <div className="mt-6 md:mt-8 w-full flex flex-col items-center lg:items-start mx-auto lg:mx-0">
                 <p className="font-roobert text-sm sm:text-base text-zinc-600 font-medium leading-relaxed mb-8 max-w-md">
-                  Shots. Goals. Assists. Tackles. Dribbles. Everything captured for your own highlight reel, instantly available to share on your socials.
+                  Goals, assists, tackles, saves and player moments are the events Pitchside is being built to help identify, review and share during beta.
                 </p>
 
                 <ul className="font-roobert grid grid-cols-2 gap-x-2 gap-y-4 mb-8 text-right w-200px max-w-md">

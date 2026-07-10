@@ -41,3 +41,17 @@ export function getContentAuthor(data = {}) {
     url: data.authorUrl || CONTENT_AUTHOR.url,
   };
 }
+
+export function normalizeBrandName(value = "") {
+  return String(value)
+    .replace(/\bPitchsideAI\b/g, "Pitchside AI")
+    .replace(/\bPitchside Ai\b/g, "Pitchside AI")
+    .replace(/\bPitchSide AI\b/g, "Pitchside AI");
+}
+
+export function cleanMetaTitle(value = "") {
+  return normalizeBrandName(value)
+    .replace(/\s*\|\s*Pitchside\s*AI\s*$/i, "")
+    .replace(/\s*\|\s*PitchsideAI\s*$/i, "")
+    .trim();
+}

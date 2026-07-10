@@ -5,6 +5,7 @@ import { db } from "@/lib/firebase";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import DynamicPageClient from "@/app/[slug]/DynamicPageClient";
 import { isIndexableContent } from "@/lib/contentPolicy";
+import { cleanMetaTitle } from "@/lib/contentMeta";
 import { getMoreToRead } from "@/lib/recommendations";
 
 export const dynamic = "force-dynamic";
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }) {
   const data = await getTechnologyPage(slug);
   if (!data) return {};
 
-  const title = data.metaTitle || data.heroH1 || data.title;
+  const title = cleanMetaTitle(data.metaTitle || data.heroH1 || data.title);
   const image = data.primaryImage || data.heroBackground || `${SITE_URL}/og-image.png`;
 
   return {

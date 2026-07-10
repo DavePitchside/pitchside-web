@@ -9,8 +9,9 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase"; // Ensure storage is exported from your firebase.js config
 import { createImageThumbnailBlob } from "@/lib/imageThumbnails";
 import { canonicalInternalHref } from "@/lib/contentPolicy";
-import { CONTENT_AUTHOR, formatContentDate, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { cleanMetaTitle, CONTENT_AUTHOR, formatContentDate, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 import { tools, toolsHub } from "@/lib/tools";
+import { validateContentForPublication } from "@/lib/cmsValidation";
 
 const cleanStorageFileName = (fileName) => fileName.replace(/[^a-zA-Z0-9.]/g, '');
 const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
@@ -282,8 +283,9 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     technologyStats: initialData?.technologyStats?.length
       ? initialData.technologyStats
       : [
-          { value: "98%", label: "Event\nAccuracy" },
-          { value: "<3m", label: "Processing\nTime" },
+          { value: "5-a-side trained", label: "Custom\nModel" },
+          { value: "5, 6 and 7-a-side", label: "Supported\nFormats" },
+          { value: "Improving with footage", label: "Beta\nStatus" },
         ],
     technologyStack: initialData?.technologyStack?.length
       ? initialData.technologyStack
@@ -291,26 +293,26 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
           {
             id: "vision",
             icon: "vision",
-            title: "Spatial Computer Vision",
-            desc: "Our proprietary optical engine maps the 3D space of the pitch using standard 2D smartphone footage. It tracks player vectors, ball trajectory, and spatial relationships without requiring calibrated multi-camera setups.",
+            title: "Computer Vision for Small-Sided Football",
+            desc: "Pitchside is being developed around phone-recorded small-sided football footage, where camera angles, lighting and player spacing are different from professional broadcast footage.",
           },
           {
             id: "ai",
             icon: "ai",
-            title: "Autonomous Detection",
-            desc: "Trained on thousands of hours of grassroots football. The neural network recognizes biomechanical patterns to instantly categorize tackles, shots, saves, and passes with 98% accuracy.",
+            title: "Event Detection in Testing",
+            desc: "The beta system is being tested to identify goals, assists, saves, passes and tackles from match footage, with accuracy expected to improve as more footage is reviewed.",
           },
           {
             id: "hardware",
             icon: "hardware",
-            title: "Zero Hardware Required",
-            desc: "No GPS vests. No expensive camera rigs. The Pitchside engine processes all telemetry natively via the software layer, democratizing pro-level analytics for every player.",
+            title: "Phone-First Recording",
+            desc: "Pitchside aims to offer a phone-first workflow for teams that do not want to invest in dedicated football-camera hardware.",
           },
           {
             id: "cloud",
             icon: "cloud",
             title: "Edge-to-Cloud Pipeline",
-            desc: "Footage is pre-processed on-device to reduce payload size, then beamed to our high-performance cloud GPUs where the heavy computational rendering creates broadcast-quality highlights in minutes.",
+            desc: "Uploads and processing are being tested during private beta. Current processing can take up to 45 minutes and the flow is expected to improve.",
           },
         ],
     technologySections: initialData?.technologySections || [],
@@ -644,6 +646,9 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         cleanData.authorName = formData.authorName || CONTENT_AUTHOR.name;
         cleanData.authorUrl = formData.authorUrl || CONTENT_AUTHOR.url;
       }
+      if (cleanData.metaTitle) {
+        cleanData.metaTitle = cleanMetaTitle(cleanData.metaTitle);
+      }
       if (pageType === "technology") {
         cleanData.parentPage = technologyParentPage;
       }
@@ -665,6 +670,15 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         delete cleanData.thumbnail;
         delete cleanData.primaryImage;
         delete cleanData.heroBackground;
+      }
+      const validationIssues = validateContentForPublication(cleanData);
+      const blockingIssues = validationIssues.filter((issue) => issue.severity === "error");
+      if (blockingIssues.length) {
+        const message = blockingIssues
+          .slice(0, 8)
+          .map((issue) => `${issue.path}: "${issue.phrase}" - ${issue.message}`)
+          .join("\n");
+        throw new Error(`Cannot publish until these content issues are fixed:\n${message}`);
       }
       if (isToolPage) {
         const toolDocumentId = initialData?.id || initialData?.slug || cleanData.slug;
@@ -695,6 +709,9 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       onBack();
     } catch (error) {
       console.error(error);
+      if (typeof window !== "undefined") {
+        window.alert(error.message || "Could not save this content. Check the console for details.");
+      }
       setStatus("error");
     }
   };
@@ -809,7 +826,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                 </div>
                 {formData.technologyStats.map((stat, index) => (
                   <div key={index} className="grid grid-cols-1 gap-3 rounded-xl border border-zinc-800 bg-zinc-950 p-4 md:grid-cols-[1fr_2fr_auto]">
-                    <input type="text" placeholder="98%" className="rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none focus:border-[#CCFF00]" value={stat.value || ""} onChange={(e) => updateTechnologyStat(index, "value", e.target.value)} />
+                    <input type="text" placeholder="5-a-side trained" className="rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none focus:border-[#CCFF00]" value={stat.value || ""} onChange={(e) => updateTechnologyStat(index, "value", e.target.value)} />
                     <textarea rows={2} placeholder={"Event\nAccuracy"} className="rounded-xl border border-zinc-800 bg-black p-3 text-white outline-none focus:border-[#CCFF00]" value={stat.label || ""} onChange={(e) => updateTechnologyStat(index, "label", e.target.value)} />
                     <button type="button" onClick={() => removeTechnologyStat(index)} className="rounded-xl p-3 text-red-400 hover:bg-red-500 hover:text-white"><Trash2 className="w-4 h-4" /></button>
                   </div>

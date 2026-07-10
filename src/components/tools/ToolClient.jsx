@@ -267,6 +267,85 @@ function readPendingFormationSetup() {
   }
 }
 
+function statsRatingFromPlayer(player = {}) {
+  const rating = Number(player.rating);
+  if (!Number.isFinite(rating)) return 7;
+  return rating <= 5 ? Math.min(10, rating + 4) : Math.min(10, Math.max(0, rating));
+}
+
+function makeStatsPlayersFromTeam(players = [], team = "A") {
+  return players
+    .filter((player) => player?.name)
+    .map((player, index) => ({
+      id: `stats-${team.toLowerCase()}-${player.id || index}-${Date.now()}`,
+      name: player.name,
+      team,
+      position: player.position || "Any",
+      goals: 0,
+      assists: 0,
+      saves: normalizePosition(player.position) === "Goalkeeper" ? 0 : 0,
+      conceded: 0,
+      tackles: 0,
+      dribbles: 0,
+      shots: 0,
+      rating: statsRatingFromPlayer(player),
+    }));
+}
+
+function makeStatsPayload({ sport, format, teamA = [], teamB = [], teamAName = "Team A", teamBName = "Team B", includeB = true }) {
+  return {
+    sport,
+    format,
+    includeB,
+    match: {
+      teamA: teamAName,
+      teamB: teamBName,
+      scoreA: 0,
+      scoreB: 0,
+      date: new Date().toISOString().slice(0, 10),
+    },
+    players: [
+      ...makeStatsPlayersFromTeam(teamA, "A"),
+      ...makeStatsPlayersFromTeam(teamB, "B"),
+    ],
+  };
+}
+
+function readPendingStatsSetup() {
+  if (typeof window === "undefined") return null;
+  try {
+    const direct = window.localStorage.getItem("pitchside_pending_stats");
+    if (direct) return JSON.parse(direct);
+
+    const pendingFormation = window.localStorage.getItem("pitchside_pending_formation");
+    if (pendingFormation) {
+      const setup = JSON.parse(pendingFormation);
+      return makeStatsPayload({
+        sport: setup.sport || "football",
+        format: setup.format || "5",
+        teamA: setup.teamA || [],
+        teamB: setup.teamB || [],
+        includeB: setup.includeB ?? Boolean(setup.teamB?.length),
+      });
+    }
+
+    const savedFormation = window.localStorage.getItem("pitchside_formation_builder");
+    if (savedFormation) {
+      const setup = JSON.parse(savedFormation);
+      return makeStatsPayload({
+        sport: setup.sport || "football",
+        format: setup.format || "5",
+        teamA: setup.teamA || [],
+        teamB: setup.teamB || [],
+        includeB: setup.includeB ?? Boolean(setup.teamB?.length),
+      });
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
 /* ═══════════════════════════════════════════════════════════
    RANDOM TEAM GENERATOR — mobile-first redesign
    ═══════════════════════════════════════════════════════════ */
@@ -383,6 +462,22 @@ function RandomTeamsTool() {
     window.location.href = "/tools/football-formation-builder#tool-start";
   };
 
+  const openInStatsTracker = () => {
+    if (!teams.length) return;
+    const [teamOne, teamTwo] = teams;
+    const payload = makeStatsPayload({
+      sport,
+      format,
+      teamA: teamOne?.players || [],
+      teamB: teamTwo?.players || [],
+      teamAName: teamOne?.name || "Team A",
+      teamBName: teamTwo?.name || "Team B",
+      includeB: Boolean(teamTwo?.players?.length),
+    });
+    window.localStorage.setItem("pitchside_pending_stats", JSON.stringify(payload));
+    window.location.href = "/tools/5-a-side-football-stats-tracker#tool-start";
+  };
+
   const copyText = teams
     .map((t) => `${t.name} (Rating: ${t.score})\n${t.players.map((p) => `- ${p.name} · ${p.position} · ${p.rating}/5`).join("\n")}`)
     .join("\n\n");
@@ -497,6 +592,9 @@ function RandomTeamsTool() {
           <>
             <button type="button" onClick={openInFormationBuilder} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#43F58B]/60 bg-black px-5 text-[11px] font-black uppercase tracking-widest text-[#43F58B] hover:bg-[#43F58B] hover:text-black">
               <PanelLeftOpen className="h-4 w-4" /> Arrange in formation
+            </button>
+            <button type="button" onClick={openInStatsTracker} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#43F58B]/60 bg-black px-5 text-[11px] font-black uppercase tracking-widest text-[#43F58B] hover:bg-[#43F58B] hover:text-black">
+              <Star className="h-4 w-4" /> Track stats
             </button>
             <button type="button" onClick={generate} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-black px-5 text-[11px] font-black uppercase tracking-widest text-white hover:border-[#43F58B]">
               <RefreshCw className="h-4 w-4" /> Reshuffle
@@ -1023,6 +1121,19 @@ function FormationTool() {
     setSaveStatus("Saved locally");
     setTimeout(() => setSaveStatus(""), 1600);
   };
+  const openInStatsTracker = () => {
+    const payload = makeStatsPayload({
+      sport,
+      format,
+      teamA,
+      teamB: includeB ? teamB : [],
+      teamAName: "Team A",
+      teamBName: "Team B",
+      includeB,
+    });
+    window.localStorage.setItem("pitchside_pending_stats", JSON.stringify(payload));
+    window.location.href = "/tools/5-a-side-football-stats-tracker#tool-start";
+  };
 
   return (
     <section id="tool-start" className="mx-auto w-full scroll-mt-28 overflow-hidden rounded-2xl border border-white/10 bg-[#08111d] text-white shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
@@ -1041,6 +1152,9 @@ function FormationTool() {
             </button>
             <button type="button" onClick={saveFormation} className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-[#43F58B] px-3 text-[10px] font-black uppercase tracking-widest text-black">
               <Download className="h-4 w-4" /> {saveStatus || "Save formation"}
+            </button>
+            <button type="button" onClick={openInStatsTracker} className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-[#43F58B]/60 bg-black px-3 text-[10px] font-black uppercase tracking-widest text-[#43F58B] hover:bg-[#43F58B] hover:text-black">
+              <Star className="h-4 w-4" /> Track stats
             </button>
           </div>
         </div>
@@ -1121,32 +1235,112 @@ function TeamNameTool() {
     setNames(shuffleList([...new Set(bank)]).slice(0, 20));
   };
   const text = names.map((name, index) => `${index + 1}. ${name}`).join("\n");
+  const categoryOptions = Object.keys(nameBanks).map((key) => ({ value: key, label: key.replaceAll("-", " ") }));
+  const savedText = favourites.join("\n");
 
   return (
-    <ToolPanel title="Football team name generator" eyebrow="20 ideas by category" actions={<CopyButton value={text} label="Copy all" />}>
-      <Segmented label="Category" value={category} onChange={setCategory} options={Object.keys(nameBanks).map((key) => ({ value: key, label: key }))} />
-      <div className="grid gap-3 sm:flex sm:flex-wrap">
-        <button type="button" onClick={generate} className={buttonClass}><Wand2 className="h-4 w-4" /> Generate 20 names</button>
-        <button type="button" onClick={generate} className={secondaryButtonClass}><RefreshCw className="h-4 w-4" /> Regenerate</button>
+    <section id="tool-start" className="mx-auto w-full scroll-mt-28 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#050B14] text-white shadow-[0_28px_80px_rgba(0,0,0,0.45)]">
+      <div className="border-b border-white/10 bg-black/28 px-4 py-4 sm:px-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] text-[#43F58B]">Naming workshop</p>
+            <h2 className="mt-2 text-3xl font-black uppercase leading-none tracking-tight text-white md:text-5xl" style={{ fontFamily: "var(--font-alpha)" }}>Team name generator</h2>
+            <p className="mt-3 max-w-xl text-sm font-bold leading-relaxed text-zinc-400">Pick a category, generate a clean shortlist, then copy or save the best names for your squad.</p>
+          </div>
+          <CopyButton value={text} label="Copy all names" shortLabel="Copy All" />
+        </div>
       </div>
-      <ResultsGrid empty="Choose a category and generate football team name ideas.">
-        {names.map((name, index) => {
-          const saved = favourites.includes(name);
-          return (
-            <ResultCard key={`${name}-${index}`} title={name}>
-              <p className="text-sm font-bold text-zinc-600">Category: {category}. Short enough for league tables, group chats and match recaps.</p>
-              <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
-                <CopyButton value={name} label="Copy name" />
-                <button type="button" onClick={() => setFavourites((current) => saved ? current.filter((item) => item !== name) : [...current, name])} className={saved ? buttonClass : secondaryButtonClass}>
-                  <Star className="h-4 w-4" /> {saved ? "Saved" : "Save"}
-                </button>
+
+      <div className="grid gap-6 p-4 sm:p-6 lg:grid-cols-[300px_minmax(0,1fr)]">
+        <aside className="space-y-4">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+            <h3 className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-white">Select category</h3>
+            <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
+              {categoryOptions.map((option) => {
+                const selected = option.value === category;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setCategory(option.value)}
+                    className={`min-h-12 rounded-xl border px-3 text-left text-xs font-black uppercase tracking-[0.1em] transition active:scale-95 ${
+                      selected ? "border-[#43F58B] bg-[#43F58B] text-black" : "border-white/10 bg-black/40 text-zinc-300 hover:border-[#43F58B] hover:text-white"
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+            <h3 className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-white">Actions</h3>
+            <div className="grid gap-3">
+              <button type="button" onClick={generate} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#43F58B] px-5 text-xs font-black uppercase tracking-widest text-black transition hover:bg-white active:scale-95">
+                <Wand2 className="h-4 w-4" /> Generate 20 names
+              </button>
+              <button type="button" onClick={generate} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#43F58B]/60 bg-black px-5 text-xs font-black uppercase tracking-widest text-[#43F58B] transition hover:bg-[#43F58B] hover:text-black active:scale-95">
+                <RefreshCw className="h-4 w-4" /> Regenerate
+              </button>
+              {favourites.length > 0 && <CopyButton value={savedText} label="Copy saved" shortLabel="Copy Saved" />}
+            </div>
+          </div>
+
+          {favourites.length > 0 && (
+            <div className="rounded-2xl border border-[#43F58B]/35 bg-[#43F58B]/10 p-4">
+              <h3 className="text-sm font-black uppercase tracking-[0.14em] text-[#43F58B]">Saved shortlist</h3>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {favourites.map((name) => (
+                  <button key={name} type="button" onClick={() => setFavourites((current) => current.filter((item) => item !== name))} className="rounded-full border border-[#43F58B]/30 bg-black/40 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-white hover:bg-rose-500 hover:text-white">
+                    {name}
+                  </button>
+                ))}
               </div>
-            </ResultCard>
-          );
-        })}
-      </ResultsGrid>
-      {favourites.length > 0 && <ResultCard title="Favourites"><p className="text-sm font-black text-zinc-700">{favourites.join(" · ")}</p></ResultCard>}
-    </ToolPanel>
+            </div>
+          )}
+        </aside>
+
+        <div className="min-w-0 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] text-[#43F58B]">Generated names</p>
+              <h3 className="mt-1 text-xl font-black uppercase tracking-tight text-white">{category.replaceAll("-", " ")} ideas</h3>
+            </div>
+            <span className="rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-300">{names.length || 0} names</span>
+          </div>
+
+          {names.length === 0 ? (
+            <div className="grid min-h-72 place-items-center rounded-2xl border-2 border-dashed border-white/10 bg-black/25 p-6 text-center">
+              <div>
+                <Wand2 className="mx-auto h-10 w-10 text-[#43F58B]" />
+                <p className="mt-5 max-w-sm text-sm font-black uppercase leading-relaxed tracking-[0.18em] text-zinc-400">Choose a category and generate football team name ideas.</p>
+              </div>
+            </div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {names.map((name, index) => {
+                const saved = favourites.includes(name);
+                return (
+                  <article key={`${name}-${index}`} className={`rounded-2xl border p-4 transition ${saved ? "border-[#43F58B] bg-[#43F58B] text-black" : "border-white/10 bg-white/[0.055] text-white hover:border-[#43F58B]/70"}`}>
+                    <div className="flex items-start justify-between gap-3">
+                      <span className={`text-[10px] font-black uppercase tracking-[0.18em] ${saved ? "text-black/55" : "text-zinc-500"}`}>#{index + 1}</span>
+                      <button type="button" onClick={() => setFavourites((current) => saved ? current.filter((item) => item !== name) : [...current, name])} className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl border transition active:scale-95 ${saved ? "border-black/20 bg-black text-[#43F58B]" : "border-white/10 bg-black/40 text-zinc-400 hover:text-[#43F58B]"}`} aria-label={saved ? "Remove from saved names" : "Save name"}>
+                        <Star className="h-4 w-4" fill={saved ? "currentColor" : "none"} />
+                      </button>
+                    </div>
+                    <h4 className="mt-5 min-h-[3.5rem] text-2xl font-black uppercase leading-none tracking-tight" style={{ fontFamily: "var(--font-alpha)" }}>{name}</h4>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      <CopyButton value={name} label="Copy name" shortLabel="Copy" />
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1178,77 +1372,106 @@ function LeagueTableTool() {
     }));
   };
   const copyText = ["Team | P | W | D | L | GF | GA | GD | PTS", ...table.map((row) => `${row.team} | ${row.played} | ${row.wins} | ${row.draws} | ${row.losses} | ${row.gf} | ${row.ga} | ${row.gd} | ${row.pts}`)].join("\n");
+  const leagueTypes = ["5-a-side", "Futsal", "Sunday league", "Grassroots", "Custom"].map((item) => ({ value: item, label: item }));
+  const leader = table[0];
+  const second = table[1];
+  const third = table[2];
 
   return (
-    <ToolPanel title="Football league table generator" eyebrow="Standings, points and match result updates" actions={<CopyButton value={copyText} label="Copy table" />}>
-      <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="space-y-4">
-          <Segmented label="Sport" value={sport} onChange={setSport} options={[{ value: "football", label: "Football" }, { value: "futsal", label: "Futsal" }]} />
-          <Segmented label="League type" value={leagueType} onChange={setLeagueType} options={["5-a-side", "Futsal", "Sunday league", "Grassroots", "Custom"].map((item) => ({ value: item, label: item }))} />
-          <ResultCard title="Add match result">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Field label="Team A"><select value={result.a} onChange={(e) => setResult({ ...result, a: e.target.value })} className={smallInputClass}>{rows.map((row) => <option key={row.team}>{row.team}</option>)}</select></Field>
-              <Field label="Team B"><select value={result.b} onChange={(e) => setResult({ ...result, b: e.target.value })} className={smallInputClass}>{rows.map((row) => <option key={row.team}>{row.team}</option>)}</select></Field>
-              <Field label="Score A"><input type="number" min="0" value={result.scoreA} onChange={(e) => setResult({ ...result, scoreA: clampNumber(e.target.value, 0, 99) })} className={smallInputClass} /></Field>
-              <Field label="Score B"><input type="number" min="0" value={result.scoreB} onChange={(e) => setResult({ ...result, scoreB: clampNumber(e.target.value, 0, 99) })} className={smallInputClass} /></Field>
-            </div>
-            <button type="button" onClick={applyResult} className={`${buttonClass} mt-4`}>Update table</button>
-          </ResultCard>
+    <section id="tool-start" className="mx-auto w-full scroll-mt-28 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#050B14] text-white shadow-[0_28px_80px_rgba(0,0,0,0.45)]">
+      <div className="border-b border-white/10 bg-black/28 px-4 py-4 sm:px-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] text-[#43F58B]">Live standings</p>
+            <h2 className="mt-2 text-3xl font-black uppercase leading-none tracking-tight text-white md:text-5xl" style={{ fontFamily: "var(--font-alpha)" }}>League table generator</h2>
+            <p className="mt-3 max-w-xl text-sm font-bold leading-relaxed text-zinc-400">Update results, edit rows directly, and copy clean standings for your group chat or league notes.</p>
+          </div>
+          <CopyButton value={copyText} label="Copy table" shortLabel="Copy" />
         </div>
-        <div className="space-y-4">
-          <div className="grid gap-3 md:hidden">
-            {rows.map((row, index) => (
-              <div key={`mobile-row-${index}`} className="rounded-2xl border-2 border-black bg-white p-4 shadow-[4px_4px_0px_#000]">
-                <Field label={`Team ${index + 1}`}>
-                  <input type="text" value={row.team} onChange={(e) => update(index, "team", e.target.value)} className={smallInputClass} />
-                </Field>
-                <div className="mt-3 grid grid-cols-3 gap-2">
-                  {[["played", "P"], ["wins", "W"], ["draws", "D"], ["losses", "L"], ["gf", "GF"], ["ga", "GA"]].map(([key, label]) => (
-                    <Field key={key} label={label}>
-                      <input type="number" min="0" value={row[key]} onChange={(e) => update(index, key, e.target.value)} className={smallInputClass} />
-                    </Field>
-                  ))}
-                </div>
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <div className="rounded-xl border border-black/10 bg-[#F4F3EF] p-3"><p className={labelClass}>GD</p><p className="mt-1 text-xl font-black text-black">{Number(row.gf) - Number(row.ga)}</p></div>
-                  <div className="rounded-xl border border-black/10 bg-[#43F58B] p-3"><p className={labelClass}>PTS</p><p className="mt-1 text-xl font-black text-black">{Number(row.wins) * 3 + Number(row.draws)}</p></div>
-                </div>
+      </div>
+
+      <div className="grid gap-6 p-4 sm:p-6 lg:grid-cols-[300px_minmax(0,1fr)]">
+        <aside className="space-y-4">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+            <h3 className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-white">League setup</h3>
+            <div className="space-y-4">
+              <StatsDarkSegmented label="Sport" value={sport} onChange={setSport} options={[{ value: "football", label: "Football" }, { value: "futsal", label: "Futsal" }]} />
+              <StatsDarkSegmented label="League type" value={leagueType} onChange={setLeagueType} options={leagueTypes} />
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+            <h3 className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-white">Add match result</h3>
+            <div className="grid gap-3">
+              <StatsDarkField label="Team A">
+                <select value={result.a} onChange={(e) => setResult({ ...result, a: e.target.value })} className={statsDarkInputClass}>{rows.map((row) => <option key={row.team}>{row.team}</option>)}</select>
+              </StatsDarkField>
+              <StatsDarkField label="Team B">
+                <select value={result.b} onChange={(e) => setResult({ ...result, b: e.target.value })} className={statsDarkInputClass}>{rows.map((row) => <option key={row.team}>{row.team}</option>)}</select>
+              </StatsDarkField>
+              <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-3">
+                <StatsDarkField label="Score A">
+                  <input type="number" min="0" value={result.scoreA} onChange={(e) => setResult({ ...result, scoreA: clampNumber(e.target.value, 0, 99) })} className={`${statsDarkInputClass} text-center text-xl`} />
+                </StatsDarkField>
+                <span className="pb-3 text-sm font-black uppercase tracking-widest text-zinc-500">vs</span>
+                <StatsDarkField label="Score B">
+                  <input type="number" min="0" value={result.scoreB} onChange={(e) => setResult({ ...result, scoreB: clampNumber(e.target.value, 0, 99) })} className={`${statsDarkInputClass} text-center text-xl`} />
+                </StatsDarkField>
               </div>
+              <button type="button" onClick={applyResult} className="mt-1 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#43F58B] px-5 text-xs font-black uppercase tracking-widest text-black transition hover:bg-white active:scale-95">Update table</button>
+            </div>
+          </div>
+
+          <div className="grid gap-3">
+            <button type="button" onClick={() => setRows([...rows, { team: "New Team", played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0 }])} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#43F58B]/60 bg-black px-5 text-xs font-black uppercase tracking-widest text-[#43F58B] transition hover:bg-[#43F58B] hover:text-black">Add team</button>
+            <button type="button" onClick={() => setRows(rows.slice(0, -1))} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/10 bg-black px-5 text-xs font-black uppercase tracking-widest text-zinc-300 transition hover:border-[#43F58B] hover:text-white">Remove last</button>
+            <button type="button" onClick={() => setRows([])} className="inline-flex min-h-12 items-center justify-center rounded-xl border border-rose-400/30 bg-rose-500/10 px-5 text-xs font-black uppercase tracking-widest text-rose-200 transition hover:bg-rose-500 hover:text-white">Reset all data</button>
+          </div>
+        </aside>
+
+        <div className="min-w-0 space-y-5">
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035]">
+            <div className="border-b border-white/10 px-4 py-4">
+              <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] text-[#43F58B]">{leagueType} table</p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[760px] border-collapse text-left">
+                <thead className="bg-white/[0.045] text-[#43F58B]">
+                  <tr>{["Pos", "Team", "P", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((header) => <th key={header} className="p-3 text-[10px] font-black uppercase tracking-[0.18em]">{header}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, index) => {
+                    const computed = { gd: Number(row.gf) - Number(row.ga), pts: Number(row.wins) * 3 + Number(row.draws) };
+                    return (
+                      <tr key={index} className="border-t border-white/[0.06]">
+                        <td className="p-3"><span className="grid h-7 w-7 place-items-center rounded-lg bg-[#43F58B]/15 text-[10px] font-black text-[#43F58B]">{index + 1}</span></td>
+                        <td className="p-2"><input type="text" value={row.team} onChange={(e) => update(index, "team", e.target.value)} className={`${statsDarkInputClass} min-w-[170px]`} /></td>
+                        {["played", "wins", "draws", "losses", "gf", "ga"].map((key) => (
+                          <td key={key} className="p-2"><input type="number" min="0" value={row[key]} onChange={(e) => update(index, key, e.target.value)} className={`${statsDarkInputClass} w-16 text-center`} /></td>
+                        ))}
+                        <td className="p-3 text-sm font-black text-white">{computed.gd > 0 ? "+" : ""}{computed.gd}</td>
+                        <td className="p-3 text-lg font-black text-[#43F58B]">{computed.pts}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-3">
+            {[
+              { label: "League leaders", row: leader, accent: true },
+              { label: "2nd place", row: second },
+              { label: "3rd place", row: third },
+            ].map(({ label, row, accent }) => row && (
+              <StatsMetric key={label} label={label} value={row.team} sub={`${row.pts} pts · GD ${row.gd > 0 ? "+" : ""}${row.gd}`} accent={accent} />
             ))}
-          </div>
-          <div className="hidden overflow-x-auto rounded-2xl border-2 border-black shadow-[6px_6px_0px_#000] md:block">
-            <table className="w-full min-w-[900px] border-collapse bg-white text-left">
-              <thead className="bg-black text-[#43F58B]">
-                <tr>{["Team", "P", "W", "D", "L", "GF", "GA", "GD", "PTS"].map((header) => <th key={header} className="p-3 text-xs font-black uppercase tracking-widest">{header}</th>)}</tr>
-              </thead>
-              <tbody>
-                {rows.map((row, index) => (
-                  <tr key={index} className="border-t border-zinc-200">
-                    {["team", "played", "wins", "draws", "losses", "gf", "ga"].map((key) => (
-                      <td key={key} className="p-2"><input type={key === "team" ? "text" : "number"} min="0" value={row[key]} onChange={(e) => update(index, key, e.target.value)} className={smallInputClass} /></td>
-                    ))}
-                    <td className="p-3 font-black">{Number(row.gf) - Number(row.ga)}</td>
-                    <td className="p-3 font-black">{Number(row.wins) * 3 + Number(row.draws)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="grid gap-3 sm:flex sm:flex-wrap">
-            <button type="button" onClick={() => setRows([...rows, { team: "New Team", played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0 }])} className={buttonClass}>Add team</button>
-            <button type="button" onClick={() => setRows(rows.slice(0, -1))} className={secondaryButtonClass}>Remove last</button>
-            <button type="button" onClick={() => setRows([])} className={secondaryButtonClass}>Reset</button>
           </div>
         </div>
       </div>
-      <ResultsGrid empty="">
-        {table.map((row, index) => (
-          <ResultCard key={`${row.team}-${index}`} title={`${index + 1}. ${row.team}`} accent={index === 0}>
-            <p className={`text-sm font-black ${index === 0 ? "text-white" : "text-zinc-700"}`}>{row.pts} pts · GD {row.gd > 0 ? "+" : ""}{row.gd} · GF {row.gf}</p>
-          </ResultCard>
-        ))}
-      </ResultsGrid>
-    </ToolPanel>
+    </section>
   );
 }
 
@@ -1270,62 +1493,84 @@ const STAT_FIELDS = [
 function StatsPlayerCard({ player, onUpdate, onRemove, options, teams, teamAName, teamBName }) {
   const [expanded, setExpanded] = useState(false);
   const isTeamB = player.team === "B";
+  const teamColor = isTeamB ? "#38BDF8" : "#43F58B";
 
   return (
-    <div className="overflow-hidden rounded-xl border border-black/10 bg-white">
-      {/* ── Collapsed header ── */}
-      <div className="flex min-w-0 items-center gap-2 px-3 py-2.5">
-        <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${isTeamB ? "bg-sky-400" : "bg-[#43F58B]"}`} />
-        <input
-          value={player.name}
-          onChange={(e) => onUpdate(player.id, "name", e.target.value)}
-          placeholder="Player name"
-          className="min-w-0 flex-1 border-none bg-transparent text-sm font-bold text-black outline-none placeholder:text-zinc-300"
-        />
-        <span className="shrink-0 rounded-full bg-[#F4F3EF] px-2 py-0.5 text-[10px] font-black uppercase text-zinc-500">
-          {positionLabel(player.position)}
+    <article className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.055] shadow-[0_18px_44px_rgba(0,0,0,0.26)]">
+      <div className="flex min-w-0 items-center gap-3 px-4 py-4">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black text-sm font-black text-black" style={{ backgroundColor: teamColor }}>
+          {(player.name || "?").slice(0, 1).toUpperCase()}
         </span>
-        <span className="shrink-0 text-[11px] font-black text-zinc-400">★{player.rating}</span>
+        <div className="min-w-0 flex-1">
+          <input
+            value={player.name}
+            onChange={(e) => onUpdate(player.id, "name", e.target.value)}
+            placeholder="Player name"
+            className="w-full min-w-0 border-none bg-transparent text-base font-black uppercase tracking-tight text-white outline-none placeholder:text-zinc-600"
+          />
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-white/10 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] text-zinc-300">{positionLabel(player.position)}</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.14em] text-zinc-500">{isTeamB ? teamBName || "Team B" : teamAName || "Team A"}</span>
+          </div>
+        </div>
+        <div className="hidden grid-cols-3 gap-2 sm:grid">
+          {[["goals", "G"], ["assists", "A"], ["rating", "RT"]].map(([key, label]) => (
+            <div key={key} className="min-w-12 rounded-xl border border-white/10 bg-black/55 px-3 py-2 text-center">
+              <p className="text-[8px] font-black uppercase tracking-[0.16em] text-zinc-500">{label}</p>
+              <p className="mt-1 text-sm font-black text-white">{player[key] ?? 0}</p>
+            </div>
+          ))}
+        </div>
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="shrink-0 flex h-7 w-7 items-center justify-center rounded-lg border border-black/10 bg-[#F4F3EF] text-zinc-500 transition hover:bg-[#43F58B] hover:text-black active:scale-90"
+          className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/10 bg-black/50 text-[#43F58B] transition hover:bg-[#43F58B] hover:text-black active:scale-95"
+          aria-expanded={expanded}
         >
-          <ChevronDown className={`h-3.5 w-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} />
+          <ChevronDown className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
         </button>
       </div>
 
-      {/* ── Expanded edit area ── */}
+      <div className="grid grid-cols-3 gap-2 px-4 pb-4 sm:hidden">
+        {[["goals", "Goals"], ["assists", "Assists"], ["rating", "Rating"]].map(([key, label]) => (
+          <div key={key} className="rounded-xl border border-white/10 bg-black/55 px-3 py-2 text-center">
+            <p className="text-[8px] font-black uppercase tracking-[0.16em] text-zinc-500">{label}</p>
+            <p className="mt-1 text-sm font-black text-white">{player[key] ?? 0}</p>
+          </div>
+        ))}
+      </div>
+
       {expanded && (
-        <div className="border-t border-black/5 p-3 space-y-3">
-          <div className="grid grid-cols-2 gap-2">
-            <Field label="Position">
-              <select value={player.position} onChange={(e) => onUpdate(player.id, "position", e.target.value)} className={smallInputClass}>
+        <div className="space-y-4 border-t border-white/10 bg-black/28 p-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <label className="grid gap-2">
+              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-zinc-500">Position</span>
+              <select value={player.position} onChange={(e) => onUpdate(player.id, "position", e.target.value)} className="min-h-11 rounded-xl border border-white/10 bg-[#08111f] px-3 text-sm font-bold text-white outline-none focus:border-[#43F58B]">
                 {options.map((pos) => <option key={pos} value={pos}>{pos}</option>)}
               </select>
-            </Field>
+            </label>
             {teams.length > 1 && (
-              <Field label="Team">
-                <select value={player.team} onChange={(e) => onUpdate(player.id, "team", e.target.value)} className={smallInputClass}>
+              <label className="grid gap-2">
+                <span className="text-[9px] font-black uppercase tracking-[0.18em] text-zinc-500">Team</span>
+                <select value={player.team} onChange={(e) => onUpdate(player.id, "team", e.target.value)} className="min-h-11 rounded-xl border border-white/10 bg-[#08111f] px-3 text-sm font-bold text-white outline-none focus:border-[#43F58B]">
                   <option value="A">{teamAName || "Team A"}</option>
                   <option value="B">{teamBName || "Team B"}</option>
                 </select>
-              </Field>
+              </label>
             )}
           </div>
 
-          {/* Stat inputs — 4 cols on mobile */}
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-8">
             {STAT_FIELDS.map(({ key, label, max }) => (
-              <label key={key} className="grid gap-1 text-center">
-                <span className="text-[9px] font-black uppercase tracking-wider text-zinc-500">{label}</span>
+              <label key={key} className="grid gap-1.5">
+                <span className="text-center text-[9px] font-black uppercase tracking-wider text-zinc-500">{label}</span>
                 <input
                   type="number"
                   min="0"
                   max={max || 99}
                   value={player[key] ?? 0}
                   onChange={(e) => onUpdate(player.id, key, clampNumber(e.target.value, 0, max || 99))}
-                  className="w-full rounded-lg border border-black/10 bg-[#F4F3EF] py-2 text-center text-sm font-black text-black outline-none focus:border-[#43F58B] focus:ring-2 focus:ring-[#43F58B]/40"
+                  className="h-11 w-full rounded-xl border border-white/10 bg-[#08111f] text-center text-sm font-black text-white outline-none focus:border-[#43F58B] focus:ring-2 focus:ring-[#43F58B]/30"
                 />
               </label>
             ))}
@@ -1334,12 +1579,59 @@ function StatsPlayerCard({ player, onUpdate, onRemove, options, teams, teamAName
           <button
             type="button"
             onClick={() => onRemove(player.id)}
-            className="w-full rounded-xl border border-rose-200 bg-rose-50 py-2 text-[11px] font-black uppercase tracking-wider text-rose-600 transition hover:bg-rose-100 active:scale-95"
+            className="w-full rounded-xl border border-rose-400/30 bg-rose-500/10 py-3 text-[10px] font-black uppercase tracking-[0.18em] text-rose-200 transition hover:bg-rose-500 hover:text-white active:scale-95"
           >
-            Remove Player
+            Remove player
           </button>
         </div>
       )}
+    </article>
+  );
+}
+
+const statsDarkInputClass = "min-h-11 w-full rounded-xl border border-white/10 bg-[#08111f] px-3 text-sm font-bold text-white outline-none transition placeholder:text-zinc-600 focus:border-[#43F58B] focus:ring-2 focus:ring-[#43F58B]/25";
+const statsDarkLabelClass = "text-[9px] font-black uppercase tracking-[0.18em] text-zinc-500";
+
+function StatsMetric({ label, value, sub, accent = false }) {
+  return (
+    <div className={`rounded-2xl border p-4 ${accent ? "border-[#43F58B] bg-[#43F58B] text-black" : "border-white/10 bg-white/[0.055] text-white"}`}>
+      <p className={`text-[9px] font-black uppercase tracking-[0.18em] ${accent ? "text-black/60" : "text-zinc-500"}`}>{label}</p>
+      <p className="mt-3 truncate text-2xl font-black leading-none">{value}</p>
+      {sub && <p className={`mt-2 text-xs font-bold ${accent ? "text-black/65" : "text-zinc-400"}`}>{sub}</p>}
+    </div>
+  );
+}
+
+function StatsDarkField({ label, children }) {
+  return (
+    <label className="grid gap-2">
+      <span className={statsDarkLabelClass}>{label}</span>
+      {children}
+    </label>
+  );
+}
+
+function StatsDarkSegmented({ label, value, onChange, options: segmentOptions }) {
+  return (
+    <div className="grid gap-2">
+      <span className="text-[9px] font-black uppercase tracking-[0.22em] text-[#43F58B]">{label}</span>
+      <div className="grid grid-cols-2 gap-2">
+        {segmentOptions.map((option) => {
+          const selected = option.value === value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => onChange(option.value)}
+              className={`min-h-11 rounded-xl border px-3 text-xs font-black uppercase tracking-[0.08em] transition active:scale-95 ${
+                selected ? "border-[#43F58B] bg-[#43F58B] text-black" : "border-white/10 bg-black/45 text-zinc-300 hover:border-[#43F58B]"
+              }`}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -1348,9 +1640,10 @@ function StatsTrackerTool() {
   const [sport, setSport] = useState("football");
   const [format, setFormat] = useState("5");
   const [trackSecond, setTrackSecond] = useState(false);
+  const [notes, setNotes] = useState("");
   const [match, setMatch] = useState({
     teamA: "Pitchside FC", teamB: "Astro United",
-    date: new Date().toISOString().slice(0, 10),
+    date: "",
     scoreA: 8, scoreB: 6,
   });
   const [players, setPlayers] = useState([
@@ -1360,6 +1653,70 @@ function StatsTrackerTool() {
   ]);
 
   const visiblePlayers = players.filter((p) => trackSecond || p.team !== "B");
+  const teamAPlayers = visiblePlayers.filter((p) => p.team !== "B");
+  const teamBPlayers = visiblePlayers.filter((p) => p.team === "B");
+  const options = positionsFor(sport, format);
+
+  const updatePlayer = (id, key, value) => {
+    setPlayers((current) => current.map((player) => (player.id === id ? { ...player, [key]: value } : player)));
+  };
+
+  const addPlayer = () => {
+    setPlayers((current) => [
+      ...current,
+      {
+        id: `${Date.now()}-${current.length}`,
+        name: `Player ${current.length + 1}`,
+        team: trackSecond ? "B" : "A",
+        position: options[0] || "Any",
+        goals: 0,
+        assists: 0,
+        saves: 0,
+        conceded: 0,
+        tackles: 0,
+        dribbles: 0,
+        shots: 0,
+        rating: 6,
+      },
+    ]);
+  };
+
+  const setSportAndFormat = (nextSport) => {
+    setSport(nextSport);
+    setFormat(nextSport === "futsal" ? "futsal5" : "5");
+  };
+  const loadLatestToolPlayers = () => {
+    const setup = readPendingStatsSetup();
+    if (!setup?.players?.length) return;
+    setSport(setup.sport || "football");
+    setFormat(setup.format || "5");
+    setTrackSecond(setup.includeB ?? setup.players.some((player) => player.team === "B"));
+    setMatch(setup.match || match);
+    setPlayers(setup.players);
+  };
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      const setup = readPendingStatsSetup();
+      if (setup?.players?.length) {
+        setSport(setup.sport || "football");
+        setFormat(setup.format || "5");
+        setTrackSecond(setup.includeB ?? setup.players.some((player) => player.team === "B"));
+        setMatch(setup.match || {
+          teamA: "Pitchside FC",
+          teamB: "Astro United",
+          date: new Date().toISOString().slice(0, 10),
+          scoreA: 8,
+          scoreB: 6,
+        });
+        setPlayers(setup.players);
+        return;
+      }
+      setMatch((current) => current.date ? current : { ...current, date: new Date().toISOString().slice(0, 10) });
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const scorePlayer = (p) =>
     Number(p.goals) * 4 + Number(p.assists) * 3 + Number(p.saves) * 1.5 + Number(p.tackles) * 2 + Number(p.dribbles) + Number(p.rating);
@@ -1373,85 +1730,151 @@ function StatsTrackerTool() {
   const bestKeeper = [...visiblePlayers].sort((a, b) => Number(b.saves) - Number(a.saves))[0];
   const potm = ranked[0];
 
-  const recap = `${match.teamA} ${match.scoreA}–${match.scoreB} ${match.teamB} (${match.date})\n${sport === "futsal" ? "Futsal 5-a-side" : `Football ${format}-a-side`}\n\nTop scorer: ${topScorer?.name || "TBC"} (${topScorer?.goals || 0})\nTop assister: ${topAssister?.name || "TBC"} (${topAssister?.assists || 0})\nBest GK / saves: ${bestKeeper?.name || "TBC"} (${bestKeeper?.saves || 0})\nPOTM suggestion: ${potm?.name || "TBC"}\n\n${visiblePlayers.map((p) => `${p.team === "B" ? match.teamB : match.teamA} - ${p.name} (${p.position}): ${p.goals}G ${p.assists}A ${p.saves}SV ${p.tackles}T ${p.dribbles}D ${p.shots}SH ★${p.rating}`).join("\n")}\n\nTrack manually now, automate later with Pitchside.`;
+  const recap = `${match.teamA} ${match.scoreA}–${match.scoreB} ${match.teamB} (${match.date})\n${sport === "futsal" ? "Futsal 5-a-side" : `Football ${format}-a-side`}\n\nTop scorer: ${topScorer?.name || "TBC"} (${topScorer?.goals || 0})\nTop assister: ${topAssister?.name || "TBC"} (${topAssister?.assists || 0})\nBest GK / saves: ${bestKeeper?.name || "TBC"} (${bestKeeper?.saves || 0})\nPOTM suggestion: ${potm?.name || "TBC"}${notes ? `\n\nNotes: ${notes}` : ""}\n\n${visiblePlayers.map((p) => `${p.team === "B" ? match.teamB : match.teamA} - ${p.name} (${p.position}): ${p.goals}G ${p.assists}A ${p.saves}SV ${p.tackles}T ${p.dribbles}D ${p.shots}SH ★${p.rating}`).join("\n")}\n\nTrack manually now, automate later with Pitchside.`;
 
   return (
-    <ToolPanel
-      title="5-a-side Stats Tracker"
-      eyebrow="Match setup, player stats and recap"
-      actions={<CopyButton value={recap} label="Copy recap" shortLabel="Copy" />}
-    >
-      {/* ── Sport / Format ── */}
-      <FormatControls sport={sport} setSport={setSport} format={format} setFormat={setFormat} />
-
-      {/* ── Match info ── */}
-      <div className="rounded-2xl border border-black/10 bg-[#F4F3EF] p-4">
-        <span className={`${labelClass} mb-3 block`}>Match info</span>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-          <Field label="Team A">
-            <input value={match.teamA} onChange={(e) => setMatch({ ...match, teamA: e.target.value })} className={smallInputClass} />
-          </Field>
-          <Field label="Team B">
-            <input value={match.teamB} onChange={(e) => setMatch({ ...match, teamB: e.target.value })} className={smallInputClass} />
-          </Field>
-          <Field label="Date" className="col-span-2 sm:col-span-1">
-            <input type="date" value={match.date} onChange={(e) => setMatch({ ...match, date: e.target.value })} className={smallInputClass} />
-          </Field>
-          <Field label={`Score — ${match.teamA || "A"}`}>
-            <input type="number" min="0" value={match.scoreA} onChange={(e) => setMatch({ ...match, scoreA: clampNumber(e.target.value, 0, 99) })} className={smallInputClass} />
-          </Field>
-          <Field label={`Score — ${match.teamB || "B"}`}>
-            <input type="number" min="0" value={match.scoreB} onChange={(e) => setMatch({ ...match, scoreB: clampNumber(e.target.value, 0, 99) })} className={smallInputClass} />
-          </Field>
-        </div>
-      </div>
-
-      {/* ── Track second team toggle ── */}
-      <label className="flex min-h-11 items-center gap-3 rounded-2xl border-2 border-black bg-white px-4 py-3 text-sm font-black uppercase tracking-widest cursor-pointer">
-        <input type="checkbox" checked={trackSecond} onChange={(e) => setTrackSecond(e.target.checked)} className="h-5 w-5 accent-[#43F58B]" />
-        Track opponent / second team stats
-      </label>
-
-      {/* ── Player list ── */}
-      <PlayerEditor
-        players={players}
-        setPlayers={setPlayers}
-        sport={sport}
-        format={format}
-        allowTeam={trackSecond}
-        teams={["A", "B"]}
-        showStats
-      />
-
-      {/* ── Summary cards ── */}
-      <div className="grid gap-3 [grid-template-columns:repeat(2,minmax(0,1fr))] md:[grid-template-columns:repeat(4,minmax(0,1fr))]">
-        <ResultCard title="Top scorer" accent>
-          <p className="text-sm font-black text-white">{topScorer?.name || "TBC"}</p>
-          <p className="mt-1 text-[11px] font-bold text-zinc-400">{topScorer?.goals || 0} goals</p>
-        </ResultCard>
-        <ResultCard title="Top assister">
-          <p className="text-sm font-black text-black">{topAssister?.name || "TBC"}</p>
-          <p className="mt-1 text-[11px] font-bold text-zinc-500">{topAssister?.assists || 0} assists</p>
-        </ResultCard>
-        <ResultCard title="Best GK">
-          <p className="text-sm font-black text-black">{bestKeeper?.name || "TBC"}</p>
-          <p className="mt-1 text-[11px] font-bold text-zinc-500">{bestKeeper?.saves || 0} saves</p>
-        </ResultCard>
-        <ResultCard title="POTM">
-          <p className="text-sm font-black text-black">{potm?.name || "TBC"}</p>
-          <p className="mt-1 text-[11px] font-bold text-zinc-500">Score {Math.round(potm?.score || 0)}</p>
-        </ResultCard>
-      </div>
-
-      {/* ── Recap ── */}
-      <div>
-        <div className="mb-2 flex items-center justify-between">
-          <span className={labelClass}>Match recap</span>
+    <section id="tool-start" className="mx-auto w-full scroll-mt-28 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#050B14] text-white shadow-[0_28px_80px_rgba(0,0,0,0.45)]">
+      <div className="border-b border-white/10 bg-black/28 px-4 py-4 sm:px-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] text-[#43F58B]">Live match session</p>
+            <h2 className="mt-2 text-3xl font-black uppercase leading-none tracking-tight text-white md:text-5xl" style={{ fontFamily: "var(--font-alpha)" }}>5-a-side stats tracker</h2>
+          </div>
           <CopyButton value={recap} label="Copy recap" shortLabel="Copy" />
         </div>
-        <pre className="max-w-full overflow-x-auto whitespace-pre-wrap break-words rounded-2xl border-2 border-black bg-black p-4 text-xs font-bold leading-relaxed text-[#43F58B]">{recap}</pre>
       </div>
-    </ToolPanel>
+
+      <div className="grid gap-6 p-4 sm:p-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <aside className="space-y-4">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+            <h3 className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-white">Match setup</h3>
+            <div className="space-y-4">
+              <StatsDarkSegmented label="Sport" value={sport} onChange={setSportAndFormat} options={[{ value: "football", label: "Football" }, { value: "futsal", label: "Futsal" }]} />
+              <StatsDarkSegmented label="Format" value={format} onChange={setFormat} options={formatsForSport(sport)} />
+              <label className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-black/35 px-3 text-xs font-black uppercase tracking-[0.14em] text-zinc-300">
+                <input type="checkbox" checked={trackSecond} onChange={(e) => setTrackSecond(e.target.checked)} className="h-5 w-5 accent-[#43F58B]" />
+                Track Team B players
+              </label>
+              <button type="button" onClick={loadLatestToolPlayers} className="min-h-12 rounded-xl border border-[#43F58B]/60 bg-black px-3 text-xs font-black uppercase tracking-[0.14em] text-[#43F58B] transition hover:bg-[#43F58B] hover:text-black">
+                Load latest tool players
+              </button>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+            <h3 className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-white">Match details</h3>
+            <div className="grid gap-3">
+              <StatsDarkField label="Date">
+                <input type="date" value={match.date} onChange={(e) => setMatch({ ...match, date: e.target.value })} className={statsDarkInputClass} />
+              </StatsDarkField>
+              <div className="grid grid-cols-2 gap-3">
+                <StatsDarkField label="Team A">
+                  <input value={match.teamA} onChange={(e) => setMatch({ ...match, teamA: e.target.value })} className={statsDarkInputClass} />
+                </StatsDarkField>
+                <StatsDarkField label="Team B">
+                  <input value={match.teamB} onChange={(e) => setMatch({ ...match, teamB: e.target.value })} className={statsDarkInputClass} />
+                </StatsDarkField>
+              </div>
+              <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-3">
+                <StatsDarkField label="Score A">
+                  <input type="number" min="0" value={match.scoreA} onChange={(e) => setMatch({ ...match, scoreA: clampNumber(e.target.value, 0, 99) })} className={`${statsDarkInputClass} text-center text-2xl`} />
+                </StatsDarkField>
+                <span className="pb-3 text-sm font-black uppercase tracking-widest text-zinc-500">vs</span>
+                <StatsDarkField label="Score B">
+                  <input type="number" min="0" value={match.scoreB} onChange={(e) => setMatch({ ...match, scoreB: clampNumber(e.target.value, 0, 99) })} className={`${statsDarkInputClass} text-center text-2xl`} />
+                </StatsDarkField>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <div className="min-w-0 space-y-5">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <StatsMetric label="Top scorer" value={topScorer?.name || "TBC"} sub={`${topScorer?.goals || 0} goals`} accent />
+            <StatsMetric label="Top assister" value={topAssister?.name || "TBC"} sub={`${topAssister?.assists || 0} assists`} />
+            <StatsMetric label="Best GK" value={bestKeeper?.name || "TBC"} sub={`${bestKeeper?.saves || 0} saves`} />
+            <StatsMetric label="POTM" value={potm?.name || "TBC"} sub={`Score ${Math.round(potm?.score || 0)}`} />
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] text-[#43F58B]">Player performances</p>
+                <p className="mt-1 text-sm font-bold text-zinc-400">Edit names inline. Open a card to update full match stats.</p>
+              </div>
+              <button type="button" onClick={addPlayer} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#43F58B] px-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-white active:scale-95">
+                <Plus className="h-4 w-4" /> Add player
+              </button>
+            </div>
+            <div className="grid gap-4">
+              <div>
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <h3 className="text-xs font-black uppercase tracking-[0.18em] text-white">{match.teamA || "Team A"}</h3>
+                  <span className="rounded-full bg-[#43F58B]/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[#43F58B]">{teamAPlayers.length} players</span>
+                </div>
+                <div className="grid gap-3 xl:grid-cols-2">
+                  {teamAPlayers.map((player) => (
+                    <StatsPlayerCard
+                      key={player.id}
+                      player={player}
+                      onUpdate={updatePlayer}
+                      onRemove={(id) => setPlayers((current) => current.filter((item) => item.id !== id))}
+                      options={options}
+                      teams={trackSecond ? ["A", "B"] : ["A"]}
+                      teamAName={match.teamA}
+                      teamBName={match.teamB}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {trackSecond && (
+                <div>
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <h3 className="text-xs font-black uppercase tracking-[0.18em] text-white">{match.teamB || "Team B"}</h3>
+                    <span className="rounded-full bg-sky-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-sky-300">{teamBPlayers.length} players</span>
+                  </div>
+                  <div className="grid gap-3 xl:grid-cols-2">
+                    {teamBPlayers.map((player) => (
+                      <StatsPlayerCard
+                        key={player.id}
+                        player={player}
+                        onUpdate={updatePlayer}
+                        onRemove={(id) => setPlayers((current) => current.filter((item) => item.id !== id))}
+                        options={options}
+                        teams={["A", "B"]}
+                        teamAName={match.teamA}
+                        teamBName={match.teamB}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="grid gap-4 xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
+            <label className="grid gap-2 rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+              <span className={statsDarkLabelClass}>Manager notes</span>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={6}
+                placeholder="Add tactics, standout moments, or player notes..."
+                className="min-h-32 resize-y rounded-xl border border-white/10 bg-[#08111f] p-3 text-sm font-bold leading-relaxed text-white outline-none placeholder:text-zinc-600 focus:border-[#43F58B]"
+              />
+            </label>
+            <div className="min-w-0 rounded-2xl border border-white/10 bg-black/55 p-4">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <span className={statsDarkLabelClass}>Match recap</span>
+                <CopyButton value={recap} label="Copy recap" shortLabel="Copy" />
+              </div>
+              <pre className="max-h-72 max-w-full overflow-auto whitespace-pre-wrap break-words rounded-xl bg-[#050B14] p-4 text-xs font-bold leading-relaxed text-[#43F58B]">{recap}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

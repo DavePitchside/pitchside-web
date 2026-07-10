@@ -107,13 +107,13 @@ export default function Footer() {
           </div>
 
           <div className="px-8 md:px-16 flex flex-wrap items-center gap-4 mb-16">
-            <a href={socialLinks.appStore !== "#" ? socialLinks.appStore : "#"} target={socialLinks.appStore !== "#" ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-center justify-center gap-3 bg-black border border-white/10 text-white px-4 py-2.5 rounded-xl hover:border-[#CCFF00] hover:text-[#CCFF00] transition-colors w-full sm:w-auto shadow-md">
+            <a href={socialLinks.appStore !== "#" ? socialLinks.appStore : "/contact"} target={socialLinks.appStore !== "#" ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-center justify-center gap-3 bg-black border border-white/10 text-white px-4 py-2.5 rounded-xl hover:border-[#CCFF00] hover:text-[#CCFF00] transition-colors w-full sm:w-auto shadow-md">
               <Apple className="w-6 h-6 mb-0.5" fill="currentColor" />
-              <div className="text-left flex flex-col"><span className="text-[9px] leading-none text-zinc-400 uppercase tracking-wider">Download on the</span><span className="text-[13px] font-bold leading-none mt-1">App Store</span></div>
+              <div className="text-left flex flex-col"><span className="text-[9px] leading-none text-zinc-400 uppercase tracking-wider">{socialLinks.appStore !== "#" ? "Available on the" : "Coming soon to"}</span><span className="text-[13px] font-bold leading-none mt-1">App Store</span></div>
             </a>
-            <a href={socialLinks.playStore !== "#" ? socialLinks.playStore : "#"} target={socialLinks.playStore !== "#" ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-center justify-center gap-3 bg-black border border-white/10 text-white px-4 py-2.5 rounded-xl hover:border-[#CCFF00] transition-colors w-full sm:w-auto shadow-md">
+            <a href={socialLinks.playStore !== "#" ? socialLinks.playStore : "/contact"} target={socialLinks.playStore !== "#" ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-center justify-center gap-3 bg-black border border-white/10 text-white px-4 py-2.5 rounded-xl hover:border-[#CCFF00] transition-colors w-full sm:w-auto shadow-md">
               <PlayStoreIcon />
-              <div className="text-left flex flex-col"><span className="text-[9px] leading-none text-zinc-400 uppercase tracking-wider">Get it on</span><span className="text-[13px] font-bold leading-none mt-1">Google Play</span></div>
+              <div className="text-left flex flex-col"><span className="text-[9px] leading-none text-zinc-400 uppercase tracking-wider">{socialLinks.playStore !== "#" ? "Available on" : "Coming soon to"}</span><span className="text-[13px] font-bold leading-none mt-1">Google Play</span></div>
             </a>
           </div>
 

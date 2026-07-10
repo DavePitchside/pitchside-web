@@ -1,15 +1,16 @@
 import React from 'react';
-import { contentDateToIso, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { cleanMetaTitle, contentDateToIso, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 
 export default function SchemaMarkup({ data, type = "WebPage", url }) {
   if (!data) return null;
   const author = getContentAuthor(data);
 
   // 1. BASE SCHEMA: Defines the page type (Article vs Landing Page)
+  const headline = cleanMetaTitle(data.metaTitle || data.title || data.heroH1);
   const baseSchema = {
     "@context": "https://schema.org",
     "@type": type,
-    "headline": data.metaTitle || data.title || data.heroH1,
+    "headline": headline,
     "description": data.metaDescription || "Pitchside AI Platform",
     "image": data.primaryImage || data.heroBackground || "https://pitchside.ai/logo.png",
     "author": {

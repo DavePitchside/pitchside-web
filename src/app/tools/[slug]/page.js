@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import ToolClient from "@/components/tools/ToolClient";
 import { ToolShell } from "@/components/tools/ToolChrome";
 import { db } from "@/lib/firebase";
 import { SITE_URL, getToolBySlug, mergeToolContent, toolSlugs } from "@/lib/tools";
+import { cleanMetaTitle } from "@/lib/contentMeta";
+import { isIndexableContent } from "@/lib/contentPolicy";
 
 export const dynamic = "force-dynamic";
 
@@ -34,29 +37,69 @@ async function getMergedTool(slug) {
   return mergeToolContent(tool, adminData);
 }
 
+function serializeRelatedDoc(docSnapshot, contentType) {
+  const data = docSnapshot.data();
+  const slug = data.slug;
+  const url = contentType === "post" ? `/blog/${slug}` : `/${slug}`;
+
+  return {
+    id: docSnapshot.id,
+    contentType,
+    slug,
+    url,
+    title: data.heroH1 || data.title || data.metaTitle || "Untitled guide",
+    description: data.metaDescription || data.intro || "",
+  };
+}
+
+async function getToolRelatedGuides(toolSlug) {
+  const parentUrl = `/tools/${toolSlug}`;
+
+  try {
+    const [postsSnap, pagesSnap] = await Promise.all([
+      getDocs(query(collection(db, "posts"), where("parentPage.url", "==", parentUrl))),
+      getDocs(query(collection(db, "pages"), where("parentPage.url", "==", parentUrl))),
+    ]);
+
+    return [
+      ...postsSnap.docs
+        .filter((docSnapshot) => isIndexableContent(docSnapshot.data()))
+        .map((docSnapshot) => serializeRelatedDoc(docSnapshot, "post")),
+      ...pagesSnap.docs
+        .filter((docSnapshot) => isIndexableContent(docSnapshot.data()))
+        .map((docSnapshot) => serializeRelatedDoc(docSnapshot, "page")),
+    ].sort((a, b) => a.title.localeCompare(b.title));
+  } catch (error) {
+    console.error("Error loading tool related guides:", error);
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const tool = await getMergedTool(slug);
   if (!tool) return {};
 
+  const title = cleanMetaTitle(tool.metaTitle || tool.title);
+
   return {
-    title: tool.metaTitle || tool.title,
+    title,
     description: tool.metaDescription,
     alternates: {
       canonical: `/tools/${tool.slug}`,
     },
     openGraph: {
-      title: tool.metaTitle || tool.title,
+      title,
       description: tool.metaDescription,
       url: `${SITE_URL}/tools/${tool.slug}`,
       siteName: "Pitchside AI",
       type: "website",
-      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: tool.metaTitle || tool.title }],
+      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
       site: "@pitchsideai",
-      title: tool.metaTitle || tool.title,
+      title,
       description: tool.metaDescription,
       images: ["/og-image.png"],
     },
@@ -67,6 +110,7 @@ export default async function ToolPage({ params }) {
   const { slug } = await params;
   const tool = await getMergedTool(slug);
   if (!tool) notFound();
+  const relatedGuides = await getToolRelatedGuides(tool.slug);
 
   const faqSchema = tool.faqs?.filter((faq) => faq?.question).length
     ? {
@@ -127,7 +171,7 @@ export default async function ToolPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      <ToolShell tool={tool}>
+      <ToolShell tool={tool} relatedGuides={relatedGuides}>
         <ToolClient slug={tool.slug} />
       </ToolShell>
     </>

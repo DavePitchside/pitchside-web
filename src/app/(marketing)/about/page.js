@@ -231,7 +231,7 @@ export default function AboutPage() {
                   {[
                     { icon: Video, title: "Automatic Highlights", desc: "AI analyses your match footage and assembles a personalised highlight reel automatically." },
                     { icon: BarChart2, title: "Real Player Stats", desc: "Goals, assists, key moments – tracked automatically for definitive proof of your performance." },
-                    { icon: Share2, title: "Shareable in Seconds", desc: "Designed for the group chat. Drop your highlights into WhatsApp or Instagram instantly." },
+                    { icon: Share2, title: "Built for Sharing", desc: "Designed for the group chat, with shareable clips and player moments being tested during private beta." },
                     { icon: Users, title: "Built for Grassroots", desc: "From Sunday leagues to casual kickabouts – made for the millions who play for the love of the game." }
                   ].map((card, i) => {
                     const Icon = card.icon; 

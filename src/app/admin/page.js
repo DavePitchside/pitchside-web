@@ -30,7 +30,7 @@ const TECHNOLOGY_PAGE_DEFAULTS = {
   id: "technology",
   title: "Technology",
   slug: "technology",
-  metaTitle: "The Technology Behind Pitchside AI | Small-Sided Football Analysis",
+  metaTitle: "The Technology Behind Small-Sided Football Analysis",
   metaDescription: "See how Pitchside AI uses custom machine learning and computer vision trained on small-sided football footage to generate stats, highlights and player moments.",
   badge: "Technology",
   heroH1: "The Technology Behind Pitchside AI",

@@ -5,6 +5,7 @@ import { db } from "@/lib/firebase";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import DynamicPageClient from "./DynamicPageClient";
 import { DELETED_SLUGS, isIndexableContent } from "@/lib/contentPolicy";
+import { cleanMetaTitle } from "@/lib/contentMeta";
 import { getMoreToRead } from "@/lib/recommendations";
 
 export const dynamic = "force-dynamic";
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }) {
   const data = await getPageData(slug);
   if (!data) return {};
 
-  const title = data.metaTitle || data.heroH1 || data.title;
+  const title = cleanMetaTitle(data.metaTitle || data.heroH1 || data.title);
   const image = data.primaryImage || data.heroBackground || `${SITE_URL}/og-image.png`;
 
   return {
@@ -84,6 +85,7 @@ export async function generateMetadata({ params }) {
 
 export default async function DynamicPage({ params }) {
   const { slug } = await params;
+  if (slug === "how-pitchside-ai-works") permanentRedirect("/technology/how-pitchside-ai-works");
   if (DELETED_SLUGS.has(slug)) notFound();
   const data = await getPageData(slug);
   if (!data) notFound();

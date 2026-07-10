@@ -2,6 +2,7 @@ import ToolsHub from "@/components/tools/ToolsHub";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { SITE_URL, mergeToolContent, mergeToolsHubContent, tools, toolsHub } from "@/lib/tools";
+import { cleanMetaTitle } from "@/lib/contentMeta";
 
 export const dynamic = "force-dynamic";
 
@@ -37,25 +38,26 @@ async function getMergedToolsContent() {
 
 export async function generateMetadata() {
   const { hub } = await getMergedToolsContent();
+  const title = cleanMetaTitle(hub.metaTitle);
 
   return {
-    title: hub.metaTitle,
+    title,
     description: hub.metaDescription,
     alternates: {
       canonical: "/tools",
     },
     openGraph: {
-      title: hub.metaTitle,
+      title,
       description: hub.metaDescription,
       url: `${SITE_URL}/tools`,
       siteName: "Pitchside AI",
       type: "website",
-      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: hub.metaTitle }],
+      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
       site: "@pitchsideai",
-      title: hub.metaTitle,
+      title,
       description: hub.metaDescription,
       images: ["/og-image.png"],
     },

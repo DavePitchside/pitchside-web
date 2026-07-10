@@ -170,6 +170,14 @@ function normalizeTechnologyContent(data = {}) {
       ? data.sections
       : defaultTechnologyContent.technologySections;
 
+  const rawCtaBlock = { ...defaultTechnologyContent.ctaBlock, ...(data.cta || {}), ...(data.ctaBlock || {}) };
+  const ctaBlock = {
+    headline: rawCtaBlock.headline || defaultTechnologyContent.ctaBlock.headline,
+    description: rawCtaBlock.description || defaultTechnologyContent.ctaBlock.description,
+    buttonText: rawCtaBlock.buttonText || defaultTechnologyContent.ctaBlock.buttonText,
+    buttonUrl: rawCtaBlock.buttonUrl || defaultTechnologyContent.ctaBlock.buttonUrl,
+  };
+
   return {
     ...defaultTechnologyContent,
     ...data,
@@ -192,7 +200,7 @@ function normalizeTechnologyContent(data = {}) {
       content: Array.isArray(section?.content) ? section.content : [],
       table: section?.table || null,
     })),
-    ctaBlock: { ...defaultTechnologyContent.ctaBlock, ...(data.cta || {}), ...(data.ctaBlock || {}) },
+    ctaBlock,
   };
 }
 
@@ -501,22 +509,22 @@ export default function TechnologyPage() {
 
         {/* =========================================
             SECTION 3: CTA
-            Outer: Black | Inner: Neon Green
             ========================================= */}
         <div className="w-full bg-[#050505] p-2 md:p-4">
-          <section className="relative w-full py-20 md:py-32 bg-[#CCFF00] text-zinc-950 overflow-hidden z-10 flex flex-col justify-center rounded-[1.5rem] md:rounded-[2rem] border-4 border-black">
+          <section className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#050505] px-5 py-14 text-white shadow-[0_0_40px_rgba(0,0,0,0.35)] sm:px-8 md:rounded-[2rem] md:px-16 md:py-20 lg:px-20">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:42px_42px]" />
             
-            <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="top-6 left-6 md:top-8 md:left-8" />
-            <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />
-            <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="bottom-6 right-6 md:bottom-8 md:right-8 rotate-180" />
-            <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="bottom-6 left-6 md:bottom-8 md:left-8 -rotate-90" />
+            <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="top-6 left-6 md:top-8 md:left-8" />
+            <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />
+            <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="bottom-6 right-6 md:bottom-8 md:right-8 rotate-180" />
+            <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="bottom-6 left-6 md:bottom-8 md:left-8 -rotate-90" />
 
-            <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-5 text-center sm:px-8 md:px-20">
-              <h2 className="mb-6 max-w-full break-words text-[clamp(2.2rem,12vw,4rem)] uppercase leading-[0.9] tracking-normal text-black md:text-7xl [overflow-wrap:anywhere]" style={{ fontFamily: 'var(--font-alpha)' }}>
-                {content.ctaBlock.headline}
+            <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center text-center">
+              <h2 className="mb-5 max-w-full break-words text-[clamp(2rem,10vw,3.6rem)] uppercase leading-[0.92] tracking-normal text-white md:text-6xl [overflow-wrap:anywhere]" style={{ fontFamily: 'var(--font-alpha)' }}>
+                {content.ctaBlock.headline || defaultTechnologyContent.ctaBlock.headline}
               </h2>
-              <p className="mx-auto mb-10 max-w-lg break-words text-sm font-bold leading-relaxed text-zinc-900 sm:text-base md:text-lg [overflow-wrap:anywhere]" style={{ fontFamily: 'var(--font-roobert)' }}>
-                {content.ctaBlock.description}
+              <p className="mx-auto mb-8 max-w-lg break-words text-sm font-bold leading-relaxed text-zinc-300 sm:text-base md:text-lg [overflow-wrap:anywhere]" style={{ fontFamily: 'var(--font-roobert)' }}>
+                {content.ctaBlock.description || defaultTechnologyContent.ctaBlock.description}
               </p>
               
               <button 
@@ -525,12 +533,12 @@ export default function TechnologyPage() {
                     window.location.href = content.ctaBlock.buttonUrl;
                     return;
                   }
-                  window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist', sourcePlacement: 'Technology page engine CTA', sourceComponent: 'Technology page' } }));
+                  window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist', sourcePlacement: 'Technology page CTA', sourceComponent: 'Technology page' } }));
                 }}
-                className="inline-flex items-center justify-center gap-2 bg-black text-[#CCFF00] px-8 md:px-10 py-4 md:py-5 rounded-xl font-bold uppercase tracking-widest text-xs md:text-sm hover:bg-zinc-800 transition-colors shadow-[8px_8px_0px_rgba(0,0,0,0.5)] hover:shadow-[10px_10px_0px_rgba(0,0,0,0.6)] hover:-translate-y-1 active:translate-y-0 active:shadow-[4px_4px_0px_rgba(0,0,0,0.8)] duration-200"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#CCFF00] px-7 py-3.5 text-xs font-black uppercase tracking-widest text-black transition-all duration-200 hover:-translate-y-1 hover:bg-white active:translate-y-0 md:px-9 md:py-4 md:text-sm"
                 style={{ fontFamily: 'var(--font-roobert)' }}
               >
-                {content.ctaBlock.buttonText} <ArrowUpRight className="w-5 h-5" />
+                {content.ctaBlock.buttonText || defaultTechnologyContent.ctaBlock.buttonText} <ArrowUpRight className="w-5 h-5" />
               </button>
             </div>
           </section>
