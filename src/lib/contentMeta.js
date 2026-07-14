@@ -27,12 +27,16 @@ export function contentDateToIso(value) {
   return contentDateToDate(value)?.toISOString();
 }
 
+const objectData = (data) => data && typeof data === "object" ? data : {};
+
 export function getPublishedDate(data = {}) {
-  return data.publishedAt || data.createdAt || data.date;
+  const content = objectData(data);
+  return content.publishedAt || content.createdAt || content.date;
 }
 
 export function getUpdatedDate(data = {}) {
-  return data.updatedAt || getPublishedDate(data);
+  const content = objectData(data);
+  return content.updatedAt || getPublishedDate(content);
 }
 
 const firstStringValue = (value) => {
@@ -41,13 +45,14 @@ const firstStringValue = (value) => {
 };
 
 export function getContentAuthor(data = {}) {
-  const authorObject = data.author && typeof data.author === "object" && !Array.isArray(data.author)
-    ? data.author
+  const content = objectData(data);
+  const authorObject = content.author && typeof content.author === "object" && !Array.isArray(content.author)
+    ? content.author
     : {};
-  const authorList = Array.isArray(data.authors) ? data.authors[0] : null;
+  const authorList = Array.isArray(content.authors) ? content.authors[0] : null;
   const firstAuthor = authorList && typeof authorList === "object" ? authorList : {};
-  const authorName = firstStringValue(data.authorName || authorObject.name || firstAuthor.name || data.authors);
-  const authorUrl = firstStringValue(data.authorUrl || authorObject.url || firstAuthor.url);
+  const authorName = firstStringValue(content.authorName || authorObject.name || firstAuthor.name || content.authors);
+  const authorUrl = firstStringValue(content.authorUrl || authorObject.url || firstAuthor.url);
 
   return {
     name: authorName || CONTENT_AUTHOR.name,
