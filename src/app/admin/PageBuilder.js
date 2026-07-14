@@ -9,13 +9,20 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase"; // Ensure storage is exported from your firebase.js config
 import { createImageThumbnailBlob } from "@/lib/imageThumbnails";
 import { canonicalInternalHref } from "@/lib/contentPolicy";
-import { cleanMetaTitle, CONTENT_AUTHOR, formatContentDate, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { cleanMetaTitle, CONTENT_AUTHOR, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 import { tools, toolsHub } from "@/lib/tools";
 import { validateContentForPublication } from "@/lib/cmsValidation";
 
 const cleanStorageFileName = (fileName) => fileName.replace(/[^a-zA-Z0-9.]/g, '');
 const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
 const defaultCtaBlock = { headline: "", description: "", buttonText: "", buttonUrl: "" };
+const llmDescriptionPlanningReplacements = [
+  [/\blanding page\b/gi, "page"],
+  [/\bsupporting blog\b/gi, "article"],
+  [/\bsupporting article\b/gi, "article"],
+  [/\bSEO\b/g, "search"],
+  [/\bseo\b/g, "search"],
+];
 
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const escapeHtmlAttribute = (value) => value
@@ -39,6 +46,32 @@ const normalizeInternalHref = (value) => {
   } catch {
     return null;
   }
+};
+
+const cleanLlmDescription = (value, fallback = "") => {
+  const source = typeof value === "string" && value.trim() ? value : fallback;
+  if (typeof source !== "string") return "";
+
+  return llmDescriptionPlanningReplacements
+    .reduce((text, [pattern, replacement]) => text.replace(pattern, replacement), source)
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+const getLandingPageRoute = (data = {}) => {
+  const slug = data.slug || "slug";
+  return data.parentPage?.url === "/technology" ? `/technology/${slug}` : `/${slug}`;
+};
+
+const getAuthorKey = (author = {}) => `${author.name || ""}|${author.url || ""}`;
+
+const getAuthorOptions = (managedAuthors = []) => {
+  const authorMap = new Map();
+  [CONTENT_AUTHOR, ...managedAuthors].forEach((author) => {
+    const key = getAuthorKey(author);
+    if (author.name && author.url && !authorMap.has(key)) authorMap.set(key, author);
+  });
+  return Array.from(authorMap.values());
 };
 
 const applyInternalLinksToImport = (data) => {
@@ -103,6 +136,7 @@ const applyInternalLinksToImport = (data) => {
     linksAdded,
     data: {
       ...data,
+      llmDescription: cleanLlmDescription(data.llmDescription, data.metaDescription || data.intro),
       contentBlocks,
       faqs: Array.isArray(data.faqs)
         ? data.faqs.map((faq) => ({ ...faq, answer: linkText(faq?.answer) }))
@@ -255,6 +289,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   const [parentOptions, setParentOptions] = useState([]);
   const [authorOptions, setAuthorOptions] = useState([]);
   const [recommendationOptions, setRecommendationOptions] = useState([]);
+  const initialAuthor = getContentAuthor(initialData);
   
   const isStaticCorePage = pageType === "core";
   const isToolPage = pageType === "tool";
@@ -272,8 +307,8 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     intro: initialData?.intro || "",
     badge: initialData?.badge || "",
     llmDescription: initialData?.llmDescription || "",
-    authorName: initialData?.authorName || CONTENT_AUTHOR.name,
-    authorUrl: initialData?.authorUrl || CONTENT_AUTHOR.url,
+    authorName: initialAuthor.name,
+    authorUrl: initialAuthor.url,
     parentPage: initialData?.parentPage || (pageType === "technology" ? technologyParentPage : null),
     moreToRead: initialData?.moreToRead || [],
     thumbnail: initialData?.thumbnail || "",
@@ -369,15 +404,15 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         try {
           const authorsSnapshot = await getDocs(collection(db, "authors"));
           const managedAuthors = authorsSnapshot.docs.map((authorDoc) => ({ id: authorDoc.id, ...authorDoc.data() }));
-          setAuthorOptions(managedAuthors.length ? managedAuthors : [CONTENT_AUTHOR]);
+          setAuthorOptions(getAuthorOptions(managedAuthors));
         } catch (error) {
           console.error("Unable to load managed authors:", error);
-          setAuthorOptions([CONTENT_AUTHOR]);
+          setAuthorOptions(getAuthorOptions());
         }
       } catch (error) {
         console.error("Unable to load blog relationships:", error);
         setParentOptions([toolsHub, ...tools].map((tool) => ({ type: "tool", id: tool.id || tool.slug, title: tool.title, url: tool.slug === "tools" ? "/tools" : `/tools/${tool.slug}` })));
-        setAuthorOptions([CONTENT_AUTHOR]);
+        setAuthorOptions(getAuthorOptions());
         setRecommendationOptions(tools.map((tool) => ({ type: "tool", id: tool.id || tool.slug, title: tool.title, url: `/tools/${tool.slug}`, description: tool.metaDescription || tool.description || "" })));
       }
     };
@@ -427,9 +462,12 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
           }
         : parsedData;
       const { data: linkedData, linksAdded } = applyInternalLinksToImport(mappedData);
+      const importedAuthor = getContentAuthor(linkedData);
       setFormData(prev => ({
         ...prev,
         ...linkedData,
+        authorName: importedAuthor.name,
+        authorUrl: importedAuthor.url,
         contentBlocks: linkedData.contentBlocks ? normalizeContentBlocks(linkedData.contentBlocks) : prev.contentBlocks,
         ctaBlock: { ...defaultCtaBlock, ...(prev.ctaBlock || {}), ...(linkedData.ctaBlock || {}) },
       }));
@@ -643,12 +681,19 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     try {
       const cleanData = JSON.parse(JSON.stringify(formData));
       if (isArticlePage) {
-        cleanData.authorName = formData.authorName || CONTENT_AUTHOR.name;
-        cleanData.authorUrl = formData.authorUrl || CONTENT_AUTHOR.url;
+        const author = getContentAuthor(formData);
+        cleanData.authorName = author.name;
+        cleanData.authorUrl = author.url;
+        delete cleanData.author;
+        delete cleanData.authors;
       }
       if (cleanData.metaTitle) {
         cleanData.metaTitle = cleanMetaTitle(cleanData.metaTitle);
       }
+      cleanData.llmDescription = cleanLlmDescription(
+        cleanData.llmDescription,
+        cleanData.metaDescription || cleanData.intro
+      );
       if (pageType === "technology") {
         cleanData.parentPage = technologyParentPage;
       }
@@ -786,9 +831,12 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                 onChange={(event) => setFormData({ ...formData, parentPage: event.target.value === "/technology" ? technologyParentPage : null })}
                 className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
               >
-                <option value="">Root SEO page: /{formData.slug || "slug"}</option>
-                <option value="/technology">Technology landing page: /technology/{formData.slug || "slug"}</option>
+                <option value="">Root route: /{formData.slug || "slug"}</option>
+                <option value="/technology">Technology route: /technology/{formData.slug || "slug"}</option>
               </select>
+              <div className="rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/5 px-3 py-2 text-xs font-mono text-[#CCFF00]">
+                Public URL: {getLandingPageRoute(formData)}
+              </div>
             </div>
           )}
           <div className="space-y-1.5 mt-2"><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Meta Title</label><input type="text" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white font-bold focus:border-[#CCFF00] outline-none" value={formData.metaTitle} onChange={(e) => setFormData({...formData, metaTitle: e.target.value})} /></div>
@@ -947,11 +995,21 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
           <>
             {isArticlePage && (
               <div className="grid gap-4 rounded-[1.5rem] border border-zinc-800 bg-zinc-900 p-6 shadow-xl md:grid-cols-3">
-                <div>
-                  <span className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500">Author</span>
-                  <a href={formData.authorUrl || CONTENT_AUTHOR.url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm font-bold text-[#CCFF00] hover:underline">
-                    {formData.authorName || CONTENT_AUTHOR.name}
-                  </a>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Author</label>
+                  <select
+                    value={`${formData.authorName}|${formData.authorUrl}`}
+                    onChange={(event) => {
+                      const selected = authorOptions.find((author) => getAuthorKey(author) === event.target.value);
+                      if (selected) setFormData({ ...formData, authorName: selected.name, authorUrl: selected.url });
+                    }}
+                    className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
+                  >
+                    {!authorOptions.some((author) => getAuthorKey(author) === `${formData.authorName}|${formData.authorUrl}`) && (
+                      <option value={`${formData.authorName}|${formData.authorUrl}`}>{formData.authorName}</option>
+                    )}
+                    {authorOptions.map((author) => <option key={author.id || author.url} value={getAuthorKey(author)}>{author.name}</option>)}
+                  </select>
                 </div>
                 <div>
                   <span className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500">Uploaded</span>
@@ -964,23 +1022,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
               </div>
             )}
             {pageType === "post" && (
-              <div className="grid gap-5 rounded-[1.5rem] border border-[#CCFF00]/20 bg-zinc-900 p-6 shadow-xl md:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Blog author</label>
-                  <select
-                    value={`${formData.authorName}|${formData.authorUrl}`}
-                    onChange={(event) => {
-                      const selected = authorOptions.find((author) => `${author.name}|${author.url}` === event.target.value);
-                      if (selected) setFormData({ ...formData, authorName: selected.name, authorUrl: selected.url });
-                    }}
-                    className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
-                  >
-                    {!authorOptions.some((author) => author.name === formData.authorName && author.url === formData.authorUrl) && (
-                      <option value={`${formData.authorName}|${formData.authorUrl}`}>{formData.authorName}</option>
-                    )}
-                    {authorOptions.map((author) => <option key={author.id || author.url} value={`${author.name}|${author.url}`}>{author.name}</option>)}
-                  </select>
-                </div>
+              <div className="rounded-[1.5rem] border border-[#CCFF00]/20 bg-zinc-900 p-6 shadow-xl">
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Parent landing page or tool</label>
                   <select

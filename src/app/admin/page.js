@@ -457,7 +457,7 @@ export default function AdminDashboard() {
                       })}
 
                       {/* --- TAB 2: SEO LANDING PAGES --- */}
-                      {activeTab === "landing_pages" && contentList.filter(c => !CORE_STATIC_PAGES.some(core => core.id === c.id)).map((page) => {
+                      {activeTab === "landing_pages" && contentList.filter(c => !CORE_STATIC_PAGES.some(core => core.id === c.id) && c.parentPage?.url !== "/technology").map((page) => {
                         const isTechnologyChild = page.parentPage?.url === "/technology";
                         const route = isTechnologyChild ? `/technology/${page.slug}` : `/${page.slug}`;
                         return (

@@ -35,10 +35,23 @@ export function getUpdatedDate(data = {}) {
   return data.updatedAt || getPublishedDate(data);
 }
 
+const firstStringValue = (value) => {
+  if (Array.isArray(value)) return value.find((item) => typeof item === "string" && item.trim()) || "";
+  return typeof value === "string" ? value : "";
+};
+
 export function getContentAuthor(data = {}) {
+  const authorObject = data.author && typeof data.author === "object" && !Array.isArray(data.author)
+    ? data.author
+    : {};
+  const authorList = Array.isArray(data.authors) ? data.authors[0] : null;
+  const firstAuthor = authorList && typeof authorList === "object" ? authorList : {};
+  const authorName = firstStringValue(data.authorName || authorObject.name || firstAuthor.name || data.authors);
+  const authorUrl = firstStringValue(data.authorUrl || authorObject.url || firstAuthor.url);
+
   return {
-    name: data.authorName || CONTENT_AUTHOR.name,
-    url: data.authorUrl || CONTENT_AUTHOR.url,
+    name: authorName || CONTENT_AUTHOR.name,
+    url: authorUrl || CONTENT_AUTHOR.url,
   };
 }
 
