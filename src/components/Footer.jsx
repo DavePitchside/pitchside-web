@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Apple } from "lucide-react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { companyInfo } from "@/lib/companyInfo";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const PlayStoreIcon = () => (
@@ -136,8 +137,12 @@ export default function Footer() {
             </motion.div>
             
             <div className="w-full flex flex-col sm:flex-row justify-between items-center text-zinc-600 text-xs font-medium px-4 gap-4 text-center sm:text-left">
-              <span>© {new Date().getFullYear()} Pitchside AI Ltd. All rights reserved.</span>
+              <span>© {new Date().getFullYear()} {companyInfo.displayName}. All rights reserved.</span>
               <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+                <a href={companyInfo.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-400 transition-colors">
+                  Registered in England and Wales No. {companyInfo.companyNumber}
+                </a>
+                <span className="hidden sm:block w-1 h-1 bg-zinc-700 rounded-full" />
                 <span>Designed for the Grassroots.</span>
                 <span className="hidden sm:block w-1 h-1 bg-zinc-700 rounded-full" />
                 <span className="flex items-center gap-1.5">

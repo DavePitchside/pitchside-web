@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Plus, Video, BarChart2, Share2, Users, Minus, ArrowUpRight } from "lucide-react";
+import { companyInfo } from "@/lib/companyInfo";
 
 // --- THEME ASSETS & EFFECTS ---
 const smoothEase = [0.16, 1, 0.3, 1];
@@ -178,6 +179,26 @@ export default function AboutPage() {
                 <div className="mt-4">
                   <a href="https://www.linkedin.com/in/david-coombs-pitchside/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#CCFF00] text-black px-6 py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-white transition-colors shadow-md active:scale-95 w-fit">
                     <LinkedinIcon className="w-5 h-5" /> Connect with Dave
+                  </a>
+                </div>
+
+                <div className="mt-8 border-t border-white/10 pt-6 text-[11px] md:text-xs text-zinc-500 leading-relaxed">
+                  <p className="font-mono uppercase tracking-[0.16em] text-zinc-600 mb-3">Company details</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
+                    <span>{companyInfo.displayName}</span>
+                    <span>Company No. {companyInfo.companyNumber}</span>
+                    <span>{companyInfo.status} {companyInfo.companyType.toLowerCase()}</span>
+                    <span>Incorporated {companyInfo.incorporatedOn}</span>
+                    <span className="sm:col-span-2">Registered office: {companyInfo.registeredOffice}</span>
+                    <span className="sm:col-span-2">Director: {companyInfo.officers[0].name}, appointed {companyInfo.officers[0].appointedOn}; {companyInfo.officers[0].nationality}, resident in {companyInfo.officers[0].countryOfResidence}</span>
+                    <span className="sm:col-span-2">PSC: {companyInfo.personsWithSignificantControl[0].name}, {companyInfo.personsWithSignificantControl[0].natureOfControl.join("; ")}</span>
+                    <span className="sm:col-span-2">Nature of business: {companyInfo.sicCodes.join("; ")}</span>
+                    <span className="sm:col-span-2">Accounts: {companyInfo.accounts}</span>
+                    <span className="sm:col-span-2">Confirmation statement: {companyInfo.confirmationStatement}</span>
+                    <span className="sm:col-span-2">Previously {companyInfo.previousName} ({companyInfo.previousNamePeriod})</span>
+                  </div>
+                  <a href={companyInfo.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex text-zinc-500 hover:text-[#CCFF00] transition-colors">
+                    Companies House record
                   </a>
                 </div>
               </motion.div>
