@@ -87,7 +87,7 @@ export default function PrivacyPolicy() {
                 <li>Your email address</li>
               </ul>
               <p>
-                We collect this data when you submit our waiting list or contact form. We do not collect payment information, location data, usage analytics, cookies, or any other personal data at this stage.
+                We collect this data when you submit our waiting list or contact form. We also use Google Analytics 4 to understand website usage and improve the site. We do not collect payment information, location data, or any other personal data at this stage.
               </p>
 
               <h2>Why We Collect It</h2>

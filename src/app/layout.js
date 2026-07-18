@@ -1,10 +1,13 @@
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import SquareScannerCursor from "@/components/SquareScannerCursor";
 import { PRODUCT_STATUS_NOTICE } from "@/lib/productStatus";
+
+const GA_MEASUREMENT_ID = "G-ZYE6G6CN78";
 
 const alphaHeadline = localFont({
   src: "./fonts/AlphaHeadline-Regular.ttf",
@@ -104,6 +107,18 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <Footer />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
       </body>
     </html>
   );
