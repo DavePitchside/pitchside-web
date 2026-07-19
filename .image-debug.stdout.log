@@ -1,8 +1,0 @@
-
-> pitchside-web@0.1.0 start
-> next start -p 3101
-
-▲ Next.js 16.2.4
-- Local:         http://localhost:3101
-- Network:       http://192.168.0.113:3101
-✓ Ready in 622ms

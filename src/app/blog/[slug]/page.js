@@ -14,6 +14,9 @@ import { ArrowLeft, CheckCircle2, ChevronDown } from "lucide-react";
 
 const SITE_URL = "https://pitchside.ai";
 const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
+const stripHtml = (value = "") => String(value).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+const normalizeText = (value = "") => stripHtml(value).toLowerCase();
+const isFaqHeading = (value = "") => /^(faqs?|frequently asked questions)$/i.test(stripHtml(value));
 
 const getPostImage = (post) => {
   const contentImage = post.contentBlocks?.find((block) => block.type === "image" && block.content)?.content;
@@ -76,6 +79,11 @@ export default async function BlogPost({ params }) {
   const updatedIso = contentDateToIso(updatedDate);
   const author = getContentAuthor(post);
   const moreToRead = await getMoreToRead(post, `/blog/${slug}`);
+  const visibleFaqs = post.faqs?.filter((faq) => faq?.question) || [];
+  const hasFaqAnswersInContent = post.contentBlocks?.some((block) => {
+    const blockText = normalizeText(block?.content || "");
+    return visibleFaqs.some((faq) => blockText.includes(normalizeText(faq.question)));
+  });
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -112,20 +120,18 @@ export default async function BlogPost({ params }) {
   };
 
   const faqSchema =
-    post.faqs?.length > 0 && post.faqs[0]?.question
+    visibleFaqs.length > 0
       ? {
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: post.faqs
-            .filter((f) => f?.question)
-            .map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: String(faq.answer || "").replace(/<[^>]+>/g, ""),
-              },
-            })),
+          mainEntity: visibleFaqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: stripHtml(faq.answer || ""),
+            },
+          })),
         }
       : null;
 
@@ -204,6 +210,7 @@ export default async function BlogPost({ params }) {
 
           <div className="space-y-6 text-lg text-zinc-800 leading-relaxed mb-16">
             {post.contentBlocks?.map((block) => {
+              if ((block.type === "h2" || block.type === "h3") && isFaqHeading(block.content)) return null;
               if (block.type === "image" && block.content) {
                 return (
                   <div
@@ -311,13 +318,13 @@ export default async function BlogPost({ params }) {
             </div>
           )}
 
-          {post.faqs?.length > 0 && post.faqs[0].question !== "" && (
+          {visibleFaqs.length > 0 && !hasFaqAnswersInContent && (
             <section className="mt-20 border-t-2 border-zinc-950 pt-12">
               <h2 className="text-3xl font-black uppercase tracking-tighter text-zinc-950 mb-8">
                 Frequently Asked Questions
               </h2>
               <div className="space-y-4">
-                {post.faqs.map((faq, i) => (
+                {visibleFaqs.map((faq, i) => (
                   <details
                     key={i}
                     className="group bg-white border-2 border-zinc-950 p-6 rounded-lg cursor-pointer"
