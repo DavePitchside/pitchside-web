@@ -15,8 +15,8 @@ import { ArrowLeft, CheckCircle2, ChevronDown } from "lucide-react";
 const SITE_URL = "https://pitchside.ai";
 const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
 const stripHtml = (value = "") => String(value).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-const normalizeText = (value = "") => stripHtml(value).toLowerCase();
 const isFaqHeading = (value = "") => /^(faqs?|frequently asked questions)$/i.test(stripHtml(value));
+const normalizeText = (value = "") => stripHtml(value).toLowerCase();
 
 const getPostImage = (post) => {
   const contentImage = post.contentBlocks?.find((block) => block.type === "image" && block.content)?.content;
@@ -80,10 +80,30 @@ export default async function BlogPost({ params }) {
   const author = getContentAuthor(post);
   const moreToRead = await getMoreToRead(post, `/blog/${slug}`);
   const visibleFaqs = post.faqs?.filter((faq) => faq?.question) || [];
-  const hasFaqAnswersInContent = post.contentBlocks?.some((block) => {
-    const blockText = normalizeText(block?.content || "");
-    return visibleFaqs.some((faq) => blockText.includes(normalizeText(faq.question)));
-  });
+  const isFaqQuestion = (value = "") => {
+    const text = normalizeText(value);
+    return visibleFaqs.some((faq) => normalizeText(faq.question) === text);
+  };
+  const articleContentBlocks = [];
+  let skippingImportedFaqSection = false;
+
+  for (const block of post.contentBlocks || []) {
+    const isHeading = block?.type === "h2" || block?.type === "h3";
+    const isFaqStart = visibleFaqs.length > 0 && isHeading && (isFaqHeading(block.content) || isFaqQuestion(block.content));
+
+    if (isFaqStart) {
+      skippingImportedFaqSection = true;
+      continue;
+    }
+
+    if (skippingImportedFaqSection) {
+      const startsNextArticleSection = block?.type === "h2" && !isFaqHeading(block.content) && !isFaqQuestion(block.content);
+      if (!startsNextArticleSection) continue;
+      skippingImportedFaqSection = false;
+    }
+
+    articleContentBlocks.push(block);
+  }
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -209,8 +229,7 @@ export default async function BlogPost({ params }) {
           )}
 
           <div className="space-y-6 text-lg text-zinc-800 leading-relaxed mb-16">
-            {post.contentBlocks?.map((block) => {
-              if ((block.type === "h2" || block.type === "h3") && isFaqHeading(block.content)) return null;
+            {articleContentBlocks.map((block) => {
               if (block.type === "image" && block.content) {
                 return (
                   <div
@@ -318,7 +337,7 @@ export default async function BlogPost({ params }) {
             </div>
           )}
 
-          {visibleFaqs.length > 0 && !hasFaqAnswersInContent && (
+          {visibleFaqs.length > 0 && (
             <section className="mt-20 border-t-2 border-zinc-950 pt-12">
               <h2 className="text-3xl font-black uppercase tracking-tighter text-zinc-950 mb-8">
                 Frequently Asked Questions
