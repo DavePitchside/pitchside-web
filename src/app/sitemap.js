@@ -9,7 +9,25 @@ export default async function sitemap() {
   const baseUrl = "https://pitchside.ai";
 
   // 1. Define your static routes
-  const staticRoutes = ["", "/about", "/contact", "/technology", "/tools", "/blog", "/privacy", "/terms"].map((route) => ({
+  const staticRoutes = [
+    "",
+    "/about",
+    "/contact",
+    "/technology",
+    "/tools",
+    "/pricing",
+    "/blog",
+    "/privacy",
+    "/terms",
+    "/authors/dave-coombs",
+    "/authors/abdullah-luqman",
+    "/editorial-policy",
+    "/comparison-methodology",
+    "/affiliate-disclosure",
+    "/product-status",
+    "/recording-consent-and-privacy",
+    "/security-and-data",
+  ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: "monthly",

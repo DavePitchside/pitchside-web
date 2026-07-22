@@ -54,8 +54,8 @@ export default function AboutPage() {
   const faqs = [
     { q: "What is Pitchside AI?", a: "Pitchside AI is an AI-powered platform that automatically generates highlight reels and performance statistics for amateur and grassroots footballers across the UK. Using machine learning, it captures every goal, save, and tackle – so no great moment is ever lost after the final whistle." },
     { q: "Who is Pitchside AI designed for?", a: "Pitchside AI is built for amateur and grassroots players – Sunday league teams, 5-a-side regulars, and anyone who plays for the love of the game. It is not for professional clubs, who already have dedicated media teams. It is for everyone else." },
-    { q: "How does the AI highlight reel work?", a: "Our AI analyses match footage to automatically identify key moments – goals, assists, saves, tackles – and assembles personalised highlight reels for each player. No manual editing. No hours of scrubbing through video. Just your best moments, ready to share." },
-    { q: "Who founded Pitchside AI?", a: "Pitchside AI was founded by Dave Coombs, a UK-based marketing professional and lifelong amateur footballer. Dave taught himself machine learning and built the platform from the ground up during nights and weekends, driven by a personal frustration with brilliant football moments going unrecorded." }
+    { q: "How does the AI highlight reel work?", a: "Our AI analyses match footage to identify key moments such as goals, assists, saves and tackles, then helps prepare player moments and highlights after processing. The current private-beta workflow can take up to 45 minutes depending on footage and upload conditions." },
+    { q: "Who founded Pitchside AI?", a: "Pitchside AI was founded by Dave Coombs, a UK-based marketing professional and lifelong amateur footballer. Dave started the product from a personal frustration with brilliant grassroots football moments going unrecorded, then built the early platform with technical collaborators and product feedback from players." }
   ];
 
   return (
@@ -172,8 +172,8 @@ export default function AboutPage() {
                 
                 <div className="text-zinc-400 text-sm md:text-base font-medium leading-relaxed space-y-6 mt-4">
                   <p>That frustration of losing moments is where Pitchside AI was born. Dave had played casually for years before the game became a full obsession. But every great moment disappeared the second the final whistle blew. Goals. Saves. Howlers for the ages. Gone.</p>
-                  <p>Dave isn&apos;t a lifelong engineer or a Silicon Valley veteran. He&apos;s a <strong className="text-white font-black">marketing professional with a lifelong passion for football</strong> who, at 30, decided to stop waiting for someone else to build the tool he needed.</p>
-                  <p>With no formal machine learning background, Dave spent nights and weekends teaching himself AI. He leaned on a decade of relationships with talented collaborators to bring the vision to life.</p>
+                  <p>Dave is a <strong className="text-white font-black">marketing professional with a lifelong passion for football</strong> who, at 30, decided to stop waiting for someone else to build the tool he needed.</p>
+                  <p>He taught himself enough AI and product development to shape the first version, then brought in technical collaborators, reviewed real match footage and tested the workflow with early sign-ups to turn the idea into a working private-beta product.</p>
                 </div>
 
                 <div className="mt-4">
@@ -219,8 +219,8 @@ export default function AboutPage() {
                     </div>
                     <div className="w-full h-px bg-white/10" />
                     <div>
-                      <span className="block text-5xl md:text-7xl text-white mb-2" style={{ fontFamily: 'var(--font-alpha)' }}>1st</span>
-                      <span className="text-xs text-zinc-500 font-bold uppercase tracking-wide">Autonomous AI platform for UK grassroots</span>
+                      <span className="block text-5xl md:text-7xl text-white mb-2" style={{ fontFamily: 'var(--font-alpha)' }}>Beta</span>
+                      <span className="text-xs text-zinc-500 font-bold uppercase tracking-wide">Phone-first football analysis workflow in testing</span>
                     </div>
                   </div>
                 </div>
@@ -246,13 +246,13 @@ export default function AboutPage() {
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
                 <span className="text-zinc-700 font-mono text-[10px] tracking-[0.2em] uppercase mb-4 block font-bold">Our mission</span>
                 <h2 className="text-4xl md:text-6xl lg:text-7xl uppercase tracking-tighter mb-6 leading-[0.9] text-black" style={{ fontFamily: 'var(--font-alpha)' }}>Every player deserves their moment.</h2>
-                <p className="text-zinc-800 text-sm md:text-lg font-bold leading-relaxed mb-12 max-w-3xl">Professional footballers have their every touch analysed. Pitchside AI exists to give the Sunday league defender, the 5-a-side keeper, and the casual midfielder that exact same experience.</p>
+                <p className="text-zinc-800 text-sm md:text-lg font-bold leading-relaxed mb-12 max-w-3xl">Professional footballers have access to detailed analysis and highlight review. Pitchside AI is being built to give grassroots players an accessible version of stats, highlights and player moments from footage they can record themselves.</p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                   {[
                     { icon: Video, title: "Automatic Highlights", desc: "AI analyses your match footage and assembles a personalised highlight reel automatically." },
                     { icon: BarChart2, title: "Real Player Stats", desc: "Goals, assists, key moments – tracked automatically for definitive proof of your performance." },
-                    { icon: Share2, title: "Built for Sharing", desc: "Designed for the group chat, with shareable clips and player moments being tested during private beta." },
+                    { icon: Share2, title: "Built for Sharing", desc: "Built for easy sharing after processing, with clips and player moments being tested during private beta." },
                     { icon: Users, title: "Built for Grassroots", desc: "From Sunday leagues to casual kickabouts – made for the millions who play for the love of the game." }
                   ].map((card, i) => {
                     const Icon = card.icon; 
@@ -317,7 +317,7 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-[#CCFF00]/10 blur-[80px] pointer-events-none rounded-full" />
                 <div className="relative z-10">
                   <h2 className="text-4xl md:text-6xl uppercase tracking-tighter mb-4 leading-[0.85] text-white" style={{ fontFamily: 'var(--font-alpha)' }}>Your moment is waiting</h2>
-                  <p className="text-sm md:text-lg font-medium text-zinc-400 mb-10 max-w-lg mx-auto">Join thousands of amateur players who are done letting their best moments fade into memory.</p>
+                  <p className="text-sm md:text-lg font-medium text-zinc-400 mb-10 max-w-lg mx-auto">Join 250+ early sign-ups who are done letting their best moments fade into memory.</p>
                   
                   <button 
                     onClick={() => window.dispatchEvent(new CustomEvent('open-pitchside-modal', { detail: { type: 'waitlist', sourcePlacement: 'About page final CTA', sourceComponent: 'About page' } }))}

@@ -8,8 +8,8 @@ import { motion, AnimatePresence, useMotionValue, useSpring, useScroll, useTrans
 import { stripHtml, tools } from "@/lib/tools";
 
 import { 
-  Star, ArrowUpRight, ChevronLeft, ChevronRight, Target, CornerDownLeft, 
-  Zap, Crosshair, ShieldCheck, Activity, Clock, Quote, PlayCircle, Apple, Video
+  ArrowUpRight, ChevronLeft, ChevronRight, Target, CornerDownLeft, 
+  Zap, Crosshair, ShieldCheck, Activity, Clock, PlayCircle, Apple, Video
 } from "lucide-react";
 
 // --- ANIMATION CONSTANTS ---
@@ -483,41 +483,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-
-      {/* =========================================
-          SECTION 5
-          ========================================= */}
-      <div className="w-full bg-[#F4F3EF]">
-        <section className="relative w-full min-h-screen h-auto py-24 md:py-32 bg-[#F4F3EF] text-zinc-950 overflow-hidden z-10 flex flex-col justify-center border border-zinc-200">
-          <FilmGrain />
-          <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 w-full flex flex-col justify-center">
-            <motion.h2 className="font-alpha text-[clamp(2rem,10vw,6.5rem)] uppercase mb-12 md:mb-16 leading-[0.8] tracking-tighter text-[#CCFF00] text-center md:text-left drop-shadow-md transform-gpu" style={{ fontFamily: 'var(--font-alpha)', WebkitTextStroke: "1px #050505" }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: SMOOTH_EASE }}>
-              CHEERS FROM<br className="md:hidden" /> OUR FANS...
-            </motion.h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {[
-                { text: "Finally, an app that gives amateur players pro-level highlights and stats! Can't wait to try it." },
-                { text: "This will change the game for 5-a-side leagues—stats, highlights, and leaderboards all in one place!" },
-                { text: "Love the idea of sharing my best goals and skills straight to Instagram and TikTok!" }
-              ].map((review, index) => (
-                <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: index * 0.1, ease: SMOOTH_EASE }} className="flex flex-col justify-center bg-[#CCFF00] border-2 md:border-4 border-black rounded-2xl md:rounded-3xl p-6 md:p-10 shadow-[4px_4px_0px_#000] md:shadow-[8px_8px_0px_#CCFF00] hover:-translate-y-1 md:hover:shadow-[12px_12px_0px_#CCFF00] transition-all duration-300 cursor-default transform-gpu">
-                  <div className="flex gap-1 mb-4 md:mb-6 text-black">
-                    {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 md:w-6 md:h-6 fill-current stroke-black stroke-1" />)}
-                  </div>
-                  <div className="relative">
-                    <Quote className="absolute -top-2 -left-2 w-6 h-6 text-black/10" strokeWidth={1} />
-                    <p className="font-roobert text-sm sm:text-base md:text-xl font-bold leading-snug tracking-tight relative z-10 text-black">
-                      {review.text}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
-
 
     </div>
   );

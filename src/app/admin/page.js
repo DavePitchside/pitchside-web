@@ -20,10 +20,19 @@ const CORE_STATIC_PAGES = [
   { id: "about", title: "About Us", slug: "about" },
   { id: "blog", title: "Blog Main Page", slug: "blog" },
   { id: "contact", title: "Contact", slug: "contact" },
+  { id: "pricing", title: "Pricing", slug: "pricing" },
   { id: "account-deletion", title: "Account Deletion", slug: "account-deletion" },
   { id: "privacy", title: "Privacy Policy", slug: "privacy" },
   { id: "terms", title: "Terms of Service", slug: "terms" },
   { id: "cookies", title: "Cookie Policy", slug: "cookies" },
+  { id: "authors-dave-coombs", title: "Author: Dave Coombs", slug: "authors/dave-coombs" },
+  { id: "authors-abdullah-luqman", title: "Author: Abdullah Luqman", slug: "authors/abdullah-luqman" },
+  { id: "editorial-policy", title: "Editorial Policy", slug: "editorial-policy" },
+  { id: "comparison-methodology", title: "Comparison Methodology", slug: "comparison-methodology" },
+  { id: "affiliate-disclosure", title: "Affiliate Disclosure", slug: "affiliate-disclosure" },
+  { id: "product-status", title: "Product Status", slug: "product-status" },
+  { id: "recording-consent-and-privacy", title: "Recording Consent & Privacy", slug: "recording-consent-and-privacy" },
+  { id: "security-and-data", title: "Security & Data", slug: "security-and-data" },
 ];
 
 const TECHNOLOGY_PAGE_DEFAULTS = {
@@ -436,10 +445,11 @@ export default function AdminDashboard() {
                         const dbData = page.id === "technology"
                           ? { ...page, ...mergeTechnologyPageData(savedData) }
                           : savedData ? { ...fallbackData, ...savedData } : fallbackData;
+                        const publicRoute = dbData.slug === "/" ? "/" : `/${String(dbData.slug || page.slug).replace(/^\/+/, "")}`;
                         return (
                           <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
                             <td className="p-6 font-bold text-white text-sm">{dbData.title || page.title}</td>
-                            <td className="p-6 text-zinc-500 text-xs font-mono">/{dbData.slug || page.slug}</td>
+                            <td className="p-6 text-zinc-500 text-xs font-mono">{publicRoute}</td>
                             <td className="p-6">
                               <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest ${contentList.some(c => c.id === page.id) ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}`}>
                                 {contentList.some(c => c.id === page.id) ? "Configured" : "Default"}
@@ -447,6 +457,9 @@ export default function AdminDashboard() {
                             </td>
                             <td className="p-6 text-right">
                               <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                                <a href={publicRoute} target="_blank" rel="noopener noreferrer" title="Open public page" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                  <ExternalLink className="w-4 h-4" />
+                                </a>
                                 <button onClick={() => handleEdit({ id: page.id, ...fallbackData, ...dbData }, "core")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
                                   <Edit2 className="w-4 h-4" />
                                 </button>

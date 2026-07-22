@@ -388,7 +388,28 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         if (pageType !== "post") return;
 
         const pagesSnapshot = await getDocs(collection(db, "pages"));
-        const reservedSlugs = new Set(["", "/", "home", "technology", "about", "blog", "contact", "account-deletion", "privacy", "terms", "cookies"]);
+        const reservedSlugs = new Set([
+          "",
+          "/",
+          "home",
+          "technology",
+          "about",
+          "blog",
+          "contact",
+          "pricing",
+          "account-deletion",
+          "privacy",
+          "terms",
+          "cookies",
+          "editorial-policy",
+          "comparison-methodology",
+          "affiliate-disclosure",
+          "product-status",
+          "recording-consent-and-privacy",
+          "security-and-data",
+          "authors/dave-coombs",
+          "authors/abdullah-luqman",
+        ]);
         const landingPages = pagesSnapshot.docs
           .map((pageDoc) => ({ id: pageDoc.id, ...pageDoc.data() }))
           .filter((page) => page.slug && !reservedSlugs.has(page.slug))

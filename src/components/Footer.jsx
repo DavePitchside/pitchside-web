@@ -84,6 +84,7 @@ export default function Footer() {
               <span className="text-zinc-500 font-mono text-[10px] font-bold uppercase tracking-widest mb-2">Platform</span>
               <Link href="/technology" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Technology</Link>
               <Link href="/tools" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Free Football Tools</Link>
+              <Link href="/pricing" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Pricing</Link>
               <Link href="/about" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">About Us</Link>
               <Link href="/blog" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Blog & News</Link>
               <Link href="/account-deletion" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Account Deletion</Link>
@@ -94,16 +95,27 @@ export default function Footer() {
               <span className="text-zinc-500 font-mono text-[10px] font-bold uppercase tracking-widest mb-2">Legal</span>
               <Link href="/privacy" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Terms of Service</Link>
+              <Link href="/recording-consent-and-privacy" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Recording Consent</Link>
+              <Link href="/security-and-data" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Security & Data</Link>
+              <Link href="/affiliate-disclosure" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Affiliate Disclosure</Link>
             </div>
 
             <div className="flex flex-col items-start gap-4">
-              <span className="text-zinc-500 font-mono text-[10px] font-bold uppercase tracking-widest mb-2">Connect</span>
-              <div className="flex flex-col gap-3">
-                {socialLinks.instagram && socialLinks.instagram !== "#" && (<a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Instagram</a>)}
-                {socialLinks.tiktok && socialLinks.tiktok !== "#" && (<a href={socialLinks.tiktok} target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">TikTok</a>)}
-                {socialLinks.x && socialLinks.x !== "#" && (<a href={socialLinks.x} target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">X (Twitter)</a>)}
-                {socialLinks.linkedin && socialLinks.linkedin !== "#" && (<a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">LinkedIn</a>)}
-              </div>
+              <span className="text-zinc-500 font-mono text-[10px] font-bold uppercase tracking-widest mb-2">Trust</span>
+              <Link href="/product-status" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Product Status</Link>
+              <Link href="/editorial-policy" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Editorial Policy</Link>
+              <Link href="/comparison-methodology" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Comparison Methodology</Link>
+              <Link href="/authors/dave-coombs" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Dave Coombs</Link>
+              <Link href="/authors/abdullah-luqman" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Abdullah Luqman</Link>
+            </div>
+          </div>
+
+          <div className="px-8 md:px-16 pb-8">
+            <div className="flex flex-wrap gap-x-5 gap-y-3 border-t border-white/5 pt-8">
+              {socialLinks.instagram && socialLinks.instagram !== "#" && (<a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">Instagram</a>)}
+              {socialLinks.tiktok && socialLinks.tiktok !== "#" && (<a href={socialLinks.tiktok} target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">TikTok</a>)}
+              {socialLinks.x && socialLinks.x !== "#" && (<a href={socialLinks.x} target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">X (Twitter)</a>)}
+              {socialLinks.linkedin && socialLinks.linkedin !== "#" && (<a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm font-medium hover:text-white transition-colors">LinkedIn</a>)}
             </div>
           </div>
 
