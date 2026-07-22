@@ -1,0 +1,286 @@
+{
+  "collection": "posts",
+  "id": "jsvJv5htmN5gQdLNFU5G",
+  "slug": "how-to-record-a-football-match-on-your-phone",
+  "exportedAt": "2026-07-22T19:13:37.660Z",
+  "data": {
+    "slug": "how-to-record-a-football-match-on-your-phone",
+    "llmDescription": "",
+    "primaryImage": "https://pitchside.ai/_next/image?url=/record-match-hero.webp&w=1200&q=80",
+    "badge": "No Camera System Needed",
+    "metaTitle": "How to Record a Football Match on Your Phone (2026)",
+    "aeoQuickAnswer": "To record a football match on your phone, mount it high and central along one touchline or behind a goal, shoot in landscape at 1080p and 60fps, and lock the focus and exposure so the camera doesn't refocus mid-play. A simple tripod or fence clamp keeps the frame steady for the full match without anyone holding it.",
+    "hero": {
+      "primaryCtaLabel": "Join the Waitlist",
+      "previewLabel": "Phone Filming Setup",
+      "eyebrow": "Grassroots Filming Guide",
+      "secondaryCtaLabel": "Free Football Tools",
+      "previewType": "guide"
+    },
+    "title": "How to Record a Football Match on Your Phone",
+    "createdAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1780608165,
+      "nanoseconds": 766000000
+    },
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1780610386,
+      "nanoseconds": 295000000
+    },
+    "heroBackground": "https://firebasestorage.googleapis.com/v0/b/pitchside-a07c5.firebasestorage.app/o/hero-backgrounds%2F1780610198667_GeminiGeneratedImagerjoge2rjoge2rjog.png?alt=media&token=4abb171d-135d-44ac-b8e6-8315000d26fd",
+    "metaDescription": "How to record a football match on your phone — no camera system needed. Best angles, mounts, settings & how to turn footage into stats and highlights.",
+    "heroH1": "How to Record a Football Match on Your Phone (No Camera System Needed)",
+    "faqs": [
+      {
+        "answer": "Mount your phone high and central — on a stand, balcony, bank, or stepladder — along one touchline or behind a goal. Shoot in landscape at 1080p and 60fps, then tap and hold to lock the focus and exposure so the camera doesn't refocus or change brightness mid-play. Use a flexible tripod or fence clamp so the shot stays steady for the full match without anyone holding the phone, and bring a power bank because filming a full game drains the battery. Keep the frame wide enough that the ball never leaves the shot rather than zooming in to follow play.",
+        "question": "How do you record a football match on your phone?"
+      },
+      {
+        "answer": "The best angle is elevated and central, looking slightly down at the pitch — the same angle TV broadcasts use. From the halfway line, raised as high as you can get, you capture both goals and the overall shape of play. For 5-a-side and futsal, a raised corner or behind-the-goal angle often captures the whole court in one frame. The key principle is height and width: get above pitch level so players don't block each other, and keep the frame wide enough that play never escapes it. Avoid constant panning or zooming, which makes footage hard to watch and harder for software to analyse.",
+        "question": "What is the best camera angle for filming football?"
+      },
+      {
+        "answer": "Shoot in landscape orientation at 1080p resolution and 60 frames per second. 1080p is sharp enough for footage you'll watch on a phone or laptop while keeping file sizes manageable, and 60fps gives smooth motion and cleaner slow-motion for highlights. Crucially, lock both focus and exposure before kickoff by tapping and holding on the pitch — this stops the camera from hunting focus or changing brightness every time players or the sky enter the frame. Clear storage space beforehand, since a full match in 1080p/60fps can run to several gigabytes, and keep the phone on charge via a power bank for longer games.",
+        "question": "What phone settings should I use to record a match?"
+      },
+      {
+        "answer": "No. A modern smartphone records at a quality that rivals dedicated camera systems for grassroots football, and the camera was never really the limiting factor. What matters is positioning, a steady mount, and the right settings. A fixed AI camera adds convenience like auto-tracking, but it comes with significant cost, weekly setup, and subscription fees. For most 5-a-side, futsal, and Sunday league teams, a phone plus a cheap tripod or fence clamp delivers footage that's just as usable. The bigger opportunity is what you do with the footage afterwards — turning it into stats and highlights — which is what Pitchside AI is being built to handle automatically.",
+        "question": "Do I need a special camera to record my football matches?"
+      },
+      {
+        "answer": "5-a-side is the easiest format to film because the pitch is small. Mount a single phone at one corner or behind a goal, raised a metre or two, and you'll usually capture the entire court with no panning at all. Most indoor and caged 5-a-side venues have fencing or netting you can attach a flexible tripod or clamp to. Shoot landscape at 1080p/60fps with locked focus and exposure, the same as any match. Because the small-sided game is fast and high-scoring, a single fixed wide angle captures more action per minute than 11-a-side, which makes the footage especially good for cutting into highlights.",
+        "question": "How do I record a 5-a-side match?"
+      },
+      {
+        "answer": "Manually, you'd scrub through the full recording, clip out the goals and key moments, and tally the stats by hand — which is why most people never do it. The automatic route is to use software that analyses the footage for you. Pitchside AI is being built for exactly this: you record the match on your phone, and the app is designed to detect key events and produce player stats plus a highlight reel without manual editing or any wearable. It is currently in development. In the meantime, Pitchside offers free grassroots tools including a stats tracker, and you can join the list to be notified when the full app launches.",
+        "question": "How can I turn my match footage into highlights and stats?"
+      }
+    ],
+    "date": "June 5, 2026",
+    "intro": "You don't need a £1,000 camera to film your matches. The phone in your pocket shoots in 4K. The trick isn't the gear — it's placement, angle, and settings. Here's how to get footage worth keeping.",
+    "ctaBlock": {
+      "buttonText": "Join the list",
+      "description": "You film it on your phone. Pitchside AI is being built to turn that footage into stats and a highlight reel — no editing, no wearable. Be first when it launches.",
+      "buttonUrl": "/",
+      "headline": "Turn your match footage into highlights"
+    },
+    "contentBlocks": [
+      {
+        "content": "Can you record a football match on just a phone?",
+        "type": "h2",
+        "id": "1"
+      },
+      {
+        "content": "<b>Yes — a modern phone records football matches at a quality that was professional-grade a few years ago.</b> The camera was never the limiting factor for grassroots football. The real challenges are keeping the whole pitch in frame, holding the shot steady for 90 minutes, and positioning the phone so the action is actually watchable. Solve those three and your phone footage rivals a fixed camera setup for a fraction of the cost. The same applies if you want to know how to film a soccer game or how to record a soccer game — football and soccer filming are identical.",
+        "id": "2",
+        "type": "paragraph"
+      },
+      {
+        "type": "h2",
+        "id": "3",
+        "content": "Where to position your phone"
+      },
+      {
+        "content": "Position decides everything. The single biggest mistake is filming from pitch level on the sideline — players block each other and you lose the far side of the pitch. The goal is height and a central line of sight.",
+        "id": "4",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "<b>Highest point available</b> — a stand, a clubhouse balcony, a grass bank, or a stepladder. Height lets you see the shape of play and both goals",
+          "<b>Central, on the halfway line</b> — gives the most balanced coverage of both ends",
+          "<b>Behind one goal (raised)</b> — good for 5-a-side and futsal where the pitch is short, capturing attacks head-on",
+          "<b>Away from the touchline crowd</b> — subs, coaches, and spectators shouldn't drift into your frame"
+        ],
+        "type": "list",
+        "id": "5"
+      },
+      {
+        "content": "<b>Key takeaway:</b> Height beats expensive gear every time. A basic phone filming from three metres up will produce more watchable footage than a great camera at ground level.",
+        "type": "paragraph",
+        "id": "6"
+      },
+      {
+        "id": "7",
+        "type": "h2",
+        "content": "Best camera angle for football"
+      },
+      {
+        "type": "paragraph",
+        "id": "8",
+        "content": "The classic broadcast angle is elevated and central, looking slightly down at the pitch. You want to see roughly two-thirds of the pitch in frame at any moment, with enough zoom-out that play never escapes the shot. Resist zooming in to follow the ball — a wide, static frame is far easier to watch back and far better for any software trying to read the game."
+      },
+      {
+        "id": "9",
+        "type": "list",
+        "items": [
+          "Tilt down slightly so the pitch fills the frame, not the sky",
+          "Keep it wide enough that the ball never leaves the shot",
+          "Don't pan constantly — a steady wide frame beats shaky tracking",
+          "For 5-a-side, one corner-to-corner diagonal angle often captures the whole court"
+        ]
+      },
+      {
+        "content": "Phone settings for filming football",
+        "type": "h2",
+        "id": "10"
+      },
+      {
+        "content": "The right settings prevent the two things that ruin match footage: constant refocusing and giant unusable files.",
+        "id": "11",
+        "type": "paragraph"
+      },
+      {
+        "type": "table",
+        "id": "12",
+        "headers": [
+          "Setting",
+          "Recommended",
+          "Why"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Orientation",
+              "Landscape",
+              "Matches how the game is watched; portrait wastes the frame"
+            ]
+          },
+          {
+            "cells": [
+              "Resolution",
+              "1080p (Full HD)",
+              "Sharp enough to watch back; far smaller files than 4K"
+            ]
+          },
+          {
+            "cells": [
+              "Frame rate",
+              "60fps",
+              "Smooth motion and cleaner slow-mo for highlights"
+            ]
+          },
+          {
+            "cells": [
+              "Focus",
+              "Locked (tap & hold)",
+              "Stops the camera hunting focus every time players cross"
+            ]
+          },
+          {
+            "cells": [
+              "Exposure",
+              "Locked",
+              "Prevents brightness jumping when the sky enters frame"
+            ]
+          },
+          {
+            "cells": [
+              "Storage",
+              "Clear space first",
+              "A full match in 1080p/60fps is several GB"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "id": "13",
+        "content": "<b>Pro tip:</b> 4K looks tempting, but it eats storage and battery and rarely adds anything for grassroots footage you'll watch on a phone. 1080p at 60fps is the sweet spot."
+      },
+      {
+        "id": "14",
+        "type": "h2",
+        "content": "How to mount your phone (cheap options that work)"
+      },
+      {
+        "content": "Holding a phone for a full match is a non-starter — your arm tires, the shot drifts, and you can't watch the game. A mount fixes all of it for very little money.",
+        "id": "15",
+        "type": "paragraph"
+      },
+      {
+        "id": "16",
+        "type": "list",
+        "items": [
+          "<b>Flexible tripod (e.g. Gorillapod-style)</b> — wraps around a fence, post, or railing. The most versatile grassroots option",
+          "<b>Standard tripod with phone clamp</b> — best if there's a stand or raised flat surface",
+          "<b>Fence or pole clamp</b> — clips straight onto perimeter fencing at most 5-a-side venues",
+          "<b>Extendable pole / monopod</b> — gains height when there's nothing to mount on"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "id": "17",
+        "content": "Whatever you use, test the frame before kickoff and make sure the phone is secure and plugged into a power bank if you're filming a full 90."
+      },
+      {
+        "type": "h2",
+        "id": "18",
+        "content": "How to record a 5-a-side football match"
+      },
+      {
+        "id": "19",
+        "type": "paragraph",
+        "content": "5-a-side is the easiest format to film because the pitch is small. If you want to record a football match with your phone in the small-sided game, a single phone mounted at one corner or behind a goal, raised a couple of metres, will usually capture the entire court with no panning. The same setup works to record a soccer game indoors — most venues have fencing or netting you can clamp to. Because the game is fast and high-scoring, you'll catch far more action per minute than an 11-a-side match, which makes the footage ideal for highlights."
+      },
+      {
+        "id": "20",
+        "type": "h2",
+        "content": "From footage to stats and highlights"
+      },
+      {
+        "content": "Recording is step one. The footage sitting in your camera roll is raw material — most people never do anything with it because editing two hours of video by hand is tedious. That's the problem Pitchside AI is being built to solve.",
+        "type": "paragraph",
+        "id": "21"
+      },
+      {
+        "items": [
+          "You record the match on your phone using the setup above",
+          "Pitchside AI is being built to analyse that footage and detect key moments automatically",
+          "You get player stats and a highlight reel — without manual editing or any wearable"
+        ],
+        "id": "22",
+        "type": "list"
+      },
+      {
+        "content": "<b>Pre-launch note:</b> Pitchside AI is in development. The free grassroots tools are available now; the automatic stats-and-highlights app is being built. Join the list to be notified at launch.",
+        "type": "paragraph",
+        "id": "23"
+      },
+      {
+        "content": "Common mistakes to avoid",
+        "id": "24",
+        "type": "h2"
+      },
+      {
+        "items": [
+          "Filming in portrait — always shoot landscape",
+          "Standing at pitch level — get height or you'll lose half the play",
+          "Zooming in to follow the ball — keep it wide and static",
+          "Leaving autofocus on — lock it so the shot doesn't blur mid-attack",
+          "Forgetting battery — a full match drains a phone; bring a power bank",
+          "Not checking storage — a match in HD is several gigabytes"
+        ],
+        "id": "25",
+        "type": "list"
+      },
+      {
+        "type": "h2",
+        "id": "26",
+        "content": "Expert Summary"
+      },
+      {
+        "type": "paragraph",
+        "id": "27",
+        "content": "Recording a football match on your phone comes down to three things: <b>height, a steady wide frame, and locked settings.</b> Mount the phone high and central, shoot landscape in 1080p at 60fps with focus and exposure locked, and use a cheap tripod or fence clamp so nobody has to hold it. That alone gives you footage as usable as a fixed camera. The next step — turning that footage into stats and highlights automatically — is exactly what Pitchside AI is being built to do."
+      }
+    ],
+    "tldrPoints": [
+      "Mount your phone high and central, behind or above one goal line, for the widest view",
+      "Shoot landscape, lock focus and exposure, and film in 1080p/60fps to balance quality and file size",
+      "A cheap tripod or fence mount beats holding the phone for two hours",
+      "Footage is the raw material — Pitchside AI is being built to turn it into stats and highlights automatically"
+    ]
+  }
+}

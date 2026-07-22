@@ -1,21 +1,21 @@
 const SITE_URL = "https://pitchside.ai";
 
 export const metadata = {
-  title: "Pricing for Grassroots Football",
+  title: "Pitchside Pricing: Free and Paid Football App Plans",
   description:
-    "Compare Pitchside AI free, weekly, monthly and annual launch pricing for grassroots football stats, highlights and player moments.",
+    "Compare Pitchside Free and Paid launch plans. Start with one monthly recording or get weekly recording and Personal Clips from £99 annually.",
   alternates: { canonical: `${SITE_URL}/pricing` },
   openGraph: {
-    title: "Pricing for Grassroots Football",
+    title: "Pitchside Pricing: Free and Paid Football App Plans",
     description:
-      "Compare Pitchside AI free, weekly, monthly and annual launch pricing for grassroots football stats, highlights and player moments.",
+      "Compare Pitchside Free and Paid launch plans. Start with one monthly recording or get weekly recording and Personal Clips from £99 annually.",
     url: `${SITE_URL}/pricing`,
     images: [{ url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: "Pitchside AI pricing" }],
   },
   twitter: {
-    title: "Pricing for Grassroots Football",
+    title: "Pitchside Pricing: Free and Paid Football App Plans",
     description:
-      "Compare Pitchside AI free, weekly, monthly and annual launch pricing for grassroots football stats, highlights and player moments.",
+      "Compare Pitchside Free and Paid launch plans. Start with one monthly recording or get weekly recording and Personal Clips from £99 annually.",
     images: [`${SITE_URL}/og-image.png`],
   },
 };

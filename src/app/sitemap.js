@@ -14,6 +14,7 @@ export default async function sitemap() {
     "/about",
     "/contact",
     "/technology",
+    "/technology/football-recording-setup",
     "/tools",
     "/pricing",
     "/blog",

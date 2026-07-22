@@ -1,0 +1,1136 @@
+{
+  "collection": "posts",
+  "slug": "cheapest-veo-alternative",
+  "id": "uqvkT0SWiQcavxMvtarh",
+  "exportedAt": "2026-07-22T19:45:26.037Z",
+  "data": {
+    "authorUrl": "https://www.linkedin.com/company/pitchsideai/",
+    "technologyStack": [
+      {
+        "icon": "vision",
+        "id": "vision",
+        "title": "Computer Vision for Small-Sided Football",
+        "desc": "Pitchside is being developed around phone-recorded small-sided football footage, where camera angles, lighting and player spacing are different from professional broadcast footage."
+      },
+      {
+        "icon": "ai",
+        "id": "ai",
+        "title": "Event Detection in Testing",
+        "desc": "The beta system is being tested to identify goals, assists, saves, passes and tackles from match footage, with accuracy expected to improve as more footage is reviewed."
+      },
+      {
+        "icon": "hardware",
+        "desc": "Pitchside aims to offer a phone-first workflow for teams that do not want to invest in dedicated football-camera hardware.",
+        "id": "hardware",
+        "title": "Phone-First Recording"
+      },
+      {
+        "desc": "Uploads and processing are being tested during private beta. Current processing can take up to 45 minutes and the flow is expected to improve.",
+        "title": "Edge-to-Cloud Pipeline",
+        "id": "cloud",
+        "icon": "cloud"
+      }
+    ],
+    "aeoQuickAnswer": "The cheapest football-recording setup is usually a phone the team already owns plus a stable mount or tripod. XbotGo Chameleon is among the lower-priced automated tracking products. Pitchside avoids a dedicated-camera purchase but remains in private beta, so it cannot be called the cheapest until its public pricing is announced.",
+    "metaDescription": "Compare the price of seven Veo camera alternatives, including hardware, tripods, subscriptions, streaming, storage and three-year ownership costs.",
+    "thumbnail": "https://firebasestorage.googleapis.com/v0/b/pitchside-a07c5.firebasestorage.app/o/hero-backgrounds%2Fthumbnails%2F1784492117123_veocameraalternative.webp?alt=media&token=7d229a14-5b89-4660-ac29-7a5679dcbd16",
+    "publishedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1783628276,
+      "nanoseconds": 712000000
+    },
+    "createdAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1783628276,
+      "nanoseconds": 712000000
+    },
+    "llmDescription": "A source-checked 2026 comparison of the hardware, accessories, subscriptions, streaming, data, storage and three-year ownership costs for Veo Cam 3 and seven alternatives: Pitchside AI, XbotGo Falcon and Chameleon, TraceCam with PlayerFocus, Hudl Focus Flex, Pixellot Air NXT, Spiideo Portable SmartCam 3 and Reeplayer. Prices were checked on 20 July 2026. Undisclosed prices are not estimated, and Pitchside pricing is explicitly marked as not final during private beta.",
+    "badge": "",
+    "intro": "The advertised camera price is rarely the complete cost of recording football. A usable setup may also need a tall tripod, protective case, memory card, subscription, cloud storage, livestreaming plan, cellular data or paid analysis tools. Some products sell the hardware outright, while others lease the camera or connect it to a required platform agreement. That makes a like-for-like Veo camera alternatives price comparison harder than comparing two product-page numbers. This guide separates one-time purchases from recurring costs and calculates first-year and three-year totals only where every required figure is publicly available. Pitchside is treated differently because it uses ordinary phone footage and remains in private beta; its public pricing and subscription model have not been decided. If features matter more than cost, start with the <a href=\"/blog/veo-camera-alternative\">Veo camera alternatives specification comparison</a>.",
+    "moreToRead": [],
+    "metaTitle": "Veo Camera Alternatives Price Comparison: 7 Options (2026)",
+    "title": "Veo Camera Alternatives Price Comparison: Hardware, Subscriptions and Real Costs",
+    "heroBackground": "https://firebasestorage.googleapis.com/v0/b/pitchside-a07c5.firebasestorage.app/o/hero-backgrounds%2F1784492112586_veocameraalternative.png?alt=media&token=7f0177bd-72a4-47ad-804f-3f09fbe346a5",
+    "ctaBlock": {
+      "headline": "Use the Cameras Your Team Already Owns",
+      "description": "Pitchside AI is being built to turn phone-recorded small-sided football into player statistics, highlights and key moments. Pricing is not final, and the product remains in private beta.",
+      "buttonUrl": "/contact",
+      "buttonText": "Join the Pitchside Private Beta"
+    },
+    "slug": "cheapest-veo-alternative",
+    "parentPage": {
+      "type": "landingPage",
+      "id": "best-veo-alternative-football",
+      "url": "/best-veo-alternative-football",
+      "title": "Best Veo Alternative for Grassroots Football"
+    },
+    "authorName": "Pitchside Team",
+    "tldrPoints": [
+      "An existing phone and stable tripod normally create the lowest hardware cost, but they do not automatically provide full-pitch tracking, streaming or analysis.",
+      "XbotGo sells Falcon and Chameleon with no subscription for core recording, tracking, editing and livestreaming, although a tripod, phone or memory card may still be required.",
+      "Trace leases its camera and tripod through a PlayerFocus subscription; the published $180 and $300 annual prices apply to a subscribing family or player, not an entire team.",
+      "Hudl Focus Flex, Pixellot Air NXT and Spiideo Portable SmartCam 3 do not publish enough current required prices to calculate honest ownership totals.",
+      "Pitchside pricing, subscriptions and public availability are not final because the phone-first product remains in private beta."
+    ],
+    "date": "July 10, 2026",
+    "faqs": [
+      {
+        "answer": "For recording only, the cheapest alternative is usually a phone the team already owns plus a stable tripod. For automatic tracking, XbotGo Chameleon is one of the lower-priced current options, but it still needs a compatible phone and suitable tripod.",
+        "question": "What is the cheapest Veo camera alternative?"
+      },
+      {
+        "question": "Which Veo alternatives have no subscription?",
+        "answer": "XbotGo Falcon and Chameleon do not require a subscription for core recording, AI tracking, editing or livestreaming. Phone recording can also work without a camera-platform subscription. Pitchside should not be labelled subscription-free because its final pricing model has not been announced."
+      },
+      {
+        "answer": "Costs range from using an existing phone to several thousand dollars for a complete camera and multi-year platform. UK buyers should check VAT, shipping, import costs and final checkout currency. Several manufacturers publish dollar prices or require a quote rather than a fixed UK total.",
+        "question": "How much does a Veo alternative cost in the UK?"
+      },
+      {
+        "answer": "Yes, when the main goal is simply to record a clearly visible match, especially on a small-sided pitch. A phone may be insufficient when the team needs a preserved full-pitch tactical view, automated live production or an established analysis platform.",
+        "question": "Is a phone and tripod good enough?"
+      },
+      {
+        "answer": "Check tripod height, safety weights, cases, memory cards, power banks, subscriptions, cloud-storage limits, streaming add-ons, mobile data, analysis packages, shipping, taxes and currency conversion. Also compare the time required for setup, upload and editing.",
+        "question": "What hidden costs should teams consider?"
+      },
+      {
+        "answer": "Buying can be cheaper over several years when the hardware works without a recurring platform fee. Leasing can reduce the upfront cost and include support or replacement cover. The answer depends on the required subscription, planned ownership period and number of users needing access.",
+        "question": "Is buying a camera cheaper than leasing one?"
+      },
+      {
+        "question": "How much does a football camera cost over three years?",
+        "answer": "Use the first-year hardware, required accessories and subscription, then add two more years of recurring charges. Public complete examples checked here are $3,995 for a base Veo Cam 3 setup and $5,560 for Reeplayer, before applicable taxes and shipping."
+      },
+      {
+        "question": "Is Pitchside cheaper than Veo?",
+        "answer": "Pitchside avoids the need to purchase dedicated camera hardware, but final public pricing has not been announced. It is currently in private beta."
+      }
+    ],
+    "contentBlocks": [
+      {
+        "type": "paragraph",
+        "content": "<strong>Prices checked: 20 July 2026.</strong> Prices exclude taxes, shipping and regional currency changes unless stated. Manufacturers can change hardware, plans and promotions. This article should be reviewed at least every three months.",
+        "id": "price-check-note"
+      },
+      {
+        "id": "quick-answer-heading",
+        "content": "Quick Answer: What Is the Cheapest Veo Alternative?",
+        "type": "h2"
+      },
+      {
+        "content": "The cheapest practical setup is normally an existing phone plus a stable mount or tripod. XbotGo Chameleon is one of the lower-cost automated tracking options, especially if the team already owns a compatible phone. Pitchside avoids dedicated camera hardware but is still in private beta, with no final public price. Full camera systems cost more because they combine capture with streaming, storage or analysis platforms.",
+        "type": "paragraph",
+        "id": "quick-answer-content"
+      },
+      {
+        "id": "comparison-heading",
+        "content": "Veo Alternatives Price Comparison",
+        "type": "h2"
+      },
+      {
+        "id": "comparison-table",
+        "type": "table",
+        "headers": [
+          "System",
+          "Hardware",
+          "Essential accessories",
+          "Annual subscription",
+          "Streaming/data",
+          "First-year total",
+          "Three-year total",
+          "Ownership model"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Veo Cam 3 — baseline",
+              "$1,299",
+              "$299 Veo 5.2m carbon tripod",
+              "$799 Starter plan on annual billing",
+              "Veo Live is optional at $240/year on the checked Starter configuration; internet or mobile data still required",
+              "$2,397 base setup",
+              "$3,995 base setup",
+              "Camera and tripod owned; active software plan required"
+            ]
+          },
+          {
+            "cells": [
+              "Pitchside AI with a phone",
+              "£0 additional hardware when using a suitable phone already owned",
+              "Stable phone mount or tripod; optional second phone and power bank",
+              "Not final — private beta",
+              "Post-match upload uses the team's broadband or mobile data; public livestreaming plan not announced",
+              "Cannot be calculated until Pitchside pricing is final",
+              "Cannot be calculated until Pitchside pricing is final",
+              "User owns phone and accessories; beta software model not final"
+            ]
+          },
+          {
+            "cells": [
+              "XbotGo Falcon / Chameleon",
+              "Falcon $699; Chameleon $329.99",
+              "Falcon: tripod plus required V30 microSD card; Chameleon: compatible phone plus tripod",
+              "$0 for core features",
+              "Core livestreaming is included; phone, Wi-Fi or venue data costs remain separate",
+              "Chameleon Essential Bundle $489.99 if phone already owned; Falcon Elite Pack $869.99 plus microSD",
+              "Same published hardware figure if no paid extras are added",
+              "Hardware owned; no subscription for core features"
+            ]
+          },
+          {
+            "cells": [
+              "TraceCam and PlayerFocus",
+              "Camera is leased; $0 lease charge with annual plan",
+              "16ft tripod, three sandbags and protective cases included",
+              "$180 Basic or $300 Pro per PlayerFocus subscription",
+              "Livestreaming is included as a feature; connection/data cost is not publicly itemised",
+              "$180 Basic or $300 Pro for one subscribing family/player",
+              "$540 Basic or $900 Pro for one continuing subscription",
+              "Camera and tripod leased and must be returned when finished"
+            ]
+          },
+          {
+            "cells": [
+              "Hudl Focus Flex",
+              "Not publicly disclosed — contact Hudl",
+              "Tripod is a one-time purchase; protective backpack is supplied",
+              "Not publicly disclosed; Hudl platform access is part of the buying decision",
+              "Wi-Fi can be used; optional Hudl 4G requires an active data plan and is US-only",
+              "Cannot be calculated",
+              "Cannot be calculated",
+              "Quote-based hardware and platform arrangement"
+            ]
+          },
+          {
+            "cells": [
+              "Pixellot Air NXT",
+              "Not publicly disclosed — contact Pixellot",
+              "Tripod and transport-accessory price or inclusion not publicly disclosed",
+              "Not publicly disclosed",
+              "Wi-Fi or 4G/5G connectivity; streaming destination and data costs depend on package",
+              "Cannot be calculated",
+              "Cannot be calculated",
+              "Camera and cloud-platform package; exact commercial model requires a quote"
+            ]
+          },
+          {
+            "cells": [
+              "Spiideo Portable SmartCam 3",
+              "Not publicly disclosed — contact Spiideo",
+              "Compatible tripod and safety equipment must be purchased separately",
+              "Spiideo Perform or Play pricing is not publicly disclosed",
+              "Ethernet, Wi-Fi/hotspot or separately purchased 4G SIM/data plan",
+              "Cannot be calculated",
+              "Cannot be calculated",
+              "Sales-led camera and platform agreement"
+            ]
+          },
+          {
+            "cells": [
+              "Reeplayer AI Camera",
+              "$1,499",
+              "$349 tripod + $99 case + $49 tilt mount = $497",
+              "$1,188 Camera Plan, billed annually",
+              "Livestreaming, Smart SIM and cellular data included in plan",
+              "$3,184 complete setup",
+              "$5,560 complete setup",
+              "Hardware owned; annual Camera Plan required"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comparison-table-note",
+        "content": "The totals use required published costs only. Optional protection, spare batteries, cases, analytics and livestreaming add-ons are excluded unless the product cannot reasonably be used without them. A total marked “Cannot be calculated” is more accurate than filling the gap with a retailer price, old quote or guessed conversion. Trace figures describe one PlayerFocus subscription and must not be presented as the cost of access for every player on a team.",
+        "type": "paragraph"
+      },
+      {
+        "id": "calculation-heading",
+        "content": "How We Calculated the Real Cost",
+        "type": "h2"
+      },
+      {
+        "id": "calculation-formula",
+        "content": "<strong>First-year cost = hardware + required accessories + annual subscription + required add-ons.</strong><br><br><strong>Three-year cost = first-year cost + 2 × annual recurring cost.</strong>",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Use the normal public price shown by the manufacturer on the checked date.",
+          "Include a tripod where a usable football setup clearly requires one.",
+          "Include a memory card, mount or phone when it is required, but do not invent a price when the buyer can choose among many products.",
+          "Use annual billing for a consistent three-year comparison.",
+          "Exclude optional insurance, extra cases, premium analytics and livestreaming unless specifically labelled.",
+          "Do not convert a per-player or per-family subscription into a team total without knowing how many players need access.",
+          "Do not calculate a total when a required manufacturer price is not publicly disclosed."
+        ],
+        "type": "list",
+        "id": "calculation-rules"
+      },
+      {
+        "id": "calculation-source-note",
+        "type": "paragraph",
+        "content": "This is a documentation-based comparison using official manufacturer pages and current product support material. Pitchside has not claimed to have physically tested every product in this guide."
+      },
+      {
+        "id": "veo-cost-heading",
+        "content": "What Does a Veo Camera Cost?",
+        "type": "h2"
+      },
+      {
+        "id": "veo-cost-intro",
+        "content": "Veo is the baseline, not one of the seven alternatives. On the <a href=\"https://www.veo.com/pricing\">official Veo UK-language pricing page</a> checked on 20 July 2026, the normal configurator displayed the standard Veo Cam 3 at $1,299, the 5.2m carbon tripod at $299 and the Starter plan at $799 for a year. The page was set to English (United Kingdom) but displayed US-dollar prices, so UK buyers should confirm the final currency, taxes and delivery charge at checkout.",
+        "type": "paragraph"
+      },
+      {
+        "rows": [
+          {
+            "cells": [
+              "Veo Cam 3",
+              "$1,299 one-time",
+              "Yes"
+            ]
+          },
+          {
+            "cells": [
+              "Veo carbon tripod, 5.2m",
+              "$299 one-time, excluding taxes",
+              "Yes"
+            ]
+          },
+          {
+            "cells": [
+              "Starter plan",
+              "$799/year on annual billing",
+              "Yes"
+            ]
+          },
+          {
+            "cells": [
+              "Veo tripod bag",
+              "$35 one-time",
+              "No — optional"
+            ]
+          },
+          {
+            "cells": [
+              "Veo Live",
+              "$240/year on the checked Starter configuration",
+              "No — optional"
+            ]
+          },
+          {
+            "cells": [
+              "Veo Analytics",
+              "$299/year on the checked Starter configuration",
+              "No — optional"
+            ]
+          },
+          {
+            "cells": [
+              "Veo Player Spotlight",
+              "$379/year on the checked Starter configuration",
+              "No — optional"
+            ]
+          }
+        ],
+        "id": "veo-cost-table",
+        "type": "table",
+        "headers": [
+          "Veo component",
+          "Checked price",
+          "Included in base total?"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": "Veo offered monthly, six-month, yearly and two-year billing choices on the checked page. Plan recording hours, storage duration and user limits differ, so the lowest plan is not automatically suitable for every club. The page also showed a temporary summer promotion. The comparison table uses the normal configurator prices rather than a limited-time promotional bundle. The standard Cam 3 uses Wi-Fi or a hotspot, while the 5G model cost $1,599 before its plan and tripod; any mobile connectivity terms should be confirmed for the buyer's region.",
+        "id": "veo-contract-regional"
+      },
+      {
+        "content": "<strong>Advantage:</strong> Veo publishes a configurable camera, plan, accessory and add-on journey, making the main cost components visible.<br><br><strong>Limitation:</strong> The camera price is only the start. A realistic outdoor setup needs a tripod and active software plan, while livestreaming, analytics and player-focused clips can increase the recurring cost.",
+        "type": "paragraph",
+        "id": "veo-advantages-limitations"
+      },
+      {
+        "content": "1. Pitchside AI and Phone Setup Cost",
+        "type": "h2",
+        "id": "pitchside-cost-heading"
+      },
+      {
+        "content": "Pitchside uses footage recorded on one or two ordinary phones. If a player or team already owns a suitable phone, the additional camera-hardware cost is £0. That does not make the complete service free: a stable mount or tripod may be needed, a second phone can improve coverage, and long matches may justify a power bank. Those accessory choices depend on the phones, pitch and recording position, so this article does not assign them an invented universal price.",
+        "type": "paragraph",
+        "id": "pitchside-cost-intro"
+      },
+      {
+        "headers": [
+          "Pitchside setup component",
+          "Cost status",
+          "Required?"
+        ],
+        "type": "table",
+        "id": "pitchside-setup-cost-table",
+        "rows": [
+          {
+            "cells": [
+              "Existing suitable phone",
+              "£0 additional hardware",
+              "Yes — one phone minimum in the current recording direction"
+            ]
+          },
+          {
+            "cells": [
+              "Phone mount or tripod",
+              "Varies by buyer and venue",
+              "A stable elevated position is strongly recommended"
+            ]
+          },
+          {
+            "cells": [
+              "Second phone",
+              "Optional; can be a phone already owned",
+              "Preferred for two-direction small-sided coverage, not always required"
+            ]
+          },
+          {
+            "cells": [
+              "Power bank",
+              "Optional and device-dependent",
+              "Useful for long matches or older batteries"
+            ]
+          },
+          {
+            "cells": [
+              "Pitchside service",
+              "Pricing and subscription model not final",
+              "Private-beta product"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": "Pitchside is in private beta. Public pricing, subscriptions, included usage, supported formats and availability have not been decided. It would therefore be inaccurate to call Pitchside the cheapest Veo alternative or to publish a first-year total. The honest cost statement is narrower: the intended workflow avoids the need to buy a dedicated AI camera.",
+        "id": "pitchside-private-beta"
+      },
+      {
+        "id": "pitchside-advantages-limitations",
+        "type": "paragraph",
+        "content": "<strong>Advantage:</strong> Teams can begin with phones they already own instead of purchasing a proprietary panoramic camera.<br><br><strong>Limitation:</strong> Final service pricing is unknown, the product is not publicly available, and a phone setup is not a substitute for every full-pitch tactical or live-broadcast system."
+      },
+      {
+        "id": "pitchside-context-links",
+        "type": "paragraph",
+        "content": "The practical guides explain how to record a football match with one or two phones, what to expect from a <a href=\"/football-camera-app\">football camera app</a> and how a <a href=\"/football-stats-app\">football stats app</a> can use match footage. Teams comparing the product direction with dedicated cameras should also review the <a href=\"/best-veo-alternative-football\">grassroots Veo alternative</a> page."
+      },
+      {
+        "type": "h2",
+        "content": "2. XbotGo Cost",
+        "id": "xbotgo-cost-heading"
+      },
+      {
+        "content": "<a href=\"https://xbotgo.com/products/xbotgo-falcon-true-4k-ai-camera-for-team-sports\">XbotGo Falcon</a> and <a href=\"https://xbotgo.com/products/xbotgo-chameleon-ai-powered-4k-sports-camera-system-phone-mount\">XbotGo Chameleon</a> have different cost structures. Falcon is a standalone camera. Chameleon is a motorised mount that uses a compatible phone as the camera. XbotGo says core recording, AI tracking, editing and livestreaming do not require a subscription, but both products still need the right supporting equipment.",
+        "type": "paragraph",
+        "id": "xbotgo-cost-intro"
+      },
+      {
+        "content": "XbotGo Falcon Cost",
+        "type": "h3",
+        "id": "falcon-cost-heading"
+      },
+      {
+        "headers": [
+          "Falcon component",
+          "Checked price or status"
+        ],
+        "type": "table",
+        "id": "falcon-cost-table",
+        "rows": [
+          {
+            "cells": [
+              "Falcon standard camera",
+              "$699"
+            ]
+          },
+          {
+            "cells": [
+              "Elite Pack: Falcon + NT4 tripod",
+              "$869.99"
+            ]
+          },
+          {
+            "cells": [
+              "Field Pack: Falcon + NT4 Pro tripod",
+              "$948.99"
+            ]
+          },
+          {
+            "cells": [
+              "UHS-I V30 microSD card",
+              "Required and not included; buyer-selected price"
+            ]
+          },
+          {
+            "cells": [
+              "Core subscription",
+              "$0"
+            ]
+          },
+          {
+            "cells": [
+              "Future AI performance analysis",
+              "Upcoming add-on; pricing still being developed"
+            ]
+          }
+        ]
+      },
+      {
+        "content": "The $699 headline price is not a complete football setup if the buyer needs a tall pitch-side tripod and does not already own a compatible V30 microSD card. The Elite Pack gives a clearer hardware starting point at $869.99, but the required memory card prevents an exact universal total. Optional protection and weather accessories are not included in this comparison.",
+        "type": "paragraph",
+        "id": "falcon-cost-explanation"
+      },
+      {
+        "content": "XbotGo Chameleon Cost",
+        "type": "h3",
+        "id": "chameleon-cost-heading"
+      },
+      {
+        "id": "chameleon-cost-table",
+        "type": "table",
+        "headers": [
+          "Chameleon option",
+          "Checked price",
+          "Important dependency"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Standard Bundle",
+              "$329.99",
+              "Compatible phone and tripod still required"
+            ]
+          },
+          {
+            "cells": [
+              "Essential Bundle",
+              "$489.99",
+              "Includes the outdoor-oriented NT4 tripod; compatible phone still required"
+            ]
+          },
+          {
+            "cells": [
+              "Elite Field Bundle",
+              "$514.99",
+              "Adds outdoor accessories; phone still required"
+            ]
+          },
+          {
+            "cells": [
+              "Elite Bundle",
+              "$549.99",
+              "Includes compact and tall tripod options; phone still required"
+            ]
+          },
+          {
+            "cells": [
+              "All-Inclusive Bundle",
+              "$574.99",
+              "Includes NT1, NT4, umbrella and case; phone still required"
+            ]
+          },
+          {
+            "cells": [
+              "Core subscription",
+              "$0",
+              "Internet or mobile-data cost remains separate"
+            ]
+          }
+        ]
+      },
+      {
+        "content": "For outdoor football, the Essential Bundle is a more realistic starting point than the $329.99 standard price because XbotGo recommends the tall tripod for expansive fields. Its $489.99 first-year and three-year hardware figure assumes the team already owns a compatible phone and does not buy optional protection, extra storage or accessories. “No subscription” means no recurring charge for the core XbotGo software; it does not mean no phone, tripod or connectivity cost.",
+        "type": "paragraph",
+        "id": "chameleon-cost-explanation"
+      },
+      {
+        "id": "xbotgo-advantages-limitations",
+        "type": "paragraph",
+        "content": "<strong>Advantage:</strong> XbotGo provides the clearest current route to automated tracking without a required recurring charge for core features.<br><br><strong>Limitation:</strong> Chameleon depends on a compatible phone, while Falcon needs a separately purchased microSD card. Both record an action-following view rather than guaranteeing the preserved full-pitch master offered by some panoramic systems."
+      },
+      {
+        "id": "xbotgo-source",
+        "type": "paragraph",
+        "content": "<strong>Official sources:</strong> <a href=\"https://xbotgo.com/products/xbotgo-falcon-true-4k-ai-camera-for-team-sports\">Falcon pricing and requirements</a>, <a href=\"https://xbotgo.com/products/xbotgo-chameleon-ai-powered-4k-sports-camera-system-phone-mount\">Chameleon bundles</a> and <a href=\"https://xbotgo.com/products/xbotgo-t4-tripod-set-aluminum-alloy-13ft\">NT4 tripod</a>."
+      },
+      {
+        "content": "3. Trace Cost",
+        "type": "h2",
+        "id": "trace-cost-heading"
+      },
+      {
+        "type": "paragraph",
+        "content": "<a href=\"https://traceup.com/pricing\">Trace</a> uses a lease rather than a normal camera purchase. With annual billing, the AI camera, 16ft tripod, three sandbags and protective cases are included with a PlayerFocus Basic or Pro subscription. Trace shows the equipment at $0 with the annual plan and says camera-lease renewal is free while the subscriber continues. When the team is finished, the leased equipment must be returned.",
+        "id": "trace-cost-intro"
+      },
+      {
+        "id": "trace-plan-table",
+        "headers": [
+          "Trace plan",
+          "Annual price",
+          "Access and limitations"
+        ],
+        "type": "table",
+        "rows": [
+          {
+            "cells": [
+              "PlayerFocus Basic",
+              "$180/year",
+              "Access to latest five games; up to two subscription emails; view-focused plan"
+            ]
+          },
+          {
+            "cells": [
+              "PlayerFocus Pro",
+              "$300/year",
+              "Access to all games; up to four subscription emails; analytics, editing and downloads"
+            ]
+          },
+          {
+            "cells": [
+              "Monthly Basic",
+              "$25/month + $99 one-time lease fee",
+              "Higher recurring price than annual billing"
+            ]
+          },
+          {
+            "cells": [
+              "Monthly Pro",
+              "$35/month + $99 one-time lease fee",
+              "Higher recurring price than annual billing"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "trace-team-cost",
+        "content": "The published $180 and $300 prices must not be presented as the cost of providing PlayerFocus access to an entire squad. They describe a subscription centred on a player or family. Trace verifies one camera per team through a team-confirmation step, while the camera owner can record unlimited teams, games and players under the published plans. Other families can subscribe after the first game is recorded. A team total therefore depends on how many players need their own PlayerFocus access and which plan each family selects. Seven subscribed families are required before a Pro subscriber can download the full-game file.",
+        "type": "paragraph"
+      },
+      {
+        "type": "paragraph",
+        "content": "Basic displays the latest five games, while Pro provides access to all games and the stronger download and analytics tools. One PlayerFocus subscription covers the same child across multiple teams when those matches are recorded with Trace, but it does not become a universal seat for every player.",
+        "id": "trace-access-limitations"
+      },
+      {
+        "id": "trace-advantages-limitations",
+        "content": "<strong>Advantage:</strong> A family can start with the camera, tall tripod, sandbags and cases included instead of paying a large upfront hardware price.<br><br><strong>Limitation:</strong> The customer does not own the equipment, footage access depends on an active PlayerFocus plan, and a multi-player team cost can be much higher than one family's advertised price.",
+        "type": "paragraph"
+      },
+      {
+        "id": "hudl-cost-heading",
+        "type": "h2",
+        "content": "4. Hudl Focus Flex Cost"
+      },
+      {
+        "id": "hudl-cost-content",
+        "type": "paragraph",
+        "content": "<a href=\"https://www.hudl.com/products/focus/flex\">Hudl Focus Flex</a> does not publish a reliable public hardware or annual platform price. The official page tells buyers to get in touch about pricing, so the correct answer is <strong>contact Hudl for pricing</strong>. Focus Flex is closely integrated with the Hudl library, Hudl TV, Assist/Instat submissions and Sportscode workflows. The value therefore depends partly on which Hudl services the school or club already buys."
+      },
+      {
+        "id": "hudl-cost-list",
+        "type": "list",
+        "items": [
+          "Camera price: not publicly disclosed.",
+          "Tripod: described as a one-time purchase; current public price not disclosed.",
+          "Protective backpack: supplied with designated accessory storage.",
+          "Hudl subscription and analysis services: package-dependent and not publicly itemised for this comparison.",
+          "Livestreaming: works over Wi-Fi or Hudl's optional active 4G data plan.",
+          "Hudl 4G availability: United States only, with coverage limitations."
+        ]
+      },
+      {
+        "id": "hudl-advantages-limitations",
+        "content": "<strong>Advantage:</strong> Existing Hudl customers may gain more value because capture, upload, review and streaming remain in a familiar platform.<br><br><strong>Limitation:</strong> The camera, tripod, subscription, 4G and analysis costs cannot be compared honestly without a tailored quote. A three-year total is therefore not calculated.",
+        "type": "paragraph"
+      },
+      {
+        "id": "pixellot-cost-heading",
+        "type": "h2",
+        "content": "5. Pixellot Air NXT Cost"
+      },
+      {
+        "content": "<a href=\"https://www.pixellot.tv/products/pixellot-air/\">Pixellot Air NXT</a> combines portable panoramic capture, automated production, streaming and cloud tools, but the manufacturer does not publish a current complete camera-and-subscription price. The product page directs buyers towards a conversation rather than a standard public checkout. No retailer figure is used here because retailer bundles, regional terms and platform access may differ from the manufacturer's commercial package.",
+        "type": "paragraph",
+        "id": "pixellot-cost-content"
+      },
+      {
+        "type": "list",
+        "id": "pixellot-cost-list",
+        "items": [
+          "Camera: not publicly disclosed.",
+          "Tripod and transport accessories: inclusion and current price not publicly disclosed.",
+          "Platform subscription: not publicly disclosed.",
+          "Streaming plan and destinations: package-dependent.",
+          "Connectivity: Wi-Fi or 4G/5G, with any external cellular cost dependent on the buyer's arrangement.",
+          "Storage and analysis: available within the Pixellot ecosystem, but commercial terms are not publicly itemised."
+        ]
+      },
+      {
+        "id": "pixellot-advantages-limitations",
+        "content": "<strong>Advantage:</strong> Air NXT is designed to keep full-field capture, automated production, streaming and coaching tools within one system.<br><br><strong>Limitation:</strong> Without public camera, tripod, subscription and streaming prices, neither a first-year nor a three-year total can be published responsibly. Contact Pixellot for a complete written quote.",
+        "type": "paragraph"
+      },
+      {
+        "id": "spiideo-cost-heading",
+        "type": "h2",
+        "content": "6. Spiideo Portable SmartCam 3 Cost"
+      },
+      {
+        "id": "spiideo-cost-content",
+        "content": "<a href=\"https://www.spiideo.com/sports-video-camera-systems/portable-smartcam/\">Spiideo Portable SmartCam 3</a> is sold through a sales-led workflow. Public pages describe the camera and its Spiideo Perform analysis and Spiideo Play broadcasting integrations but do not disclose a complete hardware or platform price. <a href=\"https://www.spiideo.com/contact/contact-sales/\">Spiideo's official pricing route is its sales team</a>.",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Portable SmartCam 3 hardware: not publicly disclosed.",
+          "Spiideo Perform or Play agreement: not publicly disclosed.",
+          "Tripod and safety equipment: the customer must purchase compatible equipment separately.",
+          "Connectivity: Ethernet, Wi-Fi/hotspot or a 4G SIM selected and purchased by the customer.",
+          "Analysis, broadcasting and replay requirements: depend on the chosen platform agreement.",
+          "First-year and three-year totals: cannot be calculated from public official prices."
+        ],
+        "type": "list",
+        "id": "spiideo-cost-list"
+      },
+      {
+        "id": "spiideo-setup-source",
+        "content": "Spiideo's <a href=\"https://support.spiideo.com/en/articles/8911081-setup-your-portable-smartcam\">current setup guide</a> explicitly tells users to purchase a tripod and safety equipment and to choose a network method before going to the field. The supplied case contains the router, while the camera package includes the base plate and quick release. Those details matter because the platform quote alone may not cover the complete match-day setup.",
+        "type": "paragraph"
+      },
+      {
+        "content": "<strong>Advantage:</strong> Spiideo can support serious analysis and broadcasting workflows across Perform and Play.<br><br><strong>Limitation:</strong> Quote-based hardware and software, plus buyer-supplied tripod, safety equipment and possible cellular data, make it unsuitable for a public numeric ownership-cost calculation.",
+        "type": "paragraph",
+        "id": "spiideo-advantages-limitations"
+      },
+      {
+        "id": "reeplayer-cost-heading",
+        "type": "h2",
+        "content": "7. Reeplayer Cost"
+      },
+      {
+        "type": "paragraph",
+        "content": "<a href=\"https://www.reeplayer.com/pricing\">Reeplayer publishes the clearest complete kit price</a> in this comparison. Its official pricing page lists the camera, Manfrotto tripod, protective case, tilt mount and annual Camera Plan separately, then states a $3,184 first-year total. The annual plan includes unlimited games, teams and users, cloud storage, livestreaming, mobile app access, Smart SIM data and processing.",
+        "id": "reeplayer-cost-intro"
+      },
+      {
+        "id": "reeplayer-cost-table",
+        "type": "table",
+        "headers": [
+          "Reeplayer component",
+          "Checked price"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Reeplayer AI Camera",
+              "$1,499 one-time"
+            ]
+          },
+          {
+            "cells": [
+              "Manfrotto tripod",
+              "$349 one-time"
+            ]
+          },
+          {
+            "cells": [
+              "Nanuk protective case",
+              "$99 one-time"
+            ]
+          },
+          {
+            "cells": [
+              "Tripod tilt mount",
+              "$49 one-time"
+            ]
+          },
+          {
+            "cells": [
+              "Camera Plan",
+              "$1,188/year"
+            ]
+          },
+          {
+            "cells": [
+              "First-year total",
+              "$3,184 before tax and shipping"
+            ]
+          },
+          {
+            "cells": [
+              "Three-year total",
+              "$5,560 before tax and shipping"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": "The three-year calculation is $3,184 + (2 × $1,188) = $5,560. Reeplayer says the subscription begins when the camera is delivered and renews every 12 months. Tax and shipping from Pittsburgh remain pending, and the product is currently aimed at US customers, so a UK buyer should confirm availability rather than converting the dollar total and assuming the order can be fulfilled.",
+        "id": "reeplayer-three-year-calculation"
+      },
+      {
+        "id": "reeplayer-advantages-limitations",
+        "content": "<strong>Advantage:</strong> Hardware, accessories, cellular data, streaming and recurring service costs are publicly itemised, making the real total easier to understand.<br><br><strong>Limitation:</strong> The complete first-year cost is high, the $1,188 plan continues annually, and tax and shipping are added later.",
+        "type": "paragraph"
+      },
+      {
+        "type": "h2",
+        "content": "Hidden Costs That Football Teams Often Miss",
+        "id": "hidden-costs-heading"
+      },
+      {
+        "type": "h3",
+        "content": "Tripods and Safety Equipment",
+        "id": "tripod-safety-heading"
+      },
+      {
+        "type": "paragraph",
+        "content": "A cheap short tripod may record players' backs rather than a useful tactical angle. Full-size football often benefits from 4–5m of height, but that adds transport weight and wind risk. Check whether the advertised package includes the tripod, carry bag, ground weights, sandbags, safety straps and the correct camera mount. XbotGo sells tall tripods in bundles, Trace includes a 16ft tripod and sandbags, Veo prices its tripod separately, and Spiideo requires the buyer to source compatible support and safety equipment.",
+        "id": "tripod-safety-content"
+      },
+      {
+        "id": "mobile-data-heading",
+        "content": "Mobile Data and Livestreaming",
+        "type": "h3"
+      },
+      {
+        "id": "mobile-data-content",
+        "type": "paragraph",
+        "content": "Built-in cellular hardware does not always mean data is included. Reeplayer includes Smart SIM data in its annual plan. Hudl offers an active 4G plan in the US. Spiideo asks the customer to choose a connection and obtain a suitable SIM where needed. Veo Live is a paid software add-on, and the camera still needs a suitable internet connection. XbotGo's core livestreaming software is included, but the connected phone or venue supplies the data."
+      },
+      {
+        "content": "Cloud Storage and Footage Access",
+        "type": "h3",
+        "id": "cloud-storage-heading"
+      },
+      {
+        "content": "Ask how many matches stay visible, how long the service keeps them and whether full-game downloads require a higher plan. Veo's checked Starter plan listed six months of storage. Trace Basic shows the latest five games, while Pro provides access to all games; full-game file downloads also have additional conditions. XbotGo includes 20GB of cloud storage for core use, while Falcon stores its recording locally on a required microSD card.",
+        "type": "paragraph",
+        "id": "cloud-storage-content"
+      },
+      {
+        "id": "analysis-addons-heading",
+        "content": "Analysis and Player Add-Ons",
+        "type": "h3"
+      },
+      {
+        "id": "analysis-addons-content",
+        "content": "Recording a match, analysing team shape, creating player highlights and generating statistics are separate jobs. Veo sells Analytics and Player Spotlight as add-ons. Trace puts downloads and PlayerFocus Analytics in Pro. XbotGo says Falcon performance analysis is an upcoming add-on with pricing still in development. Hudl, Pixellot and Spiideo can connect to broader analysis products, but a quote must show which services are included. Pitchside is being built around stats and highlights from phone footage, but its service price has not been decided.",
+        "type": "paragraph"
+      },
+      {
+        "id": "shipping-tax-heading",
+        "content": "Shipping, Taxes and Currency Conversion",
+        "type": "h3"
+      },
+      {
+        "type": "paragraph",
+        "content": "US-dollar product prices are not the amount a UK club will necessarily pay. Delivery, VAT, import handling, card conversion fees and regional warranty arrangements can change the final invoice. On the checked date, Veo's UK-language pricing page still displayed dollar figures and excluded taxes on accessories. Reeplayer listed tax and shipping as pending. Use the manufacturer's final checkout or written quote instead of publishing a rough exchange-rate conversion as a guaranteed UK price.",
+        "id": "shipping-tax-content"
+      },
+      {
+        "id": "matchday-time-heading",
+        "content": "Match-Day Time",
+        "type": "h3"
+      },
+      {
+        "content": "Time is a real operating consideration, but assigning it a made-up cash value would make the comparison less trustworthy. Compare how long it takes to transport the equipment, stabilise a tall tripod, calibrate the pitch, connect a stream, upload recordings and edit or download clips. A cheaper system that regularly goes unused is poor value; an expensive platform is also poor value when the team only needs a simple recording.",
+        "type": "paragraph",
+        "id": "matchday-time-content"
+      },
+      {
+        "content": "Which Veo Alternatives Have No Subscription?",
+        "type": "h2",
+        "id": "no-subscription-heading"
+      },
+      {
+        "id": "no-subscription-intro",
+        "type": "paragraph",
+        "content": "A Veo alternative without subscription should be judged by what works after the one-time purchase, not by a vague “free app” label. Some products make the recurring platform optional; others stop providing their central value when the subscription ends. Pitchside cannot yet be placed in either group because its subscription and pricing model are not final."
+      },
+      {
+        "rows": [
+          {
+            "cells": [
+              "True no-subscription core hardware",
+              "XbotGo Falcon and Chameleon",
+              "Core recording, tracking, editing and livestreaming do not require a subscription; hardware dependencies and data remain"
+            ]
+          },
+          {
+            "cells": [
+              "Phone recording without a camera subscription",
+              "Phone + tripod using the normal camera app",
+              "Records the match, but does not automatically provide a dedicated platform's tracking, analysis or storage"
+            ]
+          },
+          {
+            "cells": [
+              "Required platform subscription",
+              "Veo and Reeplayer",
+              "The recurring plan is central to viewing, processing or using the system"
+            ]
+          },
+          {
+            "cells": [
+              "Camera lease plus subscription",
+              "Trace",
+              "Equipment is leased and PlayerFocus access remains subscription-based"
+            ]
+          },
+          {
+            "cells": [
+              "Quote-based platform",
+              "Hudl, Pixellot and Spiideo",
+              "Recurring terms must be confirmed in the written quote"
+            ]
+          },
+          {
+            "cells": [
+              "Undecided beta model",
+              "Pitchside",
+              "Do not describe it as subscription-free until final public terms are announced"
+            ]
+          }
+        ],
+        "headers": [
+          "Category",
+          "Systems",
+          "What to understand"
+        ],
+        "type": "table",
+        "id": "no-subscription-table"
+      },
+      {
+        "id": "cheapest-grassroots-heading",
+        "type": "h2",
+        "content": "What Is the Cheapest Setup for Grassroots Football?"
+      },
+      {
+        "type": "table",
+        "headers": [
+          "Need",
+          "Cheapest reasonable option",
+          "Why"
+        ],
+        "id": "cheapest-grassroots-table",
+        "rows": [
+          {
+            "cells": [
+              "Only record the match",
+              "Existing phone and stable tripod",
+              "Uses hardware the team already owns"
+            ]
+          },
+          {
+            "cells": [
+              "Automated camera movement",
+              "XbotGo-type tracking system",
+              "Lower entry price than many full-field platforms, especially when a compatible phone is available"
+            ]
+          },
+          {
+            "cells": [
+              "Stats and highlights",
+              "Phone plus Pitchside when available",
+              "Avoids a dedicated camera purchase, but total value cannot be judged until beta pricing is final"
+            ]
+          },
+          {
+            "cells": [
+              "Full tactical analysis",
+              "Dedicated full-field camera",
+              "Higher cost can be justified when off-ball movement and the whole pitch must be preserved"
+            ]
+          },
+          {
+            "cells": [
+              "Livestreaming",
+              "Compare platform and data fees carefully",
+              "A low camera price can be offset by a streaming add-on or cellular plan"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "record-phone-link",
+        "content": "Before buying an automated system, learn the practical setup to <a href=\"/record-football-matches\">record football matches with a phone</a>. A clear, stable test recording can show whether a phone-first workflow is sufficient or whether the team genuinely needs tall full-field hardware.",
+        "type": "paragraph"
+      },
+      {
+        "content": "Best Value by Team Type",
+        "type": "h2",
+        "id": "best-value-heading"
+      },
+      {
+        "id": "best-value-intro",
+        "type": "paragraph",
+        "content": "“Best value” means the most appropriate complete solution for the team's actual job. It does not automatically mean the lowest advertised price."
+      },
+      {
+        "rows": [
+          {
+            "cells": [
+              "5-a-side",
+              "Existing phones; assess Pitchside as beta develops",
+              "Small pitches and player-focused output can reduce the need for a panoramic camera"
+            ]
+          },
+          {
+            "cells": [
+              "Sunday league",
+              "Phone setup or XbotGo Chameleon",
+              "Lower equipment barrier and simpler weekly ownership model"
+            ]
+          },
+          {
+            "cells": [
+              "Youth player",
+              "Trace PlayerFocus",
+              "Individual player clips and family access may matter more than owning the camera"
+            ]
+          },
+          {
+            "cells": [
+              "Academy",
+              "Pixellot or Spiideo quote",
+              "Full-field analysis and organised multi-user workflows can justify a higher platform cost"
+            ]
+          },
+          {
+            "cells": [
+              "School",
+              "Hudl or Pixellot",
+              "Platform integration, recruiting, review and streaming may create broader value"
+            ]
+          },
+          {
+            "cells": [
+              "Multi-team club",
+              "Compare Veo Club, Hudl, Pixellot and Spiideo quotes",
+              "User limits, team folders, storage and volume pricing matter more than one-camera list price"
+            ]
+          },
+          {
+            "cells": [
+              "League or facility",
+              "Pixellot or Spiideo",
+              "Broadcasting, multiple pitches and central media operations become the main value drivers"
+            ]
+          }
+        ],
+        "id": "best-value-table",
+        "type": "table",
+        "headers": [
+          "Team type",
+          "Value direction",
+          "Reason"
+        ]
+      },
+      {
+        "id": "value-spec-link",
+        "type": "paragraph",
+        "content": "Price alone cannot show whether a camera preserves the full pitch or follows only the action. Revisit the <a href=\"/blog/veo-camera-alternative\">Veo camera alternatives specification comparison</a> before committing to a three-year contract or platform agreement."
+      },
+      {
+        "id": "final-verdict-heading",
+        "content": "Final Verdict: Which Option Gives the Best Value?",
+        "type": "h2"
+      },
+      {
+        "id": "final-verdict-intro",
+        "content": "There is no single best-value system for every team. The correct choice depends on whether the priority is a basic recording, automatic camera movement, player clips, full-field tactics or broadcasting.",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "<strong>Cheapest basic recording:</strong> Use a phone the team already owns with a stable mount or tripod.",
+          "<strong>Best no-subscription hardware direction:</strong> XbotGo Chameleon offers the lower entry point, while Falcon removes the need to use the phone as the recording camera. Include tripod, phone and storage requirements before comparing totals.",
+          "<strong>Best phone-first grassroots direction:</strong> Pitchside is being built for stats and highlights from ordinary phone footage, but it remains in private beta and cannot be judged on price until public terms are final.",
+          "<strong>Best professional or full-field direction:</strong> Compare Pixellot and Spiideo for panoramic analysis and broadcasting, then obtain complete written quotes. Veo remains a clearer self-serve baseline, while Hudl can be valuable for organisations already using its ecosystem."
+        ],
+        "type": "list",
+        "id": "final-verdict-list"
+      },
+      {
+        "id": "final-landing-link",
+        "type": "paragraph",
+        "content": "For the product-led explanation of the phone-first approach, read the <a href=\"/best-veo-alternative-football\">grassroots Veo alternative</a> page and join the Pitchside private-beta list if the workflow matches your team."
+      },
+      {
+        "content": "Frequently Asked Questions",
+        "type": "h2",
+        "id": "faqs-heading"
+      }
+    ],
+    "heroH1": "Veo Camera Alternatives Price Comparison: Hardware, Subscriptions and Real Costs",
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784492122,
+      "nanoseconds": 596000000
+    },
+    "primaryImage": "",
+    "technologySections": [],
+    "hero": {
+      "secondaryCtaLabel": "",
+      "previewData": {},
+      "previewType": "",
+      "primaryCtaLabel": "",
+      "eyebrow": "",
+      "previewLabel": ""
+    },
+    "technologyStats": [
+      {
+        "value": "5-a-side trained",
+        "label": "Custom\nModel"
+      },
+      {
+        "value": "5, 6 and 7-a-side",
+        "label": "Supported\nFormats"
+      },
+      {
+        "label": "Beta\nStatus",
+        "value": "Improving with footage"
+      }
+    ],
+    "internalLinks": [
+      {
+        "url": "/blog/veo-camera-alternative",
+        "maxUses": 2,
+        "text": "Veo camera alternatives specification comparison"
+      },
+      {
+        "url": "/best-veo-alternative-football",
+        "maxUses": 2,
+        "text": "grassroots Veo alternative"
+      },
+      {
+        "text": "football camera app",
+        "maxUses": 2,
+        "url": "/football-camera-app"
+      },
+      {
+        "url": "/football-stats-app",
+        "maxUses": 2,
+        "text": "football stats app"
+      },
+      {
+        "url": "/record-football-matches",
+        "maxUses": 2,
+        "text": "record football matches with a phone"
+      }
+    ]
+  }
+}

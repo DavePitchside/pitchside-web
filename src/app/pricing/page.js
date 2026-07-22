@@ -8,6 +8,7 @@ import { companyInfo } from "@/lib/companyInfo";
 
 const statusStyles = {
   "Available at launch": "border-[#CCFF00]/30 bg-[#CCFF00]/10 text-[#CCFF00]",
+  "Planned for launch": "border-[#CCFF00]/30 bg-[#CCFF00]/10 text-[#CCFF00]",
   "Beta/limited": "border-[#CCFF00]/30 bg-white/5 text-[#CCFF00]",
   Planned: "border-white/15 bg-white/5 text-zinc-300",
 };
@@ -30,12 +31,11 @@ function PlanCard({ plan }) {
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
           <p className={`mb-2 text-[10px] font-black uppercase tracking-[0.22em] ${isDark ? "text-[#CCFF00]" : "text-black/50"}`}>
-            {plan.featured ? "Recommended" : plan.billingType === "free" ? "Free entry point" : "Paid plan"}
+            {plan.billingType === "free" ? "Free launch tier" : "Paid launch tier"}
           </p>
           <h2 className="text-3xl font-black uppercase tracking-tight">{plan.name}</h2>
         </div>
-        {plan.featured && <span className="rounded-full bg-[#CCFF00] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black">Popular</span>}
-        {plan.id === "annual" && <span className="rounded-full bg-black/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black">Best value</span>}
+        {plan.featured && <span className="rounded-full bg-[#CCFF00] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black">Paid</span>}
       </div>
 
       <div className="mb-5">
@@ -61,6 +61,17 @@ function PlanCard({ plan }) {
         ))}
       </ul>
 
+      {plan.billingOptions && (
+        <div className="mb-8 rounded-2xl border border-white/10 bg-white/5 p-4">
+          <p className="mb-3 text-[10px] font-black uppercase tracking-widest text-[#CCFF00]">Paid billing options</p>
+          <ul className="space-y-2">
+            {plan.billingOptions.map((option) => (
+              <li key={option} className="text-sm font-bold text-zinc-200">{option}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <button
         type="button"
         onClick={() => openEarlyAccess(plan.name)}
@@ -77,29 +88,29 @@ export default function PricingPage() {
     <main className="min-h-screen bg-[#050505] pt-24 text-white md:pt-28">
       <section className="flex min-h-[calc(100svh-6rem)] px-3 pb-8 sm:px-5 md:min-h-[calc(100svh-7rem)] md:px-12">
         <div className="mx-auto max-w-7xl rounded-[1.5rem] border-[6px] border-[#CCFF00] bg-white p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.35),0_22px_80px_rgba(0,0,0,0.45)] md:rounded-[2rem]">
-          <div className="relative grid h-full min-h-[calc(100svh-8.5rem)] overflow-hidden rounded-[1.25rem] bg-[#F4F3EF] px-5 py-8 text-zinc-950 md:min-h-[calc(100svh-9rem)] md:grid-cols-[1fr_0.9fr] md:items-center md:px-14 md:py-12 lg:px-16">
+          <div className="relative grid h-full min-h-[calc(100svh-8.5rem)] overflow-hidden rounded-[1.25rem] bg-[#F4F3EF] px-5 py-7 text-zinc-950 md:min-h-[calc(100svh-9rem)] md:grid-cols-[1fr_0.9fr] md:items-center md:px-14 md:py-9 lg:px-16">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_48%,rgba(204,255,0,0.22),transparent_29%),radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.9),transparent_35%)]" />
             <div className="relative z-10 max-w-2xl">
-              <h1 className="max-w-[11ch] text-[clamp(2.65rem,13vw,5.45rem)] font-black uppercase leading-[0.84] tracking-normal text-black md:max-w-[14ch] lg:text-[5.6rem]" style={{ fontFamily: "var(--font-alpha)" }}>
-                Pricing for grassroots football
+              <h1 className="max-w-[11ch] text-[clamp(2.35rem,11vw,4.75rem)] font-black uppercase leading-[0.84] tracking-normal text-black md:max-w-[14ch] lg:text-[4.85rem]" style={{ fontFamily: "var(--font-alpha)" }}>
+                Simple Pricing for the Matches You Actually Record
               </h1>
-              <p className="mt-5 max-w-[32rem] text-sm font-black leading-snug text-black sm:text-base md:mt-7 md:text-xl">
-                Start with a free monthly recording, then choose flexible paid access when Pitchside subscriptions go live.
+              <p className="mt-5 max-w-[32rem] text-sm font-black leading-snug text-black sm:text-base md:mt-6 md:text-lg">
+                Start with one monthly recording on Free. Paid adds weekly recording and Personal Clips when subscriptions go live.
               </p>
-              <p className="mt-5 max-w-[34rem] text-xs font-black leading-snug text-black sm:text-sm md:mt-7 md:text-lg">
+              <p className="mt-4 max-w-[34rem] text-xs font-black leading-snug text-black sm:text-sm md:mt-5 md:text-base">
                 {PRICING_STATUS_NOTE}
               </p>
               <button
                 type="button"
                 onClick={() => openEarlyAccess("Hero")}
-                className="mt-6 inline-flex min-h-14 items-center justify-center rounded-full border-2 border-black bg-[#CCFF00] px-7 text-sm font-black uppercase tracking-wide text-black shadow-[5px_5px_0px_#000] transition-colors hover:bg-black hover:text-[#CCFF00] active:scale-95 md:mt-8 md:min-h-16 md:px-10 md:text-xl"
+                className="mt-6 inline-flex min-h-14 items-center justify-center rounded-full border-2 border-black bg-[#CCFF00] px-7 text-sm font-black uppercase tracking-wide text-black shadow-[5px_5px_0px_#000] transition-colors hover:bg-black hover:text-[#CCFF00] active:scale-95 md:min-h-14 md:px-9 md:text-lg"
               >
-                Join the waitlist
+                Join early access
               </button>
             </div>
-            <div className="relative z-10 mt-4 flex min-h-[220px] items-center justify-center md:mt-0 md:min-h-[520px]">
+            <div className="relative z-10 mt-4 flex min-h-[210px] items-center justify-center md:mt-0 md:min-h-[460px]">
               <div className="absolute h-52 w-52 rounded-full bg-[#CCFF00]/20 blur-3xl md:h-80 md:w-80" />
-              <div className="relative h-[250px] w-[125px] rotate-[10deg] drop-shadow-[0_28px_32px_rgba(0,0,0,0.32)] sm:h-[300px] sm:w-[150px] md:h-[480px] md:w-[240px] lg:h-[520px] lg:w-[260px]">
+              <div className="relative h-[230px] w-[115px] rotate-[10deg] drop-shadow-[0_28px_32px_rgba(0,0,0,0.32)] sm:h-[280px] sm:w-[140px] md:h-[430px] md:w-[215px] lg:h-[460px] lg:w-[230px]">
                 <Image
                   src="/mockup-3.jpg"
                   alt="Pitchside app stats screen"
@@ -117,10 +128,13 @@ export default function PricingPage() {
       <section className="flex min-h-screen items-center bg-[#F4F3EF] px-5 py-16 text-black md:px-12">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-center">
-            <h2 className="text-4xl font-black tracking-tight md:text-6xl">Pitchside Pricing</h2>
+            <h2 className="text-4xl font-black tracking-tight md:text-6xl">Free and Paid launch tiers</h2>
+            <p className="mx-auto mt-4 max-w-3xl text-sm font-bold leading-relaxed text-zinc-600 md:text-lg">
+              Weekly, monthly and annual are billing options for the same Paid tier, not separate feature plans.
+            </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-4">
+          <div className="grid gap-6 lg:grid-cols-2">
             {pricingPlans.map((plan) => (
               <PlanCard key={plan.id} plan={plan} />
             ))}
@@ -163,7 +177,7 @@ export default function PricingPage() {
             {
               icon: Smartphone,
               title: "What counts as a recording",
-              body: "One submitted match recording counts when it reaches the analysis queue. Duration, format and file-size limits will be confirmed before billing goes live. Failed uploads should not consume allowance before analysis starts. Allowances reset on renewal and unused recordings are not planned to roll over.",
+              body: "One submitted match recording is expected to count as one recording. Duration, format, file-size, failed-upload and two-phone handling will be confirmed before subscriptions go live.",
             },
             {
               icon: Timer,
@@ -173,7 +187,7 @@ export default function PricingPage() {
             {
               icon: ShieldCheck,
               title: "Billing details",
-              body: "Subscriptions are not purchasable yet. Renewal, cancellation, upgrades, downgrades, taxes, refunds, supported countries and store policies will be published before checkout or app-store purchase is enabled.",
+              body: "Subscriptions are not purchasable yet. Prices are shown in GBP. Tax, regional store pricing, renewal, cancellation, refund and supported-country details will be published before checkout or app-store purchase is enabled.",
             },
           ].map((item) => {
             const Icon = item.icon;
@@ -193,7 +207,7 @@ export default function PricingPage() {
           <p className="mb-3 text-[10px] font-black uppercase tracking-[0.24em] text-black/60">Physical product separation</p>
           <h2 className="mb-4 text-3xl font-black uppercase tracking-tight md:text-5xl">The phone mount is separate</h2>
           <p className="max-w-3xl text-sm font-bold leading-relaxed text-black/75 md:text-lg">
-            The Pitchside double-phone mount is a separate physical product and is not included in app subscriptions unless a future offer explicitly bundles it. Mount pricing, pre-order status and shipping terms should live in a dedicated mount module when approved.
+            The Pitchside double-phone mount is a separate physical product and is not included in app subscriptions unless a future offer explicitly bundles it. Mount pricing, availability and shipping terms will be published when they are approved.
           </p>
         </div>
       </section>

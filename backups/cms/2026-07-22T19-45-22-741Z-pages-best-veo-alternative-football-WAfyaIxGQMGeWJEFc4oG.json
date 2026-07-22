@@ -1,0 +1,857 @@
+{
+  "collection": "pages",
+  "slug": "best-veo-alternative-football",
+  "id": "WAfyaIxGQMGeWJEFc4oG",
+  "exportedAt": "2026-07-22T19:45:25.075Z",
+  "data": {
+    "metaTitle": "Best Veo Alternative for Grassroots Football  and Sunday league players",
+    "title": "Best Veo Alternative for Grassroots Football",
+    "heroBackground": "https://firebasestorage.googleapis.com/v0/b/pitchside-a07c5.firebasestorage.app/o/hero-backgrounds%2F1780609908837_GeminiGeneratedImageeh376xeh376xeh37.png?alt=media&token=584df7c7-3908-4e09-904c-fa46a50e7677",
+    "ctaBlock": {
+      "headline": "Be First When Pitchside Launches",
+      "description": "Join the list for the grassroots football app being built to turn phone match footage into stats, AI highlights and player clips.",
+      "buttonText": "Join the Waitlist",
+      "buttonUrl": "/contact"
+    },
+    "slug": "best-veo-alternative-football",
+    "authorName": "Abdullah Luqman",
+    "parentPage": null,
+    "date": "May 26, 2026",
+    "tldrPoints": [
+      "Pitchside AI is built for grassroots teams that want stats and highlights without buying a Veo-style camera.",
+      "Veo suits funded clubs that need full-pitch recording, while Pitchside focuses on phone footage, player moments and shareable clips.",
+      "Pitchside removes the need for fixed camera hardware, GPS vests and a weekly match-day operator.",
+      "The product is designed for 5-a-side, futsal, Sunday league and casual grassroots teams."
+    ],
+    "faqs": [
+      {
+        "question": "What is the best Veo alternative for grassroots football?",
+        "answer": "The best Veo alternative for grassroots football is the option that gives teams useful match output without adding heavy equipment. Pitchside AI is being built for that exact problem: turning one phone recording into player stats, highlights and match clips. For 5-a-side, futsal and Sunday league teams, this is often more practical than buying a dedicated camera system."
+      },
+      {
+        "answer": "Veo is camera-first: it helps teams capture full-match footage using dedicated camera hardware. Pitchside AI is player-output-first: it is being built to turn normal phone footage into goals, assists, saves, highlights and useful grassroots football stats. That makes Pitchside better suited to teams that care more about clips and proof of performance than full tactical video.",
+        "question": "How is Pitchside AI different from a Veo camera?"
+      },
+      {
+        "question": "Can Pitchside AI replace a Veo camera?",
+        "answer": "Pitchside AI can replace a camera-heavy workflow for teams that mainly want stats, highlights and player moments from grassroots footage. If your club needs full-pitch tactical review, wide-angle coach analysis or livestreaming, a dedicated camera may still be useful. But if your team wants useful output from a phone recording, Pitchside is the more relevant alternative."
+      },
+      {
+        "answer": "No. Pitchside AI is being built around match footage, not GPS vest tracking. GPS vests measure physical data like distance and speed, but they do not show the goal, assist, save or tackle. Pitchside focuses on the moments players actually want to watch, share and track after the match.",
+        "question": "Do I need a GPS vest with Pitchside AI?"
+      },
+      {
+        "question": "Is Pitchside AI good for 5-a-side football?",
+        "answer": "Yes. Pitchside AI is especially relevant for 5-a-side football because the game is compact, fast and full of clear events. Goals, assists, saves, tackles and short highlights matter more than full-pitch tactical shape. A phone-based workflow is also easier to manage in cages, indoor courts and small-sided venues."
+      },
+      {
+        "answer": "Yes. Sunday league teams usually need something simple and repeatable. A dedicated camera can be too much effort if nobody wants to carry, mount and manage it every week. Pitchside is being built for teams that already record games on a phone and want those recordings turned into stats, highlights and shareable match moments.",
+        "question": "Is Pitchside AI useful for Sunday league teams?"
+      },
+      {
+        "question": "What if my team still wants full tactical analysis?",
+        "answer": "If your team needs full-pitch shape, off-ball movement, defensive lines and coach-led tactical review, a dedicated camera system can still make sense. Pitchside is not trying to replace every professional analysis setup. It is built for grassroots players who want stats, highlights and proof of performance from realistic phone footage."
+      },
+      {
+        "question": "How should we record matches for Pitchside AI?",
+        "answer": "The best starting point is simple: record the match on a phone from a stable angle where most of the pitch is visible. For small-sided games, one corner or halfway-side angle can often capture enough action. The goal is not broadcast footage; it is usable match footage that can later become stats, clips and player moments."
+      }
+    ],
+    "contentBlocks": [
+      {
+        "id": "product-positioning-heading",
+        "content": "Pitchside AI Is Built to Skip the Camera",
+        "type": "h2"
+      },
+      {
+        "type": "paragraph",
+        "content": "Most grassroots teams looking for a Veo alternative do not actually want another expensive camera. They want the outcome: goals, assists, saves, player stats, match clips and highlights they can share after the game. Pitchside AI is being built around that outcome.",
+        "id": "product-positioning-paragraph-1"
+      },
+      {
+        "id": "product-positioning-paragraph-2",
+        "type": "paragraph",
+        "content": "Instead of forcing teams to buy a fixed camera, mount a tripod, manage batteries and process long match videos, Pitchside starts with the simplest input: one phone recording. The goal is to turn normal grassroots football footage into stats and highlights that players actually use."
+      },
+      {
+        "content": "If your team is still comparing every recording route, read the <a href=\"/blog/veo-camera-alternative\">Veo camera alternative comparison</a> for a wider breakdown of phone apps, DIY setups, AI mounts and dedicated football camera systems. This page is different: it explains why Pitchside AI is the product-first answer for grassroots teams.",
+        "type": "paragraph",
+        "id": "product-positioning-paragraph-3"
+      },
+      {
+        "content": "Who Pitchside AI Is For",
+        "type": "h2",
+        "id": "who-this-is-for-heading"
+      },
+      {
+        "content": "Pitchside is not built for clubs that already have analysts, camera operators and professional workflows. It is built for players and teams who want useful match output without acting like a professional academy.",
+        "type": "paragraph",
+        "id": "who-this-is-for-paragraph"
+      },
+      {
+        "items": [
+          "5-a-side teams that want goals, assists, saves and quick match clips.",
+          "Futsal teams that need fast highlights from compact, high-action games.",
+          "Sunday league teams that want player proof without carrying camera hardware.",
+          "Grassroots players who want stats and clips for group chats or social media.",
+          "Team captains who already record games but do not have time to edit them.",
+          "Players who care more about shareable moments than full 90-minute tactical videos."
+        ],
+        "type": "list",
+        "id": "who-this-is-for-list"
+      },
+      {
+        "id": "pitchside-vs-veo-heading",
+        "type": "h2",
+        "content": "Pitchside AI vs Veo: The Real Difference"
+      },
+      {
+        "content": "Veo is camera-first. Pitchside AI is player-output-first. That difference matters. A camera records the match. Pitchside is focused on what grassroots players want after the match: stats, AI highlights, goals, assists, saves and proof of key moments.",
+        "type": "paragraph",
+        "id": "pitchside-vs-veo-paragraph"
+      },
+      {
+        "rows": [
+          {
+            "cells": [
+              "Core approach",
+              "Phone footage into stats and highlights",
+              "Dedicated camera records the full match",
+              "Pitchside starts with what grassroots teams already have"
+            ]
+          },
+          {
+            "cells": [
+              "Hardware",
+              "A phone recording",
+              "Camera, tripod and match-day setup",
+              "Less equipment means less friction"
+            ]
+          },
+          {
+            "cells": [
+              "Best user",
+              "Grassroots players and small-sided teams",
+              "Funded 11-a-side clubs and academies",
+              "Different teams need different workflows"
+            ]
+          },
+          {
+            "cells": [
+              "Main output",
+              "Player stats, highlights and shareable moments",
+              "Full-match footage and club analysis",
+              "Grassroots players usually want clips, not long files"
+            ]
+          },
+          {
+            "cells": [
+              "Match-day effort",
+              "Built around simple phone capture",
+              "Someone must bring, mount and manage the camera",
+              "Consistency is easier when the setup is lighter"
+            ]
+          },
+          {
+            "cells": [
+              "Wearables",
+              "No GPS vest required",
+              "No vest required, but camera hardware is required",
+              "Pitchside avoids both camera hardware and wearable friction"
+            ]
+          }
+        ],
+        "id": "pitchside-vs-veo-table",
+        "headers": [
+          "Category",
+          "Pitchside AI",
+          "Veo-Style Camera",
+          "Why It Matters"
+        ],
+        "type": "table"
+      },
+      {
+        "type": "h2",
+        "content": "Why a Camera Alone Is Not Enough for Grassroots Football",
+        "id": "why-camera-not-enough-heading"
+      },
+      {
+        "id": "why-camera-not-enough-paragraph-1",
+        "content": "For funded clubs, a dedicated camera can make sense. Coaches may need full-pitch shape, pressing structure, off-ball movement and team-wide tactical review. But grassroots football has a different problem. Most teams do not fail because they lack a camera. They fail because the footage they already capture never becomes useful.",
+        "type": "paragraph"
+      },
+      {
+        "type": "paragraph",
+        "content": "That is the gap Pitchside AI is designed to fill. If a player records the match on a phone, the next step should not be a forgotten video file. The next step should be player stats, highlights, saves, goals, assists and moments worth sharing.",
+        "id": "why-camera-not-enough-paragraph-2"
+      },
+      {
+        "id": "what-pitchside-does-heading",
+        "content": "What Pitchside AI Is Being Built to Do",
+        "type": "h2"
+      },
+      {
+        "id": "what-pitchside-does-paragraph",
+        "type": "paragraph",
+        "content": "Pitchside AI is being built as a <a href=\"/football-analysis-app\">football analysis app</a> for grassroots players. The product direction is simple: record football matches on a phone, then turn that footage into meaningful player output."
+      },
+      {
+        "type": "list",
+        "id": "what-pitchside-does-list",
+        "items": [
+          "Turn phone match footage into player stats.",
+          "Find key moments from ordinary grassroots recordings.",
+          "Help create AI football highlights from match footage.",
+          "Track actions that matter to players, including goals, assists, saves and tackles.",
+          "Make match clips easier to share in team chats and on social media.",
+          "Reduce the need for manual editing after every game.",
+          "Give grassroots players proof of performance without professional-club tools."
+        ]
+      },
+      {
+        "type": "h2",
+        "content": "How Phone-Based Capture Works",
+        "id": "phone-capture-heading"
+      },
+      {
+        "type": "paragraph",
+        "content": "The idea is simple. Your team records the match using a phone from the sideline, a mount or a teammate. Pitchside AI is being built to process that footage into stats, clips and player moments. Instead of buying a camera system first, the team starts with the footage it can realistically capture every week.",
+        "id": "phone-capture-paragraph-1"
+      },
+      {
+        "type": "paragraph",
+        "content": "For the filming setup, <a href=\"/blog/how-to-record-a-football-match-on-your-phone\">How to Record a Football Match on Your Phone</a> explains the practical side of phone recording. Pitchside then focuses on the next layer: making that footage useful after the final whistle.",
+        "id": "phone-capture-paragraph-2"
+      },
+      {
+        "items": [
+          "Record the match on a phone.",
+          "Keep the angle stable enough to capture the main action.",
+          "Use the Pitchside workflow to move from footage to player output.",
+          "Turn key actions into stats and highlights.",
+          "Share player clips after the game.",
+          "Build a record of performances over time."
+        ],
+        "type": "list",
+        "id": "phone-capture-list"
+      },
+      {
+        "id": "gps-vest-heading",
+        "type": "h2",
+        "content": "Pitchside AI vs GPS Vests"
+      },
+      {
+        "type": "paragraph",
+        "content": "GPS vests are useful when the main goal is physical performance data, such as distance, speed and workload. But they do not record the match, create clips or show the goal, save or assist. Pitchside AI is built around footage, so the value is different.",
+        "id": "gps-vest-paragraph-1"
+      },
+      {
+        "type": "paragraph",
+        "content": "If your team is deciding between wearables and footage-based tracking, the guide on how to <a href=\"/blog/track-football-stats-without-gps-vest\">track football stats without a GPS vest</a> explains why grassroots players can start with visible match events instead of physical-load data.",
+        "id": "gps-vest-paragraph-2"
+      },
+      {
+        "rows": [
+          {
+            "cells": [
+              "Match clips",
+              "Built around video output",
+              "Does not capture footage",
+              "Pitchside AI"
+            ]
+          },
+          {
+            "cells": [
+              "Goals and assists",
+              "Built around player moments",
+              "Not video-based",
+              "Pitchside AI"
+            ]
+          },
+          {
+            "cells": [
+              "Distance and load",
+              "Not the core focus",
+              "Strong for physical tracking",
+              "GPS vest"
+            ]
+          },
+          {
+            "cells": [
+              "Grassroots simplicity",
+              "Phone-first workflow",
+              "Every player must wear and manage a device",
+              "Pitchside AI"
+            ]
+          }
+        ],
+        "id": "gps-vest-table",
+        "type": "table",
+        "headers": [
+          "Need",
+          "Pitchside AI",
+          "GPS Vest",
+          "Best Choice"
+        ]
+      },
+      {
+        "content": "Best Use Cases for Pitchside AI",
+        "type": "h2",
+        "id": "best-use-cases-heading"
+      },
+      {
+        "type": "paragraph",
+        "content": "Pitchside AI is strongest when the team wants player-level output from normal match footage. It is not trying to replace every professional camera workflow. It is focused on the grassroots situations where camera hardware is usually too expensive, too heavy or too annoying to manage every week.",
+        "id": "best-use-cases-paragraph"
+      },
+      {
+        "id": "best-use-cases-list",
+        "type": "list",
+        "items": [
+          "A 5-a-side team wants to track goals, assists and saves.",
+          "A Sunday league side wants highlights from one phone recording.",
+          "A futsal group wants clips from fast indoor matches.",
+          "A goalkeeper wants proof of saves and key moments.",
+          "A captain wants a simple match recap after every game.",
+          "Players want evidence of performance without wearing GPS vests.",
+          "A grassroots team wants stats and clips without buying camera hardware."
+        ]
+      },
+      {
+        "id": "small-sided-heading",
+        "content": "Why Pitchside Fits 5-a-Side and Small-Sided Football",
+        "type": "h2"
+      },
+      {
+        "id": "small-sided-paragraph-1",
+        "type": "paragraph",
+        "content": "Small-sided football creates more frequent player moments than full-pitch 11-a-side. Goals, assists, saves, tackles and transitions happen quickly. That makes Pitchside AI a strong fit because the product is focused on turning these moments into player output."
+      },
+      {
+        "id": "small-sided-paragraph-2",
+        "type": "paragraph",
+        "content": "The <a href=\"/5-a-side-football\">5-a-side football</a> hub explains the wider Pitchside approach to small-sided players, while <a href=\"/blog/what-stats-matter-in-5-a-side-football\">What Stats Matter in 5-a-Side Football</a> shows why goals, assists, shots, tackles and saves are often more useful than professional-style tracking dashboards."
+      },
+      {
+        "type": "h2",
+        "content": "Helpful Pitchside Guides Before You Join the Waitlist",
+        "id": "existing-guides-heading"
+      },
+      {
+        "id": "existing-guides-paragraph",
+        "content": "If your team is still working out the best setup, Pitchside already has practical guides that support this workflow. Start with How to Record a Football Match on Your Phone if you need the filming setup, compare the <a href=\"/blog/best-football-stats-recording-app\">best football stats recording app</a> options if you want better match data, and read track football stats without a GPS vest if you want player output without wearables. For small-sided teams, What Stats Matter in 5-a-Side Football and the 5-a-side football hub explain why goals, assists, saves and key moments matter more than professional-style GPS dashboards.",
+        "type": "paragraph"
+      },
+      {
+        "id": "tools-heading",
+        "content": "<a href=\"/tools\">Free Football Tools</a> You Can Use Today",
+        "type": "h2"
+      },
+      {
+        "id": "tools-paragraph",
+        "content": "Pitchside AI is in development, but the site already gives grassroots players free football tools. These tools support the same mission: make grassroots football easier to organise, track and analyse. <a href=\"/tools-for-sunday-league-football\">Sunday league football tools</a> are especially useful for captains who need team splitting, score tracking and simple match-day structure before the full app workflow is ready.",
+        "type": "paragraph"
+      },
+      {
+        "id": "tools-list",
+        "type": "list",
+        "items": [
+          "Use the team generator to split players before kickoff.",
+          "Use the formation builder to plan 5-a-side, 7-a-side or 11-a-side shapes.",
+          "Use the <a href=\"/tools/5-a-side-football-stats-tracker\">5-a-side football stats tracker</a> to record goals, assists, saves and tackles.",
+          "Use league table tools for small tournaments and recurring games.",
+          "Use the tools while waiting for the full Pitchside AI app workflow."
+        ]
+      },
+      {
+        "id": "when-veo-better-heading",
+        "content": "When Veo Might Still Be the Better Choice",
+        "type": "h2"
+      },
+      {
+        "type": "paragraph",
+        "content": "Pitchside should be honest. A dedicated camera system may still be better if your team is a funded club, academy or school that needs full-pitch tactical footage every week. If your coach needs off-ball shape, pressing structure, defensive lines and wide-angle review, a camera-first setup can make sense.",
+        "id": "when-veo-better-paragraph"
+      },
+      {
+        "id": "when-veo-better-list",
+        "type": "list",
+        "items": [
+          "Choose a dedicated camera if your priority is full-pitch tactical coaching.",
+          "Choose a dedicated camera if you need livestreaming for parents or supporters.",
+          "Choose a dedicated camera if your club has the budget and staff to manage the workflow.",
+          "Choose Pitchside AI if your team wants stats, highlights and player proof from normal phone footage."
+        ]
+      },
+      {
+        "id": "final-summary-heading",
+        "type": "h2",
+        "content": "Final Verdict: Pitchside AI Is the Grassroots-First Veo Alternative"
+      },
+      {
+        "type": "paragraph",
+        "content": "For grassroots teams, the best Veo alternative is not the system with the biggest camera. It is the system that turns normal match footage into useful output with the least friction. Pitchside AI is being built for exactly that job.",
+        "id": "final-summary-paragraph-1"
+      },
+      {
+        "id": "final-summary-paragraph-2",
+        "type": "paragraph",
+        "content": "If your team wants stats, highlights, player proof and shareable moments without a fixed camera or GPS vest, Pitchside AI is the product to watch."
+      }
+    ],
+    "heroH1": "Best Veo Alternative for Grassroots Football and Sunday league players in 2026",
+    "primaryImage": "",
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784479063,
+      "nanoseconds": 293000000
+    },
+    "technologySections": [],
+    "hero": {
+      "previewType": "feature",
+      "secondaryCtaLabel": "Explore Free Tools",
+      "previewLabel": "No Hardware Required",
+      "primaryCtaLabel": "Join the Waitlist",
+      "eyebrow": "The Alternative Grassroots Teams Need"
+    },
+    "internalLinks": [
+      {
+        "maxUses": 1,
+        "text": "Veo camera alternative comparison",
+        "url": "/blog/veo-camera-alternative"
+      },
+      {
+        "text": "How to Record a Football Match on Your Phone",
+        "maxUses": 1,
+        "url": "/blog/how-to-record-a-football-match-on-your-phone"
+      },
+      {
+        "url": "/blog/best-football-stats-recording-app",
+        "maxUses": 1,
+        "text": "best football stats recording app"
+      },
+      {
+        "url": "/blog/track-football-stats-without-gps-vest",
+        "text": "track football stats without a GPS vest",
+        "maxUses": 1
+      },
+      {
+        "url": "/blog/what-stats-matter-in-5-a-side-football",
+        "text": "What Stats Matter in 5-a-Side Football",
+        "maxUses": 1
+      },
+      {
+        "url": "/5-a-side-football",
+        "text": "5-a-side football",
+        "maxUses": 1
+      },
+      {
+        "url": "/football-analysis-app",
+        "text": "football analysis app",
+        "maxUses": 1
+      },
+      {
+        "text": "Sunday league football tools",
+        "maxUses": 1,
+        "url": "/tools-for-sunday-league-football"
+      },
+      {
+        "maxUses": 1,
+        "text": "free football tools",
+        "url": "/tools"
+      },
+      {
+        "text": "5-a-side football stats tracker",
+        "maxUses": 1,
+        "url": "/tools/5-a-side-football-stats-tracker"
+      }
+    ],
+    "engagement": {
+      "sections": 12,
+      "ctaCount": 3,
+      "wordCount": 2847,
+      "internalLinksCount": 10,
+      "geoOptimizationScore": "High",
+      "calloutBoxes": 7,
+      "readTime": "12 min"
+    },
+    "technologyStats": [
+      {
+        "label": "Custom\nModel",
+        "value": "5-a-side trained"
+      },
+      {
+        "label": "Supported\nFormats",
+        "value": "5, 6 and 7-a-side"
+      },
+      {
+        "label": "Beta\nStatus",
+        "value": "Improving with footage"
+      }
+    ],
+    "authorUrl": "https://www.linkedin.com/in/abdullahluqman/",
+    "aeoQuickAnswer": "The best Veo alternative for grassroots football is a phone-first app that turns normal match footage into stats and highlights without fixed camera hardware. Pitchside AI is being built for 5-a-side, futsal and Sunday league teams that want player proof, match clips and useful analysis from one phone recording.",
+    "technologyStack": [
+      {
+        "desc": "Pitchside is being developed around phone-recorded small-sided football footage, where camera angles, lighting and player spacing are different from professional broadcast footage.",
+        "id": "vision",
+        "title": "Computer Vision for Small-Sided Football",
+        "icon": "vision"
+      },
+      {
+        "desc": "The beta system is being tested to identify goals, assists, saves, passes and tackles from match footage, with accuracy expected to improve as more footage is reviewed.",
+        "title": "Event Detection in Testing",
+        "id": "ai",
+        "icon": "ai"
+      },
+      {
+        "id": "hardware",
+        "title": "Phone-First Recording",
+        "desc": "Pitchside aims to offer a phone-first workflow for teams that do not want to invest in dedicated football-camera hardware.",
+        "icon": "hardware"
+      },
+      {
+        "icon": "cloud",
+        "desc": "Uploads and processing are being tested during private beta. Current processing can take up to 45 minutes and the flow is expected to improve.",
+        "id": "cloud",
+        "title": "Edge-to-Cloud Pipeline"
+      }
+    ],
+    "metaDescription": "Pitchside AI is a phone-first Veo alternative for grassroots football teams that want stats, highlights and match clips without camera hardware.",
+    "thumbnail": "",
+    "readTime": "12 min",
+    "category": "Technology",
+    "createdAt": "2026-06-05T00:00:00Z",
+    "llmDescription": "Pitchside AI is a phone-first Veo alternative for grassroots football, designed to turn ordinary match footage into player stats, highlights and shareable moments without fixed camera hardware.",
+    "badge": "No Camera Required",
+    "intro": "Pitchside AI is being built as the best Veo alternative for grassroots football teams that want match stats, AI highlights and player clips without buying a dedicated camera, wearing GPS vests or setting up a tripod every week.",
+    "content": {
+      "cta": {
+        "heading": "Be first when Pitchside launches",
+        "primaryCta": {
+          "link": "https://pitchside.ai/",
+          "text": "Join the list"
+        },
+        "description": "No camera to buy. No vest to wear. Just stats and highlights from footage you already capture.",
+        "secondaryCta": [
+          {
+            "link": "https://pitchside.ai/tools",
+            "text": "Try the free grassroots tools"
+          },
+          {
+            "link": "https://pitchside.ai/technology",
+            "text": "See the technology"
+          }
+        ]
+      },
+      "quickAnswer": {
+        "text": "The best Veo alternative for grassroots football is a phone-based app that captures stats and highlights without a fixed camera or GPS vest. Pitchside AI is being built to turn a single phone recording into player stats and match clips — removing the £1,000+ hardware, the tripod, and the match-day operator that Veo requires.",
+        "type": "citable-block"
+      },
+      "tableOfContents": [
+        "What is Veo, and why look for an alternative?",
+        "The real cost of a Veo camera in 2026",
+        "What to look for in a Veo alternative",
+        "Pitchside vs Veo vs GPS vests (comparison table)",
+        "How phone-based capture actually works",
+        "Who each option is for",
+        "What most people get wrong about Veo alternatives",
+        "Free grassroots football tools you can use today",
+        "Expert summary",
+        "FAQs"
+      ],
+      "sections": [
+        {
+          "content": "Veo built grassroots filming into a category. A self-following AI camera on a tripod, a club subscription, and suddenly Sunday league teams had panoramic match footage. For well-funded clubs, it works.\n\nBut most grassroots football isn't well-funded. It's a 5-a-side team that books a pitch on Thursdays, a Sunday league side splitting subs, a uni team with no kit budget. For them, a Veo setup raises three hard questions: Who pays for the camera? Who carries and mounts it every week? Who edits the two-hour recording into something worth watching?\n\nThat's the gap a real Veo alternative has to close — not just \"cheaper hardware,\" but no hardware to own, mount, or operate at all.\n\nThis page breaks down what Veo actually costs, what a genuine alternative needs to do, and how phone-based capture compares to both Veo cameras and GPS tracker vests.",
+          "type": "prose",
+          "id": "introduction",
+          "heading": "Introduction"
+        },
+        {
+          "id": "what-is-veo",
+          "definitionBox": {
+            "text": "Veo is an AI-powered sports camera that records full matches from a fixed tripod and auto-generates highlights. A Veo alternative is any system that captures match footage, stats, or highlights without Veo's dedicated camera hardware — most commonly a phone-based app or a manual recording setup."
+          },
+          "heading": "What is Veo, and why look for an alternative?",
+          "content": "People search for a Veo alternative for four recurring reasons:\n\n• Cost — the camera plus subscription is out of reach for casual teams.\n• Logistics — someone has to own, transport, mount, and charge the unit every single week.\n• Format — Veo is built around full-pitch club football, not 5-a-side or futsal.\n• Lock-in — footage and features sit behind an ongoing club subscription.\n\nIf any of those apply to you, you're not looking for a better camera. You're looking for a way to skip the camera.",
+          "type": "prose-with-definition-box"
+        },
+        {
+          "heading": "The real cost of a Veo camera in 2026",
+          "callout": {
+            "text": "The biggest cost of a Veo camera isn't the price tag — it's the recurring commitment. Every match needs someone to own the gear, set it up, and process the footage afterward.",
+            "type": "key-takeaway"
+          },
+          "content": "The sticker price isn't the whole story. The honest cost of a fixed-camera setup stacks up across four layers:\n\n• Hardware — a dedicated AI camera unit (historically four figures to buy outright).\n• Subscription — ongoing club/season fees to unlock editing and storage.\n• Setup labour — someone arrives early every match to mount and align the tripod.\n• Editing time — raw footage still needs trimming into shareable clips.",
+          "type": "prose-with-callout",
+          "disclaimer": "Pricing for camera systems changes frequently — always confirm current figures with the vendor before budgeting.",
+          "id": "real-cost"
+        },
+        {
+          "type": "prose-with-checklist",
+          "content": "A phone-based app is the only category that can realistically hit all seven, because the camera is already in everyone's pocket.",
+          "heading": "What to look for in a Veo alternative",
+          "checklist": [
+            "No fixed hardware — nothing to buy, charge, or transport.",
+            "No operator — capture shouldn't depend on one reliable person every week.",
+            "Works for small-sided football — 5-a-side, futsal, Sunday league, not just 11-a-side clubs.",
+            "Stats + highlights together — not just video, and not just numbers.",
+            "No GPS vest required — players shouldn't have to wear anything.",
+            "Shareable output — clips ready for the group chat, Instagram, or TikTok.",
+            "Affordable for casual teams — priced for subs-splitting sides, not academies."
+          ],
+          "id": "what-to-look-for",
+          "intro": "Use this checklist when comparing options:"
+        },
+        {
+          "heading": "Pitchside vs Veo vs GPS vests",
+          "rows": [
+            {
+              "veo": "Dedicated AI camera + tripod",
+              "pitchside": "A phone you already own",
+              "criterion": "Hardware needed",
+              "gps": "Wearable vest per player"
+            },
+            {
+              "gps": "Per-vest, multiplies per squad",
+              "veo": "High (four-figure typical)",
+              "pitchside": "None",
+              "criterion": "Upfront cost"
+            },
+            {
+              "pitchside": "No",
+              "criterion": "Match-day operator",
+              "veo": "Yes — mount & align each time",
+              "gps": "Players must wear & sync"
+            },
+            {
+              "gps": "No (data only)",
+              "criterion": "Captures highlights",
+              "pitchside": "Being built to, automatically",
+              "veo": "Yes"
+            },
+            {
+              "gps": "Yes (movement/load)",
+              "veo": "Limited",
+              "pitchside": "Being built to",
+              "criterion": "Captures stats"
+            },
+            {
+              "pitchside": "5-a-side, futsal, Sunday league",
+              "criterion": "Best for",
+              "veo": "Funded 11-a-side clubs",
+              "gps": "Fitness/load monitoring"
+            },
+            {
+              "gps": "A vest every match",
+              "veo": "Nothing",
+              "criterion": "What you wear",
+              "pitchside": "Nothing"
+            }
+          ],
+          "type": "comparison-table",
+          "callout": {
+            "text": "Veo captures footage from a fixed camera, GPS vests capture fitness data from a wearable, and a phone-based app like Pitchside is being built to capture both stats and highlights from a recording you already have — with no extra hardware.",
+            "type": "citable"
+          },
+          "id": "comparison-table"
+        },
+        {
+          "id": "how-it-works",
+          "intro": "The premise is simple: the footage problem is already solved, because everyone films matches on their phones anyway. What's missing is turning that footage into something useful automatically.\n\nThat's the layer Pitchside AI is being built for:",
+          "note": {
+            "text": "Pitchside AI is in development. The free grassroots tools below are available now; the highlights-and-stats app is being built. Join the list to be notified at launch.",
+            "type": "pre-launch"
+          },
+          "type": "prose-with-steps",
+          "steps": [
+            "You record the match on a phone (a teammate, a mount, the sideline).",
+            "The app is being built to process that footage into player stats and key moments.",
+            "You get shareable highlights and numbers — without owning a camera or wearing a vest."
+          ],
+          "heading": "How phone-based capture actually works"
+        },
+        {
+          "type": "prose-with-breakdown",
+          "breakdown": [
+            {
+              "description": "you run a funded 11-a-side club, have someone to manage the camera weekly, and want full-pitch footage.",
+              "option": "Choose Veo if:"
+            },
+            {
+              "description": "your priority is fitness load and physical data, not highlights, and players will reliably wear them.",
+              "option": "Choose a GPS vest if:"
+            },
+            {
+              "description": "you play 5-a-side, futsal, or Sunday league, don't want to own hardware, and want both clips and stats from footage you already capture.",
+              "option": "Choose a phone-based app (Pitchside) if:"
+            }
+          ],
+          "id": "who-its-for",
+          "heading": "Who each option is for"
+        },
+        {
+          "heading": "What Most People Get Wrong About Veo Alternatives",
+          "content": "Two other common misconceptions:\n\n• \"You need a GPS vest for stats.\" You don't — phone footage can be the source for stats, no wearable required. See our upcoming guide on tracking football stats without GPS.\n• \"Highlights have to be edited manually.\" Manual editing is the old way. Automatic, footage-based highlight generation is exactly what newer tools are being built to handle.",
+          "callout": {
+            "text": "Most people assume a Veo alternative means a cheaper camera. It usually doesn't. For grassroots teams, the camera itself is the problem — owning it, mounting it, charging it, transporting it. The strongest alternative removes the dedicated hardware entirely and works from a phone recording.",
+            "type": "mistake"
+          },
+          "type": "prose-with-callout",
+          "id": "what-people-get-wrong"
+        },
+        {
+          "cta": {
+            "link": "https://pitchside.ai/tools",
+            "text": "Explore the free football tools"
+          },
+          "id": "free-tools",
+          "tools": [
+            "A random team generator for balanced sides",
+            "A formation builder for 5-a-side shapes",
+            "A league table maker",
+            "A team name generator",
+            "A stats tracker"
+          ],
+          "intro": "While the app is in development, Pitchside already offers free tools — no signup:",
+          "type": "prose-with-tool-list",
+          "heading": "Free grassroots football tools you can use today"
+        },
+        {
+          "content": "For grassroots and small-sided football, the best Veo alternative in 2026 is a phone-based app rather than another camera. Veo suits funded 11-a-side clubs with someone to operate the hardware weekly. GPS vests suit fitness tracking. But for 5-a-side, futsal, and Sunday league teams who want highlights and stats without owning equipment or wearing vests, capturing from a phone is the most practical route — which is the gap Pitchside AI is being built to fill.",
+          "type": "citable-block",
+          "id": "expert-summary",
+          "heading": "Expert Summary"
+        },
+        {
+          "type": "key-takeaways-list",
+          "id": "key-takeaways",
+          "items": [
+            "The best Veo alternative for casual teams isn't a cheaper camera — it's no camera.",
+            "Veo's true cost is recurring: hardware, subscription, setup, and editing every week.",
+            "GPS vests track fitness, not highlights; Veo tracks footage, not deep stats.",
+            "A phone-based app is the only category that removes both the camera and the vest.",
+            "Pitchside AI is being built to deliver stats + highlights from one phone recording."
+          ],
+          "heading": "Key Takeaways"
+        },
+        {
+          "id": "faqs",
+          "type": "faq-section",
+          "heading": "FAQs",
+          "faqs": [
+            {
+              "answer": "For grassroots and small-sided teams, the best Veo alternative is a phone-based app that captures stats and highlights without a fixed camera or GPS vest. Pitchside AI is being built for exactly this use case.",
+              "question": "What is the best Veo alternative for grassroots football?"
+            },
+            {
+              "question": "Are there cheaper alternatives to a Veo camera?",
+              "answer": "Yes. The cheapest alternative is to skip dedicated camera hardware entirely and record on a phone you already own, then use an app to process the footage. This removes the largest cost of a Veo setup."
+            },
+            {
+              "question": "Can you track football stats without a GPS vest?",
+              "answer": "Yes. Stats can be derived from match footage rather than a wearable, meaning players don't have to wear anything. This is the approach Pitchside AI is being built around."
+            },
+            {
+              "answer": "Veo is designed mainly for full-pitch 11-a-side football. A phone-based app is better suited to 5-a-side and futsal, which is the format Pitchside is built for.",
+              "question": "Is there a Veo alternative for 5-a-side football?"
+            },
+            {
+              "question": "Football GPS vest vs app — which is better for grassroots?",
+              "answer": "GPS vests are best for fitness and load data. An app is better if you want highlights and match stats without players wearing equipment. They solve different problems."
+            },
+            {
+              "answer": "Not yet — Pitchside AI is in development. The free grassroots football tools are available now, and you can join the list to be notified when the app launches.",
+              "question": "Is Pitchside available to download now?"
+            }
+          ]
+        }
+      ],
+      "internalLinks": [
+        {
+          "placement": "Quick Answer + CTA",
+          "anchor": "join the list",
+          "target": "/"
+        },
+        {
+          "anchor": "the technology we're building",
+          "target": "/technology",
+          "placement": "How it works + CTA"
+        },
+        {
+          "placement": "Tools section",
+          "target": "/tools",
+          "anchor": "free football tools"
+        },
+        {
+          "placement": "Tools section",
+          "target": "/tools",
+          "anchor": "formation builder"
+        },
+        {
+          "placement": "What people get wrong",
+          "anchor": "tracking football stats without GPS",
+          "target": "/football-stats-without-gps"
+        },
+        {
+          "anchor": "how to record a football match on your phone",
+          "target": "/blog/how-to-record-a-football-match",
+          "placement": "How phone capture works"
+        },
+        {
+          "anchor": "best 5-a-side formations",
+          "target": "/blog/best-5-a-side-formations",
+          "placement": "Who it's for"
+        },
+        {
+          "target": "/about",
+          "anchor": "about Pitchside",
+          "placement": "Expert Summary"
+        },
+        {
+          "placement": "Tools section",
+          "anchor": "grassroots football tools hub",
+          "target": "/grassroots-football-tools"
+        },
+        {
+          "anchor": "contact us",
+          "target": "/contact",
+          "placement": "Footer CTA"
+        }
+      ]
+    },
+    "seo": {
+      "primaryKeyword": "veo camera alternative",
+      "supportingKeywords": [
+        "veo alternative",
+        "alternatives to veo camera",
+        "veo football camera alternative",
+        "best veo alternative",
+        "veo alternative football",
+        "football camera alternative"
+      ],
+      "primaryKeywordKD": 5,
+      "metaTitle": "Best Veo Alternative for Grassroots Football (2026)",
+      "metaDescription": "Looking for a Veo camera alternative? See how grassroots teams capture stats & highlights from one phone — no £1,000 camera, no GPS vests. Join the list.",
+      "schema": {
+        "structuredData": {
+          "webpage": {
+            "entities": [
+              "Veo camera alternative",
+              "Grassroots football technology",
+              "Football stats tracking"
+            ],
+            "description": "How grassroots football teams capture stats and highlights without a Veo camera or GPS vest — using a phone-based app.",
+            "name": "Best Veo Alternative for Grassroots Football in 2026",
+            "url": "https://pitchside.ai/best-veo-alternative-football"
+          },
+          "faqPage": {
+            "questions": 6
+          }
+        },
+        "type": "WebPage + FAQPage"
+      }
+    },
+    "moreToRead": []
+  }
+}

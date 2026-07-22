@@ -33,7 +33,7 @@ const defaultTechnologyContent = {
       id: "hardware",
       icon: "hardware",
       title: "Accuracy Improving During Beta",
-      desc: "Pitchside should be presented honestly as a learning model. Accuracy is improving as more footage is processed across different lighting, pitch types, camera heights and game formats.",
+      desc: "Pitchside is in private beta, so detected events and player assignments should be reviewed before they are treated as final.",
     },
     {
       id: "cloud",
@@ -66,11 +66,11 @@ const defaultTechnologyContent = {
       ],
     },
     {
-      h2: "What Pitchside Can Currently Detect",
+      h2: "Capabilities Being Tested in Private Beta",
       content: [
-        "The first release is designed to generate full match highlights and assign core football statistics to teams and individual players.",
-        "The planned first-release stats include goals, assists, saves, passes and tackles. Pitchside can identify players and assign those same statistics to individuals, which allows teams to create leaderboards and compete across each stat.",
-        "This makes Pitchside different from a basic football camera app. The goal is not only to record football matches, but to turn the footage into stats, highlights and player moments.",
+        "Pitchside is testing supported match output from suitable phone-recorded small-sided football footage.",
+        "Supported events currently being tested include goals, assists, saves, passes and tackles. Output can vary by footage quality, camera position, lighting, kit similarity and obstruction.",
+        "The goal is to turn a useful recording into stats, highlights and player records that can be reviewed after the match.",
       ],
       table: {
         headers: ["Output", "What Pitchside Is Being Built to Do"],
@@ -88,32 +88,32 @@ const defaultTechnologyContent = {
     {
       h2: "Best Footage Setup for Pitchside AI",
       content: [
-        "Pitchside works best when the match is recorded from the halfway line, above head height and facing toward one goal. The ideal setup is two phones: one pointing toward each goal. The app can then combine the data and highlights from both recordings.",
-        "A one-phone setup can also work if it captures the full pitch clearly. Ball-tracking tripods may also work well because they can help keep the main action in frame.",
-        "Most training footage was captured during British winter conditions: dark outside but floodlit. That is currently where Pitchside sees some of its best results. The system can still operate in sunlight, and performance should improve over time as more footage is processed.",
+        "A stable, elevated landscape recording gives Pitchside a clearer view of the important playing area. Two phones can help cover opposing halves when one phone cannot keep the match in frame.",
+        "A one-phone setup can also work on smaller pitches if a short test recording shows both goals and the main playing area clearly. Avoid unnecessary panning, unstable mounts and positions where people can walk in front of the lens.",
+        "Footage quality, weather, lighting, camera height and venue layout all affect the final output. For practical setup steps, use the football recording setup guide.",
       ],
     },
     {
       h2: "Current Limitations",
       content: [
-        "Pitchside is still improving. Accuracy is not perfect yet, and the system should be presented honestly as a learning model that gets better with more footage.",
+        "Pitchside is still improving. Accuracy is not perfect yet, and detected events or player assignments may need review.",
         "The current upload process can also take longer than ideal. At the moment, footage may take up to 45 minutes to upload and process because the system waits until the game has finished recording before uploading.",
         "A future improvement is to stream the upload during the recording period, which should reduce waiting time after the match.",
       ],
       table: {
         headers: ["Limitation", "Current Reality", "Planned Direction"],
         rows: [
-          ["Accuracy", "Improving, but not perfect yet", "Gets better as more footage is processed"],
-          ["Upload time", "Can currently take up to 45 minutes", "Future livestream-style upload during recording"],
+          ["Accuracy", "Improving, but not perfect yet", "Review tools and clearer footage guidance"],
+          ["Upload time", "Can currently take up to 45 minutes", "Upload workflow improvements"],
           ["Footage quality", "Angle, height and lighting affect results", "Clear recording guidelines help improve output"],
           ["Format", "Best suited to 5, 6 and 7-a-side", "Built around small-sided football first"],
         ],
       },
     },
     {
-      h2: "What Improves Over Time",
+      h2: "What the Beta Is Improving",
       content: [
-        "Pitchside is built around a learning algorithm, so the product should improve as it processes more match footage. More recordings help the system understand different lighting conditions, player movements, pitch types and camera setups.",
+        "The beta is focused on improving event recognition, player assignment, upload handling and the quality checks that tell users when footage is suitable.",
         "The long-term goal is to make football video analysis easier for grassroots players: record the game, upload the footage, receive stats, generate highlights and compete on player leaderboards without needing GPS vests or expensive camera hardware.",
       ],
     },
@@ -121,7 +121,7 @@ const defaultTechnologyContent = {
       h2: "Why This Matters for Grassroots Football",
       content: [
         "Most amateur players do not have analysts, camera operators or expensive football tracking systems. They have phones, teammates and matches worth remembering. Pitchside is being built for that reality.",
-        "The technology is designed to support football camera app searches, AI football analysis, football video analysis, Veo alternative comparisons, GPS vest alternative searches and football stats app users, but the product focus is simple: make grassroots match footage useful.",
+        "The product focus is simple: help grassroots players turn suitable phone-recorded match footage into useful stats, highlights and player records.",
       ],
     },
   ],

@@ -1,0 +1,207 @@
+{
+  "collection": "pages",
+  "slug": "how-pitchside-ai-works",
+  "id": "sNOLrSbvYsuLoS6EAGoM",
+  "exportedAt": "2026-07-22T19:45:25.347Z",
+  "data": {
+    "moreToRead": [],
+    "badge": "",
+    "intro": "Pitchside AI turns small-sided football footage into stats, highlights and player moments. It uses a custom machine learning and computer vision model trained around grassroots 5-a-side, 6-a-side and 7-a-side football.",
+    "llmDescription": "A clear explanation of how Pitchside AI works, including phone recording, computer vision, event detection, player identification, highlights, stats and leaderboards.",
+    "createdAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1783636168,
+      "nanoseconds": 469000000
+    },
+    "publishedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1783636168,
+      "nanoseconds": 469000000
+    },
+    "metaDescription": "Learn how Pitchside AI uses computer vision and machine learning to turn small-sided football footage into stats, highlights and player leaderboards.",
+    "thumbnail": "",
+    "technologyStack": [
+      {
+        "desc": "Our proprietary optical engine maps the 3D space of the pitch using standard 2D smartphone footage. It tracks player vectors, ball trajectory, and spatial relationships without requiring calibrated multi-camera setups.",
+        "title": "Spatial Computer Vision",
+        "id": "vision",
+        "icon": "vision"
+      },
+      {
+        "icon": "ai",
+        "title": "Autonomous Detection",
+        "id": "ai",
+        "desc": "Trained on thousands of hours of grassroots football. The neural network recognizes biomechanical patterns to instantly categorize tackles, shots, saves, and passes with 98% accuracy."
+      },
+      {
+        "icon": "hardware",
+        "desc": "No GPS vests. No expensive camera rigs. The Pitchside engine processes all telemetry natively via the software layer, democratizing pro-level analytics for every player.",
+        "title": "Zero Hardware Required",
+        "id": "hardware"
+      },
+      {
+        "id": "cloud",
+        "title": "Edge-to-Cloud Pipeline",
+        "desc": "Footage is pre-processed on-device to reduce payload size, then beamed to our high-performance cloud GPUs where the heavy computational rendering creates broadcast-quality highlights in minutes.",
+        "icon": "cloud"
+      }
+    ],
+    "aeoQuickAnswer": "Pitchside AI works by analysing small-sided football footage with a custom machine learning and computer vision model. The first release is designed to detect goals, assists, saves, passes and tackles, assign stats to teams and players, and generate full match highlights.",
+    "authorUrl": "https://www.linkedin.com/in/abdullahluqman/",
+    "hero": {
+      "previewLabel": "",
+      "primaryCtaLabel": "",
+      "eyebrow": "",
+      "previewType": "",
+      "previewData": {},
+      "secondaryCtaLabel": ""
+    },
+    "technologyStats": [
+      {
+        "label": "Event\nAccuracy",
+        "value": "98%"
+      },
+      {
+        "label": "Processing\nTime",
+        "value": "<3m"
+      }
+    ],
+    "internalLinks": [
+      {
+        "text": "The Technology Behind Pitchside AI",
+        "maxUses": 1,
+        "url": "/technology"
+      },
+      {
+        "text": "Record Football Matches",
+        "maxUses": 1,
+        "url": "/record-football-matches"
+      },
+      {
+        "url": "/football-video-analysis",
+        "maxUses": 1,
+        "text": "Football Video Analysis"
+      },
+      {
+        "text": "AI Football Highlights",
+        "maxUses": 1,
+        "url": "/ai-football-highlights"
+      }
+    ],
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1783636168,
+      "nanoseconds": 469000000
+    },
+    "primaryImage": "",
+    "technologySections": [],
+    "contentBlocks": [
+      {
+        "content": "What Pitchside AI Does",
+        "type": "h2",
+        "id": "what-it-does-heading"
+      },
+      {
+        "content": "Pitchside AI is built to turn football recordings into useful match output. Instead of only storing a video file, it analyses the footage and generates stats, highlights and player moments.",
+        "type": "paragraph",
+        "id": "what-it-does-paragraph"
+      },
+      {
+        "id": "recording-heading",
+        "type": "h2",
+        "content": "Step 1: Record the Match"
+      },
+      {
+        "type": "paragraph",
+        "content": "Teams can <a href=\"/record-football-matches\">record football matches</a> using one phone or two phones. The best setup is usually above head height near the halfway line. Two phones can point toward each goal, while one phone can work if it captures enough of the pitch.",
+        "id": "recording-paragraph"
+      },
+      {
+        "id": "ai-heading",
+        "content": "Step 2: Computer Vision Reads the Footage",
+        "type": "h2"
+      },
+      {
+        "id": "ai-paragraph",
+        "type": "paragraph",
+        "content": "Pitchside uses computer vision to understand football actions from the video. The model is trained on small-sided football rather than professional broadcast footage, because grassroots games have different angles, lighting, movement and visual cues."
+      },
+      {
+        "id": "stats-heading",
+        "type": "h2",
+        "content": "Step 3: Pitchside Detects Events and Stats"
+      },
+      {
+        "id": "stats-paragraph",
+        "content": "The first release is designed to detect goals, assists, saves, passes and tackles. Pitchside can assign those stats to teams and individual players, which makes leaderboards and player comparisons possible.",
+        "type": "paragraph"
+      },
+      {
+        "id": "highlights-heading",
+        "type": "h2",
+        "content": "Step 4: Highlights Are Generated"
+      },
+      {
+        "type": "paragraph",
+        "content": "Pitchside is also being built to produce full match highlights. This matters because most grassroots players do not want to rewatch a whole recording. They want the best goals, saves, assists and moments.",
+        "id": "highlights-paragraph"
+      },
+      {
+        "id": "limitations-heading",
+        "content": "What Is Still Improving?",
+        "type": "h2"
+      },
+      {
+        "id": "limitations-paragraph",
+        "type": "paragraph",
+        "content": "Pitchside is still in beta. Accuracy is improving, and the current upload process can take longer than ideal. As more footage is processed, the learning algorithm should get better across different lighting, pitch types and recording angles."
+      }
+    ],
+    "heroH1": "How Pitchside AI Works",
+    "technologyHeroTitleBottom": "ENGINE.",
+    "tldrPoints": [
+      "Pitchside AI uses machine learning and computer vision.",
+      "The model is trained specifically on small-sided football footage.",
+      "It is designed for 5-a-side, 6-a-side and 7-a-side football.",
+      "The first release focuses on goals, assists, saves, passes, tackles, highlights and leaderboards.",
+      "Accuracy and processing speed are still improving during beta."
+    ],
+    "date": "July 10, 2026",
+    "faqs": [
+      {
+        "question": "How does Pitchside AI work?",
+        "answer": "Pitchside AI analyses football footage using machine learning and computer vision. It is trained on small-sided football and is designed to detect match events, assign stats and generate highlights."
+      },
+      {
+        "question": "What stats can Pitchside detect?",
+        "answer": "The first release is designed to detect goals, assists, saves, passes and tackles for teams and individual players."
+      },
+      {
+        "question": "Does Pitchside need a GPS vest?",
+        "answer": "No. Pitchside is based on match footage, not wearable GPS data."
+      },
+      {
+        "question": "Can Pitchside create highlights?",
+        "answer": "Yes. Pitchside is being built to generate full match highlights from recorded football footage."
+      }
+    ],
+    "technologyHeroTitleTop": "THE",
+    "parentPage": {
+      "url": "/technology",
+      "id": "technology",
+      "title": "Technology",
+      "type": "landing"
+    },
+    "authorName": "Abdullah Luqman",
+    "slug": "how-pitchside-ai-works",
+    "ctaBlock": {
+      "buttonText": "Join the Waitlist",
+      "buttonUrl": "/contact",
+      "description": "Join the waitlist for the grassroots football app being built to turn footage into stats, highlights and player leaderboards.",
+      "headline": "Want to Try Pitchside AI?"
+    },
+    "metaTitle": "How Pitchside AI Works | Football Stats and Highlights From Footage",
+    "title": "How Pitchside AI Works",
+    "heroBackground": ""
+  }
+}

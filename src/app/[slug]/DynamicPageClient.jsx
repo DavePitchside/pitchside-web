@@ -38,17 +38,20 @@ const cleanCmsHtml = (html = "") => String(html).replace(
 );
 
 const LandingPricingTeaser = () => (
-  <section className="mb-16 rounded-[2rem] border border-zinc-200 bg-[#F4F3EF] p-6 text-zinc-950 shadow-xl md:p-10">
+  <section className="mt-16 rounded-[2rem] border border-zinc-200 bg-[#F4F3EF] p-6 text-zinc-950 shadow-xl md:p-10">
     <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div>
-        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#7a9900]">Pricing</span>
-        <h2 className="mt-3 font-alpha text-4xl uppercase tracking-tighter text-zinc-950 md:text-5xl" style={{ fontFamily: "var(--font-alpha)" }}>Plans for grassroots players</h2>
+        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#7a9900]">Planned launch pricing</span>
+        <h2 className="mt-3 font-alpha text-4xl uppercase tracking-tighter text-zinc-950 md:text-5xl" style={{ fontFamily: "var(--font-alpha)" }}>Start Free, record more with Paid</h2>
+        <p className="mt-4 max-w-3xl text-sm font-bold leading-relaxed text-zinc-600">
+          Pitchside&apos;s planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week.
+        </p>
       </div>
       <Link href="/pricing" className="inline-flex w-fit items-center justify-center rounded-full border-2 border-black bg-[#CCFF00] px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-[4px_4px_0px_#000] transition-colors hover:bg-black hover:text-[#CCFF00]">
-        View pricing
+        See planned launch pricing
       </Link>
     </div>
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-4 md:grid-cols-2">
       {pricingPlans.map((plan) => (
         <article key={plan.id} className={`rounded-2xl border p-5 ${plan.featured ? "border-[#CCFF00] bg-black text-white" : "border-black/10 bg-white text-zinc-950"}`}>
           <div className="mb-4 flex items-start justify-between gap-3">
@@ -60,12 +63,16 @@ const LandingPricingTeaser = () => (
             <span className={`text-3xl font-black ${plan.featured ? "text-[#CCFF00]" : "text-zinc-950"}`}>{plan.price}</span>
             <span className={`ml-2 text-xs font-bold ${plan.featured ? "text-zinc-400" : "text-zinc-500"}`}>{plan.cadence}</span>
           </div>
-          {plan.equivalent && <p className={`mt-2 text-xs font-black uppercase tracking-widest ${plan.featured ? "text-zinc-300" : "text-zinc-500"}`}>{plan.equivalent}</p>}
+          {plan.billingOptions && (
+            <p className={`mt-2 text-xs font-black uppercase tracking-widest ${plan.featured ? "text-zinc-300" : "text-zinc-500"}`}>
+              {plan.billingOptions.join(" | ")}
+            </p>
+          )}
           <p className={`mt-4 rounded-xl border px-3 py-2 text-[10px] font-black uppercase tracking-widest ${plan.featured ? "border-white/10 bg-white/5 text-zinc-300" : "border-black/10 bg-zinc-50 text-zinc-700"}`}>{plan.allowance}</p>
         </article>
       ))}
     </div>
-    <p className="mt-6 text-xs font-medium leading-relaxed text-zinc-500">Subscriptions are not purchasable yet. Use the pricing page as the canonical source for current launch pricing, allowances and billing caveats.</p>
+    <p className="mt-6 text-xs font-medium leading-relaxed text-zinc-500">Subscriptions are not purchasable yet. Phones, mounts, data costs, regional taxes and physical accessories are separate.</p>
   </section>
 );
 
@@ -246,8 +253,6 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
           <article className="w-full max-w-[800px] mx-auto lg:mx-0">
             {dataSource === "pages" && <ProductStatusNotice className="mb-12 bg-zinc-950 text-zinc-200" />}
 
-            {dataSource === "pages" && <LandingPricingTeaser />}
-
             {hasMedia && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
@@ -383,6 +388,8 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
             </div>
 
             {dataSource === "pages" && <LandingAttribution />}
+
+            {dataSource === "pages" && <LandingPricingTeaser />}
 
             {data.faqs?.length > 0 && data.faqs[0].question !== "" && (
               <section className="mt-24 pt-16 border-t border-zinc-200">

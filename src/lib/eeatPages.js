@@ -1,7 +1,7 @@
 import { CONTENT_AUTHOR } from "@/lib/contentMeta";
 import { companyInfo } from "@/lib/companyInfo";
 
-export const EEAT_LAST_UPDATED = "July 22, 2026";
+export const EEAT_LAST_UPDATED = "July 23, 2026";
 
 export const authors = {
   "dave-coombs": {
@@ -24,13 +24,14 @@ export const authors = {
         heading: "Relevant experience",
         body: [
           "Dave is a marketing professional and lifelong amateur footballer. Pitchside began from his own frustration that grassroots football moments disappear after the final whistle.",
-          "He shaped the first version of the product, reviewed real small-sided football footage, gathered early player feedback and works with technical collaborators on the private-beta workflow.",
+          "He shaped the first version of the product, reviewed small-sided football footage, gathered early player feedback and works with technical collaborators on the private-beta workflow.",
+          "Dave has used an inexpensive flexible fence-mount style for grassroots recording and reviews mount guidance where Pitchside discusses practical recording setups.",
         ],
       },
       {
         heading: "Editorial responsibility",
         body: [
-          "Dave is responsible for product claims, launch-status wording and commercial pages. Technical or legal-sensitive claims should be reviewed against the product-status, pricing, privacy and terms pages before publication.",
+          "Dave reviews Pitchside product, pricing and recording-workflow information before publication.",
         ],
       },
     ],
@@ -47,8 +48,7 @@ export const authors = {
       {
         heading: "Role at Pitchside",
         body: [
-          "Abdullah Luqman is listed as the default content author for Pitchside AI articles and educational pages.",
-          "Author attribution is managed through Pitchside's CMS fields, with a fallback author profile used when an article does not provide an author override.",
+          "Abdullah Luqman writes and edits Pitchside AI educational content for players comparing phone recording, football analysis tools and small-sided match workflows.",
         ],
       },
       {
@@ -58,9 +58,9 @@ export const authors = {
         ],
       },
       {
-        heading: "Review standards",
+        heading: "Research responsibilities",
         body: [
-          "Published content should avoid unsupported performance claims, clearly label beta limitations and link back to product-status or methodology pages when discussing accuracy, pricing or comparisons.",
+          "Abdullah's comparison work is based on current public sources, visible product information and Pitchside's comparison methodology. Product claims are checked against current Pitchside status and pricing before publication.",
         ],
       },
     ],
@@ -83,25 +83,31 @@ export const eeatPages = {
         ],
       },
       {
-        heading: "Accuracy rules",
+        heading: "Accuracy standards",
         bullets: [
-          "Use current product-status wording for beta features, processing time and launch availability.",
-          "Do not claim guaranteed accuracy, instant processing or professional-club parity.",
-          "Do not present prices or subscriptions as purchasable until the verified purchase path is live.",
-          "Use named sources, first-party data or clearly dated comparison checks for factual claims.",
+          "Product status, pricing and launch availability are checked against current Pitchside information.",
+          "Beta features are labelled clearly, including limits around accuracy, processing time and availability.",
+          "Comparison pages use official product sources where possible and include checked dates for time-sensitive prices.",
+          "First-hand use, researched recommendations and Pitchside-owned products are labelled separately.",
         ],
       },
       {
         heading: "Review process",
         body: [
-          "Product and pricing claims should be checked against the canonical pricing and product-status pages. Privacy, consent, security and legal wording should be reviewed before launch and whenever the app workflow changes.",
-          "Articles should be updated when product features, plan allowances, processing times or supported formats change.",
+          "Abdullah Luqman writes and edits educational and comparison content. Dave Coombs reviews product, pricing and recording-workflow claims before publication where they describe Pitchside's current or planned product.",
+          "AI tools may support research, drafting or editing, but public content must be human-reviewed before publication.",
         ],
       },
       {
         heading: "Corrections",
         body: [
-          "If a factual error is found, Pitchside should correct the page, update the visible date where appropriate and avoid preserving old claims in metadata, schema or llms.txt output.",
+          "If a factual error is found, Pitchside will correct the affected page and update the visible date where appropriate. Readers can report issues through the contact page.",
+        ],
+      },
+      {
+        heading: "Affiliate independence",
+        body: [
+          "Affiliate relationships do not determine editorial conclusions. Paid links are labelled near the recommendation and explained in the affiliate disclosure.",
         ],
       },
     ],
@@ -117,6 +123,7 @@ export const eeatPages = {
         heading: "Scope",
         body: [
           "Pitchside comparison pages are intended to help grassroots football users understand differences between Pitchside and other football-camera, stats, analysis or recording options.",
+          "Pitchside is our own product. We therefore disclose its limitations and private-beta status alongside the limitations of other products.",
         ],
       },
       {
@@ -130,12 +137,18 @@ export const eeatPages = {
         ],
       },
       {
-        heading: "Rules for fair comparison",
+        heading: "How unknowns are handled",
         bullets: [
-          "Do not imply future Pitchside features are already available.",
-          "Separate app subscription cost from physical mount cost.",
-          "Use total-cost context when comparing weekly, monthly and annual plans.",
-          "Link to canonical pricing for current Pitchside prices instead of duplicating a full pricing table.",
+          "If a current price is not publicly disclosed by the manufacturer, we label it as not publicly disclosed.",
+          "Where currencies differ, we keep the original currency unless a dated exchange-rate source is used.",
+          "Phones, mounts, accessories, data costs, taxes and shipping are separated where they materially affect total cost.",
+          "Products are labelled as physically tested by Pitchside only when that is true; otherwise they are researched from official sources.",
+        ],
+      },
+      {
+        heading: "Updates and corrections",
+        body: [
+          "Comparison pages are reviewed when product prices, hardware requirements, availability or Pitchside launch status change. Readers can report corrections through the contact page.",
         ],
       },
     ],
@@ -148,22 +161,24 @@ export const eeatPages = {
     canonical: "/affiliate-disclosure",
     sections: [
       {
-        heading: "Current position",
+        heading: "How affiliate links work",
         body: [
-          "Pitchside does not currently use affiliate links on the site unless a page explicitly says otherwise.",
-          "If affiliate links, sponsorships or paid placements are added, they should be clearly labelled near the relevant link or recommendation.",
+          "Pitchside uses some affiliate links. If you buy through a paid link, Pitchside may earn a commission from qualifying purchases at no additional cost to you.",
+          "As an Amazon Associate I earn from qualifying purchases.",
         ],
       },
       {
         heading: "Editorial independence",
         body: [
-          "Commercial relationships must not change the requirement for accurate product-status wording, fair comparisons or clear separation between available, beta and planned features.",
+          "Affiliate relationships do not determine rankings or editorial conclusions. Recommendations are based on suitability for the stated pitch setup, not commission rates.",
         ],
       },
       {
-        heading: "Future updates",
+        heading: "Tested, researched and Pitchside-owned products",
         body: [
-          "This page should be updated before any affiliate programme, sponsored comparison, referral arrangement or paid placement goes live.",
+          "First-hand use is stated only when it really occurred. Products not personally tested by Pitchside are described as researched recommendations based on public product information.",
+          "Pitchside may recommend its own mounting product. When it does, the page will identify it as a Pitchside-owned product.",
+          "Product availability, specifications, compatibility and venue rules can change. Check the seller's current product page and confirm that the setup is safe and permitted at your venue before buying or using any mount.",
         ],
       },
     ],
@@ -176,10 +191,18 @@ export const eeatPages = {
     canonical: "/product-status",
     sections: [
       {
-        heading: "Current status",
-        body: [
-          "Pitchside is in private beta. The product is being developed to turn phone-recorded small-sided football footage into stats, highlights and player moments.",
-          "Subscriptions are not currently purchasable. Pricing is published for launch planning only.",
+        heading: "Current capability status",
+        bullets: [
+          "Match Stats & Highlights: private beta; suitable footage is analysed for supported match output.",
+          "Leaderboards: planned for launch.",
+          "Personal Stats: planned for launch.",
+          "Personal Clips: planned for the Paid tier.",
+          "Recording allowance: Free is planned at one recording per month; Paid is planned at one recording per week.",
+          "Supported formats: current focus is suitable 5-a-side, 6-a-side and 7-a-side football footage.",
+          "Supported event testing: goals, assists, saves, passes and tackles.",
+          "Upload and processing: beta processing may take up to 45 minutes depending on footage and queue conditions.",
+          "App availability and billing: not publicly purchasable yet.",
+          "Double-phone mount: in development as a separate physical product.",
         ],
       },
       {
@@ -192,9 +215,9 @@ export const eeatPages = {
         ],
       },
       {
-        heading: "Release notes policy",
+        heading: "Release notes",
         body: [
-          "Material product changes should be recorded here or on a dedicated release-notes page, including changes to pricing, allowances, supported formats, processing time, account controls and data retention.",
+          "23 July 2026: Pricing wording updated to separate Free and Paid product tiers from Paid billing frequencies. Recording setup guidance now separates phone mounts from app subscriptions.",
         ],
       },
     ],
@@ -219,12 +242,20 @@ export const eeatPages = {
           "Check venue, league, school, club or tournament rules before filming.",
           "Do not record children or vulnerable participants without the correct permission from responsible adults and organisers.",
           "Avoid filming bystanders where possible.",
+          "Use clear notices or team messages where appropriate, especially before sharing clips outside a private team context.",
+        ],
+      },
+      {
+        heading: "Children and vulnerable participants",
+        body: [
+          "Do not record children or vulnerable participants unless the organiser and responsible adults have given the required permission. Follow the venue, league, club, school or tournament rules before recording starts.",
         ],
       },
       {
         heading: "Sharing clips",
         body: [
-          "Clips should be shared responsibly after processing. Do not publish footage that humiliates, harasses or identifies someone who reasonably objected to being recorded.",
+          "Clips should be shared responsibly after processing. Group-chat sharing and public social-media sharing can both identify players and bystanders, so use the most limited audience that fits the purpose.",
+          "Do not publish footage that humiliates, harasses or identifies someone who reasonably objected to being recorded.",
         ],
       },
       {
@@ -243,9 +274,9 @@ export const eeatPages = {
     canonical: "/security-and-data",
     sections: [
       {
-        heading: "Current architecture",
+        heading: "Current data use",
         body: [
-          "Pitchside Web uses Firebase services for authentication, Firestore data storage and Firebase Storage media uploads. Public website content is served through the Next.js App Router.",
+          "Pitchside currently collects website enquiries, launch-list submissions and account-deletion requests. This helps the team respond to users, understand launch demand and manage support requests.",
         ],
       },
       {
@@ -253,23 +284,22 @@ export const eeatPages = {
         bullets: [
           "Waitlist and contact form submissions: name, email, intent, message and source page.",
           "Account deletion requests: email, platform, reason, request date and status.",
-          "CMS media uploads for website pages and articles.",
-          "Future app footage and analysis data should be covered by updated privacy, retention and security documentation before public launch.",
+          "CMS media uploads used to publish website pages and articles.",
+          "Beta footage and analysis data handling will be documented before public app access expands.",
         ],
       },
       {
-        heading: "Security expectations",
+        heading: "Before public launch",
         bullets: [
-          "Admin access should be restricted through Firebase Auth and Firestore/Storage security rules.",
-          "Sensitive server credentials must not be exposed to the browser.",
-          "Payment handling must not launch until checkout, cancellation, refund, tax and store-policy requirements are approved.",
-          "Data retention and deletion rules should be documented before public app access expands.",
+          "Payment handling, subscription terms and refund wording need to be finalised before checkout is enabled.",
+          "Footage retention, deletion and support processes need to be confirmed before broad public app access.",
+          "Third-party processors will be described in the privacy materials when the app workflow is ready for public launch.",
         ],
       },
       {
         heading: "Contact",
         body: [
-          "Security or privacy questions can be sent through the contact page. Pitchside should publish a dedicated security contact before broad public launch if vulnerability reports are expected.",
+          "Security, privacy or deletion questions can be sent through the contact page. Account deletion requests can also be submitted through the account deletion page.",
         ],
       },
     ],

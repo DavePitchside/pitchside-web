@@ -1,0 +1,498 @@
+{
+  "collection": "pages",
+  "slug": "grassroots-football-app",
+  "id": "WXBADwHJ0jtFe0j8EMJW",
+  "exportedAt": "2026-07-22T19:45:24.845Z",
+  "data": {
+    "ctaBlock": {
+      "headline": "Join Before the Next Phase",
+      "description": "Pitchside is approaching launch, but the private beta is still where limitations are found and fixed. Join for access and release updates.",
+      "buttonUrl": "/#join-the-list",
+      "buttonText": "Join the Launch List"
+    },
+    "heroBackground": "https://firebasestorage.googleapis.com/v0/b/pitchside-a07c5.firebasestorage.app/o/hero-backgrounds%2F1784477908071_Grassrootfootballapp.png?alt=media&token=e8a061aa-96e3-47a8-895d-093d0dd43bfb",
+    "metaTitle": "Grassroots Football App for Stats & Highlights | Pitchside",
+    "title": "Grassroots Football App for Stats & Highlights | Pitchside",
+    "parentPage": null,
+    "authorName": "Abdullah Luqman",
+    "slug": "grassroots-football-app",
+    "heroH1": "One grassroots football app, from kick-off to the group chat.",
+    "contentBlocks": [
+      {
+        "content": "Start with what you want from the match",
+        "type": "h2",
+        "id": "start-with-what-you-want-from-the-match-heading"
+      },
+      {
+        "content": "I want to record our game",
+        "type": "h3",
+        "id": "start-with-what-you-want-from-the-match-i-want-to-record-our-game-head"
+      },
+      {
+        "content": "Learn the practical one-phone and two-phone setup, including positioning, blind spots, battery and storage checks.",
+        "type": "paragraph",
+        "id": "start-with-what-you-want-from-the-match-paragraph-1"
+      },
+      {
+        "id": "start-with-what-you-want-from-the-match-paragraph-2",
+        "content": "<strong>Link:</strong> <a href=\"/record-football-matches\">Record football matches</a>",
+        "type": "paragraph"
+      },
+      {
+        "id": "start-with-what-you-want-from-the-match-i-want-to-see-the-numbers-head",
+        "content": "I want to see the numbers",
+        "type": "h3"
+      },
+      {
+        "content": "Understand the player and match-stat experience, personal history and leaderboards planned for launch.",
+        "type": "paragraph",
+        "id": "start-with-what-you-want-from-the-match-paragraph-3"
+      },
+      {
+        "id": "start-with-what-you-want-from-the-match-paragraph-4",
+        "type": "paragraph",
+        "content": "<strong>Link:</strong> <a href=\"/football-stats-app\">Explore the football stats app</a>"
+      },
+      {
+        "content": "I want the moments",
+        "type": "h3",
+        "id": "start-with-what-you-want-from-the-match-i-want-the-moments-heading"
+      },
+      {
+        "type": "paragraph",
+        "content": "See how Match Highlights differ from Paid Personal Clips and what makes footage suitable for clip creation.",
+        "id": "start-with-what-you-want-from-the-match-paragraph-5"
+      },
+      {
+        "content": "<strong>Link:</strong> <a href=\"/ai-football-highlights\">Explore AI football highlights</a>",
+        "type": "paragraph",
+        "id": "start-with-what-you-want-from-the-match-paragraph-6"
+      },
+      {
+        "id": "start-with-what-you-want-from-the-match-i-want-to-review-the-whole-per",
+        "content": "I want to review the whole performance",
+        "type": "h3"
+      },
+      {
+        "type": "paragraph",
+        "content": "Follow the complete match-review job, from raw footage to corrected output, clips and a record of the game.",
+        "id": "start-with-what-you-want-from-the-match-paragraph-7"
+      },
+      {
+        "content": "<strong>Link:</strong> <a href=\"/football-analysis-app\">Explore football match analysis</a>",
+        "type": "paragraph",
+        "id": "start-with-what-you-want-from-the-match-paragraph-8"
+      },
+      {
+        "type": "h2",
+        "content": "What Pitchside does after you press record",
+        "id": "what-pitchside-does-after-you-press-record-heading"
+      },
+      {
+        "id": "what-pitchside-does-after-you-press-record-paragraph-1",
+        "type": "paragraph",
+        "content": "The phone captures the match. Pitchside handles the work after that."
+      },
+      {
+        "id": "what-pitchside-does-after-you-press-record-paragraph-2",
+        "type": "paragraph",
+        "content": "The private beta is testing how reliably phone footage can be processed, how supported events are identified and how those events are connected to teams and players. The result is designed to be more useful than a long video sitting in one person's camera roll."
+      },
+      {
+        "id": "what-pitchside-does-after-you-press-record-paragraph-3",
+        "content": "The current product experience centres on four outputs:",
+        "type": "paragraph"
+      },
+      {
+        "id": "what-pitchside-does-after-you-press-record-list",
+        "type": "list",
+        "items": [
+          "<strong>Match Stats & Highlights</strong> for the game as a whole.",
+          "<strong>Leaderboards</strong> that make weekly contributions visible.",
+          "<strong>Personal Stats</strong> connected to the player and match.",
+          "<strong>Personal Clips</strong> for Paid users who want their own moments collected separately."
+        ]
+      },
+      {
+        "id": "what-pitchside-does-after-you-press-record-paragraph-4",
+        "content": "For the capture details, visit the <a href=\"/football-camera-app\">football camera app</a>. For the underlying capability, read about <a href=\"/ai-football-analysis\">AI football analysis</a>.",
+        "type": "paragraph"
+      },
+      {
+        "content": "Built around small-sided football first",
+        "type": "h2",
+        "id": "built-around-small-sided-football-first-heading"
+      },
+      {
+        "type": "paragraph",
+        "content": "Pitchside currently focuses on 5-a-side, 6-a-side and 7-a-side matches. These games are fast, crowded and often played under difficult lighting, with phones mounted behind fences or close to busy touchlines.",
+        "id": "built-around-small-sided-football-first-paragraph-1"
+      },
+      {
+        "id": "built-around-small-sided-football-first-paragraph-2",
+        "type": "paragraph",
+        "content": "That reality shapes the product. A clear recording helps, but there is no claim that every angle or match will produce a perfect result. Similar kits, blocked views and distant players can affect event detection and player assignment."
+      },
+      {
+        "type": "paragraph",
+        "content": "Check the latest supported formats and limitations on <a href=\"/product-status\">Product Status</a>.",
+        "id": "built-around-small-sided-football-first-paragraph-3"
+      },
+      {
+        "id": "your-weekly-football-in-one-record-heading",
+        "type": "h2",
+        "content": "Your weekly football, in one record"
+      },
+      {
+        "id": "your-weekly-football-in-one-record-paragraph-1",
+        "type": "paragraph",
+        "content": "A single match tells you what happened that day. The useful part is what builds over time."
+      },
+      {
+        "content": "Personal Stats are designed to help players keep a record beyond the final score. Leaderboards give the regular group a place to compare contributions. Highlights keep the evidence connected to the game.",
+        "type": "paragraph",
+        "id": "your-weekly-football-in-one-record-paragraph-2"
+      },
+      {
+        "id": "your-weekly-football-in-one-record-paragraph-3",
+        "content": "This is not a replacement for a professional analyst or a GPS workload system. It is for players who want a clearer record of the football they already play.",
+        "type": "paragraph"
+      },
+      {
+        "content": "Free tools you can use today",
+        "type": "h2",
+        "id": "free-tools-you-can-use-today-heading"
+      },
+      {
+        "content": "The main app is in private beta, but the Pitchside tools are already live.",
+        "type": "paragraph",
+        "id": "free-tools-you-can-use-today-paragraph-1"
+      },
+      {
+        "content": "Split a player list with the <a href=\"/tools/random-5-a-side-team-generator\">random team generator</a>.",
+        "type": "paragraph",
+        "id": "free-tools-you-can-use-today-paragraph-2"
+      },
+      {
+        "type": "paragraph",
+        "content": "Build a shape with the <a href=\"/tools/football-formation-builder\">football formation builder</a>.",
+        "id": "free-tools-you-can-use-today-paragraph-3"
+      },
+      {
+        "id": "free-tools-you-can-use-today-paragraph-4",
+        "content": "Generate a team name with the <a href=\"/tools/football-team-name-generator\">football team name generator</a>.",
+        "type": "paragraph"
+      },
+      {
+        "type": "paragraph",
+        "content": "Run standings with the <a href=\"/tools/football-league-table-generator\">football league table generator</a>.",
+        "id": "free-tools-you-can-use-today-paragraph-5"
+      },
+      {
+        "content": "Log a match manually with the <a href=\"/tools/5-a-side-football-stats-tracker\">5-a-side football stats tracker</a>.",
+        "type": "paragraph",
+        "id": "free-tools-you-can-use-today-paragraph-6"
+      },
+      {
+        "type": "paragraph",
+        "content": "These tools solve the jobs around the match. Pitchside's app is designed to make the recording itself useful afterwards.",
+        "id": "free-tools-you-can-use-today-paragraph-7"
+      },
+      {
+        "id": "choose-how-often-you-record-heading",
+        "content": "Choose how often you record",
+        "type": "h2"
+      },
+      {
+        "type": "h3",
+        "content": "Free",
+        "id": "choose-how-often-you-record-free-heading"
+      },
+      {
+        "items": [
+          "Match Stats & Highlights",
+          "Leaderboards",
+          "Personal Stats",
+          "1 recording per month"
+        ],
+        "type": "list",
+        "id": "choose-how-often-you-record-list"
+      },
+      {
+        "type": "h3",
+        "content": "Paid",
+        "id": "choose-how-often-you-record-paid-heading"
+      },
+      {
+        "id": "choose-how-often-you-record-list-2",
+        "type": "list",
+        "items": [
+          "Everything in Free",
+          "Personal Clips",
+          "1 recording per week",
+          "£4.99 weekly",
+          "£12.99 monthly",
+          "£99 annually"
+        ]
+      },
+      {
+        "content": "Annual billing is £8.25 per month equivalent. Confirm store prices and regional taxes when the App Store and Google Play listings are available.",
+        "type": "paragraph",
+        "id": "choose-how-often-you-record-paragraph-1"
+      },
+      {
+        "id": "what-is-planned-after-launch-heading",
+        "content": "What is planned after launch",
+        "type": "h2"
+      },
+      {
+        "content": "Mini Games, Goal of the Match, Mini Leagues, Teams, Seasons, league integrations and Awards sit on the future roadmap. Paid roadmap features also include Momentum Stats, xG, Skill Clips and Creator Accounts.",
+        "type": "paragraph",
+        "id": "what-is-planned-after-launch-paragraph-1"
+      },
+      {
+        "content": "Those features should not influence a visitor's decision about the launch product. Join for the stats, highlights, leaderboards, personal record and recording allowance available at launch.",
+        "type": "paragraph",
+        "id": "what-is-planned-after-launch-paragraph-2"
+      },
+      {
+        "id": "find-the-part-of-pitchside-you-need-heading",
+        "content": "Find the part of Pitchside you need",
+        "type": "h2"
+      },
+      {
+        "id": "find-the-part-of-pitchside-you-need-internal-link-paragraph-1",
+        "content": "If your question is what happens to a recording after upload, use <a href=\"/football-video-analysis\">Football video analysis</a>.",
+        "type": "paragraph"
+      },
+      {
+        "id": "find-the-part-of-pitchside-you-need-table",
+        "headers": [
+          "Your question",
+          "Best next page"
+        ],
+        "type": "table",
+        "rows": [
+          {
+            "cells": [
+              "How should we position the phones?",
+              "<a href=\"/record-football-matches\">Record football matches</a>"
+            ]
+          },
+          {
+            "cells": [
+              "What stats will I see?",
+              "Football stats app"
+            ]
+          },
+          {
+            "cells": [
+              "How does the AI work?",
+              "<a href=\"/ai-football-analysis\">AI football analysis</a>"
+            ]
+          },
+          {
+            "cells": [
+              "What happens to the video?",
+              "<a href=\"/football-video-analysis\">Football video analysis</a>"
+            ]
+          },
+          {
+            "cells": [
+              "Can I get my own clips?",
+              "AI football highlights"
+            ]
+          },
+          {
+            "cells": [
+              "Is a dedicated camera required?",
+              "<a href=\"/football-camera-app\">Football camera app</a>"
+            ]
+          },
+          {
+            "cells": [
+              "What is live right now?",
+              "<a href=\"/product-status\">Product Status</a>"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "join-before-the-next-phase-heading",
+        "content": "Join before the next phase",
+        "type": "h2"
+      },
+      {
+        "id": "join-before-the-next-phase-paragraph-1",
+        "content": "Pitchside is approaching launch, but the private beta is still where limitations are found and fixed. Join the list for access and release updates.",
+        "type": "paragraph"
+      }
+    ],
+    "faqs": [
+      {
+        "answer": "Pitchside includes live team-planning tools, but the main app is focused on turning recorded matches into stats, highlights, leaderboards and player records. Deeper team, league and season features are planned for later.",
+        "question": "Is this an app for organising a football team?"
+      },
+      {
+        "question": "Does every player need an account?",
+        "answer": "Account and player-assignment requirements should be confirmed in Product Status before launch. Do not promise automatic access for every player until the final onboarding flow is approved."
+      },
+      {
+        "answer": "Yes. The launch plan includes a Free tier with one recording per month, Match Stats & Highlights, Leaderboards and Personal Stats.",
+        "question": "Can a team start without paying?"
+      },
+      {
+        "question": "What happens if the footage is poor?",
+        "answer": "Pitchside needs a clear enough view to identify supported events and players. Obstructions, low light, camera movement and distant action can reduce the quality of the output."
+      }
+    ],
+    "tldrPoints": [
+      "Record 5-a-side, 6-a-side and 7-a-side matches using one or two phones.",
+      "The launch experience centres on Match Stats & Highlights, Leaderboards, Personal Stats and Paid Personal Clips.",
+      "The Free plan includes one recording per month; Paid includes one recording per week.",
+      "Pitchside's team generator, formation builder, team-name generator, league table and manual stats tracker are live now.",
+      "The main app remains in private beta, so supported output and player assignments still require review."
+    ],
+    "date": "July 19, 2026",
+    "technologyStats": [
+      {
+        "label": "Custom\nModel",
+        "value": "5-a-side trained"
+      },
+      {
+        "label": "Supported\nFormats",
+        "value": "5, 6 and 7-a-side"
+      },
+      {
+        "label": "Beta\nStatus",
+        "value": "Improving with footage"
+      }
+    ],
+    "internalLinks": [
+      {
+        "maxUses": 2,
+        "text": "Record football matches",
+        "url": "/record-football-matches"
+      },
+      {
+        "maxUses": 2,
+        "text": "Explore the football stats app",
+        "url": "/football-stats-app"
+      },
+      {
+        "maxUses": 2,
+        "text": "Explore AI football highlights",
+        "url": "/ai-football-highlights"
+      },
+      {
+        "url": "/football-analysis-app",
+        "maxUses": 2,
+        "text": "Explore football match analysis"
+      },
+      {
+        "url": "/football-camera-app",
+        "maxUses": 2,
+        "text": "football camera app"
+      },
+      {
+        "url": "/ai-football-analysis",
+        "text": "AI football analysis",
+        "maxUses": 2
+      },
+      {
+        "text": "Product Status",
+        "maxUses": 2,
+        "url": "/product-status"
+      },
+      {
+        "url": "/tools/random-5-a-side-team-generator",
+        "text": "random team generator",
+        "maxUses": 2
+      },
+      {
+        "maxUses": 2,
+        "text": "football formation builder",
+        "url": "/tools/football-formation-builder"
+      },
+      {
+        "url": "/tools/football-team-name-generator",
+        "maxUses": 2,
+        "text": "football team name generator"
+      },
+      {
+        "maxUses": 2,
+        "text": "football league table generator",
+        "url": "/tools/football-league-table-generator"
+      },
+      {
+        "url": "/tools/5-a-side-football-stats-tracker",
+        "maxUses": 2,
+        "text": "5-a-side football stats tracker"
+      },
+      {
+        "text": "Football video analysis",
+        "maxUses": 2,
+        "url": "/football-video-analysis"
+      }
+    ],
+    "hero": {
+      "secondaryCtaLabel": "",
+      "previewType": "",
+      "previewData": {},
+      "eyebrow": "",
+      "primaryCtaLabel": "",
+      "previewLabel": ""
+    },
+    "technologySections": [],
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784745383,
+      "nanoseconds": 543000000
+    },
+    "primaryImage": "",
+    "technologyStack": [
+      {
+        "id": "vision",
+        "title": "Computer Vision for Small-Sided Football",
+        "desc": "Pitchside is being developed around phone-recorded small-sided football footage, where camera angles, lighting and player spacing are different from professional broadcast footage.",
+        "icon": "vision"
+      },
+      {
+        "desc": "The beta system is being tested to identify goals, assists, saves, passes and tackles from match footage, with accuracy expected to improve as more footage is reviewed.",
+        "title": "Event Detection in Testing",
+        "id": "ai",
+        "icon": "ai"
+      },
+      {
+        "icon": "hardware",
+        "id": "hardware",
+        "title": "Phone-First Recording",
+        "desc": "Pitchside aims to offer a phone-first workflow for teams that do not want to invest in dedicated football-camera hardware."
+      },
+      {
+        "desc": "Uploads and processing are being tested during private beta. Current processing can take up to 45 minutes and the flow is expected to improve.",
+        "id": "cloud",
+        "title": "Edge-to-Cloud Pipeline",
+        "icon": "cloud"
+      }
+    ],
+    "aeoQuickAnswer": "Pitchside is a grassroots football app that turns suitable phone-recorded 5-a-side, 6-a-side and 7-a-side matches into supported stats, highlights, leaderboards and player records. The Free launch plan includes one recording per month; Paid adds Personal Clips and one recording per week. The main app is in private beta, while the free planning tools are already live.",
+    "authorUrl": "https://www.linkedin.com/in/abdullahluqman/",
+    "publishedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784410719,
+      "nanoseconds": 658000000
+    },
+    "thumbnail": "",
+    "metaDescription": "Pitchside brings phone-recorded 5-a-side, 6-a-side and 7-a-side matches into stats, highlights, leaderboards and player records. Explore the app.",
+    "llmDescription": "Pitchside is a grassroots football app for players and teams who record 5-a-side, 6-a-side and 7-a-side matches with one or two phones. The launch product brings Match Stats & Highlights, Leaderboards and Personal Stats into the Free plan with one recording per month. Paid adds Personal Clips and one recording per week. The main app is in private beta, while Pitchside's browser-based football tools are live now.",
+    "createdAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784410719,
+      "nanoseconds": 658000000
+    },
+    "moreToRead": [],
+    "intro": "Pitchside brings match recording, supported stats, highlights, leaderboards and personal player records into one place for the people who play every week. Use one or two phones to film a 5-a-side, 6-a-side or 7-a-side match. Upload the footage after full-time, review what Pitchside identifies and keep the moments and numbers that would normally be lost.",
+    "badge": ""
+  }
+}

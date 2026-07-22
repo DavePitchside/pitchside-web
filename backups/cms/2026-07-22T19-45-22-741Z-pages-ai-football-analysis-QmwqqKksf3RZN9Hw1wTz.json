@@ -1,0 +1,394 @@
+{
+  "collection": "pages",
+  "slug": "ai-football-analysis",
+  "id": "QmwqqKksf3RZN9Hw1wTz",
+  "exportedAt": "2026-07-22T19:45:23.739Z",
+  "data": {
+    "hero": {
+      "previewData": {},
+      "previewType": "",
+      "secondaryCtaLabel": "",
+      "previewLabel": "",
+      "primaryCtaLabel": "",
+      "eyebrow": ""
+    },
+    "technologyStats": [
+      {
+        "value": "5-a-side trained",
+        "label": "Custom\nModel"
+      },
+      {
+        "value": "5, 6 and 7-a-side",
+        "label": "Supported\nFormats"
+      },
+      {
+        "value": "Improving with footage",
+        "label": "Beta\nStatus"
+      }
+    ],
+    "internalLinks": [
+      {
+        "text": "Product Status",
+        "maxUses": 2,
+        "url": "/product-status"
+      },
+      {
+        "text": "record football matches",
+        "maxUses": 2,
+        "url": "/record-football-matches"
+      },
+      {
+        "url": "/football-video-analysis",
+        "maxUses": 2,
+        "text": "Football video analysis"
+      },
+      {
+        "maxUses": 2,
+        "text": "Football stats app",
+        "url": "/football-stats-app"
+      },
+      {
+        "text": "AI football highlights",
+        "maxUses": 2,
+        "url": "/ai-football-highlights"
+      },
+      {
+        "url": "/technology/how-pitchside-ai-works",
+        "text": "How Pitchside AI works",
+        "maxUses": 2
+      }
+    ],
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784745456,
+      "nanoseconds": 49000000
+    },
+    "primaryImage": "",
+    "technologySections": [],
+    "heroH1": "What AI football analysis can see, and what it can miss.",
+    "contentBlocks": [
+      {
+        "id": "the-job-has-three-difficult-parts-heading",
+        "type": "h2",
+        "content": "The job has three difficult parts"
+      },
+      {
+        "content": "1. Keep track of what is visible",
+        "type": "h3",
+        "id": "the-job-has-three-difficult-parts-1-keep-track-of-what-is-visible-head"
+      },
+      {
+        "id": "the-job-has-three-difficult-parts-paragraph-1",
+        "content": "The system needs to locate the players and relevant areas of the pitch across a moving sequence of frames. Players overlap, leave the frame and become smaller at the far end.",
+        "type": "paragraph"
+      },
+      {
+        "id": "the-job-has-three-difficult-parts-2-recognise-a-supported-football-eve",
+        "type": "h3",
+        "content": "2. Recognise a supported football event"
+      },
+      {
+        "id": "the-job-has-three-difficult-parts-paragraph-2",
+        "content": "A single image is rarely enough. A pass, tackle, save or goal is a sequence. The model needs enough visual evidence across time to decide whether a supported event may have occurred.",
+        "type": "paragraph"
+      },
+      {
+        "type": "h3",
+        "content": "3. Connect the event to the right player or team",
+        "id": "the-job-has-three-difficult-parts-3-connect-the-event-to-the-right-pla"
+      },
+      {
+        "content": "Finding a moment is not the same as assigning it correctly. Similar kits, crowded scenes and a blocked view can make player identification difficult.",
+        "type": "paragraph",
+        "id": "the-job-has-three-difficult-parts-paragraph-3"
+      },
+      {
+        "type": "paragraph",
+        "content": "This is why Pitchside output should be reviewed. AI can reduce the search work without becoming the final authority on every touch.",
+        "id": "the-job-has-three-difficult-parts-paragraph-4"
+      },
+      {
+        "content": "Why grassroots footage is its own problem",
+        "type": "h2",
+        "id": "why-grassroots-footage-is-its-own-problem-heading"
+      },
+      {
+        "type": "paragraph",
+        "content": "Professional broadcast footage is controlled. Small-sided footage is not.",
+        "id": "why-grassroots-footage-is-its-own-problem-paragraph-1"
+      },
+      {
+        "content": "A phone may be mounted behind a fence. The game may be under floodlights. Substitutes may walk in front of the lens. Five players can enter the same crowded goal area in a second.",
+        "type": "paragraph",
+        "id": "why-grassroots-footage-is-its-own-problem-paragraph-2"
+      },
+      {
+        "content": "Pitchside is developed around real phone-recorded small-sided conditions because those are the conditions the product needs to handle. The current focus is 5-a-side, 6-a-side and 7-a-side football.",
+        "type": "paragraph",
+        "id": "why-grassroots-footage-is-its-own-problem-paragraph-3"
+      },
+      {
+        "id": "why-grassroots-footage-is-its-own-problem-paragraph-4",
+        "content": "Without that evidence, do not publish vague claims about a “huge dataset” or “industry-leading accuracy”.",
+        "type": "paragraph"
+      },
+      {
+        "content": "What the beta is testing",
+        "type": "h2",
+        "id": "what-the-beta-is-testing-heading"
+      },
+      {
+        "id": "what-the-beta-is-testing-paragraph-1",
+        "type": "paragraph",
+        "content": "The current beta is testing supported event recognition around goals, assists, saves, passes and tackles, together with the player and match output built from those events."
+      },
+      {
+        "content": "The approved launch product includes:",
+        "type": "paragraph",
+        "id": "what-the-beta-is-testing-paragraph-2"
+      },
+      {
+        "type": "list",
+        "id": "what-the-beta-is-testing-list",
+        "items": [
+          "Match Stats & Highlights",
+          "Leaderboards",
+          "Personal Stats",
+          "Paid Personal Clips"
+        ]
+      },
+      {
+        "content": "Exact event availability can change during testing. <a href=\"/product-status\">Product Status</a> is the source of truth.",
+        "type": "paragraph",
+        "id": "what-the-beta-is-testing-paragraph-3"
+      },
+      {
+        "content": "Physical-load measurements are outside the approved launch promise. Do not describe video analysis as a verified replacement for GPS distance, speed or workload data.",
+        "type": "paragraph",
+        "id": "what-the-beta-is-testing-paragraph-4"
+      },
+      {
+        "content": "A result is only as good as the view",
+        "type": "h2",
+        "id": "a-result-is-only-as-good-as-the-view-heading"
+      },
+      {
+        "id": "a-result-is-only-as-good-as-the-view-paragraph-1",
+        "content": "Better footage gives the model more useful evidence.",
+        "type": "paragraph"
+      },
+      {
+        "id": "a-result-is-only-as-good-as-the-view-table",
+        "headers": [
+          "Recording condition",
+          "Likely effect"
+        ],
+        "type": "table",
+        "rows": [
+          {
+            "cells": [
+              "Stable phone above head height",
+              "More consistent view of players and events"
+            ]
+          },
+          {
+            "cells": [
+              "One clear angle covering a compact pitch",
+              "Simple setup with possible loss of far-end detail"
+            ]
+          },
+          {
+            "cells": [
+              "Two phones facing opposite goals",
+              "Better coverage with more setup and upload work"
+            ]
+          },
+          {
+            "cells": [
+              "Similar shirts or bibs",
+              "Harder player and team assignment"
+            ]
+          },
+          {
+            "cells": [
+              "Fencing or people blocking the camera",
+              "Missing visual evidence"
+            ]
+          },
+          {
+            "cells": [
+              "Low light, glare or rain on the lens",
+              "Reduced image clarity"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "a-result-is-only-as-good-as-the-view-paragraph-2",
+        "content": "Read the practical guide to <a href=\"/record-football-matches\">record football matches</a>.",
+        "type": "paragraph"
+      },
+      {
+        "id": "where-the-human-stays-involved-heading",
+        "type": "h2",
+        "content": "Where the human stays involved"
+      },
+      {
+        "id": "where-the-human-stays-involved-paragraph-1",
+        "type": "paragraph",
+        "content": "Pitchside should not hide uncertainty behind a polished scorecard."
+      },
+      {
+        "id": "where-the-human-stays-involved-paragraph-2",
+        "content": "The person reviewing the match needs to know which events were identified, which player was assigned and whether the result can be corrected. The final product should make review easy enough that a wrong assist or missed save can be handled without technical knowledge.",
+        "type": "paragraph"
+      },
+      {
+        "type": "paragraph",
+        "content": "This is one of the clearest differences between responsible AI football analysis software and a page that simply promises automation. The output has to be inspectable.",
+        "id": "where-the-human-stays-involved-paragraph-3"
+      },
+      {
+        "id": "how-this-page-differs-from-the-other-pitchside-pages-heading",
+        "type": "h2",
+        "content": "How this page differs from the other Pitchside pages"
+      },
+      {
+        "content": "<a href=\"/football-video-analysis\">Football video analysis</a> covers the customer workflow from upload to review.",
+        "type": "paragraph",
+        "id": "how-this-page-differs-from-the-other-pitchside-pages-paragraph-1"
+      },
+      {
+        "type": "paragraph",
+        "content": "<a href=\"/football-stats-app\">Football stats app</a> covers the player record and leaderboards.",
+        "id": "how-this-page-differs-from-the-other-pitchside-pages-paragraph-2"
+      },
+      {
+        "content": "<a href=\"/ai-football-highlights\">AI football highlights</a> covers match highlights and Personal Clips.",
+        "type": "paragraph",
+        "id": "how-this-page-differs-from-the-other-pitchside-pages-paragraph-3"
+      },
+      {
+        "id": "how-this-page-differs-from-the-other-pitchside-pages-paragraph-4",
+        "type": "paragraph",
+        "content": "<a href=\"/technology/how-pitchside-ai-works\">How Pitchside AI works</a> gives the short end-to-end product explanation."
+      },
+      {
+        "id": "how-this-page-differs-from-the-other-pitchside-pages-paragraph-5",
+        "content": "This page stays focused on capability, evidence and limits.",
+        "type": "paragraph"
+      },
+      {
+        "id": "ai-analysis-is-part-of-both-launch-plans-heading",
+        "type": "h2",
+        "content": "AI analysis is part of both launch plans"
+      },
+      {
+        "id": "ai-analysis-is-part-of-both-launch-plans-paragraph-1",
+        "content": "The Free plan includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month.",
+        "type": "paragraph"
+      },
+      {
+        "id": "ai-analysis-is-part-of-both-launch-plans-paragraph-2",
+        "type": "paragraph",
+        "content": "The Paid plan adds Personal Clips and one recording per week for £4.99 weekly, £12.99 monthly or £99 annually."
+      },
+      {
+        "type": "h2",
+        "content": "Follow the beta honestly",
+        "id": "follow-the-beta-honestly-heading"
+      },
+      {
+        "id": "follow-the-beta-honestly-paragraph-1",
+        "type": "paragraph",
+        "content": "Read <a href=\"/product-status\">Product Status</a> for the latest confirmed formats, features and limitations. Join the launch list if you want access updates."
+      }
+    ],
+    "tldrPoints": [
+      "Pitchside analyses pixels and frames from real phone-recorded small-sided football.",
+      "The model must track visible players, recognise supported event sequences and assign them correctly.",
+      "The beta is testing goals, assists, saves, passes and tackles for 5-a-side, 6-a-side and 7-a-side.",
+      "Stable, elevated and unobstructed footage gives the model better evidence.",
+      "Human review remains necessary; Pitchside does not promise tactical understanding or GPS workload data."
+    ],
+    "date": "July 19, 2026",
+    "faqs": [
+      {
+        "question": "What is AI football analysis?",
+        "answer": "It is the use of computer vision and machine learning to process football footage, identify supported visual events and organise the output into information people can review."
+      },
+      {
+        "answer": "Do not claim tactical understanding unless a specific, tested feature exists. The current launch product is centred on supported match events, stats, highlights, leaderboards and personal output.",
+        "question": "Does Pitchside understand tactics?"
+      },
+      {
+        "answer": "No. Recording quality, visibility and current model capability affect the result. Private beta output should be reviewed.",
+        "question": "Is every detected event correct?"
+      },
+      {
+        "answer": "Player assignment is part of the developing workflow, but similar kits, distance, obstructions and crowded scenes can cause uncertainty. Describe only the identification method and review flow that are live in the current product.",
+        "question": "Does Pitchside identify every player automatically?"
+      },
+      {
+        "answer": "During private beta, upload and processing can currently take up to 45 minutes. The exact time can vary with connection speed, recording length and the current workflow.",
+        "question": "How long does processing take?"
+      }
+    ],
+    "authorName": "Abdullah Luqman",
+    "parentPage": null,
+    "slug": "ai-football-analysis",
+    "ctaBlock": {
+      "description": "Check the latest confirmed formats, features and limitations, then join for access updates.",
+      "headline": "Follow the Beta Honestly",
+      "buttonUrl": "/#join-the-list",
+      "buttonText": "Join the Launch List"
+    },
+    "metaTitle": "AI Football Analysis From Phone Video",
+    "title": "AI Football Analysis From Phone Video | Pitchside AI",
+    "heroBackground": "https://firebasestorage.googleapis.com/v0/b/pitchside-a07c5.firebasestorage.app/o/hero-backgrounds%2F1784477049373_GeminiGeneratedImagesiuew6siuew6siue.png?alt=media&token=5683327f-355f-4194-87c6-37000e41933e",
+    "moreToRead": [],
+    "badge": "",
+    "intro": "AI football analysis starts with a recording, not a chatbot. Pitchside processes phone-recorded small-sided football and looks for the visual patterns behind supported players, actions and match events. The aim is to organise a long recording into stats and moments that are easier to review. That does not mean the system understands a match exactly as a player or coach does. It works from pixels, frames and the examples used to develop and test the model.",
+    "llmDescription": "Pitchside AI processes phone-recorded small-sided football and looks for supported players, actions and events across video frames. The capability must locate what is visible, recognise a supported sequence and connect it to the right player or team. The page explains model evidence, recording dependence, human review and private-beta limits without claiming tactical understanding or verified GPS workload data.",
+    "createdAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784410451,
+      "nanoseconds": 720000000
+    },
+    "publishedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784410451,
+      "nanoseconds": 720000000
+    },
+    "metaDescription": "Learn how Pitchside analyses phone-recorded small-sided football, which events it is testing, what affects accuracy and why every result still needs review.",
+    "thumbnail": "",
+    "technologyStack": [
+      {
+        "desc": "Pitchside is being developed around phone-recorded small-sided football footage, where camera angles, lighting and player spacing are different from professional broadcast footage.",
+        "title": "Computer Vision for Small-Sided Football",
+        "id": "vision",
+        "icon": "vision"
+      },
+      {
+        "title": "Event Detection in Testing",
+        "id": "ai",
+        "desc": "The beta system is being tested to identify goals, assists, saves, passes and tackles from match footage, with accuracy expected to improve as more footage is reviewed.",
+        "icon": "ai"
+      },
+      {
+        "icon": "hardware",
+        "title": "Phone-First Recording",
+        "id": "hardware",
+        "desc": "Pitchside aims to offer a phone-first workflow for teams that do not want to invest in dedicated football-camera hardware."
+      },
+      {
+        "title": "Edge-to-Cloud Pipeline",
+        "id": "cloud",
+        "desc": "Uploads and processing are being tested during private beta. Current processing can take up to 45 minutes and the flow is expected to improve.",
+        "icon": "cloud"
+      }
+    ],
+    "aeoQuickAnswer": "AI football analysis uses computer vision and machine learning to process football footage, identify supported visual events and organise the result for review. Pitchside focuses on phone-recorded 5-a-side, 6-a-side and 7-a-side matches. It can reduce search work, but footage quality, visibility and model limits mean every important event and player assignment still needs review.",
+    "authorUrl": "https://www.linkedin.com/in/abdullahluqman/"
+  }
+}

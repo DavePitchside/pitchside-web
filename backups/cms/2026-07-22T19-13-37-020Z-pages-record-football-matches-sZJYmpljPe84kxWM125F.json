@@ -1,0 +1,468 @@
+{
+  "collection": "pages",
+  "id": "sZJYmpljPe84kxWM125F",
+  "slug": "record-football-matches",
+  "exportedAt": "2026-07-22T19:13:38.071Z",
+  "data": {
+    "heroH1": "Record Football Matches With Your Phone",
+    "faqs": [
+      {
+        "question": "How can I record a football match with my phone?",
+        "answer": "Place the phone near the halfway line, raise it above head height, use landscape orientation and keep as much of the pitch visible as possible. Mount it securely, check battery and storage, then record the full match without moving the phone."
+      },
+      {
+        "answer": "No. One phone can work when it captures the full small-sided pitch clearly. Pitchside recommends two phones where possible, with one facing each goal, because this can provide clearer coverage of both halves.",
+        "question": "Do I need two phones to use Pitchside?"
+      },
+      {
+        "question": "Where should I position the phones?",
+        "answer": "Position the phones near the halfway line and above head height. For a two-phone setup, point one phone toward each goal. Keep fencing, spectators and substitutes from blocking the view."
+      },
+      {
+        "question": "Can Pitchside create highlights from my recording?",
+        "answer": "Pitchside is being developed to process full match recordings and generate key football highlights. It is currently in private beta, so output quality continues to improve as more small-sided footage is processed."
+      },
+      {
+        "question": "What football statistics can Pitchside produce?",
+        "answer": "The planned first-release statistics include goals, assists, saves, passes and tackles assigned to teams and individual players, together with player leaderboards. Detection and player assignment are still improving during beta."
+      },
+      {
+        "question": "Which football formats does Pitchside support?",
+        "answer": "Pitchside currently focuses on 5-a-side, 6-a-side and 7-a-side football. The model is being trained specifically around the camera angles, pace and crowded spaces found in real small-sided matches."
+      },
+      {
+        "question": "Do I need a specialist football camera?",
+        "answer": "No. Pitchside is designed around footage recorded with ordinary phones. A secure mount, useful camera height and a clear view of the pitch matter more than buying a dedicated football camera."
+      },
+      {
+        "question": "How long does Pitchside take to process a match?",
+        "answer": "During the current private beta, uploading and processing can take up to 45 minutes. The exact time can vary with the recording length, connection and developing upload workflow."
+      },
+      {
+        "question": "Will a ball-tracking tripod work with Pitchside?",
+        "answer": "A ball-tracking tripod may work if it keeps the main action visible and produces stable footage. A fixed elevated view can also work well because it gives the model a consistent view of the playing area."
+      },
+      {
+        "answer": "Pitchside AI is currently in private beta and is not yet presented as a fully released App Store or Google Play product. Join the list for early-access and launch updates.",
+        "question": "Can I download the Pitchside app now?"
+      }
+    ],
+    "metaDescription": "Record football matches with one or two phones. Pitchside AI turns small-sided match footage into highlights, player stats and team insights.",
+    "createdAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784408517,
+      "nanoseconds": 838000000
+    },
+    "intro": "You should not need an expensive sports camera or a professional camera operator to capture your football matches. Pitchside AI is being built for amateur and Sunday League players who want to record small-sided football with the phones they already own, then turn the footage into useful highlights, statistics and player moments.",
+    "technologyStats": [
+      {
+        "value": "5-a-side trained",
+        "label": "Custom\nModel"
+      },
+      {
+        "value": "5, 6 and 7-a-side",
+        "label": "Supported\nFormats"
+      },
+      {
+        "value": "Improving with footage",
+        "label": "Beta\nStatus"
+      }
+    ],
+    "date": "July 19, 2026",
+    "moreToRead": [],
+    "internalLinks": [
+      {
+        "maxUses": 2,
+        "text": "football recording setup guide",
+        "url": "/technology/football-recording-setup"
+      },
+      {
+        "text": "football camera app",
+        "url": "/football-camera-app",
+        "maxUses": 2
+      },
+      {
+        "url": "/ai-football-highlights",
+        "text": "AI football highlights",
+        "maxUses": 2
+      },
+      {
+        "maxUses": 2,
+        "text": "football video analysis",
+        "url": "/football-video-analysis"
+      },
+      {
+        "text": "5-a-side football stats tracker",
+        "url": "/tools/5-a-side-football-stats-tracker",
+        "maxUses": 1
+      },
+      {
+        "maxUses": 1,
+        "text": "how to record a football match on your phone",
+        "url": "/blog/how-to-record-a-football-match-on-your-phone"
+      }
+    ],
+    "badge": "",
+    "technologySections": [],
+    "aeoQuickAnswer": "To record a football match with your phone, place the phone above head height near the halfway line and keep as much of the pitch visible as possible. Pitchside works with one clear recording, but two phones—one facing each goal—provide better coverage. After the match, upload the footage so Pitchside can process it into highlights and football statistics.",
+    "heroBackground": "",
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784408517,
+      "nanoseconds": 838000000
+    },
+    "title": "Record Football Matches With Your Phone | Pitchside AI",
+    "authorName": "Abdullah Luqman",
+    "technologyStack": [
+      {
+        "desc": "Pitchside is being developed around phone-recorded small-sided football footage, where camera angles, lighting and player spacing are different from professional broadcast footage.",
+        "title": "Computer Vision for Small-Sided Football",
+        "id": "vision",
+        "icon": "vision"
+      },
+      {
+        "icon": "ai",
+        "title": "Event Detection in Testing",
+        "id": "ai",
+        "desc": "The beta system is being tested to identify goals, assists, saves, passes and tackles from match footage, with accuracy expected to improve as more footage is reviewed."
+      },
+      {
+        "desc": "Pitchside aims to offer a phone-first workflow for teams that do not want to invest in dedicated football-camera hardware.",
+        "id": "hardware",
+        "title": "Phone-First Recording",
+        "icon": "hardware"
+      },
+      {
+        "desc": "Uploads and processing are being tested during private beta. Current processing can take up to 45 minutes and the flow is expected to improve.",
+        "icon": "cloud",
+        "id": "cloud",
+        "title": "Edge-to-Cloud Pipeline"
+      }
+    ],
+    "ctaBlock": {
+      "buttonText": "Join Pitchside",
+      "headline": "Ready to Record Your Matches With Pitchside?",
+      "buttonUrl": "/#join-the-list",
+      "description": "Pitchside AI is currently in private beta. Join the list to get product updates and early access as phone recording, AI highlights and player statistics continue to improve."
+    },
+    "authorUrl": "https://www.linkedin.com/in/abdullahluqman/",
+    "tldrPoints": [
+      "Record football matches using phones you already own.",
+      "Use one phone for simple coverage or two phones for a clearer view of both halves.",
+      "Place each phone near the halfway line, above head height and facing a goal.",
+      "Pitchside is being built to create highlights and assign goals, assists, saves, passes and tackles.",
+      "The private beta currently focuses on 5-a-side, 6-a-side and 7-a-side football."
+    ],
+    "contentBlocks": [
+      {
+        "type": "h2",
+        "id": "record-without-expensive-camera-heading",
+        "content": "Record a Football Match Without an Expensive Camera"
+      },
+      {
+        "content": "Professional football recording systems can be useful, but their specialist cameras, subscriptions and fixed setups are often more than an amateur team needs. Pitchside takes a simpler route: use one or two phones to record the match, then use the footage to create something more useful than a long video sitting in your camera roll.",
+        "type": "paragraph",
+        "id": "record-without-expensive-camera-intro"
+      },
+      {
+        "type": "paragraph",
+        "id": "record-without-expensive-camera-value",
+        "content": "For a Sunday League team, small-sided group or regular kickabout, the best recording system is usually the one that is easy enough to use every week. A stable phone, a clear view of the pitch and a consistent setup make Pitchside a practical <a href=\"/football-camera-app\">football camera app</a> without asking your club to buy dedicated recording hardware."
+      },
+      {
+        "id": "record-without-expensive-camera-list",
+        "style": "unordered",
+        "type": "list",
+        "items": [
+          "No specialist football camera is required.",
+          "No camera operator needs to follow the ball for the full match.",
+          "One-phone and two-phone recording setups are supported.",
+          "The same repeatable setup can be used for future fixtures.",
+          "The goal is to turn ordinary phone footage into highlights and match data."
+        ]
+      },
+      {
+        "type": "h2",
+        "id": "how-recording-works-heading",
+        "content": "How Recording With Pitchside Works"
+      },
+      {
+        "content": "Recording a football match with Pitchside is designed to fit around the way grassroots teams already play. Set up the phone or phones before kick-off, record the game from a stable position, then upload the footage for processing when the match finishes.",
+        "type": "paragraph",
+        "id": "how-recording-works-intro"
+      },
+      {
+        "content": "1. Position the phone",
+        "id": "how-recording-works-step-one-heading",
+        "type": "h3"
+      },
+      {
+        "content": "Place the phone close to the halfway line and raise it above head height. Keep the pitch unobstructed and avoid a position where substitutes, spectators or fencing repeatedly block the view.",
+        "type": "paragraph",
+        "id": "how-recording-works-step-one-copy"
+      },
+      {
+        "type": "h3",
+        "id": "how-recording-works-step-two-heading",
+        "content": "2. Record the full match"
+      },
+      {
+        "content": "Start recording before kick-off and let the phone capture the game from a fixed, landscape view. Check storage, battery level and lens cleanliness before the match so the recording is not interrupted.",
+        "id": "how-recording-works-step-two-copy",
+        "type": "paragraph"
+      },
+      {
+        "id": "how-recording-works-step-three-heading",
+        "type": "h3",
+        "content": "3. Upload the footage"
+      },
+      {
+        "content": "After full-time, upload the recording to Pitchside. If you used two phones, the footage from both sides can be brought together to provide broader coverage of the match.",
+        "type": "paragraph",
+        "id": "how-recording-works-step-three-copy"
+      },
+      {
+        "type": "h3",
+        "id": "how-recording-works-step-four-heading",
+        "content": "4. Receive the match output"
+      },
+      {
+        "id": "how-recording-works-step-four-copy",
+        "type": "paragraph",
+        "content": "Pitchside processes the video to identify match events and create useful output. The first release is being developed around highlights and core team and player statistics rather than leaving you to review the entire recording manually."
+      },
+      {
+        "type": "h2",
+        "id": "one-phone-two-phones-heading",
+        "content": "Record With One Phone or Two Phones"
+      },
+      {
+        "content": "You can record a football match with one phone, but two phones are the preferred Pitchside setup. The right choice depends on the pitch size, the height available for the phones and how much of the playing area one camera can capture clearly.",
+        "type": "paragraph",
+        "id": "one-phone-two-phones-intro"
+      },
+      {
+        "type": "table",
+        "id": "one-phone-two-phones-table",
+        "rows": [
+          {
+            "cells": [
+              "One phone",
+              "Near the halfway line, above head height, with the full pitch visible where possible",
+              "Smaller pitches, simple weekly recording and teams testing the workflow",
+              "Play at the far edges may be smaller or harder to see"
+            ]
+          },
+          {
+            "cells": [
+              "Two phones",
+              "Both near halfway, with one phone facing each goal",
+              "Clearer coverage of both halves and better visibility around each goal",
+              "Requires two charged phones and a little more setup time"
+            ]
+          }
+        ],
+        "headers": [
+          "Setup",
+          "How to position it",
+          "Best for",
+          "Main trade-off"
+        ]
+      },
+      {
+        "content": "If one phone can keep the entire small-sided pitch clear and visible, start there. If players become too small in the frame or the goal areas are difficult to see, move to the two-phone setup. Good coverage matters more than using the newest phone.",
+        "type": "paragraph",
+        "id": "one-phone-two-phones-recommendation"
+      },
+      {
+        "id": "what-happens-after-heading",
+        "type": "h2",
+        "content": "What Happens After the Match"
+      },
+      {
+        "content": "Once the match ends, the recording is uploaded for analysis. This <a href=\"/football-video-analysis\">football video analysis</a> is powered by a custom computer vision and machine learning model trained around real small-sided football footage, where crowded pitches, quick transitions and grassroots camera angles look very different from professional broadcasts.",
+        "type": "paragraph",
+        "id": "what-happens-after-upload"
+      },
+      {
+        "content": "During the private beta, uploading and processing can currently take up to 45 minutes. This is an honest current limitation, not a promise of instant results. The upload flow is expected to improve as Pitchside develops, but connection speed, video length and footage quality can still affect the experience.",
+        "type": "paragraph",
+        "id": "what-happens-after-processing"
+      },
+      {
+        "content": "What helps Pitchside read the footage",
+        "type": "h3",
+        "id": "what-happens-after-quality-heading"
+      },
+      {
+        "items": [
+          "A stable recording with minimal shaking",
+          "A clear, unobstructed view of the pitch",
+          "Enough height to separate players visually",
+          "Good visibility around the goals",
+          "Consistent lighting across the playing area",
+          "The full match recorded without missing sections"
+        ],
+        "type": "list",
+        "id": "what-happens-after-quality-list",
+        "style": "unordered"
+      },
+      {
+        "content": "Turn Your Recording Into Stats and Highlights",
+        "id": "stats-highlights-heading",
+        "type": "h2"
+      },
+      {
+        "id": "stats-highlights-intro",
+        "type": "paragraph",
+        "content": "The value of recording a football match is not only being able to watch it again. Pitchside is being built to find the moments players care about and connect those moments to useful football statistics. The <a href=\"/ai-football-highlights\">AI football highlights</a> experience is designed to reduce the time spent searching through an entire match video."
+      },
+      {
+        "type": "table",
+        "id": "stats-highlights-table",
+        "headers": [
+          "Output",
+          "What Pitchside is being built to provide"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Highlights",
+              "Key moments from the match without manually searching through the full recording"
+            ]
+          },
+          {
+            "cells": [
+              "Goals and assists",
+              "Events assigned to teams and individual players where the footage allows"
+            ]
+          },
+          {
+            "cells": [
+              "Saves",
+              "Goalkeeper moments and saves identified from the recording"
+            ]
+          },
+          {
+            "cells": [
+              "Passes and tackles",
+              "Core on-ball and defensive actions for teams and players"
+            ]
+          },
+          {
+            "cells": [
+              "Leaderboards",
+              "Player comparisons across the statistics collected from matches"
+            ]
+          }
+        ]
+      },
+      {
+        "content": "Pitchside is still learning. Event detection and player assignment are improving during beta and will not be perfect in every match. Camera height, angle, lighting, obstructions and the distance between the phone and the action can all influence the result. Teams can use the free <a href=\"/tools/5-a-side-football-stats-tracker\">5-a-side football stats tracker</a> when they want to record supported match events manually.",
+        "id": "stats-highlights-beta-note",
+        "type": "paragraph"
+      },
+      {
+        "content": "Football Formats Supported",
+        "id": "formats-supported-heading",
+        "type": "h2"
+      },
+      {
+        "id": "formats-supported-intro",
+        "type": "paragraph",
+        "content": "Pitchside is focused on small-sided football first. Its model has been developed around the speed, tighter spaces and repeated player actions found in amateur 5-a-side, 6-a-side and 7-a-side matches."
+      },
+      {
+        "type": "table",
+        "id": "formats-supported-table",
+        "rows": [
+          {
+            "cells": [
+              "5-a-side",
+              "Core training and development format",
+              "A single elevated phone may cover a compact pitch; two phones can improve goal-area detail"
+            ]
+          },
+          {
+            "cells": [
+              "6-a-side",
+              "Supported small-sided format",
+              "Choose one or two phones according to the pitch width and available camera height"
+            ]
+          },
+          {
+            "cells": [
+              "7-a-side",
+              "Supported small-sided format",
+              "Two phones may provide stronger coverage on larger pitches"
+            ]
+          }
+        ],
+        "headers": [
+          "Format",
+          "Current Pitchside focus",
+          "Recording note"
+        ]
+      },
+      {
+        "id": "formats-supported-eleven-side",
+        "type": "paragraph",
+        "content": "Full-size 11-a-side football is not the main focus of the current private beta. Pitchside is deliberately starting with the amateur small-sided formats its model has been trained to understand."
+      },
+      {
+        "id": "setup-phones-heading",
+        "type": "h2",
+        "content": "How to Set Up Your Phones"
+      },
+      {
+        "id": "setup-phones-intro",
+        "type": "paragraph",
+        "content": "A careful setup gives you better footage and gives the Pitchside model a clearer view of the game. For exact camera positions, one-phone and two-phone diagrams, recommended heights and a match-day checklist, follow the <a href=\"/technology/football-recording-setup\">football recording setup guide</a>."
+      },
+      {
+        "id": "setup-phones-checklist",
+        "style": "ordered",
+        "type": "list",
+        "items": [
+          "Charge every phone before leaving for the match.",
+          "Free enough storage for one uninterrupted full-match recording.",
+          "Clean the camera lens and switch the phone to landscape orientation.",
+          "Place the phone near the halfway line and above head height.",
+          "Use a stable tripod or mount and make sure it cannot fall into the playing area.",
+          "Frame both touchlines and the relevant goal before kick-off.",
+          "Record a short test clip and check that players remain visible across the pitch.",
+          "Start early, confirm the timer is running and leave the phone undisturbed."
+        ]
+      },
+      {
+        "content": "You do not need to choose an expensive mount to use Pitchside. Stability, safe positioning and enough height are the priorities. Detailed mount comparisons and buying recommendations belong in separate equipment guides rather than on this product page. For broader filming advice, read <a href=\"/blog/how-to-record-a-football-match-on-your-phone\">how to record a football match on your phone</a> before your next fixture.",
+        "type": "paragraph",
+        "id": "setup-phones-mount-note"
+      },
+      {
+        "id": "faq-heading",
+        "type": "h2",
+        "content": "Frequently Asked Questions"
+      }
+    ],
+    "thumbnail": "",
+    "primaryImage": "",
+    "llmDescription": "Pitchside AI is a phone-based football recording and analysis platform for amateur and Sunday League players. Users can record 5-a-side, 6-a-side and 7-a-side matches with one phone or two phones. The preferred setup uses two phones placed near the halfway line, above head height, with one facing each goal. Pitchside is in private beta and is being developed to turn recorded match footage into highlights, goals, assists, saves, passes, tackles and player leaderboards. Accuracy is still improving, and upload and processing can currently take up to 45 minutes.",
+    "slug": "record-football-matches",
+    "metaTitle": "Record Football Matches With Your Phone",
+    "publishedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784408517,
+      "nanoseconds": 838000000
+    },
+    "parentPage": null,
+    "hero": {
+      "previewLabel": "",
+      "eyebrow": "",
+      "previewType": "",
+      "secondaryCtaLabel": "",
+      "previewData": {},
+      "primaryCtaLabel": ""
+    }
+  }
+}

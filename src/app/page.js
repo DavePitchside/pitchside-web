@@ -93,12 +93,6 @@ const EnhancedPlayerTrackingFrames = () => {
           </motion.span>
         </div>
 
-        <div className="absolute bottom-4 left-4 text-[8px] font-mono text-[#CCFF00]/70 uppercase tracking-widest transform-gpu">
-          <motion.div animate={{ opacity: [0.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
-            RANGE: 45m
-          </motion.div>
-        </div>
-
         <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-10 md:h-10 transform-gpu">
           <Image src="/Artboard.svg" alt="Center Tracking Artboard" fill className="object-contain" priority />
         </motion.div>

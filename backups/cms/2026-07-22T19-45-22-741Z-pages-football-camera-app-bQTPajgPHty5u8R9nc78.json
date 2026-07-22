@@ -1,0 +1,383 @@
+{
+  "collection": "pages",
+  "slug": "football-camera-app",
+  "id": "bQTPajgPHty5u8R9nc78",
+  "exportedAt": "2026-07-22T19:45:24.398Z",
+  "data": {
+    "publishedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784410126,
+      "nanoseconds": 940000000
+    },
+    "metaDescription": "Use one or two phones to record small-sided football for Pitchside. Compare coverage, blind spots, mounts and dedicated camera systems.",
+    "thumbnail": "",
+    "technologyStack": [
+      {
+        "desc": "Pitchside is being developed around phone-recorded small-sided football footage, where camera angles, lighting and player spacing are different from professional broadcast footage.",
+        "id": "vision",
+        "title": "Computer Vision for Small-Sided Football",
+        "icon": "vision"
+      },
+      {
+        "icon": "ai",
+        "desc": "The beta system is being tested to identify goals, assists, saves, passes and tackles from match footage, with accuracy expected to improve as more footage is reviewed.",
+        "id": "ai",
+        "title": "Event Detection in Testing"
+      },
+      {
+        "icon": "hardware",
+        "desc": "Pitchside aims to offer a phone-first workflow for teams that do not want to invest in dedicated football-camera hardware.",
+        "id": "hardware",
+        "title": "Phone-First Recording"
+      },
+      {
+        "desc": "Uploads and processing are being tested during private beta. Current processing can take up to 45 minutes and the flow is expected to improve.",
+        "title": "Edge-to-Cloud Pipeline",
+        "id": "cloud",
+        "icon": "cloud"
+      }
+    ],
+    "aeoQuickAnswer": "Pitchside uses one or two ordinary phones as the football camera. Mount one phone near halfway for the simplest setup, or use two phones facing opposite goals for better coverage. The app processes suitable footage after full-time for supported stats, highlights and player output. The separate double-phone mount remains in development.",
+    "authorUrl": "/authors/abdullah-luqman",
+    "moreToRead": [],
+    "badge": "",
+    "intro": "Pitchside does not require a permanent football camera at the venue. The app is designed around footage from one or two ordinary phones, positioned to give a stable view of a 5-a-side, 6-a-side or 7-a-side pitch. The phone records the match. Pitchside processes suitable footage afterwards for supported stats, highlights and player output.",
+    "llmDescription": "Pitchside is an AI football camera app designed around one or two ordinary phones rather than a permanent venue camera. One phone offers the simplest setup; two phones near halfway, each facing a goal, are preferred where practical. The separate Pitchside double-phone mount is in development, and its compatibility, price, safety limits and delivery details remain unconfirmed.",
+    "createdAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784410126,
+      "nanoseconds": 940000000
+    },
+    "authorName": "Abdullah Luqman",
+    "parentPage": null,
+    "slug": "football-camera-app",
+    "ctaBlock": {
+      "buttonText": "Join the Launch List",
+      "buttonUrl": "/#join-the-list",
+      "description": "Start with the phones your group already owns. Test the angle, keep the equipment safe and join for app and mount updates.",
+      "headline": "Record the Next Match With a Repeatable Setup"
+    },
+    "title": "AI Football Camera App Using One or Two Phones | Pitchside",
+    "metaTitle": "AI Football Camera App Using One or Two Phones | Pitchside",
+    "heroBackground": "",
+    "hero": {
+      "primaryCtaLabel": "",
+      "eyebrow": "",
+      "previewLabel": "",
+      "previewData": {},
+      "previewType": "",
+      "secondaryCtaLabel": ""
+    },
+    "technologyStats": [
+      {
+        "value": "5-a-side trained",
+        "label": "Custom\nModel"
+      },
+      {
+        "value": "5, 6 and 7-a-side",
+        "label": "Supported\nFormats"
+      },
+      {
+        "value": "Improving with footage",
+        "label": "Beta\nStatus"
+      }
+    ],
+    "internalLinks": [
+      {
+        "url": "/blog/how-to-record-a-football-match-on-your-phone",
+        "text": "phone recording guide",
+        "maxUses": 2
+      },
+      {
+        "url": "/best-veo-alternative-football",
+        "text": "Best Veo Alternative for Grassroots Football",
+        "maxUses": 2
+      },
+      {
+        "text": "football video analysis workflow",
+        "maxUses": 2,
+        "url": "/football-video-analysis"
+      }
+    ],
+    "updatedAt": {
+      "type": "firestore/timestamp/1.0",
+      "seconds": 1784747631,
+      "nanoseconds": 566000000
+    },
+    "primaryImage": "",
+    "technologySections": [],
+    "heroH1": "Your phone is the camera. The setup decides what it sees.",
+    "contentBlocks": [
+      {
+        "type": "h2",
+        "content": "First decision: one phone or two?",
+        "id": "first-decision-one-phone-or-two-heading"
+      },
+      {
+        "type": "h3",
+        "content": "One phone",
+        "id": "first-decision-one-phone-or-two-one-phone-heading"
+      },
+      {
+        "content": "Place one phone near halfway, above head height, in landscape orientation. Frame the complete playing area where possible.",
+        "type": "paragraph",
+        "id": "first-decision-one-phone-or-two-paragraph-1"
+      },
+      {
+        "id": "first-decision-one-phone-or-two-paragraph-2",
+        "content": "<strong>Best for:</strong> Compact pitches, first tests and teams with one suitable device. <strong>Main risk:</strong> Players and events at the far end can become small or disappear behind other players. <strong>Setup effort:</strong> Lowest.",
+        "type": "paragraph"
+      },
+      {
+        "id": "first-decision-one-phone-or-two-two-phones-heading",
+        "type": "h3",
+        "content": "Two phones"
+      },
+      {
+        "id": "first-decision-one-phone-or-two-paragraph-3",
+        "type": "paragraph",
+        "content": "Place both phones near halfway, with one facing each goal. Each phone covers one half more closely."
+      },
+      {
+        "id": "first-decision-one-phone-or-two-paragraph-4",
+        "content": "<strong>Best for:</strong> Wider small-sided pitches and stronger goal-area detail. <strong>Main risk:</strong> Two batteries, two storage checks and two files have to be managed. <strong>Setup effort:</strong> Higher, but this is the preferred Pitchside arrangement where practical.",
+        "type": "paragraph"
+      },
+      {
+        "content": "Blind spots to check before kick-off",
+        "type": "h2",
+        "id": "blind-spots-to-check-before-kick-off-heading"
+      },
+      {
+        "content": "A mount cannot fix a poor position.",
+        "type": "paragraph",
+        "id": "blind-spots-to-check-before-kick-off-paragraph-1"
+      },
+      {
+        "id": "blind-spots-to-check-before-kick-off-paragraph-2",
+        "content": "Walk the pitch and look for:",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "fencing that crosses the camera view;",
+          "substitutes standing directly in front of the phone;",
+          "a low angle that hides the ball behind players;",
+          "bright floodlights or sunlight pointing into the lens;",
+          "a goal area that sits outside the frame;",
+          "movement caused by wind, an unstable surface or an unsafe clamp;",
+          "notifications, incoming calls or storage limits that may interrupt recording."
+        ],
+        "id": "blind-spots-to-check-before-kick-off-list",
+        "type": "list"
+      },
+      {
+        "id": "blind-spots-to-check-before-kick-off-paragraph-3",
+        "type": "paragraph",
+        "content": "Record a short test clip and watch it from both ends of the pitch before the match begins."
+      },
+      {
+        "id": "the-mount-depends-on-the-venue-heading",
+        "type": "h2",
+        "content": "The mount depends on the venue"
+      },
+      {
+        "id": "the-mount-depends-on-the-venue-paragraph-1",
+        "content": "There is no single safe mount for every cage, fence and touchline.",
+        "type": "paragraph"
+      },
+      {
+        "id": "the-mount-depends-on-the-venue-fence-clamp-heading",
+        "content": "Fence clamp",
+        "type": "h3"
+      },
+      {
+        "content": "Useful where the venue permits it and the fence gives a stable, unobstructed position. Check that the phone and clamp cannot fall towards players.",
+        "type": "paragraph",
+        "id": "the-mount-depends-on-the-venue-paragraph-2"
+      },
+      {
+        "id": "the-mount-depends-on-the-venue-tripod-or-light-stand-heading",
+        "type": "h3",
+        "content": "Tripod or light stand"
+      },
+      {
+        "type": "paragraph",
+        "content": "Portable and adjustable, but it needs space, weight and protection from wind or contact. A tall stand should never be left unsecured.",
+        "id": "the-mount-depends-on-the-venue-paragraph-3"
+      },
+      {
+        "type": "h3",
+        "content": "Existing elevated surface",
+        "id": "the-mount-depends-on-the-venue-existing-elevated-surface-heading"
+      },
+      {
+        "id": "the-mount-depends-on-the-venue-paragraph-4",
+        "type": "paragraph",
+        "content": "Only use a surface if the phone can be secured safely and the venue allows it. A loose phone balanced on a wall or bag is not a recording system."
+      },
+      {
+        "content": "The detailed <a href=\"/blog/how-to-record-a-football-match-on-your-phone\">phone recording guide</a> should carry approved affiliate recommendations, checked prices and safety notes. This product page should remain focused on the Pitchside method.",
+        "type": "paragraph",
+        "id": "the-mount-depends-on-the-venue-paragraph-5"
+      },
+      {
+        "id": "the-pitchside-double-phone-mount-heading",
+        "type": "h2",
+        "content": "The Pitchside double-phone mount"
+      },
+      {
+        "content": "Pitchside is developing a mount for the preferred two-phone setup. The product is intended to make it easier to position two devices near halfway, with one facing each goal.",
+        "type": "paragraph",
+        "id": "the-pitchside-double-phone-mount-paragraph-1"
+      },
+      {
+        "id": "the-pitchside-double-phone-mount-paragraph-2",
+        "type": "paragraph",
+        "content": "Do not publish compatibility, dimensions, materials, weather resistance, safety limits, price or delivery dates until they have been tested and approved."
+      },
+      {
+        "id": "the-pitchside-double-phone-mount-paragraph-3",
+        "type": "paragraph",
+        "content": "The mount is a separate product from the app subscription. Buying or using a mount does not automatically include a Paid app plan unless Dave approves a bundle."
+      },
+      {
+        "id": "what-makes-this-an-ai-football-camera-app-heading",
+        "content": "What makes this an AI football camera app?",
+        "type": "h2"
+      },
+      {
+        "id": "what-makes-this-an-ai-football-camera-app-paragraph-1",
+        "type": "paragraph",
+        "content": "The camera does not need to pan and follow the ball during the match. Pitchside works from the captured view after upload and uses the footage for the available analysis workflow."
+      },
+      {
+        "id": "what-makes-this-an-ai-football-camera-app-paragraph-2",
+        "content": "That makes it different from a motorised phone tracker and from a dedicated panoramic camera. Each approach has trade-offs:",
+        "type": "paragraph"
+      },
+      {
+        "rows": [
+          {
+            "cells": [
+              "Fixed phone setup with Pitchside",
+              "The view framed by one or two phones",
+              "Low hardware barrier and player-focused output",
+              "Coverage depends on position and pitch size"
+            ]
+          },
+          {
+            "cells": [
+              "Motorised phone mount",
+              "A moving view that follows play",
+              "Closer action framing",
+              "May not preserve the complete pitch view"
+            ]
+          },
+          {
+            "cells": [
+              "Dedicated panoramic camera",
+              "Wide or full-field source, depending on system",
+              "Stronger tactical context",
+              "Higher hardware and subscription cost"
+            ]
+          }
+        ],
+        "id": "what-makes-this-an-ai-football-camera-app-table",
+        "type": "table",
+        "headers": [
+          "Approach",
+          "What it records",
+          "Main strength",
+          "Main limitation"
+        ]
+      },
+      {
+        "id": "what-makes-this-an-ai-football-camera-app-paragraph-3",
+        "content": "For a needs-based comparison, visit <a href=\"/best-veo-alternative-football\">Best Veo Alternative for Grassroots Football</a>.",
+        "type": "paragraph"
+      },
+      {
+        "type": "h2",
+        "content": "What happens to the recording",
+        "id": "what-happens-to-the-recording-heading"
+      },
+      {
+        "content": "After full-time, upload the footage through the available Pitchside workflow. The private beta processes suitable recordings and returns supported match output for review.",
+        "type": "paragraph",
+        "id": "what-happens-to-the-recording-paragraph-1"
+      },
+      {
+        "id": "what-happens-to-the-recording-paragraph-2",
+        "type": "paragraph",
+        "content": "Processing can currently take up to 45 minutes. Read the complete <a href=\"/football-video-analysis\">football video analysis workflow</a>."
+      },
+      {
+        "type": "h2",
+        "content": "App plans and mount pricing are separate",
+        "id": "app-plans-and-mount-pricing-are-separate-heading"
+      },
+      {
+        "id": "app-plans-and-mount-pricing-are-separate-paragraph-1",
+        "content": "The app's Free plan includes one recording per month, Match Stats & Highlights, Leaderboards and Personal Stats.",
+        "type": "paragraph"
+      },
+      {
+        "id": "app-plans-and-mount-pricing-are-separate-paragraph-2",
+        "type": "paragraph",
+        "content": "The Paid plan includes one recording per week and Personal Clips for £4.99 weekly, £12.99 monthly or £99 annually."
+      },
+      {
+        "id": "app-plans-and-mount-pricing-are-separate-paragraph-3",
+        "type": "paragraph",
+        "content": "The Pitchside double-phone mount price is not included in this draft. Add it only after preorder terms are approved."
+      },
+      {
+        "id": "record-the-next-match-with-a-repeatable-setup-heading",
+        "type": "h2",
+        "content": "Record the next match with a repeatable setup"
+      },
+      {
+        "content": "Start with the phones your group already owns. Test the angle, keep the equipment safe and join the launch list for app and mount updates.",
+        "type": "paragraph",
+        "id": "record-the-next-match-with-a-repeatable-setup-paragraph-1"
+      },
+      {
+        "content": "Camera setup FAQ",
+        "type": "h2",
+        "id": "camera-setup-faq-heading"
+      }
+    ],
+    "tldrPoints": [
+      "One phone is the simplest option; two phones provide stronger coverage where practical.",
+      "Check blind spots, lighting, battery, storage, stability and venue safety before kick-off.",
+      "The phone records a fixed view and Pitchside processes suitable footage after upload.",
+      "The Pitchside double-phone mount is separate from the app subscription and remains in development.",
+      "Compatibility, mount pricing, safety limits and delivery dates must not be promised before approval."
+    ],
+    "landingLayout": "centered",
+    "date": "July 19, 2026",
+    "faqs": [
+      {
+        "answer": "Pitchside is an app and analysis platform designed to work with suitable phone-recorded footage. A separate double-phone mount is in development.",
+        "question": "Is Pitchside a camera or an app?"
+      },
+      {
+        "question": "Do I need two phones?",
+        "answer": "No. One phone can work when it clearly covers the complete small-sided pitch. Two phones are preferred when a single view loses too much detail."
+      },
+      {
+        "question": "Which phones are compatible?",
+        "answer": "Publish a tested compatibility list before launch. Do not use broad “works with any phone” language unless the recording, upload and app requirements support it."
+      },
+      {
+        "answer": "The fixed-phone Pitchside setup does not need to pan during the match. It records the framed view for post-match processing. Do not confuse this workflow with the earlier motorised tracking-mount concept unless that hardware is still part of the approved product.",
+        "question": "Does the camera follow the ball?"
+      },
+      {
+        "question": "Can I buy the Pitchside mount now?",
+        "answer": "The mount is in development. Add preorder availability, delivery estimates, refund terms and compatible phones only after Dave confirms them."
+      }
+    ]
+  }
+}

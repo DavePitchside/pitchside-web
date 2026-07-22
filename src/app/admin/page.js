@@ -3,8 +3,8 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench, ExternalLink, Cpu } from "lucide-react";
-import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc, addDoc, serverTimestamp } from "firebase/firestore";
+import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench, ExternalLink, Cpu, ShieldAlert } from "lucide-react";
+import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc, addDoc, serverTimestamp, where } from "firebase/firestore";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "@/lib/firebase"; 
 import PageBuilder from "./PageBuilder"; 
@@ -17,6 +17,7 @@ import { isDefaultPageImage } from "@/lib/pageImages";
 const CORE_STATIC_PAGES = [
   { id: "home", title: "Home Page", slug: "/" },
   { id: "technology", title: "Technology", slug: "technology" },
+  { id: "technology-football-recording-setup", title: "Football Recording Setup", slug: "technology/football-recording-setup", publicRoute: "/technology/football-recording-setup" },
   { id: "about", title: "About Us", slug: "about" },
   { id: "blog", title: "Blog Main Page", slug: "blog" },
   { id: "contact", title: "Contact", slug: "contact" },
@@ -66,7 +67,7 @@ const TECHNOLOGY_PAGE_DEFAULTS = {
       id: "hardware",
       icon: "hardware",
       title: "Accuracy Improving During Beta",
-      desc: "Pitchside should be presented honestly as a learning model. Accuracy is improving as more footage is processed across different lighting, pitch types, camera heights and game formats.",
+      desc: "Pitchside is in private beta, so detected events and player assignments should be reviewed before they are treated as final.",
     },
     {
       id: "cloud",
@@ -79,11 +80,11 @@ const TECHNOLOGY_PAGE_DEFAULTS = {
     { h2: "Custom Machine Learning Model for Small-Sided Football", content: ["Pitchside is powered by a custom machine learning model trained specifically on small-sided football footage. The model was built this way because grassroots football does not look like professional 11-a-side football.", "Small-sided games have tighter spaces, shorter passing patterns, faster transitions, different camera angles and more crowded visual cues. A model trained only on professional broadcast footage would miss too much context. Pitchside is designed around the footage real amateur teams can actually capture."] },
     { h2: "Why Pitchside Is Trained on 5-a-Side Footage", content: ["Pitchside started with 5-a-side because it is one of the hardest and most useful grassroots formats to understand. The game is fast, compact and full of repeated actions: goals, saves, passes, tackles, assists and quick turnovers.", "The model has been trained using local small-sided game footage, with many hours spent annotating clips frame by frame. This helps Pitchside learn the visual patterns of real grassroots football instead of relying on assumptions from elite-level match footage.", "The same approach also supports 6-a-side and 7-a-side football, where the pitch is still smaller than full 11-a-side and the game remains player-moment heavy."] },
     { h2: "Computer Vision, Event Detection and Player Identification", content: ["Pitchside uses computer vision to read match footage and identify football actions from video. The goal is to understand what happened in the game, not just store a recording.", "The system is being built to detect key football events, assign those events to teams and players, and turn long recordings into useful match output. That includes statistics, highlights and leaderboards for players who want proof of performance."] },
-    { h2: "What Pitchside Can Currently Detect", content: ["The first release is designed to generate full match highlights and assign core football statistics to teams and individual players.", "The planned first-release stats include goals, assists, saves, passes and tackles. Pitchside can identify players and assign those same statistics to individuals, which allows teams to create leaderboards and compete across each stat.", "This makes Pitchside different from a basic football camera app. The goal is not only to record football matches, but to turn the footage into stats, highlights and player moments."], table: { headers: ["Output", "What Pitchside Is Being Built to Do"], rows: [["Goals", "Detect and assign goals to teams and players"], ["Assists", "Identify assisting actions and connect them to players"], ["Saves", "Track goalkeeper saves and key defensive moments"], ["Passes", "Assign passing actions to players and teams"], ["Tackles", "Detect defensive actions from match footage"], ["Highlights", "Generate full match highlights from recorded footage"], ["Leaderboards", "Let players compete across individual stats"]] } },
-    { h2: "Best Footage Setup for Pitchside AI", content: ["Pitchside works best when the match is recorded from the halfway line, above head height and facing toward one goal. The ideal setup is two phones: one pointing toward each goal. The app can then combine the data and highlights from both recordings.", "A one-phone setup can also work if it captures the full pitch clearly. Ball-tracking tripods may also work well because they can help keep the main action in frame.", "Most training footage was captured during British winter conditions: dark outside but floodlit. That is currently where Pitchside sees some of its best results. The system can still operate in sunlight, and performance should improve over time as more footage is processed."] },
-    { h2: "Current Limitations", content: ["Pitchside is still improving. Accuracy is not perfect yet, and the system should be presented honestly as a learning model that gets better with more footage.", "The current upload process can also take longer than ideal. At the moment, footage may take up to 45 minutes to upload and process because the system waits until the game has finished recording before uploading.", "A future improvement is to stream the upload during the recording period, which should reduce waiting time after the match."], table: { headers: ["Limitation", "Current Reality", "Planned Direction"], rows: [["Accuracy", "Improving, but not perfect yet", "Gets better as more footage is processed"], ["Upload time", "Can currently take up to 45 minutes", "Future livestream-style upload during recording"], ["Footage quality", "Angle, height and lighting affect results", "Clear recording guidelines help improve output"], ["Format", "Best suited to 5, 6 and 7-a-side", "Built around small-sided football first"]] } },
-    { h2: "What Improves Over Time", content: ["Pitchside is built around a learning algorithm, so the product should improve as it processes more match footage. More recordings help the system understand different lighting conditions, player movements, pitch types and camera setups.", "The long-term goal is to make football video analysis easier for grassroots players: record the game, upload the footage, receive stats, generate highlights and compete on player leaderboards without needing GPS vests or expensive camera hardware."] },
-    { h2: "Why This Matters for Grassroots Football", content: ["Most amateur players do not have analysts, camera operators or expensive football tracking systems. They have phones, teammates and matches worth remembering. Pitchside is being built for that reality.", "The technology is designed to support football camera app searches, AI football analysis, football video analysis, Veo alternative comparisons, GPS vest alternative searches and football stats app users, but the product focus is simple: make grassroots match footage useful."] },
+    { h2: "Capabilities Being Tested in Private Beta", content: ["Pitchside is testing supported match output from suitable phone-recorded small-sided football footage.", "Supported events currently being tested include goals, assists, saves, passes and tackles. Output can vary by footage quality, camera position, lighting, kit similarity and obstruction.", "The goal is to turn a useful recording into stats, highlights and player records that can be reviewed after the match."], table: { headers: ["Output", "Current beta focus"], rows: [["Goals", "Detecting and assigning goals to teams and players"], ["Assists", "Identifying assisting actions and connecting them to players"], ["Saves", "Tracking goalkeeper saves and key defensive moments"], ["Passes", "Assigning passing actions to players and teams"], ["Tackles", "Detecting defensive actions from match footage"], ["Highlights", "Generating match highlights from recorded footage"], ["Leaderboards", "Turning reviewed stats into player comparisons"]] } },
+    { h2: "Best Footage Setup for Pitchside AI", content: ["A stable, elevated landscape recording gives Pitchside a clearer view of the important playing area. Two phones can help cover opposing halves when one phone cannot keep the match in frame.", "A one-phone setup can also work on smaller pitches if a short test recording shows both goals and the main playing area clearly. Avoid unnecessary panning, unstable mounts and positions where people can walk in front of the lens.", "Footage quality, weather, lighting, camera height and venue layout all affect the final output. For practical setup steps, use the football recording setup guide."] },
+    { h2: "Current Limitations", content: ["Pitchside is still improving. Accuracy is not perfect yet, and detected events or player assignments may need review.", "The current upload process can also take longer than ideal. At the moment, footage may take up to 45 minutes to upload and process because the system waits until the game has finished recording before uploading.", "A future improvement is to stream the upload during the recording period, which should reduce waiting time after the match."], table: { headers: ["Limitation", "Current Reality", "Planned Direction"], rows: [["Accuracy", "Improving, but not perfect yet", "Review tools and clearer footage guidance"], ["Upload time", "Can currently take up to 45 minutes", "Upload workflow improvements"], ["Footage quality", "Angle, height and lighting affect results", "Clear recording guidelines help improve output"], ["Format", "Best suited to 5, 6 and 7-a-side", "Built around small-sided football first"]] } },
+    { h2: "What the Beta Is Improving", content: ["The beta is focused on improving event recognition, player assignment, upload handling and the quality checks that tell users when footage is suitable.", "The long-term goal is to make football video analysis easier for grassroots players: record the game, upload the footage, receive stats, generate highlights and compete on player leaderboards without needing GPS vests or expensive camera hardware."] },
+    { h2: "Why This Matters for Grassroots Football", content: ["Most amateur players do not have analysts, camera operators or expensive football tracking systems. They have phones, teammates and matches worth remembering. Pitchside is being built for that reality.", "The product focus is simple: help grassroots players turn suitable phone-recorded match footage into useful stats, highlights and player records."] },
   ],
   aeoQuickAnswer: "PITCHSIDE.AI uses football-tuned computer vision to detect players, track movement, identify match events, and transform video into coaching and scouting intelligence without requiring specialist stadium hardware.",
   tldrPoints: [
@@ -329,6 +330,7 @@ export default function AdminDashboard() {
     { id: "technology_pages", label: "Technology Pages", icon: Cpu },
     { id: "posts", label: "Blog Engine", icon: FileText },
     { id: "tools", label: "Tools", icon: Wrench },
+    { id: "cms_ops", label: "CMS Ops", icon: ShieldAlert },
     { id: "authors", label: "Authors", icon: Users },
     { id: "footer", label: "Global Footer", icon: LinkIcon },
     { id: "leads", label: "Contacts & Leads", icon: Users },
@@ -380,6 +382,7 @@ export default function AdminDashboard() {
                  activeTab === "landing_pages" ? "Build & deploy dynamic competitor / SEO landing pages." :
                  activeTab === "technology_pages" ? "Build editable subpages under /technology." :
                  activeTab === "tools" ? "Edit SEO, page copy, FAQs, and CTA content for fixed public tools." :
+                 activeTab === "cms_ops" ? "Apply reviewed CMS patch operations with automatic backups." :
                  activeTab === "authors" ? "Manage blog authors and internal author profile links." :
                  activeTab === "footer" ? "Manage external links and global footer presence." : 
                  activeTab === "deletions" ? "Process user account deletion requests." :
@@ -398,6 +401,8 @@ export default function AdminDashboard() {
           <div className="flex-1 overflow-y-auto p-8 md:p-12 z-0">
             {activeTab === "footer" ? (
               <FooterManager />
+            ) : activeTab === "cms_ops" ? (
+              <CmsOperationsManager user={user} />
             ) : activeTab === "authors" ? (
               <AuthorsManager />
             ) : (
@@ -753,6 +758,158 @@ function AuthorsManager() {
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+function CmsOperationsManager({ user }) {
+  const [payloadText, setPayloadText] = useState("");
+  const [confirmText, setConfirmText] = useState("");
+  const [running, setRunning] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+
+  const parsePayload = () => {
+    const parsed = JSON.parse(payloadText);
+    if (!parsed || typeof parsed !== "object") throw new Error("Patch payload must be a JSON object.");
+    if (!parsed.label || typeof parsed.label !== "string") throw new Error("Patch payload needs a label.");
+    if (!Array.isArray(parsed.operations) || parsed.operations.length === 0) throw new Error("Patch payload needs operations.");
+
+    const allowedCollections = new Set(["pages", "posts", "tools", "settings"]);
+    parsed.operations.forEach((operation, index) => {
+      if (!allowedCollections.has(operation.collection)) throw new Error(`Operation ${index + 1}: unsupported collection.`);
+      if (!operation.docId && !operation.slug) throw new Error(`Operation ${index + 1}: provide docId or slug.`);
+      if (!operation.merge || typeof operation.merge !== "object" || Array.isArray(operation.merge)) throw new Error(`Operation ${index + 1}: merge must be an object.`);
+      if (operation.delete || operation.remove) throw new Error(`Operation ${index + 1}: delete operations are not supported.`);
+    });
+
+    return parsed;
+  };
+
+  const findTargetDoc = async (operation) => {
+    if (operation.docId) {
+      const docRef = doc(db, operation.collection, operation.docId);
+      const snapshot = await getDoc(docRef);
+      return { docRef, snapshot, docId: operation.docId };
+    }
+
+    const snapshot = await getDocs(query(collection(db, operation.collection), where("slug", "==", operation.slug)));
+    if (snapshot.empty) {
+      const docId = operation.createDocId || `${operation.slug}-${Date.now()}`;
+      return { docRef: doc(db, operation.collection, docId), snapshot: null, docId };
+    }
+
+    const first = snapshot.docs[0];
+    return { docRef: doc(db, operation.collection, first.id), snapshot: first, docId: first.id };
+  };
+
+  const runPatch = async () => {
+    setError("");
+    setResult(null);
+
+    if (confirmText !== "APPLY CMS PATCH") {
+      setError("Type APPLY CMS PATCH before running.");
+      return;
+    }
+
+    let payload;
+    try {
+      payload = parsePayload();
+    } catch (parseError) {
+      setError(parseError.message);
+      return;
+    }
+
+    setRunning(true);
+    const applied = [];
+    try {
+      for (const operation of payload.operations) {
+        const { docRef, snapshot, docId } = await findTargetDoc(operation);
+        const backupId = `${operation.collection}-${docId}-${Date.now()}`;
+        await setDoc(doc(db, "cmsRevisionBackups", backupId), {
+          label: payload.label,
+          collection: operation.collection,
+          docId,
+          slug: operation.slug || operation.merge.slug || snapshot?.data()?.slug || null,
+          backupType: snapshot?.exists?.() ? "before-update" : "before-create",
+          data: snapshot?.exists?.() ? snapshot.data() : null,
+          createdAt: serverTimestamp(),
+          createdBy: user?.email || null,
+        });
+
+        await setDoc(docRef, {
+          ...operation.merge,
+          updatedAt: serverTimestamp(),
+          ...(snapshot?.exists?.() ? {} : { createdAt: serverTimestamp() }),
+        }, { merge: true });
+
+        applied.push({ collection: operation.collection, docId, slug: operation.slug || operation.merge.slug || null });
+      }
+
+      setResult({ label: payload.label, applied });
+      setConfirmText("");
+    } catch (runError) {
+      console.error("CMS patch failed:", runError);
+      setError(runError?.message || "CMS patch failed.");
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div className="rounded-[1.5rem] border border-[#CCFF00]/20 bg-[#0A0A0A] p-8 shadow-2xl">
+        <div className="mb-6 flex items-start gap-4">
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/10">
+            <ShieldAlert className="h-6 w-6 text-[#CCFF00]" />
+          </div>
+          <div>
+            <h2 className="text-xl font-black uppercase tracking-widest text-white">Authenticated CMS Patch Runner</h2>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-500">
+              Runs only in this signed-in admin session. Each operation creates a backup in cmsRevisionBackups before applying a merge update. Deletes are not supported.
+            </p>
+          </div>
+        </div>
+
+        <label className="mb-2 block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Patch JSON</label>
+        <textarea
+          value={payloadText}
+          onChange={(event) => setPayloadText(event.target.value)}
+          rows={14}
+          spellCheck={false}
+          className="w-full rounded-xl border border-white/10 bg-black p-4 font-mono text-xs leading-relaxed text-zinc-200 outline-none focus:border-[#CCFF00]"
+          placeholder='{"label":"Reviewed SEO patch","operations":[{"collection":"pages","slug":"example","merge":{"title":"Example"}}]}'
+        />
+
+        <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto]">
+          <input
+            value={confirmText}
+            onChange={(event) => setConfirmText(event.target.value)}
+            className="rounded-xl border border-white/10 bg-black px-4 py-3 text-sm font-black uppercase tracking-widest text-white outline-none focus:border-[#CCFF00]"
+            placeholder="Type APPLY CMS PATCH"
+          />
+          <button
+            type="button"
+            onClick={runPatch}
+            disabled={running}
+            className="rounded-xl bg-[#CCFF00] px-6 py-3 text-xs font-black uppercase tracking-widest text-black disabled:opacity-50"
+          >
+            {running ? "Applying..." : "Apply patch"}
+          </button>
+        </div>
+
+        {error && <p role="alert" className="mt-5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">{error}</p>}
+        {result && (
+          <div className="mt-5 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/10 p-4 text-sm text-[#CCFF00]">
+            <p className="font-black uppercase tracking-widest">Applied: {result.label}</p>
+            <ul className="mt-3 space-y-1 font-mono text-xs">
+              {result.applied.map((item) => (
+                <li key={`${item.collection}-${item.docId}`}>{item.collection}/{item.docId}{item.slug ? ` (${item.slug})` : ""}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
