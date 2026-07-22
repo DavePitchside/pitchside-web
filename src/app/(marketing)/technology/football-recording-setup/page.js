@@ -197,7 +197,7 @@ export default function FootballRecordingSetupPage() {
               <h3 className="text-2xl font-black uppercase tracking-tight">Recording on open grass</h3>
               <p className="mt-3 text-sm font-black uppercase tracking-widest text-[#7a9900]">Best for: Sunday league and open grass pitches with nothing secure to attach to</p>
               <p className="mt-4 text-base font-medium leading-relaxed text-zinc-700">A freestanding tripod is usually the most practical option when there is no suitable fencing, railing or post. Position it outside the playing area and pedestrian routes, and use appropriate ballast when conditions allow.</p>
-              <p className="mt-3 flex gap-2 text-sm font-bold leading-relaxed text-zinc-500"><TriangleAlert className="mt-0.5 h-4 w-4 shrink-0 text-[#7a9900]" /> The supplied tripod link duplicates the post-mount link, so no tripod buying button is included.</p>
+              <p className="mt-3 flex gap-2 text-sm font-bold leading-relaxed text-zinc-500"><TriangleAlert className="mt-0.5 h-4 w-4 shrink-0 text-[#7a9900]" /> Use a tripod only when it can stand securely without blocking players, spectators or emergency routes.</p>
             </article>
           </div>
         </section>

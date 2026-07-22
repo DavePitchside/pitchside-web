@@ -1,0 +1,34 @@
+{
+  "label": "Clean phone-recording blog FAQ claims - July 23, 2026",
+  "operator": "codex-local-service-account",
+  "operations": [
+    {
+      "collection": "posts",
+      "slug": "how-to-record-a-football-match-on-your-phone",
+      "merge": {
+        "faqs": [
+          {
+            "question": "Do I need a special camera to record a football match?",
+            "answer": "No dedicated camera is required for Pitchside's phone-first workflow. You still need suitable footage, a safe mounting position and enough visibility for the important playing area."
+          },
+          {
+            "question": "How do I record a 5-a-side match?",
+            "answer": "Record in landscape from a safe, stable position with as much of the pitch in frame as possible. Smaller pitches can often work with one raised phone, but you should record a short test clip before kickoff and check for blind spots."
+          },
+          {
+            "question": "How can I turn match footage into highlights and stats?",
+            "answer": "Pitchside is in private beta and is testing supported stats and highlights from suitable phone-recorded footage. Detected events and player assignments should be reviewed before treating the match record as final."
+          },
+          {
+            "question": "Is 1080p at 60fps always the right setting?",
+            "answer": "No. Higher resolution and frame rate can improve detail, but they also use more battery and storage. Test your own phone and check Pitchside Product Status for current input guidance."
+          },
+          {
+            "question": "Can one phone capture the whole pitch?",
+            "answer": "One phone can work well on some smaller pitches, but it does not guarantee complete coverage. Two phones may help when a single view leaves goal areas, corners or far-side action hidden."
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "label": "Clean remaining legacy FAQ instruction copy - July 23, 2026",
+  "operator": "codex-local-service-account",
+  "operations": [
+    {
+      "collection": "pages",
+      "slug": "football-analysis-app",
+      "merge": {
+        "faqs": [
+          {
+            "question": "What is football match analysis?",
+            "answer": "Football match analysis uses footage, observations and data to understand what happened in a game. Pitchside focuses on making phone-recorded small-sided matches easier for players to review through supported stats and highlights."
+          },
+          {
+            "question": "Is Pitchside a coaching analysis platform?",
+            "answer": "Pitchside can support conversations about a match, but the launch product is centred on grassroots player stats, highlights, leaderboards and personal records. It is not a replacement for a professional tactical analyst."
+          },
+          {
+            "question": "Does the app calculate fitness or workload data?",
+            "answer": "No. Pitchside is not a GPS vest and does not replace distance, speed, sprint-load or training-load data."
+          },
+          {
+            "question": "Can the analysis be corrected?",
+            "answer": "Pitchside output should be treated as reviewable during private beta. Detected events and player assignments may need checking before the match record is used."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "record-football-matches",
+      "merge": {
+        "faqs": [
+          {
+            "question": "Can I record a football match with one phone?",
+            "answer": "Yes, when one stable view clearly covers the small-sided pitch. Two phones are useful when a single view makes the far end too small or misses important detail."
+          },
+          {
+            "question": "Where should I put the phone?",
+            "answer": "Start near halfway, above head height and outside the playing area. Test the complete pitch view before kickoff and follow the venue's safety rules."
+          },
+          {
+            "question": "Which camera settings should I use?",
+            "answer": "Use landscape orientation and test your own phone before relying on it for a full match. Higher quality settings can improve detail but use more battery and storage."
+          },
+          {
+            "question": "Does two-phone recording use two allowances?",
+            "answer": "Two-phone allowance handling is still to be confirmed before subscriptions become purchasable."
+          },
+          {
+            "question": "What if the recording stops?",
+            "answer": "A stopped or interrupted recording may reduce what Pitchside can process. Check storage, battery and focus mode before kickoff."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "posts",
+      "slug": "cheapest-veo-alternative",
+      "merge": {
+        "tldrPoints": [
+          "A suitable phone the team already owns plus a secure mount normally creates the lowest hardware entry cost.",
+          "Pitchside's announced Free tier is £0 with one recording per month; Paid is £4.99 weekly, £12.99 monthly or £99 annually.",
+          "Pitchside remains in private beta and is not a like-for-like replacement for dedicated full-field recording or livestreaming workflows.",
+          "Phones, mounts, data, regional taxes, accessories and shipping are separate from software pricing."
+        ]
+      }
+    }
+  ]
+}

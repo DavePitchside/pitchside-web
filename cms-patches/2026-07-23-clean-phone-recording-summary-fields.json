@@ -1,0 +1,26 @@
+{
+  "label": "Clean phone-recording blog summary and CTA claims - July 23, 2026",
+  "operator": "codex-local-service-account",
+  "operations": [
+    {
+      "collection": "posts",
+      "slug": "how-to-record-a-football-match-on-your-phone",
+      "merge": {
+        "tldrPoints": [
+          "Choose a safe, stable position before kickoff and check venue permission.",
+          "Use landscape orientation and record a short test clip before the match starts.",
+          "Higher resolution or frame rate can improve detail, but it also uses more battery and storage.",
+          "A secure fence mount, post mount or tripod is safer than holding the phone by hand.",
+          "Pitchside is in private beta and is testing supported stats and highlights from suitable footage."
+        ],
+        "aeoQuickAnswer": "To record a football match on your phone, use a safe landscape setup with a stable mount, check that the important playing area is visible and record a short test clip before kickoff. Settings depend on your device, storage and battery.",
+        "ctaBlock": {
+          "headline": "Turn your match footage into highlights",
+          "description": "Record the match safely, then use suitable footage with Pitchside as the private beta expands supported stats and highlights.",
+          "buttonText": "Join the launch list",
+          "buttonUrl": "/contact"
+        }
+      }
+    }
+  ]
+}

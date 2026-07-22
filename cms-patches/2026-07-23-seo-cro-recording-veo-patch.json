@@ -1,0 +1,1549 @@
+{
+  "label": "SEO/CRO cleanup, pricing correction and recording cluster update - July 23, 2026",
+  "operator": "codex-local-service-account",
+  "operations": [
+    {
+      "collection": "pages",
+      "slug": "grassroots-football-app",
+      "merge": {
+        "metaTitle": "Grassroots Football App for Stats and Highlights",
+        "metaDescription": "Explore Pitchside's private-beta grassroots football app for phone-recorded 5-, 6- and 7-a-side stats, highlights, personal records and leaderboards.",
+        "heroH1": "A Grassroots Football App for Stats and Highlights",
+        "intro": "Pitchside helps grassroots players turn suitable phone-recorded small-sided matches into stats, highlights and player records for review.",
+        "aeoQuickAnswer": "Pitchside is a private-beta grassroots football app focused on suitable 5-, 6- and 7-a-side phone footage, with planned Free and Paid launch tiers.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "job-heading",
+            "type": "h2",
+            "content": "Find the part of Pitchside you need"
+          },
+          {
+            "id": "hub-table",
+            "type": "table",
+            "headers": [
+              "Need",
+              "Where to go"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Record a match",
+                  "<a href=\"/record-football-matches\">Record Football Matches</a>"
+                ]
+              },
+              {
+                "cells": [
+                  "Choose a phone setup",
+                  "<a href=\"/technology/football-recording-setup\">Football recording setup guide</a>"
+                ]
+              },
+              {
+                "cells": [
+                  "Use your phone as the camera",
+                  "<a href=\"/football-camera-app\">Football Camera App</a>"
+                ]
+              },
+              {
+                "cells": [
+                  "Review footage after the match",
+                  "<a href=\"/football-video-analysis\">Football Video Analysis</a>"
+                ]
+              },
+              {
+                "cells": [
+                  "Compare stats output",
+                  "<a href=\"/football-stats-app\">Football Stats App</a>"
+                ]
+              },
+              {
+                "cells": [
+                  "Check current availability",
+                  "<a href=\"/product-status\">Product Status</a>"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "workflow-heading",
+            "type": "h2",
+            "content": "The weekly player workflow"
+          },
+          {
+            "id": "workflow-list",
+            "type": "list",
+            "items": [
+              "Record the game from a stable phone setup.",
+              "Upload suitable footage after the match.",
+              "Review supported moments and player assignments.",
+              "Keep the stats, highlights and records that are useful.",
+              "Use free tools while the app remains in private beta."
+            ]
+          },
+          {
+            "id": "current-output-heading",
+            "type": "h2",
+            "content": "Current launch focus"
+          },
+          {
+            "id": "current-output-copy",
+            "type": "paragraph",
+            "content": "Pitchside is focused on 5-a-side, 6-a-side and 7-a-side football first. The beta is testing supported events around goals, assists, saves, passes and tackles."
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "grassroots-football-app",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "football-analysis-app",
+      "merge": {
+        "metaTitle": "Football Analysis App for Weekly Match Review",
+        "metaDescription": "Review supported moments, stats and clips from suitable phone-recorded small-sided football footage with Pitchside's private-beta workflow.",
+        "heroH1": "Football Analysis for the Match You Just Played",
+        "intro": "Pitchside is built around the weekly match review: open the match, review supported moments, check player assignment and keep the record useful.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "review-flow-heading",
+            "type": "h2",
+            "content": "A practical match-review flow"
+          },
+          {
+            "id": "review-flow-list",
+            "type": "list",
+            "items": [
+              "Open the processed match.",
+              "Review supported moments such as goals, assists, saves, passes and tackles.",
+              "Check that player assignment makes sense.",
+              "Correct or report anything that looks wrong.",
+              "Keep the stats and clips that are useful for the team."
+            ]
+          },
+          {
+            "id": "not-final-heading",
+            "type": "h2",
+            "content": "Reviewable, not perfect"
+          },
+          {
+            "id": "not-final-copy",
+            "type": "paragraph",
+            "content": "Pitchside analyses suitable footage and returns supported stats and moments for review. Camera height, lighting, kit similarity, obstructions and pitch size can affect what the beta can read."
+          },
+          {
+            "id": "who-for-heading",
+            "type": "h2",
+            "content": "Who it is for"
+          },
+          {
+            "id": "who-for-copy",
+            "type": "paragraph",
+            "content": "This page is for players and small-sided teams who want a useful record of regular games without setting up a full analyst workflow."
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "football-analysis-app",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "football-stats-app",
+      "merge": {
+        "metaTitle": "Football Stats App for Amateur Players",
+        "metaDescription": "Track Match Stats & Highlights, Personal Stats, Leaderboards and Paid Personal Clips from suitable small-sided football recordings.",
+        "heroH1": "Football Stats From the Match Recording",
+        "intro": "Pitchside connects supported match events to player and team output so small-sided players can review more than the final score.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "stats-output-heading",
+            "type": "h2",
+            "content": "Stats Pitchside is testing"
+          },
+          {
+            "id": "stats-output-table",
+            "type": "table",
+            "headers": [
+              "Output",
+              "Launch tier",
+              "Notes"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Match Stats & Highlights",
+                  "Free and Paid",
+                  "Generated from suitable footage after processing"
+                ]
+              },
+              {
+                "cells": [
+                  "Personal Stats",
+                  "Free and Paid",
+                  "Built from supported player assignments"
+                ]
+              },
+              {
+                "cells": [
+                  "Leaderboards",
+                  "Free and Paid",
+                  "Designed for comparing reviewed stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Personal Clips",
+                  "Paid",
+                  "Paid feature planned for launch"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "not-gps-heading",
+            "type": "h2",
+            "content": "What it does not replace"
+          },
+          {
+            "id": "not-gps-copy",
+            "type": "paragraph",
+            "content": "Pitchside is not a GPS vest. Do not use it as a replacement for distance, speed, sprint load or training-load data."
+          },
+          {
+            "id": "review-heading",
+            "type": "h2",
+            "content": "Review before treating stats as final"
+          },
+          {
+            "id": "review-copy",
+            "type": "paragraph",
+            "content": "Detected events and player assignments can need review, especially when footage is obstructed, unstable or filmed from pitch level."
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "football-stats-app",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "ai-football-analysis",
+      "merge": {
+        "metaTitle": "AI Football Analysis From Phone Video",
+        "metaDescription": "See how Pitchside tests computer vision for event recognition, player assignment and reviewable football output from suitable phone footage.",
+        "heroH1": "AI Football Analysis From Suitable Phone Footage",
+        "intro": "Pitchside uses computer vision to help identify supported football events from small-sided match recordings.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "capability-heading",
+            "type": "h2",
+            "content": "Computer vision capability"
+          },
+          {
+            "id": "capability-copy",
+            "type": "paragraph",
+            "content": "The beta is testing event recognition and player assignment from phone-recorded 5-, 6- and 7-a-side football. The workflow is designed to return stats and moments that can be reviewed, not unchangeable final results."
+          },
+          {
+            "id": "limits-heading",
+            "type": "h2",
+            "content": "Limits that affect output"
+          },
+          {
+            "id": "limits-list",
+            "type": "list",
+            "items": [
+              "Low camera height",
+              "Players blocking the lens",
+              "Similar kits",
+              "Poor lighting",
+              "Rain or glare",
+              "Excessive zoom",
+              "Unstable mounting"
+            ]
+          },
+          {
+            "id": "human-review-heading",
+            "type": "h2",
+            "content": "Human review stays important"
+          },
+          {
+            "id": "human-review-copy",
+            "type": "paragraph",
+            "content": "Review detected events and player assignments before using the match record for team decisions or public sharing."
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "ai-football-analysis",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "football-video-analysis",
+      "merge": {
+        "metaTitle": "Football Video Analysis From Phone Footage",
+        "metaDescription": "Capture, upload, process and review suitable football footage with Pitchside's private-beta video analysis workflow.",
+        "heroH1": "Football Video Analysis Without Rewatching Everything",
+        "intro": "Pitchside helps turn a stable phone recording into reviewable match output after processing.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "workflow-heading",
+            "type": "h2",
+            "content": "From recording to review"
+          },
+          {
+            "id": "workflow-table",
+            "type": "table",
+            "headers": [
+              "Step",
+              "What happens"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Capture",
+                  "Record the match from a safe, stable landscape position."
+                ]
+              },
+              {
+                "cells": [
+                  "Upload",
+                  "Submit the recording after the match."
+                ]
+              },
+              {
+                "cells": [
+                  "Process",
+                  "Pitchside analyses suitable footage for supported events."
+                ]
+              },
+              {
+                "cells": [
+                  "Review",
+                  "Check moments, stats and player assignments before treating them as final."
+                ]
+              },
+              {
+                "cells": [
+                  "Save and share",
+                  "Use clips responsibly after processing and consent checks."
+                ]
+              }
+            ]
+          },
+          {
+            "id": "example-heading",
+            "type": "h2",
+            "content": "Example beta workflow"
+          },
+          {
+            "id": "example-copy",
+            "type": "paragraph",
+            "content": "A 6-a-side team records from a raised sideline position, uploads after full time and reviews goals, saves and key passages once processing is complete. Poor angles or obstructions may reduce what can be detected."
+          },
+          {
+            "id": "privacy-heading",
+            "type": "h2",
+            "content": "Share responsibly"
+          },
+          {
+            "id": "privacy-copy",
+            "type": "paragraph",
+            "content": "Before sharing clips publicly, read the <a href=\"/recording-consent-and-privacy\">recording consent and privacy guidance</a>."
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "football-video-analysis",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "ai-football-highlights",
+      "merge": {
+        "metaTitle": "AI Football Highlights From Match Video",
+        "metaDescription": "Pitchside is testing match highlights and Paid Personal Clips from suitable phone-recorded small-sided football footage.",
+        "heroH1": "Highlights From the Match You Recorded",
+        "intro": "Pitchside is testing highlights from suitable phone-recorded footage so players can review the moments that matter without editing the full match by hand.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "match-vs-personal-heading",
+            "type": "h2",
+            "content": "Match Highlights and Personal Clips"
+          },
+          {
+            "id": "highlight-table",
+            "type": "table",
+            "headers": [
+              "Output",
+              "Launch tier",
+              "What it means"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Match Stats & Highlights",
+                  "Free and Paid",
+                  "Team-level match output after processing"
+                ]
+              },
+              {
+                "cells": [
+                  "Personal Clips",
+                  "Paid",
+                  "Player-focused clips planned for the Paid tier"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "not-instant-heading",
+            "type": "h2",
+            "content": "Processing is not instant"
+          },
+          {
+            "id": "not-instant-copy",
+            "type": "paragraph",
+            "content": "During private beta, upload and processing may take up to 45 minutes depending on footage, connection and queue conditions."
+          },
+          {
+            "id": "sharing-heading",
+            "type": "h2",
+            "content": "Share clips with consent"
+          },
+          {
+            "id": "sharing-copy",
+            "type": "paragraph",
+            "content": "Clips should be shared responsibly after processing. Check <a href=\"/recording-consent-and-privacy\">recording consent and privacy guidance</a> before posting publicly."
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "ai-football-highlights",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "football-camera-app",
+      "merge": {
+        "metaTitle": "AI Football Camera App Using One or Two Phones",
+        "metaDescription": "Use suitable phone footage with Pitchside's private-beta football camera workflow for small-sided stats, highlights and player records.",
+        "heroH1": "A Football Camera App Built Around Phones",
+        "intro": "Pitchside starts with the camera players already have: one or two suitable phones mounted safely for small-sided football.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "setup-heading",
+            "type": "h2",
+            "content": "Choose a setup that fits the pitch"
+          },
+          {
+            "id": "setup-copy",
+            "type": "paragraph",
+            "content": "Caged pitches, netted venues and open grass grounds require different mounting approaches. Pitchside's <a href=\"/technology/football-recording-setup\">setup guide</a> explains where to place one or two phones, how to reduce common blind spots and when to use a fence mount, post mount or tripod."
+          },
+          {
+            "id": "one-two-heading",
+            "type": "h2",
+            "content": "One phone or two phones"
+          },
+          {
+            "id": "one-two-copy",
+            "type": "paragraph",
+            "content": "One phone can work on smaller pitches when a wide, stable view captures the important playing area. Two phones can cover opposing halves or different angles when one view leaves too much action hidden."
+          },
+          {
+            "id": "dedicated-camera-heading",
+            "type": "h2",
+            "content": "Phone-first, not a dedicated camera replacement for everyone"
+          },
+          {
+            "id": "dedicated-camera-copy",
+            "type": "paragraph",
+            "content": "Dedicated systems may be more appropriate for established full-field recording, tactical review and livestreaming. Pitchside is focused on phone-recorded small-sided stats, highlights and player records."
+          },
+          {
+            "id": "mount-heading",
+            "type": "h2",
+            "content": "Pitchside mount development"
+          },
+          {
+            "id": "mount-copy",
+            "type": "paragraph",
+            "content": "Pitchside is developing its own double-phone mounting option. Compatibility, pricing and availability will be published after testing. Check <a href=\"/product-status\">Product Status</a> for current availability."
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "football-camera-app",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "record-football-matches",
+      "merge": {
+        "metaTitle": "Record Football Matches With One or Two Phones",
+        "metaDescription": "Learn how Pitchside helps players record small-sided football with phones, upload suitable footage and review stats and highlights after processing.",
+        "heroH1": "Record Football Matches With Your Phone",
+        "intro": "Use a safe phone setup, record the match, upload suitable footage and review supported stats and highlights after processing.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "prepare-heading",
+            "type": "h2",
+            "content": "Five-minute preparation"
+          },
+          {
+            "id": "prepare-list",
+            "type": "list",
+            "items": [
+              "Confirm recording is allowed.",
+              "Get the necessary consent.",
+              "Choose one phone or two phones.",
+              "Mount each phone safely in landscape.",
+              "Check storage, battery, lens and framing."
+            ]
+          },
+          {
+            "id": "one-two-heading",
+            "type": "h2",
+            "content": "One phone versus two"
+          },
+          {
+            "id": "one-two-copy",
+            "type": "paragraph",
+            "content": "One phone can work when a wide elevated view captures the important playing area. Two phones can help when one angle leaves goalmouths or far corners hidden."
+          },
+          {
+            "id": "cluster-links-heading",
+            "type": "h2",
+            "content": "Recording guides"
+          },
+          {
+            "id": "cluster-links",
+            "type": "list",
+            "items": [
+              "Read the <a href=\"/blog/how-to-record-a-football-match-on-your-phone\">phone recording guide</a> for organic setup and mount advice.",
+              "Use the <a href=\"/technology/football-recording-setup\">football recording setup guide</a> for one-phone and two-phone positioning.",
+              "Compare the <a href=\"/football-camera-app\">football camera app</a> workflow.",
+              "Understand <a href=\"/football-video-analysis\">football video analysis</a> after upload.",
+              "Check <a href=\"/recording-consent-and-privacy\">recording consent and privacy</a> before sharing footage."
+            ]
+          },
+          {
+            "id": "allowances-heading",
+            "type": "h2",
+            "content": "Recording allowances"
+          },
+          {
+            "id": "allowances-copy",
+            "type": "paragraph",
+            "content": "Free is planned to include one recording per month. Paid is planned to include one recording per week. Two-phone and failed-upload allowance handling is still to be confirmed."
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "record-football-matches",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "pages",
+      "slug": "best-veo-alternative-football",
+      "merge": {
+        "metaTitle": "Best Veo Alternative for Grassroots Football",
+        "metaDescription": "Compare Pitchside with Veo for small-sided football recording, pricing, hardware, stats, highlights and current private-beta limitations.",
+        "heroH1": "A Phone-First Veo Alternative for Small-Sided Football",
+        "intro": "Pitchside is a phone-first private-beta option for players who want small-sided stats, highlights, leaderboards and player records from suitable recordings.",
+        "contentBlocks": [
+          {
+            "id": "private-beta-note",
+            "type": "paragraph",
+            "content": "Pitchside is currently in private beta. Subscriptions are not available to purchase yet, and supported output depends on suitable footage, camera position and the beta workflow."
+          },
+          {
+            "id": "summary-heading",
+            "type": "h2",
+            "content": "Pitchside versus Veo"
+          },
+          {
+            "id": "summary-table",
+            "type": "table",
+            "headers": [
+              "Need",
+              "Pitchside",
+              "Veo"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Capture hardware",
+                  "Suitable phones plus safe mounts",
+                  "Dedicated Veo camera or official Veo phone workflow where available"
+                ]
+              },
+              {
+                "cells": [
+                  "Current focus",
+                  "5-, 6- and 7-a-side phone footage",
+                  "Established full-field recording, tactical review and livestreaming workflows"
+                ]
+              },
+              {
+                "cells": [
+                  "Pricing",
+                  "Free and Paid launch tiers; not purchasable yet",
+                  "Check Veo's official pricing for current plans"
+                ]
+              },
+              {
+                "cells": [
+                  "Output",
+                  "Stats, highlights, personal records and leaderboards being tested",
+                  "Dedicated camera analysis and team-video workflows"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "not-right-heading",
+            "type": "h2",
+            "content": "Pitchside may not be right if"
+          },
+          {
+            "id": "not-right-list",
+            "type": "list",
+            "items": [
+              "You need established full-field 11-a-side capture today.",
+              "You need livestreaming now.",
+              "You need a dedicated camera supplied as part of the workflow.",
+              "You need a product that is already publicly purchasable."
+            ]
+          },
+          {
+            "id": "next-reading-heading",
+            "type": "h2",
+            "content": "Compare the options"
+          },
+          {
+            "id": "next-reading-list",
+            "type": "list",
+            "items": [
+              "Read the wider <a href=\"/blog/veo-camera-alternative\">Veo camera alternatives comparison</a>.",
+              "Review <a href=\"/blog/cheapest-veo-alternative\">hardware and three-year costs</a>.",
+              "Check <a href=\"/comparison-methodology\">how Pitchside comparisons are researched</a>.",
+              "See <a href=\"/pricing\">planned Pitchside pricing</a>."
+            ]
+          },
+          {
+            "id": "pricing-teaser-heading",
+            "type": "h2",
+            "content": "Start Free, record more with Paid"
+          },
+          {
+            "id": "pricing-teaser-copy",
+            "type": "paragraph",
+            "content": "Pitchside's planned Free launch tier includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and increases the allowance to one recording per week. See the full <a href=\"/pricing\">planned launch pricing</a>."
+          },
+          {
+            "id": "pricing-teaser-table",
+            "type": "table",
+            "headers": [
+              "Tier",
+              "Price",
+              "Current launch allowance",
+              "Included output"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Free",
+                  "£0",
+                  "One recording per month",
+                  "Match Stats & Highlights, Leaderboards and Personal Stats"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid",
+                  "£4.99 weekly, £12.99 monthly or £99 annually",
+                  "One recording per week",
+                  "Everything in Free plus Personal Clips"
+                ]
+              }
+            ]
+          }
+        ],
+        "ctaBlock": {
+          "headline": "Join early access",
+          "description": "Join the launch list for updates as Pitchside expands private-beta access.",
+          "buttonText": "Join early access",
+          "buttonUrl": "/contact"
+        },
+        "slug": "best-veo-alternative-football",
+        "publishedAt": "2026-07-23T00:00:00.000Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "posts",
+      "slug": "how-to-record-a-football-match-on-your-phone",
+      "merge": {
+        "metaTitle": "How to Record a Football Match on Your Phone",
+        "metaDescription": "Learn how to record football with a phone, choose one or two phone positions, avoid blind spots and pick a safe mount for your pitch.",
+        "heroH1": "How to Record a Football Match on Your Phone",
+        "intro": "A good football recording is mostly about height, stability, consent and a clear view of the important playing area.",
+        "contentBlocks": [
+          {
+            "id": "start-heading",
+            "type": "h2",
+            "content": "Before you press record"
+          },
+          {
+            "id": "start-copy",
+            "type": "paragraph",
+            "content": "Check that the venue allows recording, get the necessary consent and choose a position where the phone is away from players, spectators and emergency routes. Pitchside is focused on suitable 5-, 6- and 7-a-side footage during private beta."
+          },
+          {
+            "id": "one-phone-heading",
+            "type": "h2",
+            "content": "One-phone setup"
+          },
+          {
+            "id": "one-phone-copy",
+            "type": "paragraph",
+            "content": "One phone is most useful on smaller pitches when a wide, stable landscape view can capture the important playing area. A central elevated position usually gives the most balanced view, but a raised corner can work for compact cages."
+          },
+          {
+            "id": "two-phone-heading",
+            "type": "h2",
+            "content": "Two-phone setup"
+          },
+          {
+            "id": "two-phone-copy",
+            "type": "paragraph",
+            "content": "Two phones can cover opposing halves or different angles. Record the same kickoff or a visible clap before the game so the recordings have a clear synchronisation moment."
+          },
+          {
+            "id": "settings-heading",
+            "type": "h2",
+            "content": "Phone settings"
+          },
+          {
+            "id": "settings-copy",
+            "type": "paragraph",
+            "content": "Use landscape orientation and test your own device before relying on it for a full match. Higher resolution and frame rate can improve detail, but they also use more storage and battery. Do not assume one setting is right for every phone."
+          },
+          {
+            "id": "iphone-android-heading",
+            "type": "h2",
+            "content": "iPhone and Android checks"
+          },
+          {
+            "id": "phone-checks",
+            "type": "list",
+            "items": [
+              "Free storage before arriving at the pitch.",
+              "Charge the battery and bring a power bank for longer matches.",
+              "Clean the lens.",
+              "Use a focus or Do Not Disturb mode so calls and notifications do not interrupt recording.",
+              "Record a short test clip and watch it before kickoff."
+            ]
+          },
+          {
+            "id": "mount-heading",
+            "type": "h2",
+            "content": "Choose a phone mount for your pitch"
+          },
+          {
+            "id": "mount-intro",
+            "type": "paragraph",
+            "content": "The right mount depends less on your phone and more on what surrounds the pitch. Before buying anything, check whether the venue has rigid fencing, netting posts or completely open grass. The phone must be held securely, positioned away from players and spectators, and mounted without damaging venue property."
+          },
+          {
+            "id": "affiliate-disclosure",
+            "type": "paragraph",
+            "content": "Affiliate disclosure: Some links below are paid links. If you buy through them, Pitchside may earn a commission at no additional cost to you. Our recommendations are based on suitability for different pitch setups, not commission rates. As an Amazon Associate I earn from qualifying purchases. Read the full <a href=\"/affiliate-disclosure\">affiliate disclosure</a>."
+          },
+          {
+            "id": "budget-fence-heading",
+            "type": "h3",
+            "content": "Cheapest option for rigid fencing"
+          },
+          {
+            "id": "budget-fence-best",
+            "type": "paragraph",
+            "content": "<b>Best for:</b> caged 5-a-side pitches with secure fencing or railings"
+          },
+          {
+            "id": "budget-fence-copy",
+            "type": "paragraph",
+            "content": "This is the inexpensive style of mount Dave has used himself. Its flexible legs can attach to suitable rigid fencing or a secure railing, making it a practical starting point for many small-sided venues. It is less suitable for open grass pitches, loose netting or places where the phone could be struck by the ball."
+          },
+          {
+            "id": "budget-fence-link",
+            "type": "paragraph",
+            "content": "<a href=\"https://amzn.to/44FurlS\" target=\"_blank\" rel=\"sponsored nofollow noopener\">View the budget fence mount on Amazon - paid link</a>"
+          },
+          {
+            "id": "covered-fence-heading",
+            "type": "h3",
+            "content": "Fence mount with additional cover"
+          },
+          {
+            "id": "covered-fence-best",
+            "type": "paragraph",
+            "content": "<b>Best for:</b> fenced pitches where glare or changeable weather is a concern"
+          },
+          {
+            "id": "covered-fence-copy",
+            "type": "paragraph",
+            "content": "This option attaches to suitable fencing and provides more cover around the phone. The hood may help reduce direct sunlight and offer limited protection in light rain, but it should not be treated as a guarantee that the phone is waterproof. Stop recording if weather conditions could damage the phone or make the setup unsafe."
+          },
+          {
+            "id": "covered-fence-link",
+            "type": "paragraph",
+            "content": "<a href=\"https://amzn.to/4fpobUq\" target=\"_blank\" rel=\"sponsored nofollow noopener\">View the covered fence mount on Amazon - paid link</a>"
+          },
+          {
+            "id": "post-heading",
+            "type": "h3",
+            "content": "Mount for a suitable netting post"
+          },
+          {
+            "id": "post-best",
+            "type": "paragraph",
+            "content": "<b>Best for:</b> pitches with netting and suitable supporting posts"
+          },
+          {
+            "id": "post-copy",
+            "type": "paragraph",
+            "content": "Some grassroots pitches have loose perimeter netting rather than rigid fencing. Where venue rules allow it, a mount designed for a solid supporting post can provide a more stable position than attaching directly to the netting. Check that the post is secure and that the mount cannot fall onto the playing area."
+          },
+          {
+            "id": "post-link",
+            "type": "paragraph",
+            "content": "<a href=\"https://amzn.to/4bnus1N\" target=\"_blank\" rel=\"sponsored nofollow noopener\">View the post mount on Amazon - paid link</a>"
+          },
+          {
+            "id": "tripod-heading",
+            "type": "h3",
+            "content": "Tripod for open grass"
+          },
+          {
+            "id": "tripod-best",
+            "type": "paragraph",
+            "content": "<b>Best for:</b> Sunday league and open grass pitches with nothing secure to attach to"
+          },
+          {
+            "id": "tripod-copy",
+            "type": "paragraph",
+            "content": "A freestanding tripod is usually the most practical option when the pitch has no suitable fencing, railing or post. Position it outside the playing area and pedestrian routes. Use appropriate ballast when conditions allow, never leave it unstable in strong wind, and make sure the setup complies with the venue's rules."
+          },
+          {
+            "id": "kickoff-heading",
+            "type": "h3",
+            "content": "Check these things before kickoff"
+          },
+          {
+            "id": "kickoff-list",
+            "type": "list",
+            "items": [
+              "Confirm that the venue allows recording and mounting equipment.",
+              "Obtain the necessary <a href=\"/recording-consent-and-privacy\">recording consent</a>.",
+              "Keep the mount outside the playing area and emergency routes.",
+              "Film in landscape orientation.",
+              "Check that both goals and the important playing area are visible.",
+              "Make sure the phone cannot fall onto players or spectators.",
+              "Check storage and battery before the match.",
+              "Record a short test clip and watch it before kickoff.",
+              "Do not leave the equipment unattended."
+            ]
+          },
+          {
+            "id": "setup-guide-link",
+            "type": "paragraph",
+            "content": "For one-phone and two-phone positioning, common blind spots and setup diagrams, read our complete <a href=\"/technology/football-recording-setup\">football recording setup guide</a>. Check <a href=\"/product-status\">Product Status</a> for current app and mount availability."
+          }
+        ],
+        "slug": "how-to-record-a-football-match-on-your-phone",
+        "publishedAt": "2026-06-04T21:59:46.295Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "posts",
+      "slug": "veo-camera-alternative",
+      "merge": {
+        "metaTitle": "Veo Camera Alternatives Compared",
+        "metaDescription": "Compare researched Veo alternatives including phone-first and dedicated camera options, with current status, public pricing notes and fair limitations.",
+        "heroH1": "Veo Camera Alternatives Compared",
+        "intro": "This comparison helps teams decide whether they need a dedicated camera workflow, a phone-based workflow or a lower-cost recording setup.",
+        "contentBlocks": [
+          {
+            "id": "checked-heading",
+            "type": "h2",
+            "content": "Checked date and source standard"
+          },
+          {
+            "id": "checked-copy",
+            "type": "paragraph",
+            "content": "Prices and public availability were reviewed on 23 July 2026. Where a current official price is not publicly disclosed, the table says not publicly disclosed rather than guessing."
+          },
+          {
+            "id": "veo-go-heading",
+            "type": "h2",
+            "content": "Veo Go is the important phone-based Veo option"
+          },
+          {
+            "id": "veo-go-copy",
+            "type": "paragraph",
+            "content": "Veo Go should be considered separately from dedicated Veo camera hardware because it is a phone-based Veo workflow. Check Veo's official documentation for current phone, rig, tripod, editor, recording and availability requirements."
+          },
+          {
+            "id": "comparison-heading",
+            "type": "h2",
+            "content": "Research comparison"
+          },
+          {
+            "id": "comparison-table",
+            "type": "table",
+            "headers": [
+              "Option",
+              "Type",
+              "Public price status",
+              "Best fit",
+              "Research status"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Pitchside",
+                  "Phone-first small-sided stats and highlights",
+                  "Free £0; Paid £4.99 weekly, £12.99 monthly or £99 annually; not purchasable yet",
+                  "5-, 6- and 7-a-side players with suitable phones",
+                  "Pitchside product information"
+                ]
+              },
+              {
+                "cells": [
+                  "Veo camera",
+                  "Dedicated football camera workflow",
+                  "Check official Veo pricing",
+                  "Established full-field capture, tactical review and livestreaming",
+                  "Researched from official manufacturer sources"
+                ]
+              },
+              {
+                "cells": [
+                  "Veo Go",
+                  "Phone-based Veo workflow",
+                  "Not publicly disclosed in this CMS update",
+                  "Teams considering Veo without dedicated camera hardware",
+                  "Researched from official Veo sources"
+                ]
+              },
+              {
+                "cells": [
+                  "Other dedicated systems",
+                  "Dedicated or semi-dedicated camera workflows",
+                  "Not publicly disclosed unless shown by manufacturer",
+                  "Clubs needing established team video systems",
+                  "Researched from official manufacturer sources"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "links-heading",
+            "type": "h2",
+            "content": "Read next"
+          },
+          {
+            "id": "links-list",
+            "type": "list",
+            "items": [
+              "See Pitchside's <a href=\"/best-veo-alternative-football\">phone-first Veo alternative page</a>.",
+              "Compare <a href=\"/blog/cheapest-veo-alternative\">hardware and three-year costs</a>.",
+              "Review the <a href=\"/comparison-methodology\">comparison methodology</a>.",
+              "Learn how to <a href=\"/record-football-matches\">record football matches with phones</a>."
+            ]
+          }
+        ],
+        "slug": "veo-camera-alternative",
+        "publishedAt": "2026-07-19T20:31:21.649Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    },
+    {
+      "collection": "posts",
+      "slug": "cheapest-veo-alternative",
+      "merge": {
+        "metaTitle": "Cheapest Veo Alternatives: Hardware and 3-Year Costs",
+        "metaDescription": "Compare football recording options by software price, hardware needs and three-year cost. Pitchside remains private beta and phone/mount costs are separate.",
+        "heroH1": "Which Veo Alternative Costs the Least?",
+        "intro": "The cheapest setup depends on whether your team already owns suitable phones, whether you need dedicated camera hardware and what output you expect after the match.",
+        "contentBlocks": [
+          {
+            "id": "pitchside-cost-heading",
+            "type": "h2",
+            "content": "Pitchside announced launch pricing"
+          },
+          {
+            "id": "pitchside-cost-table",
+            "type": "table",
+            "headers": [
+              "Item",
+              "Cost",
+              "Notes"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Additional camera hardware",
+                  "£0 if suitable phones are already owned",
+                  "Phones, mounts and data costs are separate"
+                ]
+              },
+              {
+                "cells": [
+                  "Free software",
+                  "£0",
+                  "One recording per month"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid weekly",
+                  "£4.99",
+                  "One recording per week"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid monthly",
+                  "£12.99",
+                  "One recording per week"
+                ]
+              },
+              {
+                "cells": [
+                  "Paid annual",
+                  "£99",
+                  "One recording per week; £8.25/month equivalent"
+                ]
+              },
+              {
+                "cells": [
+                  "Three-year annual software cost",
+                  "£297",
+                  "Excludes phones, mounts, data, taxes and accessories"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "fair-summary",
+            "type": "paragraph",
+            "content": "Pitchside has the lowest announced software entry price in this comparison when a team already owns suitable phones. It is not a like-for-like replacement for Veo's dedicated full-field recording and livestreaming workflow."
+          },
+          {
+            "id": "official-prices-heading",
+            "type": "h2",
+            "content": "Official price-check notes"
+          },
+          {
+            "id": "official-prices-copy",
+            "type": "paragraph",
+            "content": "Checked on 23 July 2026. Prices that are not clearly available from official manufacturer sources are labelled as not publicly disclosed. Currency, tax, shipping, accessories and promotional status can change."
+          },
+          {
+            "id": "low-cost-setup-heading",
+            "type": "h2",
+            "content": "Lowest-cost phone setup"
+          },
+          {
+            "id": "low-cost-setup-copy",
+            "type": "paragraph",
+            "content": "A suitable phone the team already owns plus a safe mount is usually the lowest-cost way to record a match. The complete mount roundup lives in the <a href=\"/blog/how-to-record-a-football-match-on-your-phone\">phone recording guide</a>; this cost page keeps affiliate links limited and disclosed."
+          },
+          {
+            "id": "faq-heading",
+            "type": "h2",
+            "content": "Frequently asked questions"
+          },
+          {
+            "id": "faq-cheapest",
+            "type": "h3",
+            "content": "What is the cheapest Veo alternative?"
+          },
+          {
+            "id": "faq-cheapest-answer",
+            "type": "paragraph",
+            "content": "The cheapest way to record a football match is normally a suitable phone the team already owns plus a secure mount. Pitchside's announced Free plan costs £0 and includes one recording per month. Paid access is £4.99 weekly, £12.99 monthly or £99 annually, with one recording per week and Personal Clips. Pitchside remains in private beta, and phones, mounts and data costs are separate."
+          },
+          {
+            "id": "faq-cheaper",
+            "type": "h3",
+            "content": "Is Pitchside cheaper than Veo?"
+          },
+          {
+            "id": "faq-cheaper-answer",
+            "type": "paragraph",
+            "content": "Based on Pitchside's announced launch prices, Pitchside has a lower software and hardware entry cost when a team already owns suitable phones. It is not a like-for-like product: Veo provides dedicated capture and broader full-field workflows, while Pitchside focuses on small-sided phone footage, stats, highlights and player records."
+          },
+          {
+            "id": "faq-cost",
+            "type": "h3",
+            "content": "How much does Pitchside cost?"
+          },
+          {
+            "id": "faq-cost-answer",
+            "type": "paragraph",
+            "content": "The Free launch tier costs £0 and includes Match Stats & Highlights, Leaderboards, Personal Stats and one recording per month. Paid adds Personal Clips and one recording per week for £4.99 weekly, £12.99 monthly or £99 annually. Subscriptions are not currently available to purchase."
+          },
+          {
+            "id": "faq-camera",
+            "type": "h3",
+            "content": "Does Pitchside require a special camera?"
+          },
+          {
+            "id": "faq-camera-answer",
+            "type": "paragraph",
+            "content": "No dedicated camera is required. Pitchside is designed around suitable footage recorded with one or two phones. A secure mount may still be needed, and the result depends on positioning, visibility and footage quality."
+          },
+          {
+            "id": "faq-best",
+            "type": "h3",
+            "content": "Is the cheapest football camera option always the best?"
+          },
+          {
+            "id": "faq-best-answer",
+            "type": "paragraph",
+            "content": "No. A phone setup may have the lowest starting cost, but a dedicated system may be more appropriate for full-pitch tactical footage, livestreaming or an established club workflow. Compare the output you need, not only the initial hardware price."
+          },
+          {
+            "id": "links-heading",
+            "type": "h2",
+            "content": "Read next"
+          },
+          {
+            "id": "links-list",
+            "type": "list",
+            "items": [
+              "Compare Pitchside with Veo on the <a href=\"/best-veo-alternative-football\">Veo alternative page</a>.",
+              "Read the wider <a href=\"/blog/veo-camera-alternative\">Veo camera alternatives comparison</a>.",
+              "Check <a href=\"/pricing\">planned Pitchside pricing</a>.",
+              "Review the <a href=\"/comparison-methodology\">comparison methodology</a> and <a href=\"/affiliate-disclosure\">affiliate disclosure</a>."
+            ]
+          }
+        ],
+        "slug": "cheapest-veo-alternative",
+        "publishedAt": "2026-07-19T20:15:22.596Z",
+        "authorName": "Abdullah Luqman",
+        "authorUrl": "/authors/abdullah-luqman"
+      }
+    }
+  ]
+}
