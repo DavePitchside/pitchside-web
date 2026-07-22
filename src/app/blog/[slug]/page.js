@@ -78,6 +78,7 @@ export default async function BlogPost({ params }) {
   const publishedIso = contentDateToIso(publishedDate);
   const updatedIso = contentDateToIso(updatedDate);
   const author = getContentAuthor(post);
+  const isInternalAuthorLink = author.url?.startsWith("/");
   const moreToRead = await getMoreToRead(post, `/blog/${slug}`);
   const visibleFaqs = post.faqs?.filter((faq) => faq?.question) || [];
   const isFaqQuestion = (value = "") => {
@@ -174,7 +175,22 @@ export default async function BlogPost({ params }) {
 
           <header className="mb-12">
             <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold text-zinc-500">
-              <span>By <a href={author.url} target="_blank" rel="noopener noreferrer" className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-zinc-600">{author.name}</a></span>
+              <span>
+                By{" "}
+                {isInternalAuthorLink ? (
+                  <Link href={author.url} className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-zinc-600">
+                    {author.name}
+                  </Link>
+                ) : (
+                  <a href={author.url} target="_blank" rel="noopener noreferrer" className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-zinc-600">
+                    {author.name}
+                  </a>
+                )}
+              </span>
+              <span aria-hidden="true">•</span>
+              <Link href="/editorial-policy" className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-zinc-600">
+                Editorial Policy
+              </Link>
               <span aria-hidden="true">•</span>
               <span>Uploaded <time dateTime={publishedIso}>{formatContentDate(publishedDate)}</time></span>
               <span aria-hidden="true">•</span>

@@ -1,7 +1,32 @@
 export const CONTENT_AUTHOR = Object.freeze({
   name: "Abdullah Luqman",
-  url: "https://www.linkedin.com/in/abdullahluqman/",
+  url: "/authors/abdullah-luqman",
 });
+
+const AUTHOR_PROFILE_URLS = Object.freeze({
+  "abdullah luqman": "/authors/abdullah-luqman",
+  "dave coombs": "/authors/dave-coombs",
+  "david coombs": "/authors/dave-coombs",
+  "david andrew coombs": "/authors/dave-coombs",
+});
+
+const LEGACY_AUTHOR_URLS = Object.freeze({
+  "https://www.linkedin.com/in/abdullahluqman/": "/authors/abdullah-luqman",
+  "https://www.linkedin.com/in/abdullahluqman": "/authors/abdullah-luqman",
+  "https://www.linkedin.com/in/david-coombs-pitchside/": "/authors/dave-coombs",
+  "https://www.linkedin.com/in/david-coombs-pitchside": "/authors/dave-coombs",
+});
+
+export function normalizeAuthorProfileUrl(name = "", url = "") {
+  const trimmedUrl = typeof url === "string" ? url.trim() : "";
+  const lowerName = String(name || "").trim().toLowerCase();
+
+  if (trimmedUrl === "/abdullah-luqman") return "/authors/abdullah-luqman";
+  if (trimmedUrl === "/dave-coombs" || trimmedUrl === "/david-coombs") return "/authors/dave-coombs";
+  if (LEGACY_AUTHOR_URLS[trimmedUrl]) return LEGACY_AUTHOR_URLS[trimmedUrl];
+  if (AUTHOR_PROFILE_URLS[lowerName]) return AUTHOR_PROFILE_URLS[lowerName];
+  return trimmedUrl || CONTENT_AUTHOR.url;
+}
 
 export function contentDateToDate(value) {
   if (!value) return null;
@@ -56,7 +81,7 @@ export function getContentAuthor(data = {}) {
 
   return {
     name: authorName || CONTENT_AUTHOR.name,
-    url: authorUrl || CONTENT_AUTHOR.url,
+    url: normalizeAuthorProfileUrl(authorName || CONTENT_AUTHOR.name, authorUrl || CONTENT_AUTHOR.url),
   };
 }
 

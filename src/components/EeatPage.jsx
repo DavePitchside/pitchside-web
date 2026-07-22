@@ -27,6 +27,7 @@ const CornerMark = ({ className, src, opacity = "opacity-100" }) => (
 export default function EeatPage({ page, isAuthor = false }) {
   useLenis();
   const Icon = isAuthor ? BadgeCheck : FileText;
+  const isInternalProfileUrl = page.profileUrl?.startsWith("/");
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#F4F3EF] p-2 font-roobert md:p-4">
@@ -59,9 +60,15 @@ export default function EeatPage({ page, isAuthor = false }) {
               {page.role && <span className="text-[#CCFF00]">{page.role}</span>}
             </div>
             {page.profileUrl && (
-              <a href={page.profileUrl} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex text-xs font-black uppercase tracking-widest text-[#CCFF00] hover:underline">
-                View public profile
-              </a>
+              isInternalProfileUrl ? (
+                <Link href={page.profileUrl} className="mt-6 inline-flex text-xs font-black uppercase tracking-widest text-[#CCFF00] hover:underline">
+                  View public profile
+                </Link>
+              ) : (
+                <a href={page.profileUrl} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex text-xs font-black uppercase tracking-widest text-[#CCFF00] hover:underline">
+                  View public profile
+                </a>
+              )
             )}
           </motion.header>
 

@@ -9,6 +9,7 @@ import useLenis from "@/lib/useLenis";
 import { contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 import MoreToRead from "@/components/MoreToRead";
 import ProductStatusNotice from "@/components/ProductStatusNotice";
+import { pricingPlans } from "@/lib/pricing";
 
 const customEase = [0.16, 1, 0.3, 1];
 
@@ -34,6 +35,55 @@ const cleanInternalHref = (href = "") => {
 const cleanCmsHtml = (html = "") => String(html).replace(
   /href=(['"])([^'"]+)\1/gi,
   (_match, quote, href) => `href=${quote}${cleanInternalHref(href)}${quote}`,
+);
+
+const LandingPricingTeaser = () => (
+  <section className="mb-16 rounded-[2rem] border border-zinc-200 bg-[#F4F3EF] p-6 text-zinc-950 shadow-xl md:p-10">
+    <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <div>
+        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#7a9900]">Pricing</span>
+        <h2 className="mt-3 font-alpha text-4xl uppercase tracking-tighter text-zinc-950 md:text-5xl" style={{ fontFamily: "var(--font-alpha)" }}>Plans for grassroots players</h2>
+      </div>
+      <Link href="/pricing" className="inline-flex w-fit items-center justify-center rounded-full border-2 border-black bg-[#CCFF00] px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-[4px_4px_0px_#000] transition-colors hover:bg-black hover:text-[#CCFF00]">
+        View pricing
+      </Link>
+    </div>
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      {pricingPlans.map((plan) => (
+        <article key={plan.id} className={`rounded-2xl border p-5 ${plan.featured ? "border-[#CCFF00] bg-black text-white" : "border-black/10 bg-white text-zinc-950"}`}>
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <h3 className="text-xl font-black uppercase tracking-tight">{plan.name}</h3>
+            {plan.featured && <span className="rounded-full bg-[#CCFF00] px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-black">Default</span>}
+          </div>
+          <p className={`mb-4 text-sm font-bold ${plan.featured ? "text-zinc-300" : "text-zinc-600"}`}>{plan.positioning}</p>
+          <div>
+            <span className={`text-3xl font-black ${plan.featured ? "text-[#CCFF00]" : "text-zinc-950"}`}>{plan.price}</span>
+            <span className={`ml-2 text-xs font-bold ${plan.featured ? "text-zinc-400" : "text-zinc-500"}`}>{plan.cadence}</span>
+          </div>
+          {plan.equivalent && <p className={`mt-2 text-xs font-black uppercase tracking-widest ${plan.featured ? "text-zinc-300" : "text-zinc-500"}`}>{plan.equivalent}</p>}
+          <p className={`mt-4 rounded-xl border px-3 py-2 text-[10px] font-black uppercase tracking-widest ${plan.featured ? "border-white/10 bg-white/5 text-zinc-300" : "border-black/10 bg-zinc-50 text-zinc-700"}`}>{plan.allowance}</p>
+        </article>
+      ))}
+    </div>
+    <p className="mt-6 text-xs font-medium leading-relaxed text-zinc-500">Subscriptions are not purchasable yet. Use the pricing page as the canonical source for current launch pricing, allowances and billing caveats.</p>
+  </section>
+);
+
+const LandingAttribution = () => (
+  <section className="mt-16 rounded-2xl border border-zinc-200 bg-zinc-50 p-6 text-sm font-bold text-zinc-600">
+    <p>
+      Written by{" "}
+      <Link href="/authors/abdullah-luqman" className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-zinc-600">
+        Abdullah Luqman
+      </Link>
+    </p>
+    <p className="mt-2">
+      Product information reviewed by{" "}
+      <Link href="/authors/dave-coombs" className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-zinc-600">
+        Dave Coombs
+      </Link>
+    </p>
+  </section>
 );
 
 export default function DynamicPageClient({ data, dataSource, childPosts = [], moreToRead = [] }) {
@@ -68,6 +118,23 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
   const publishedDate = getPublishedDate(data);
   const updatedDate = getUpdatedDate(data);
   const author = getContentAuthor(data);
+  const isInternalAuthorLink = author.url?.startsWith("/");
+  const heroTitle = data.heroH1 || data.title || "";
+  const isLongHeroTitle = heroTitle.length > 82;
+  const landingLayout = dataSource === "pages" ? data.landingLayout || "centered" : "centered";
+  const isSplitLayout = landingLayout === "split";
+  const isCompactLayout = landingLayout === "compact";
+  const heroShellClass = isSplitLayout
+    ? "max-w-[1280px] w-full mx-auto relative z-10 grid items-center gap-10 text-left md:grid-cols-[1.05fr_0.75fr]"
+    : `${isLongHeroTitle ? "max-w-[1500px]" : "max-w-[1200px]"} mx-auto relative z-10 flex flex-col items-center`;
+  const heroTitleClass = [
+    "font-alpha uppercase tracking-tighter text-[#CCFF00] text-balance drop-shadow-2xl",
+    isSplitLayout ? "text-left" : "text-center",
+    isCompactLayout ? "leading-[0.86] mb-5" : "leading-[0.84] mb-8",
+    isLongHeroTitle
+      ? "text-[clamp(1.85rem,4.8vw,4.2rem)] md:text-[clamp(2.4rem,4.4vw,4.6rem)]"
+      : "text-[clamp(2.4rem,6vw,6rem)]",
+  ].join(" ");
 
   return (
     <main className="relative flex flex-col w-full font-roobert overflow-x-hidden bg-[#050505] text-zinc-900 selection:bg-[#CCFF00] selection:text-black">
@@ -77,51 +144,74 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
       </div>
 
       {/* Fixed parallax hero */}
-      <header className="fixed top-0 left-0 w-full h-screen bg-[#050505] overflow-hidden flex flex-col items-center justify-center text-center z-0 px-6">
+      <header className={`fixed top-0 left-0 w-full h-screen bg-[#050505] overflow-hidden flex flex-col items-center ${isCompactLayout ? "justify-center pt-20 pb-12" : "justify-center"} ${isSplitLayout ? "text-left" : "text-center"} z-0 px-6 md:px-12`}>
         <motion.div
           className="absolute top-[-10%] right-10 w-[600px] h-[600px] bg-[#CCFF00]/15 blur-[150px] rounded-full pointer-events-none"
           style={{ x: glowX, y: glowY, scale: glowScale }}
         />
         <motion.div
-          className="max-w-[1000px] mx-auto relative z-10 flex flex-col items-center"
+          className={heroShellClass}
           style={{ y: heroContentY, opacity: heroContentOpacity, scale: heroContentScale }}
         >
-          {dataSource === "posts" && (
-            <Link
-              href="/blog"
-              className="inline-flex items-center text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-400 hover:text-[#CCFF00] transition-colors mb-12"
-            >
-              <ArrowLeft className="w-4 h-4 mr-3" /> Return to Journal
-            </Link>
-          )}
-          <div className="flex flex-wrap items-center justify-center gap-4 text-[10px] font-mono tracking-[0.2em] uppercase mb-5">
-            <span className="bg-[#CCFF00] text-black px-4 py-1.5 rounded-full font-bold">
-              {data.category || "Editorial"}
-            </span>
-            <span className="text-zinc-500">Uploaded <time dateTime={contentDateToIso(publishedDate)}>{formatContentDate(publishedDate)}</time></span>
-            <span className="text-zinc-500">Updated <time dateTime={contentDateToIso(updatedDate)}>{formatContentDate(updatedDate)}</time></span>
-          </div>
-          <a href={author.url} target="_blank" rel="noopener noreferrer" className="mb-8 text-xs font-bold text-white underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-[#CCFF00]">
-            By {author.name}
-          </a>
-          <motion.h1
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: customEase }}
-            className="font-alpha text-[clamp(2.5rem,6vw,6rem)] uppercase tracking-tighter text-[#CCFF00] leading-[0.9] mb-8 text-balance drop-shadow-2xl"
-            style={{ fontFamily: "var(--font-alpha)" }}
-          >
-            {data.heroH1 || data.title}
-          </motion.h1>
-          {data.metaDescription && (
-            <motion.p
-              initial={{ y: 20, opacity: 0 }}
+          <div className={isSplitLayout ? "min-w-0" : "flex min-w-0 flex-col items-center"}>
+            {dataSource === "posts" && (
+              <Link
+                href="/blog"
+                className="inline-flex items-center text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-400 hover:text-[#CCFF00] transition-colors mb-10"
+              >
+                <ArrowLeft className="w-4 h-4 mr-3" /> Return to Journal
+              </Link>
+            )}
+            <div className={`flex flex-wrap ${isSplitLayout ? "justify-start" : "justify-center"} items-center gap-4 text-[10px] font-mono tracking-[0.2em] uppercase mb-5`}>
+              <span className="bg-[#CCFF00] text-black px-4 py-1.5 rounded-full font-bold">
+                {data.category || "Editorial"}
+              </span>
+              <span className="text-zinc-500">Uploaded <time dateTime={contentDateToIso(publishedDate)}>{formatContentDate(publishedDate)}</time></span>
+              <span className="text-zinc-500">Updated <time dateTime={contentDateToIso(updatedDate)}>{formatContentDate(updatedDate)}</time></span>
+            </div>
+            {dataSource === "posts" && (
+              <div className={`mb-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-bold ${isSplitLayout ? "justify-start" : "justify-center"}`}>
+                {isInternalAuthorLink ? (
+                  <Link href={author.url} className="text-white underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-[#CCFF00]">
+                    By {author.name}
+                  </Link>
+                ) : (
+                  <a href={author.url} target="_blank" rel="noopener noreferrer" className="text-white underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-[#CCFF00]">
+                    By {author.name}
+                  </a>
+                )}
+                <span className="text-zinc-700">|</span>
+                <Link href="/editorial-policy" className="text-zinc-400 underline decoration-[#CCFF00] decoration-2 underline-offset-4 hover:text-[#CCFF00]">
+                  Editorial Policy
+                </Link>
+              </div>
+            )}
+            <motion.h1
+              initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.1, ease: customEase }}
-              className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed max-w-2xl"
+              transition={{ duration: 1, ease: customEase }}
+              className={heroTitleClass}
+              style={{ fontFamily: "var(--font-alpha)" }}
             >
-              {data.metaDescription}
-            </motion.p>
+              {heroTitle}
+            </motion.h1>
+            {data.metaDescription && (
+              <motion.p
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.1, ease: customEase }}
+                className={`text-zinc-400 font-light leading-relaxed ${isLongHeroTitle || isCompactLayout ? "text-base md:text-lg" : "text-lg md:text-xl"} ${isSplitLayout ? "max-w-xl" : "max-w-2xl"}`}
+              >
+                {data.metaDescription}
+              </motion.p>
+            )}
+          </div>
+          {isSplitLayout && (
+            <div className="hidden md:block rounded-[2rem] border border-[#CCFF00]/20 bg-[#CCFF00]/5 p-8 shadow-2xl">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#CCFF00]">Pitchside guide</p>
+              <p className="mt-5 text-2xl font-black uppercase leading-tight text-white">{data.title || "Grassroots football analysis"}</p>
+              <p className="mt-5 text-sm font-medium leading-relaxed text-zinc-400">Built for skimmable comparison, product education and search-led landing pages.</p>
+            </div>
           )}
         </motion.div>
       </header>
@@ -155,6 +245,8 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
 
           <article className="w-full max-w-[800px] mx-auto lg:mx-0">
             {dataSource === "pages" && <ProductStatusNotice className="mb-12 bg-zinc-950 text-zinc-200" />}
+
+            {dataSource === "pages" && <LandingPricingTeaser />}
 
             {hasMedia && (
               <motion.div
@@ -290,6 +382,8 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
               })}
             </div>
 
+            {dataSource === "pages" && <LandingAttribution />}
+
             {data.faqs?.length > 0 && data.faqs[0].question !== "" && (
               <section className="mt-24 pt-16 border-t border-zinc-200">
                 <h2 className="text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-500 mb-12">
@@ -339,7 +433,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
               </section>
             )}
 
-            {data.ctaBlock?.headline && (
+            {dataSource !== "pages" && data.ctaBlock?.headline && (
               <div className="bg-[#050505] text-white p-12 md:p-16 rounded-[2rem] text-center my-24 relative overflow-hidden isolate shadow-2xl">
                 <div className="absolute inset-0 bg-[#CCFF00]/10 blur-[100px] rounded-full pointer-events-none" />
                 <h3

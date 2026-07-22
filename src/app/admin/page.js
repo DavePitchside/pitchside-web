@@ -10,7 +10,7 @@ import { db, auth } from "@/lib/firebase";
 import PageBuilder from "./PageBuilder"; 
 import useLenis from "@/lib/useLenis";
 import { mergeToolContent, mergeToolsHubContent, tools, toolsHub } from "@/lib/tools";
-import { formatContentDate, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { formatContentDate, getPublishedDate, getUpdatedDate, normalizeAuthorProfileUrl } from "@/lib/contentMeta";
 import { isDefaultPageImage } from "@/lib/pageImages";
 
 // --- FIXED CORE PAGES ---
@@ -380,7 +380,7 @@ export default function AdminDashboard() {
                  activeTab === "landing_pages" ? "Build & deploy dynamic competitor / SEO landing pages." :
                  activeTab === "technology_pages" ? "Build editable subpages under /technology." :
                  activeTab === "tools" ? "Edit SEO, page copy, FAQs, and CTA content for fixed public tools." :
-                 activeTab === "authors" ? "Manage blog authors and their LinkedIn profiles." :
+                 activeTab === "authors" ? "Manage blog authors and internal author profile links." :
                  activeTab === "footer" ? "Manage external links and global footer presence." : 
                  activeTab === "deletions" ? "Process user account deletion requests." :
                  "Manage your platform data and incoming requests."}
@@ -688,21 +688,24 @@ function AuthorsManager() {
     event.preventDefault();
     const trimmedName = name.trim();
     const trimmedUrl = url.trim();
-    let linkedInUrl;
+    const normalizedUrl = normalizeAuthorProfileUrl(trimmedName, trimmedUrl);
+    const isInternalAuthorRoute = /^\/authors\/[a-z0-9-]+$/i.test(normalizedUrl);
+    let isLinkedInUrl = false;
     try {
-      linkedInUrl = new URL(trimmedUrl);
+      const parsedUrl = new URL(normalizedUrl);
+      isLinkedInUrl = parsedUrl.protocol === "https:" && /(^|\.)linkedin\.com$/i.test(parsedUrl.hostname);
     } catch {
-      linkedInUrl = null;
+      isLinkedInUrl = false;
     }
-    if (!trimmedName || linkedInUrl?.protocol !== "https:" || !/(^|\.)linkedin\.com$/i.test(linkedInUrl.hostname)) {
-      window.alert("Enter an author name and a valid LinkedIn URL.");
+    if (!trimmedName || (!isInternalAuthorRoute && !isLinkedInUrl)) {
+      window.alert("Enter an author name and an internal author route such as /authors/abdullah-luqman.");
       return;
     }
 
     setSaving(true);
     setError("");
     try {
-      const author = { name: trimmedName, url: linkedInUrl.toString(), createdAt: serverTimestamp(), updatedAt: serverTimestamp() };
+      const author = { name: trimmedName, url: normalizedUrl, createdAt: serverTimestamp(), updatedAt: serverTimestamp() };
       await addDoc(collection(db, "authors"), author);
       setName("");
       setUrl("");
@@ -729,7 +732,7 @@ function AuthorsManager() {
         <h2 className="text-xl font-black uppercase tracking-widest text-white">Add author</h2>
         <div className="grid gap-4 md:grid-cols-2">
           <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Author name" className="rounded-xl border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#CCFF00]" required />
-          <input type="url" value={url} onChange={(event) => setUrl(event.target.value)} placeholder="https://linkedin.com/in/..." className="rounded-xl border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#CCFF00]" required />
+          <input type="text" value={url} onChange={(event) => setUrl(event.target.value)} placeholder="/authors/abdullah-luqman" className="rounded-xl border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#CCFF00]" required />
         </div>
         <button disabled={saving} className="rounded-xl bg-[#CCFF00] px-6 py-3 text-xs font-black uppercase tracking-widest text-black disabled:opacity-50">{saving ? "Adding..." : "Add author"}</button>
         {error && <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">{error}</p>}
@@ -738,15 +741,18 @@ function AuthorsManager() {
       <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0A0A0A]">
         {loading ? <div className="p-8 text-sm text-zinc-500">Loading authors...</div> : authors.length === 0 ? (
           <div className="p-8 text-sm text-zinc-500">No managed authors yet. Abdullah Luqman remains the default author.</div>
-        ) : authors.map((author) => (
-          <div key={author.id} className="flex items-center justify-between gap-4 border-b border-white/5 p-6 last:border-b-0">
-            <div>
-              <div className="font-bold text-white">{author.name}</div>
-              <a href={author.url} target="_blank" rel="noopener noreferrer" className="mt-1 block text-xs text-[#CCFF00] hover:underline">{author.url}</a>
+        ) : authors.map((author) => {
+          const normalizedUrl = normalizeAuthorProfileUrl(author.name, author.url);
+          return (
+            <div key={author.id} className="flex items-center justify-between gap-4 border-b border-white/5 p-6 last:border-b-0">
+              <div>
+                <div className="font-bold text-white">{author.name}</div>
+                <a href={normalizedUrl} target={normalizedUrl.startsWith("/") ? undefined : "_blank"} rel={normalizedUrl.startsWith("/") ? undefined : "noopener noreferrer"} className="mt-1 block text-xs text-[#CCFF00] hover:underline">{normalizedUrl}</a>
+              </div>
+              <button onClick={() => removeAuthor(author)} className="rounded-lg border border-red-500/20 p-2 text-red-400 hover:bg-red-500 hover:text-white" title="Delete author"><Trash2 className="h-4 w-4" /></button>
             </div>
-            <button onClick={() => removeAuthor(author)} className="rounded-lg border border-red-500/20 p-2 text-red-400 hover:bg-red-500 hover:text-white" title="Delete author"><Trash2 className="h-4 w-4" /></button>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

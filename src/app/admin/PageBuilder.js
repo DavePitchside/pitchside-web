@@ -9,7 +9,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase"; // Ensure storage is exported from your firebase.js config
 import { createImageThumbnailBlob } from "@/lib/imageThumbnails";
 import { canonicalInternalHref } from "@/lib/contentPolicy";
-import { cleanMetaTitle, CONTENT_AUTHOR, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
+import { cleanMetaTitle, CONTENT_AUTHOR, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate, normalizeAuthorProfileUrl } from "@/lib/contentMeta";
 import { tools, toolsHub } from "@/lib/tools";
 import { validateContentForPublication } from "@/lib/cmsValidation";
 
@@ -68,8 +68,12 @@ const getAuthorKey = (author = {}) => `${author.name || ""}|${author.url || ""}`
 const getAuthorOptions = (managedAuthors = []) => {
   const authorMap = new Map();
   [CONTENT_AUTHOR, ...managedAuthors].forEach((author) => {
-    const key = getAuthorKey(author);
-    if (author.name && author.url && !authorMap.has(key)) authorMap.set(key, author);
+    const normalizedAuthor = {
+      ...author,
+      url: normalizeAuthorProfileUrl(author.name, author.url),
+    };
+    const key = getAuthorKey(normalizedAuthor);
+    if (normalizedAuthor.name && normalizedAuthor.url && !authorMap.has(key)) authorMap.set(key, normalizedAuthor);
   });
   return Array.from(authorMap.values());
 };
@@ -307,6 +311,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     intro: initialData?.intro || "",
     badge: initialData?.badge || "",
     llmDescription: initialData?.llmDescription || "",
+    landingLayout: initialData?.landingLayout || "centered",
     authorName: initialAuthor.name,
     authorUrl: initialAuthor.url,
     parentPage: initialData?.parentPage || (pageType === "technology" ? technologyParentPage : null),
@@ -845,18 +850,35 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
             <div className="space-y-1.5 relative"><label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Route / Slug</label><input type="text" className={`w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-zinc-400 font-mono outline-none ${isSlugLocked ? 'opacity-60 cursor-not-allowed' : 'focus:border-[#CCFF00]'}`} value={formData.slug} onChange={(e) => setFormData({...formData, slug: e.target.value})} disabled={isSlugLocked} />{isSlugLocked && <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />}</div>
           </div>
           {pageType === "landing" && (
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Publish Location</label>
-              <select
-                value={formData.parentPage?.url === "/technology" ? "/technology" : ""}
-                onChange={(event) => setFormData({ ...formData, parentPage: event.target.value === "/technology" ? technologyParentPage : null })}
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
-              >
-                <option value="">Root route: /{formData.slug || "slug"}</option>
-                <option value="/technology">Technology route: /technology/{formData.slug || "slug"}</option>
-              </select>
-              <div className="rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/5 px-3 py-2 text-xs font-mono text-[#CCFF00]">
-                Public URL: {getLandingPageRoute(formData)}
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Publish Location</label>
+                <select
+                  value={formData.parentPage?.url === "/technology" ? "/technology" : ""}
+                  onChange={(event) => setFormData({ ...formData, parentPage: event.target.value === "/technology" ? technologyParentPage : null })}
+                  className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
+                >
+                  <option value="">Root route: /{formData.slug || "slug"}</option>
+                  <option value="/technology">Technology route: /technology/{formData.slug || "slug"}</option>
+                </select>
+                <div className="rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/5 px-3 py-2 text-xs font-mono text-[#CCFF00]">
+                  Public URL: {getLandingPageRoute(formData)}
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Landing Page Layout Style</label>
+                <select
+                  value={formData.landingLayout}
+                  onChange={(event) => setFormData({ ...formData, landingLayout: event.target.value })}
+                  className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]"
+                >
+                  <option value="centered">Centered hero (default)</option>
+                  <option value="split">Split editorial hero</option>
+                  <option value="compact">Compact hero for long headlines</option>
+                </select>
+                <div className="rounded-xl border border-white/10 bg-zinc-950 px-3 py-2 text-xs text-zinc-500">
+                  Use compact for long H1 pages. Split gives the landing page a different editorial layout.
+                </div>
               </div>
             </div>
           )}
