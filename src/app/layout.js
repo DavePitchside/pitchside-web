@@ -7,7 +7,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import SquareScannerCursor from "@/components/SquareScannerCursor";
 import { PRODUCT_STATUS_NOTICE } from "@/lib/productStatus";
 
-const GA_MEASUREMENT_ID = "G-ZYE6G6CN78";
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-ZYE6G6CN78";
 
 const alphaHeadline = localFont({
   src: "./fonts/AlphaHeadline-Regular.ttf",

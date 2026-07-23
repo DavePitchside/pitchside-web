@@ -5,11 +5,6 @@ import { isIndexableContent } from "@/lib/contentPolicy";
 
 export const dynamic = "force-dynamic";
 
-const SYSTEM_CORE_PAGES = [
-  "about", "contact", "technology", "privacy", "terms",
-  "account-deletion", "admin", "home", "blog", "index", "",
-];
-
 function isTimestamp(v) {
   return v !== null && typeof v === "object" &&
     (typeof v.toMillis === "function" || (typeof v.seconds === "number" && typeof v.nanoseconds === "number"));
@@ -58,25 +53,13 @@ export default async function BlogPage() {
   let posts = [];
 
   try {
-    const [postsSnap, pagesSnap] = await Promise.all([
-      getDocs(collection(db, "posts")),
-      getDocs(collection(db, "pages")),
-    ]);
+    const postsSnap = await getDocs(collection(db, "posts"));
 
     const fetchedPosts = postsSnap.docs.filter((doc) => isIndexableContent(doc.data())).map((doc) => ({
       id: doc.id,
       contentType: "post",
       ...doc.data(),
     }));
-
-    const fetchedPages = pagesSnap.docs
-      .filter((doc) => isIndexableContent(doc.data()))
-      .map((doc) => ({ id: doc.id, contentType: "page", ...doc.data() }))
-      .filter((page) => {
-        const s = (page.slug || "").trim().toLowerCase();
-        const id = (page.id || "").trim().toLowerCase();
-        return !SYSTEM_CORE_PAGES.includes(s) && !SYSTEM_CORE_PAGES.includes(id);
-      });
 
     const getMs = (item) => {
       const t = item.createdAt;
@@ -86,8 +69,7 @@ export default async function BlogPage() {
       return 0;
     };
 
-    const merged = [...fetchedPosts, ...fetchedPages].sort((a, b) => getMs(b) - getMs(a));
-    posts = merged.map(getListingItem);
+    posts = fetchedPosts.sort((a, b) => getMs(b) - getMs(a)).map(getListingItem);
   } catch (err) {
     console.error("Blog listing: failed to fetch content:", err);
   }

@@ -30,6 +30,15 @@ export const EDITORIAL_INSTRUCTION_PHRASES = Object.freeze([
   "lorem ipsum",
   "example.com",
   "draft notes",
+  "do not claim",
+  "do not promise",
+  "needs confirmation",
+  "publish a tested",
+  "describe only",
+  "do not answer until",
+  "must be confirmed",
+  "awaiting verification",
+  "requires dave",
 ]);
 
 export const UNSUPPORTED_CLAIM_PHRASES = Object.freeze([

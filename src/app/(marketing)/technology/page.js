@@ -133,6 +133,16 @@ const defaultTechnologyContent = {
   },
 };
 
+const staticTechnologyRelatedItems = [
+  {
+    id: "football-recording-setup",
+    label: "Setup Guide",
+    title: "Football recording setup",
+    description: "Set up one or two phones, reduce blind spots and choose a safe mount for the venue.",
+    href: "/technology/football-recording-setup",
+  },
+];
+
 const iconMap = {
   vision: ScanEye,
   ai: Cpu,
@@ -144,20 +154,10 @@ function shuffleItems(items) {
   return [...items].sort(() => Math.random() - 0.5);
 }
 
-const staticTechnologyRelatedItems = [
-  {
-    id: "football-recording-setup",
-    label: "Setup Guide",
-    title: "Football recording setup",
-    description: "Set up one or two phones, reduce blind spots and choose a safe mount for the venue.",
-    href: "/technology/football-recording-setup",
-  },
-];
-
 function uniqueRelatedItems(items) {
   const seen = new Set();
   return items.filter((item) => {
-    if (!item.href || seen.has(item.href)) return false;
+    if (!item?.href || seen.has(item.href)) return false;
     seen.add(item.href);
     return true;
   });
