@@ -8,6 +8,7 @@ import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc, ad
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "@/lib/firebase"; 
 import PageBuilder from "./PageBuilder"; 
+import CmsPageManager from "./CmsPageManager";
 import useLenis from "@/lib/useLenis";
 import { mergeToolContent, mergeToolsHubContent, tools, toolsHub } from "@/lib/tools";
 import { formatContentDate, getPublishedDate, getUpdatedDate, normalizeAuthorProfileUrl } from "@/lib/contentMeta";
@@ -344,6 +345,7 @@ export default function AdminDashboard() {
 
   const tabs = [
     { id: "core_pages", label: "System Pages", icon: LayoutTemplate },
+    { id: "all_pages", label: "All Pages", icon: LayoutTemplate },
     { id: "landing_pages", label: "SEO Landing Pages", icon: Target },
     { id: "technology_pages", label: "Technology Pages", icon: Cpu },
     { id: "posts", label: "Blog Engine", icon: FileText },
@@ -399,6 +401,7 @@ export default function AdminDashboard() {
               <p className="text-zinc-500 text-sm mt-2">
                 {activeTab === "core_pages" ? "Manage SEO metadata for your hardcoded system routes." : 
                  activeTab === "landing_pages" ? "Build & deploy dynamic competitor / SEO landing pages." :
+                 activeTab === "all_pages" ? "Manage routePath CMS pages, templates, SEO, drafts and server-rendered blocks." :
                  activeTab === "technology_pages" ? "Build editable subpages under /technology." :
                  activeTab === "tools" ? "Edit SEO, page copy, FAQs, and CTA content for fixed public tools." :
                  activeTab === "cms_ops" ? "Apply reviewed CMS patch operations with automatic backups." :
@@ -423,6 +426,8 @@ export default function AdminDashboard() {
               <FooterManager />
             ) : activeTab === "cms_ops" ? (
               <CmsOperationsManager user={user} />
+            ) : activeTab === "all_pages" ? (
+              <CmsPageManager />
             ) : activeTab === "authors" ? (
               <AuthorsManager onEditPage={(page) => handleEdit(page, "core")} />
             ) : (

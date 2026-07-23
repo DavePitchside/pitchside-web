@@ -7,6 +7,8 @@ import DynamicPageClient from "@/app/[slug]/DynamicPageClient";
 import { isIndexableContent } from "@/lib/contentPolicy";
 import { cleanMetaTitle } from "@/lib/contentMeta";
 import { getMoreToRead } from "@/lib/recommendations";
+import CmsPageRenderer, { generateCmsMetadata } from "@/components/cms/CmsPageRenderer";
+import { getCmsPageByPath } from "@/lib/cms/pageLoader";
 
 export const dynamic = "force-dynamic";
 
@@ -82,6 +84,10 @@ const getTechnologyPageOrFallback = cache(async (slug) => {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  const routePath = `/technology/${slug}`;
+  const cmsPage = await getCmsPageByPath(routePath, { allowFallback: true });
+  if (cmsPage) return generateCmsMetadata(routePath);
+
   const data = await getTechnologyPageOrFallback(slug);
   if (!data) return {};
 
@@ -112,6 +118,10 @@ export async function generateMetadata({ params }) {
 
 export default async function TechnologySubpage({ params }) {
   const { slug } = await params;
+  const routePath = `/technology/${slug}`;
+  const cmsPage = await getCmsPageByPath(routePath, { allowFallback: true });
+  if (cmsPage) return <CmsPageRenderer routePath={routePath} />;
+
   const data = await getTechnologyPageOrFallback(slug);
   if (!data) notFound();
 
