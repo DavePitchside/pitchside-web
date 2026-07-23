@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench, ExternalLink, Cpu, ShieldAlert } from "lucide-react";
+import { Plus, Edit2, Trash2, Database, Users, FileText, LayoutTemplate, Activity, Lock, LogOut, Link as LinkIcon, Save, CheckCircle2, UserX, Target, Wrench, ExternalLink, Cpu, ShieldAlert, ShieldCheck } from "lucide-react";
 import { collection, getDocs, deleteDoc, doc, query, orderBy, setDoc, getDoc, addDoc, serverTimestamp, where } from "firebase/firestore";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "@/lib/firebase"; 
@@ -17,7 +17,6 @@ import { isDefaultPageImage } from "@/lib/pageImages";
 const CORE_STATIC_PAGES = [
   { id: "home", title: "Home Page", slug: "/" },
   { id: "technology", title: "Technology", slug: "technology" },
-  { id: "technology-football-recording-setup", title: "Football Recording Setup", slug: "technology/football-recording-setup", publicRoute: "/technology/football-recording-setup" },
   { id: "about", title: "About Us", slug: "about" },
   { id: "blog", title: "Blog Main Page", slug: "blog" },
   { id: "contact", title: "Contact", slug: "contact" },
@@ -26,8 +25,18 @@ const CORE_STATIC_PAGES = [
   { id: "privacy", title: "Privacy Policy", slug: "privacy" },
   { id: "terms", title: "Terms of Service", slug: "terms" },
   { id: "cookies", title: "Cookie Policy", slug: "cookies" },
+];
+
+const STATIC_TECHNOLOGY_PAGES = [
+  { id: "technology-football-recording-setup", title: "Football Recording Setup", slug: "football-recording-setup", parentPage: { title: "Technology", url: "/technology" }, publicRoute: "/technology/football-recording-setup" },
+];
+
+const AUTHOR_PROFILE_PAGES = [
   { id: "authors-dave-coombs", title: "Author: Dave Coombs", slug: "authors/dave-coombs" },
   { id: "authors-abdullah-luqman", title: "Author: Abdullah Luqman", slug: "authors/abdullah-luqman" },
+];
+
+const AUTHORITY_STATIC_PAGES = [
   { id: "editorial-policy", title: "Editorial Policy", slug: "editorial-policy" },
   { id: "comparison-methodology", title: "Comparison Methodology", slug: "comparison-methodology" },
   { id: "affiliate-disclosure", title: "Affiliate Disclosure", slug: "affiliate-disclosure" },
@@ -35,6 +44,15 @@ const CORE_STATIC_PAGES = [
   { id: "recording-consent-and-privacy", title: "Recording Consent & Privacy", slug: "recording-consent-and-privacy" },
   { id: "security-and-data", title: "Security & Data", slug: "security-and-data" },
 ];
+
+const ALL_STATIC_PAGE_IDS = new Set([
+  ...CORE_STATIC_PAGES,
+  ...STATIC_TECHNOLOGY_PAGES,
+  ...AUTHOR_PROFILE_PAGES,
+  ...AUTHORITY_STATIC_PAGES,
+].map((page) => page.id));
+
+const getStaticPublicRoute = (page) => page.publicRoute || (page.slug === "/" ? "/" : `/${String(page.slug || "").replace(/^\/+/, "")}`);
 
 const TECHNOLOGY_PAGE_DEFAULTS = {
   id: "technology",
@@ -225,7 +243,7 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       // Both core_pages and landing_pages read from the "pages" collection in Firebase
-      const targetCollection = (activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages") ? "pages" : activeTab;
+      const targetCollection = (activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "authority_pages") ? "pages" : activeTab;
       
       if (["posts", "pages", "tools", "leads", "deletions"].includes(targetCollection)) {
         const querySnapshot = targetCollection === "tools"
@@ -253,7 +271,7 @@ export default function AdminDashboard() {
       : "Are you sure you want to permanently delete this record?";
 
     if (window.confirm(msg)) {
-      const targetCollection = (activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages") ? "pages" : activeTab;
+      const targetCollection = (activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "authority_pages") ? "pages" : activeTab;
       await deleteDoc(doc(db, targetCollection, id));
       setContentList(contentList.filter(item => item.id !== id));
     }
@@ -331,6 +349,7 @@ export default function AdminDashboard() {
     { id: "posts", label: "Blog Engine", icon: FileText },
     { id: "tools", label: "Tools", icon: Wrench },
     { id: "cms_ops", label: "CMS Ops", icon: ShieldAlert },
+    { id: "authority_pages", label: "Authority", icon: ShieldCheck },
     { id: "authors", label: "Authors", icon: Users },
     { id: "footer", label: "Global Footer", icon: LinkIcon },
     { id: "leads", label: "Contacts & Leads", icon: Users },
@@ -383,7 +402,8 @@ export default function AdminDashboard() {
                  activeTab === "technology_pages" ? "Build editable subpages under /technology." :
                  activeTab === "tools" ? "Edit SEO, page copy, FAQs, and CTA content for fixed public tools." :
                  activeTab === "cms_ops" ? "Apply reviewed CMS patch operations with automatic backups." :
-                 activeTab === "authors" ? "Manage blog authors and internal author profile links." :
+                 activeTab === "authority_pages" ? "Manage trust, policy, disclosure, status, consent, and security pages." :
+                 activeTab === "authors" ? "Edit author profile pages and manage author picker entries." :
                  activeTab === "footer" ? "Manage external links and global footer presence." : 
                  activeTab === "deletions" ? "Process user account deletion requests." :
                  "Manage your platform data and incoming requests."}
@@ -404,7 +424,7 @@ export default function AdminDashboard() {
             ) : activeTab === "cms_ops" ? (
               <CmsOperationsManager user={user} />
             ) : activeTab === "authors" ? (
-              <AuthorsManager />
+              <AuthorsManager onEditPage={(page) => handleEdit(page, "core")} />
             ) : (
             <div className="bg-[#0A0A0A] border border-white/10 rounded-[1.5rem] overflow-hidden shadow-2xl">
               {loading ? (
@@ -432,10 +452,10 @@ export default function AdminDashboard() {
                         ) : (
                           <>
                             <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Title</th>
-                            <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">{activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "tools" ? "Route" : "Slug"}</th>
+                            <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">{activeTab === "core_pages" || activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "authority_pages" || activeTab === "tools" ? "Route" : "Slug"}</th>
                             {(activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Image</th>}
                             {(activeTab === "landing_pages" || activeTab === "technology_pages" || activeTab === "posts") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Uploaded / Updated</th>}
-                            {(activeTab === "core_pages" || activeTab === "tools") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Status</th>}
+                            {(activeTab === "core_pages" || activeTab === "authority_pages" || activeTab === "tools") && <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">Status</th>}
                           </>
                         )}
                         <th className="p-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 text-right">Actions</th>
@@ -450,7 +470,7 @@ export default function AdminDashboard() {
                         const dbData = page.id === "technology"
                           ? { ...page, ...mergeTechnologyPageData(savedData) }
                           : savedData ? { ...fallbackData, ...savedData } : fallbackData;
-                        const publicRoute = dbData.slug === "/" ? "/" : `/${String(dbData.slug || page.slug).replace(/^\/+/, "")}`;
+                        const publicRoute = getStaticPublicRoute(dbData);
                         return (
                           <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
                             <td className="p-6 font-bold text-white text-sm">{dbData.title || page.title}</td>
@@ -474,8 +494,36 @@ export default function AdminDashboard() {
                         );
                       })}
 
+                      {/* --- TAB: AUTHORITY / TRUST PAGES --- */}
+                      {activeTab === "authority_pages" && AUTHORITY_STATIC_PAGES.map((page) => {
+                        const savedData = contentList.find(c => c.id === page.id);
+                        const dbData = savedData ? { ...page, ...savedData } : page;
+                        const publicRoute = getStaticPublicRoute(dbData);
+                        return (
+                          <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
+                            <td className="p-6 font-bold text-white text-sm">{dbData.title || page.title}</td>
+                            <td className="p-6 text-zinc-500 text-xs font-mono">{publicRoute}</td>
+                            <td className="p-6">
+                              <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest ${savedData ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}`}>
+                                {savedData ? "Configured" : "Default"}
+                              </span>
+                            </td>
+                            <td className="p-6 text-right">
+                              <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                                <a href={publicRoute} target="_blank" rel="noopener noreferrer" title="Open public authority page" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                  <ExternalLink className="w-4 h-4" />
+                                </a>
+                                <button onClick={() => handleEdit({ id: page.id, ...page, ...dbData }, "core")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                  <Edit2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+
                       {/* --- TAB 2: SEO LANDING PAGES --- */}
-                      {activeTab === "landing_pages" && contentList.filter(c => !CORE_STATIC_PAGES.some(core => core.id === c.id) && c.parentPage?.url !== "/technology").map((page) => {
+                      {activeTab === "landing_pages" && contentList.filter(c => !ALL_STATIC_PAGE_IDS.has(c.id) && c.parentPage?.url !== "/technology").map((page) => {
                         const isTechnologyChild = page.parentPage?.url === "/technology";
                         const route = isTechnologyChild ? `/technology/${page.slug}` : `/${page.slug}`;
                         return (
@@ -508,6 +556,36 @@ export default function AdminDashboard() {
                       );})}
 
                       {/* --- TAB: TECHNOLOGY SUBPAGES --- */}
+                      {activeTab === "technology_pages" && STATIC_TECHNOLOGY_PAGES.map((page) => {
+                        const savedData = contentList.find(c => c.id === page.id);
+                        const dbData = savedData ? { ...page, ...savedData } : page;
+                        const publicRoute = getStaticPublicRoute(dbData);
+                        return (
+                          <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
+                            <td className="p-6 font-bold text-white text-sm">{dbData.title || page.title}</td>
+                            <td className="p-6 text-[#CCFF00] text-xs font-mono">{publicRoute}</td>
+                            <td className="p-6">
+                              <span className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest ${savedData ? 'bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}`}>
+                                {savedData ? "Configured" : "Server Route"}
+                              </span>
+                            </td>
+                            <td className="p-6 text-xs text-zinc-400">
+                              <div><span className="text-zinc-600">Uploaded:</span> {formatContentDate(getPublishedDate(dbData))}</div>
+                              <div className="mt-1"><span className="text-zinc-600">Updated:</span> {formatContentDate(getUpdatedDate(dbData))}</div>
+                            </td>
+                            <td className="p-6 text-right">
+                              <div className="flex justify-end gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                                <a href={publicRoute} target="_blank" rel="noopener noreferrer" title="Open public technology page" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                  <ExternalLink className="w-4 h-4" />
+                                </a>
+                                <button onClick={() => handleEdit({ id: page.id, ...page, ...dbData }, "technology")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                  <Edit2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                       {activeTab === "technology_pages" && contentList.filter(c => c.parentPage?.url === "/technology").map((page) => (
                         <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
                           <td className="p-6 font-bold text-white text-sm">{page.title}</td>
@@ -641,8 +719,7 @@ export default function AdminDashboard() {
                       ))}
                       
                       {/* Empty State Handlers */}
-                      {((activeTab === "landing_pages" && contentList.filter(c => !CORE_STATIC_PAGES.some(core => core.id === c.id)).length === 0) ||
-                        (activeTab === "technology_pages" && contentList.filter(c => c.parentPage?.url === "/technology").length === 0) ||
+                      {((activeTab === "landing_pages" && contentList.filter(c => !ALL_STATIC_PAGE_IDS.has(c.id) && c.parentPage?.url !== "/technology").length === 0) ||
                         (["posts", "leads", "deletions"].includes(activeTab) && contentList.length === 0)) && (
                         <tr>
                           <td colSpan="4" className="p-16 text-center text-zinc-600 font-mono text-xs uppercase tracking-widest">
@@ -663,8 +740,9 @@ export default function AdminDashboard() {
   );
 }
 
-function AuthorsManager() {
+function AuthorsManager({ onEditPage }) {
   const [authors, setAuthors] = useState([]);
+  const [profilePages, setProfilePages] = useState([]);
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(true);
@@ -675,8 +753,15 @@ function AuthorsManager() {
     setLoading(true);
     setError("");
     try {
-      const snapshot = await getDocs(collection(db, "authors"));
+      const [snapshot, ...profileSnapshots] = await Promise.all([
+        getDocs(collection(db, "authors")),
+        ...AUTHOR_PROFILE_PAGES.map((page) => getDoc(doc(db, "pages", page.id))),
+      ]);
       setAuthors(snapshot.docs.map((authorDoc) => ({ id: authorDoc.id, ...authorDoc.data() })));
+      setProfilePages(AUTHOR_PROFILE_PAGES.map((page, index) => {
+        const savedProfile = profileSnapshots[index];
+        return savedProfile?.exists?.() ? { ...page, ...savedProfile.data() } : page;
+      }));
     } catch (loadError) {
       console.error("Unable to load authors:", loadError);
       setError(loadError?.code === "permission-denied"
@@ -733,6 +818,25 @@ function AuthorsManager() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
+      <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0A0A0A] shadow-2xl">
+        <div className="border-b border-white/10 p-8">
+          <h2 className="text-xl font-black uppercase tracking-widest text-white">Author profile pages</h2>
+          <p className="mt-2 text-sm text-zinc-500">Edit the public Dave and Abdullah profile pages used by articles and trust pages.</p>
+        </div>
+        {profilePages.map((page) => {
+          const publicRoute = getStaticPublicRoute(page);
+          return (
+            <div key={page.id} className="flex items-center justify-between gap-4 border-b border-white/5 p-6 last:border-b-0">
+              <div>
+                <div className="font-bold text-white">{page.title}</div>
+                <a href={publicRoute} target="_blank" rel="noopener noreferrer" className="mt-1 block text-xs text-[#CCFF00] hover:underline">{publicRoute}</a>
+              </div>
+              <button onClick={() => onEditPage?.({ id: page.id, ...page })} className="rounded-lg border border-white/10 p-2 text-zinc-400 hover:bg-[#CCFF00] hover:text-black" title="Edit author profile page"><Edit2 className="h-4 w-4" /></button>
+            </div>
+          );
+        })}
+      </div>
+
       <form onSubmit={addAuthor} className="space-y-5 rounded-[1.5rem] border border-white/10 bg-[#0A0A0A] p-8 shadow-2xl">
         <h2 className="text-xl font-black uppercase tracking-widest text-white">Add author</h2>
         <div className="grid gap-4 md:grid-cols-2">

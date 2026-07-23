@@ -144,6 +144,25 @@ function shuffleItems(items) {
   return [...items].sort(() => Math.random() - 0.5);
 }
 
+const staticTechnologyRelatedItems = [
+  {
+    id: "football-recording-setup",
+    label: "Setup Guide",
+    title: "Football recording setup",
+    description: "Set up one or two phones, reduce blind spots and choose a safe mount for the venue.",
+    href: "/technology/football-recording-setup",
+  },
+];
+
+function uniqueRelatedItems(items) {
+  const seen = new Set();
+  return items.filter((item) => {
+    if (!item.href || seen.has(item.href)) return false;
+    seen.add(item.href);
+    return true;
+  });
+}
+
 function normalizeTechnologyContent(data = {}) {
   const legacyTitle = data.heroH1 || "";
   const stats = Array.isArray(data.technologyStats) && data.technologyStats.length
@@ -284,7 +303,11 @@ export default function TechnologyPage() {
             href: `/blog/${post.slug}`,
           }));
 
-        setRelatedItems([...technologyPages, ...shuffleItems([...blogPosts, ...generalPages]).slice(0, 2)]);
+        setRelatedItems(uniqueRelatedItems([
+          ...staticTechnologyRelatedItems,
+          ...technologyPages,
+          ...shuffleItems([...blogPosts, ...generalPages]).slice(0, 2),
+        ]).slice(0, 4));
       } catch (error) {
         console.error("Unable to load technology related content:", error);
       }
@@ -296,6 +319,7 @@ export default function TechnologyPage() {
 
   const content = normalizeTechnologyContent(cmsPage);
   const fallbackRelatedItems = [
+    ...staticTechnologyRelatedItems,
     ...content.technologySections.slice(0, 2).map((section) => ({
       id: section.id,
       label: "Technology",
@@ -318,7 +342,7 @@ export default function TechnologyPage() {
       href: "/blog",
     },
   ];
-  const displayRelatedItems = relatedItems.length ? relatedItems : fallbackRelatedItems;
+  const displayRelatedItems = relatedItems.length ? relatedItems : uniqueRelatedItems(fallbackRelatedItems).slice(0, 4);
 
   return (
     <>
