@@ -1,4 +1,4 @@
-export const DEFAULT_PAGE_IMAGE = "/1.png";
+export const DEFAULT_PAGE_IMAGE = "/1.webp";
 const DEFAULT_IMAGE_PATHS = new Set([DEFAULT_PAGE_IMAGE, "/og-image.png", "/logo.png"]);
 
 export function isDefaultPageImage(value) {

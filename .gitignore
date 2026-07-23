@@ -36,6 +36,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Generated local audits, crawler output, and CMS backups
+/audits/
+/backups/cms/
+/tmp/
+/reports/generated/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

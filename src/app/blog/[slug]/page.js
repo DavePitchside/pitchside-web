@@ -112,7 +112,7 @@ export default async function BlogPost({ params }) {
     headline: post.heroH1 || post.title,
     description: post.metaDescription || "",
     image: displayImage || `${SITE_URL}/og-image.png`,
-    author: { "@type": "Person", name: author.name, url: author.url },
+    author: { "@type": "Person", name: author.name, url: author.url?.startsWith("/") ? `${SITE_URL}${author.url}` : author.url },
     publisher: {
       "@type": "Organization",
       name: "Pitchside AI",

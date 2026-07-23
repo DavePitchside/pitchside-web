@@ -52,7 +52,7 @@ const LoadingCurtain = ({ onComplete }) => (
       transition={{ duration: 0.8, ease: SMOOTH_EASE }}
       className="relative w-24 h-24 md:w-32 md:h-32 transform-gpu"
     >
-      <Image src="/logo.png" alt="Pitchside AI" fill className="object-contain drop-shadow-xl" priority />
+      <Image src="/logo.png" alt="Pitchside AI" fill sizes="128px" className="object-contain drop-shadow-xl" priority />
     </motion.div>
   </motion.div>
 );
@@ -163,7 +163,7 @@ export default function Home() {
 
   useLenis();
   
-  const mockupImages = ["/mockup-1.jpg", "/mockup-2.jpg", "/mockup-3.jpg", "/mockup-4.jpg"];
+  const mockupImages = ["/mockup-1.png", "/mockup-2.png", "/mockup-3.png", "/mockup-4.png"];
 
   // Hardware Accelerated Mouse Tracking
   const mouseX = useMotionValue(-100);
@@ -214,9 +214,9 @@ export default function Home() {
   };
 
   const features = [
-    { id: 0, title: "RECORD.", img: "/mockup-4.jpg", subtitle: "Zero Wearables Required", desc: "Record the match with a clear phone setup. Pitchside is being developed to identify players and important moments from small-sided football footage." },
-    { id: 1, title: "PLAY.", img: "/mockup-2.jpg", subtitle: "Focus on the Game", desc: "Play your match while Pitchside tests a phone-first workflow for turning footage into useful review material after full time." },
-    { id: 2, title: "REPLAY.", img: "/mockup-3.jpg", subtitle: "Beta Match Review", desc: "Review beta highlights, player moments and match clips as the private-beta workflow improves during testing." }
+    { id: 0, title: "RECORD.", img: "/mockup-4.png", subtitle: "Zero Wearables Required", desc: "Record the match with a clear phone setup. Pitchside is being developed to identify players and important moments from small-sided football footage." },
+    { id: 1, title: "PLAY.", img: "/mockup-2.png", subtitle: "Focus on the Game", desc: "Play your match while Pitchside tests a phone-first workflow for turning footage into useful review material after full time." },
+    { id: 2, title: "REPLAY.", img: "/mockup-3.png", subtitle: "Beta Match Review", desc: "Review beta highlights, player moments and match clips as the private-beta workflow improves during testing." }
   ];
 
   return (
@@ -239,14 +239,14 @@ export default function Home() {
             style={{ y: yParallax, scale: 1.05 }} 
             className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
           >
-            <Image src="/1.png" alt="Cinematic Hero Background" fill className={`${HERO_IMAGE_CLASS} opacity-95 md:opacity-80`} priority />
+            <Image src="/1.webp" alt="Cinematic Hero Background" fill className={`${HERO_IMAGE_CLASS} opacity-95 md:opacity-80`} priority />
           </motion.div>
 
           <motion.div 
             style={{ y: yParallax, scale: 1.05, maskImage: maskImage, WebkitMaskImage: maskImage }} 
             className="absolute inset-0 hidden md:block w-full h-full z-10 pointer-events-none transform-gpu will-change-transform"
           >
-            <Image src="/1-neon.png" alt="Revealed Neon Background" fill className={`${HERO_IMAGE_CLASS} opacity-100`} priority />
+            <Image src="/1-neon.webp" alt="Revealed Neon Background" fill className={`${HERO_IMAGE_CLASS} opacity-100`} priority />
           </motion.div>
           
           <div className="absolute inset-0 z-20 bg-gradient-to-b from-[#050505]/62 via-[#050505]/10 to-[#050505]/84 md:bg-gradient-to-r md:from-[#050505] md:via-[#050505]/70 md:to-transparent md:w-[70%] pointer-events-none transform-gpu" />
@@ -340,7 +340,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6 md:px-20 lg:px-24 flex flex-col lg:flex-row items-center justify-between gap-10 md:gap-16 w-full relative z-10">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: SMOOTH_EASE }} className="w-full lg:w-1/2 relative z-10 flex justify-center lg:justify-start">
               <div className="group relative w-full max-w-[280px] sm:max-w-sm lg:max-w-md aspect-[4/5] bg-zinc-300 rounded-3xl overflow-hidden shadow-2xl border border-white/10 transform-gpu">
-                <Image src="/portrait-action.jpg" alt="Action Shot" fill className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110 will-change-transform" />
+                <Image src="/portrait-action.webp" alt="Action Shot" fill sizes="(min-width: 1024px) 448px, (min-width: 640px) 384px, 280px" className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110 will-change-transform" />
               </div>
             </motion.div>
 
@@ -403,7 +403,7 @@ export default function Home() {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[350px] bg-[#CCFF00]/15 blur-[80px] rounded-full pointer-events-none transform-gpu" />
               <AnimatePresence mode="wait">
                 <motion.div key={activeFeature} initial={{ opacity: 0, scale: 0.9, y: 20, rotateY: 10 }} animate={{ opacity: 1, scale: 1, y: 0, rotateY: 0 }} exit={{ opacity: 0, scale: 0.9, y: -20, rotateY: -10 }} transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 20 }} className="absolute w-[140px] sm:w-[180px] md:w-[260px] lg:w-[320px] aspect-[1/2] drop-shadow-[0_30px_50px_rgba(0,0,0,0.8)] transform-gpu will-change-transform">
-                  <Image src={features[activeFeature].img} alt={features[activeFeature].title} fill className="object-contain" priority />
+                  <Image src={features[activeFeature].img} alt={features[activeFeature].title} fill sizes="(min-width: 1024px) 320px, (min-width: 768px) 260px, 180px" className="object-contain" priority />
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -432,7 +432,7 @@ export default function Home() {
                 };
                 return (
                   <motion.div key={index} animate={position} variants={variants} transition={{ duration: 0.5, ease: SMOOTH_EASE }} className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 h-[90%] max-h-[550px] aspect-[1/2] drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)] transform-gpu will-change-transform">
-                    <Image src={img} alt={`App View ${index}`} fill className="object-contain" />
+                    <Image src={img} alt={`App View ${index}`} fill sizes="(min-width: 768px) 275px, 180px" className="object-contain" />
                   </motion.div>
                 );
               })}

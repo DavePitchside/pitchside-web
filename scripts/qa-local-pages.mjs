@@ -1,7 +1,20 @@
 import { chromium } from "playwright";
 
 const base = process.env.QA_BASE_URL || "http://localhost:3000";
-const pages = ["/", "/pricing", "/technology", "/technology/football-recording-setup", "/product-status", "/affiliate-disclosure"];
+const pages = [
+  "/",
+  "/pricing",
+  "/football-analysis-app",
+  "/football-stats-app",
+  "/record-football-matches",
+  "/technology",
+  "/technology/football-recording-setup",
+  "/blog",
+  "/blog/how-to-record-a-football-match-on-your-phone",
+  "/authors/dave-coombs",
+  "/product-status",
+  "/affiliate-disclosure",
+];
 const viewports = [
   { name: "desktop", width: 1440, height: 1000 },
   { name: "mobile", width: 390, height: 844 },

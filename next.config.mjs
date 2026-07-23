@@ -1,41 +1,13 @@
+import { redirectEntries } from "./src/lib/redirects.mjs";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
   async redirects() {
-    return [
-      {
-        source: "/football-stats-without-gps",
-        destination: "/blog/track-football-stats-without-gps-vest",
-        statusCode: 301,
-      },
-      {
-        source: "/football-highlights-app",
-        destination: "/technology",
-        statusCode: 301,
-      },
-      {
-        source: "/best-football-stats-apps",
-        destination: "/tools",
-        statusCode: 301,
-      },
-      {
-        source: "/sunday-league-football",
-        destination: "/tools-for-sunday-league-football",
-        statusCode: 301,
-      },
-      {
-        source: "/how-pitchside-ai-works",
-        destination: "/technology/how-pitchside-ai-works",
-        statusCode: 301,
-      },
-      {
-        source: "/best-way-to-track-5aside-stats",
-        destination: "/blog/what-stats-matter-in-5-a-side-football",
-        statusCode: 301,
-      },
-    ];
+    return redirectEntries();
   },
   images: {
+    qualities: [72, 75],
     remotePatterns: [
       {
         protocol: 'https',

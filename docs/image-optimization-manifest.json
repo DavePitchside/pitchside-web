@@ -1,0 +1,101 @@
+[
+  {
+    "from": "1.png",
+    "to": "1.webp",
+    "width": 1799,
+    "height": 874,
+    "hasAlpha": false,
+    "before": 1746782,
+    "after": 75466,
+    "savingBytes": 1671316,
+    "savingPercent": 95.68
+  },
+  {
+    "from": "1-neon.png",
+    "to": "1-neon.webp",
+    "width": 2966,
+    "height": 1440,
+    "hasAlpha": true,
+    "before": 6596468,
+    "after": 107878,
+    "savingBytes": 6488590,
+    "savingPercent": 98.36
+  },
+  {
+    "from": "davidcoombs-cutout.png",
+    "to": "davidcoombs-cutout.webp",
+    "width": 1842,
+    "height": 2304,
+    "hasAlpha": true,
+    "before": 2549614,
+    "after": 101196,
+    "savingBytes": 2448418,
+    "savingPercent": 96.03
+  },
+  {
+    "from": "portrait-action.jpg",
+    "to": "portrait-action.webp",
+    "width": 2100,
+    "height": 1800,
+    "hasAlpha": false,
+    "before": 1902751,
+    "after": 22612,
+    "savingBytes": 1880139,
+    "savingPercent": 98.81
+  },
+  {
+    "from": "mockup-1.jpg",
+    "to": "mockup-1.png",
+    "width": 982,
+    "height": 2047,
+    "hasAlpha": true,
+    "before": 25416,
+    "after": 25416,
+    "savingBytes": 0,
+    "savingPercent": 0
+  },
+  {
+    "from": "mockup-2.jpg",
+    "to": "mockup-2.png",
+    "width": 982,
+    "height": 2047,
+    "hasAlpha": true,
+    "before": 434158,
+    "after": 434157,
+    "savingBytes": 1,
+    "savingPercent": 0
+  },
+  {
+    "from": "mockup-3.jpg",
+    "to": "mockup-3.png",
+    "width": 982,
+    "height": 2047,
+    "hasAlpha": true,
+    "before": 158078,
+    "after": 158078,
+    "savingBytes": 0,
+    "savingPercent": 0
+  },
+  {
+    "from": "mockup-4.jpg",
+    "to": "mockup-4.png",
+    "width": 982,
+    "height": 2047,
+    "hasAlpha": true,
+    "before": 643495,
+    "after": 643496,
+    "savingBytes": -1,
+    "savingPercent": 0
+  },
+  {
+    "from": null,
+    "to": "og-image.png",
+    "width": 1200,
+    "height": 630,
+    "hasAlpha": false,
+    "before": 0,
+    "after": 77150,
+    "savingBytes": 0,
+    "savingPercent": 0
+  }
+]

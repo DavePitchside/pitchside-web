@@ -184,7 +184,7 @@ export function PremiumToolHero({
         <CornerMark className="bottom-6 left-6 hidden -rotate-90 md:bottom-10 md:left-10 md:block" />
 
         <div className="absolute inset-0 z-0">
-          <Image src="/1.png" alt="" fill sizes="100vw" className="object-cover object-[70%_center] opacity-35 md:object-[82%_center] md:opacity-45" aria-hidden="true" priority />
+          <Image src="/1.webp" alt="" fill sizes="100vw" className="object-cover object-[70%_center] opacity-35 md:object-[82%_center] md:opacity-45" aria-hidden="true" priority />
           <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/92 to-[#050505]/50" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/82 via-[#050505]/18 to-[#050505]/90" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.022)_1px,transparent_1px)] bg-[size:48px_48px] opacity-45" />

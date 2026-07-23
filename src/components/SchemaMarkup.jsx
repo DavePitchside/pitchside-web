@@ -1,9 +1,20 @@
 import React from 'react';
 import { cleanMetaTitle, contentDateToIso, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 
+const SITE_URL = "https://pitchside.ai";
+
+function absoluteSiteUrl(value, fallback) {
+  if (!value || typeof value !== "string") return fallback;
+  if (/^https?:\/\//i.test(value)) return value;
+  if (value.startsWith("/")) return `${SITE_URL}${value}`;
+  return fallback;
+}
+
 export default function SchemaMarkup({ data, type = "WebPage", url }) {
   if (!data) return null;
   const author = getContentAuthor(data);
+  const authorUrl = absoluteSiteUrl(author.url, `${SITE_URL}/authors/abdullah-luqman`);
+  const imageUrl = absoluteSiteUrl(data.primaryImage || data.heroBackground, `${SITE_URL}/og-image.png`);
 
   // 1. BASE SCHEMA: Defines the page type (Article vs Landing Page)
   const headline = cleanMetaTitle(data.metaTitle || data.title || data.heroH1);
@@ -12,11 +23,11 @@ export default function SchemaMarkup({ data, type = "WebPage", url }) {
     "@type": type,
     "headline": headline,
     "description": data.metaDescription || "Pitchside AI Platform",
-    "image": data.primaryImage || data.heroBackground || "https://pitchside.ai/logo.png",
+    "image": imageUrl,
     "author": {
       "@type": "Person",
       "name": author.name,
-      "url": author.url
+      "url": authorUrl
     },
     "publisher": {
       "@type": "Organization",
@@ -28,7 +39,7 @@ export default function SchemaMarkup({ data, type = "WebPage", url }) {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://pitchside.ai${url}`
+      "@id": `${SITE_URL}${url}`
     }
   };
 
