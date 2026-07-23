@@ -136,10 +136,12 @@ const applyInternalLinksToImport = (data) => {
       })
     : data.contentBlocks;
 
+  const { internalLinks: _internalLinks, ...dataWithoutImportLinks } = data;
+
   return {
     linksAdded,
     data: {
-      ...data,
+      ...dataWithoutImportLinks,
       llmDescription: cleanLlmDescription(data.llmDescription, data.metaDescription || data.intro),
       contentBlocks,
       faqs: Array.isArray(data.faqs)

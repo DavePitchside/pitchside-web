@@ -10,27 +10,11 @@ import { contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate
 import MoreToRead from "@/components/MoreToRead";
 import ProductStatusNotice from "@/components/ProductStatusNotice";
 import { pricingPlans } from "@/lib/pricing";
+import { canonicalRedirectHref } from "@/lib/redirects.mjs";
 
 const customEase = [0.16, 1, 0.3, 1];
 
-const deletedLinkReplacements = {
-  "/football-highlights-app": "/technology",
-  "/best-football-stats-apps": "/tools",
-  "/sunday-league-football": "/tools-for-sunday-league-football",
-};
-
-const cleanInternalHref = (href = "") => {
-  for (const [deletedPath, replacement] of Object.entries(deletedLinkReplacements)) {
-    if (href === deletedPath || href.startsWith(`${deletedPath}?`) || href.startsWith(`${deletedPath}#`)) return replacement;
-
-    for (const origin of ["https://pitchside.ai", "https://www.pitchside.ai"]) {
-      const absolutePath = `${origin}${deletedPath}`;
-      if (href === absolutePath || href.startsWith(`${absolutePath}?`) || href.startsWith(`${absolutePath}#`)) return replacement;
-    }
-  }
-
-  return href;
-};
+const cleanInternalHref = (href = "") => canonicalRedirectHref(href);
 
 const cleanCmsHtml = (html = "") => String(html).replace(
   /href=(['"])([^'"]+)\1/gi,
@@ -95,6 +79,7 @@ const LandingAttribution = () => (
 
 export default function DynamicPageClient({ data, dataSource, childPosts = [], moreToRead = [] }) {
   const lenisRef = useLenis();
+  const isProductPage = dataSource === "pages";
 
   const { scrollYProgress, scrollY } = useScroll();
   const scaleY = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
@@ -107,6 +92,8 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
   const glowScale = useTransform(scrollY, [0, 1000], [1, 1.4]);
 
   const tocItems = data.contentBlocks?.filter((b) => b.type === "h2" || b.type === "h3") || [];
+  const showArticleChrome = dataSource === "posts";
+  const hasCmsPricingTeaser = data.contentBlocks?.some((block) => /pricing-teaser|planned launch pricing|start free, record more with paid/i.test(`${block?.id || ""} ${block?.content || ""}`));
 
   const scrollToElement = (id) => {
     const element = document.getElementById(id);
@@ -128,7 +115,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
   const isInternalAuthorLink = author.url?.startsWith("/");
   const heroTitle = data.heroH1 || data.title || "";
   const isLongHeroTitle = heroTitle.length > 82;
-  const landingLayout = dataSource === "pages" ? data.landingLayout || "centered" : "centered";
+  const landingLayout = isProductPage ? data.landingLayout || "centered" : "centered";
   const isSplitLayout = landingLayout === "split";
   const isCompactLayout = landingLayout === "compact";
   const heroShellClass = isSplitLayout
@@ -145,10 +132,11 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
 
   return (
     <main className="relative flex flex-col w-full font-roobert overflow-x-hidden bg-[#050505] text-zinc-900 selection:bg-[#CCFF00] selection:text-black">
-      {/* Reading progress bar */}
-      <div className="fixed top-0 right-0 w-1.5 md:w-2 h-full bg-zinc-800 z-[9000]">
-        <motion.div className="w-full bg-[#CCFF00] origin-top" style={{ scaleY, height: "100%" }} />
-      </div>
+      {showArticleChrome && (
+        <div className="fixed top-0 right-0 w-1.5 md:w-2 h-full bg-zinc-800 z-[9000]">
+          <motion.div className="w-full bg-[#CCFF00] origin-top" style={{ scaleY, height: "100%" }} />
+        </div>
+      )}
 
       {/* Fixed parallax hero */}
       <header className={`fixed top-0 left-0 w-full h-screen bg-[#050505] overflow-hidden flex flex-col items-center ${isCompactLayout ? "justify-center pt-20 pb-12" : "justify-center"} ${isSplitLayout ? "text-left" : "text-center"} z-0 px-6 md:px-12`}>
@@ -169,13 +157,15 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
                 <ArrowLeft className="w-4 h-4 mr-3" /> Return to Journal
               </Link>
             )}
-            <div className={`flex flex-wrap ${isSplitLayout ? "justify-start" : "justify-center"} items-center gap-4 text-[10px] font-mono tracking-[0.2em] uppercase mb-5`}>
-              <span className="bg-[#CCFF00] text-black px-4 py-1.5 rounded-full font-bold">
-                {data.category || "Editorial"}
-              </span>
-              <span className="text-zinc-500">Uploaded <time dateTime={contentDateToIso(publishedDate)}>{formatContentDate(publishedDate)}</time></span>
-              <span className="text-zinc-500">Updated <time dateTime={contentDateToIso(updatedDate)}>{formatContentDate(updatedDate)}</time></span>
-            </div>
+            {showArticleChrome && (
+              <div className={`flex flex-wrap ${isSplitLayout ? "justify-start" : "justify-center"} items-center gap-4 text-[10px] font-mono tracking-[0.2em] uppercase mb-5`}>
+                <span className="bg-[#CCFF00] text-black px-4 py-1.5 rounded-full font-bold">
+                  {data.category || "Editorial"}
+                </span>
+                <span className="text-zinc-500">Uploaded <time dateTime={contentDateToIso(publishedDate)}>{formatContentDate(publishedDate)}</time></span>
+                <span className="text-zinc-500">Updated <time dateTime={contentDateToIso(updatedDate)}>{formatContentDate(updatedDate)}</time></span>
+              </div>
+            )}
             {dataSource === "posts" && (
               <div className={`mb-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-bold ${isSplitLayout ? "justify-start" : "justify-center"}`}>
                 {isInternalAuthorLink ? (
@@ -202,14 +192,14 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
             >
               {heroTitle}
             </motion.h1>
-            {data.metaDescription && (
+            {(data.intro || data.metaDescription) && (
               <motion.p
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, delay: 0.1, ease: customEase }}
                 className={`text-zinc-400 font-light leading-relaxed ${isLongHeroTitle || isCompactLayout ? "text-base md:text-lg" : "text-lg md:text-xl"} ${isSplitLayout ? "max-w-xl" : "max-w-2xl"}`}
               >
-                {data.metaDescription}
+                {data.intro || data.metaDescription}
               </motion.p>
             )}
           </div>
@@ -217,7 +207,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
             <div className="hidden md:block rounded-[2rem] border border-[#CCFF00]/20 bg-[#CCFF00]/5 p-8 shadow-2xl">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#CCFF00]">Pitchside guide</p>
               <p className="mt-5 text-2xl font-black uppercase leading-tight text-white">{data.title || "Grassroots football analysis"}</p>
-              <p className="mt-5 text-sm font-medium leading-relaxed text-zinc-400">Built for skimmable comparison, product education and search-led landing pages.</p>
+              <p className="mt-5 text-sm font-medium leading-relaxed text-zinc-400">{data.intro || data.metaDescription}</p>
             </div>
           )}
         </motion.div>
@@ -228,7 +218,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
         <div className="absolute top-6 left-1/2 -translate-x-1/2 w-16 h-1.5 bg-zinc-200 rounded-full" />
         <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24 relative mt-8">
 
-          {(tocItems.length > 0 || moreToRead.length > 0) && (
+          {showArticleChrome && (tocItems.length > 0 || moreToRead.length > 0) && (
             <aside className="hidden lg:block w-[280px] flex-shrink-0">
               <div className="sticky top-32">
                 {tocItems.length > 0 && (
@@ -251,7 +241,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
           )}
 
           <article className="w-full max-w-[800px] mx-auto lg:mx-0">
-            {dataSource === "pages" && <ProductStatusNotice className="mb-12 bg-zinc-950 text-zinc-200" />}
+            {isProductPage && <ProductStatusNotice className="mb-12 bg-zinc-950 text-zinc-200" />}
 
             {hasMedia && (
               <motion.div
@@ -271,7 +261,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
               </motion.div>
             )}
 
-            {data.tldrPoints?.length > 0 && data.tldrPoints[0] !== "" && (
+            {showArticleChrome && data.tldrPoints?.length > 0 && data.tldrPoints[0] !== "" && (
               <div className="bg-[#CCFF00]/5 border-[1.5px] border-[#CCFF00] rounded-3xl p-8 md:p-10 mb-16 shadow-lg shadow-[#CCFF00]/5">
                 <h3 className="text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-900 mb-6 font-bold flex items-center gap-3">
                   <Zap className="w-4 h-4 text-[#CCFF00] fill-[#CCFF00]" /> Executive Summary
@@ -387,9 +377,9 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
               })}
             </div>
 
-            {dataSource === "pages" && <LandingAttribution />}
+            {isProductPage && <LandingAttribution />}
 
-            {dataSource === "pages" && <LandingPricingTeaser />}
+            {isProductPage && !hasCmsPricingTeaser && <LandingPricingTeaser />}
 
             {data.faqs?.length > 0 && data.faqs[0].question !== "" && (
               <section className="mt-24 pt-16 border-t border-zinc-200">
@@ -440,7 +430,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
               </section>
             )}
 
-            {dataSource !== "pages" && data.ctaBlock?.headline && (
+            {data.ctaBlock?.headline && (
               <div className="bg-[#050505] text-white p-12 md:p-16 rounded-[2rem] text-center my-24 relative overflow-hidden isolate shadow-2xl">
                 <div className="absolute inset-0 bg-[#CCFF00]/10 blur-[100px] rounded-full pointer-events-none" />
                 <h3
@@ -450,16 +440,12 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
                   {data.ctaBlock.headline}
                 </h3>
                 <p className="text-lg font-light mb-10 max-w-md mx-auto text-zinc-400" dangerouslySetInnerHTML={{ __html: cleanCmsHtml(data.ctaBlock.description) }} />
-                <button
-                  onClick={() =>
-                    window.dispatchEvent(
-                      new CustomEvent("open-pitchside-modal", { detail: { type: "waitlist", sourcePlacement: "Dynamic landing page CTA block", sourceComponent: "DynamicPageClient" } })
-                    )
-                  }
+                <Link
+                  href={cleanInternalHref(data.ctaBlock.buttonUrl || "/contact")}
                   className="inline-block bg-[#CCFF00] text-black text-[11px] font-bold uppercase tracking-[0.2em] px-10 py-5 rounded-full hover:bg-white transition-colors"
                 >
                   {data.ctaBlock.buttonText || "Take Action"}
-                </button>
+                </Link>
               </div>
             )}
           </article>

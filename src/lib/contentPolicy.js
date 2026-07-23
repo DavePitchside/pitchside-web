@@ -1,13 +1,6 @@
-export const LEGACY_REDIRECTS = Object.freeze({
-  "/football-highlights-app": "/technology",
-  "/best-football-stats-apps": "/tools",
-  "/sunday-league-football": "/tools-for-sunday-league-football",
-  "/football-stats-without-gps": "/blog/track-football-stats-without-gps-vest",
-});
+import { DELETED_SLUGS, canonicalRedirectHref } from "@/lib/redirects.mjs";
 
-export const DELETED_SLUGS = new Set(
-  Object.keys(LEGACY_REDIRECTS).map((path) => path.slice(1))
-);
+export { DELETED_SLUGS };
 
 const RESERVED_SLUGS = new Set([
   "admin",
@@ -52,12 +45,7 @@ export function canonicalInternalHref(href = "") {
     return href;
   }
 
-  for (const [oldPath, newPath] of Object.entries(LEGACY_REDIRECTS)) {
-    if (path === oldPath || path.startsWith(`${oldPath}?`) || path.startsWith(`${oldPath}#`)) {
-      return `${newPath}${path.slice(oldPath.length)}`;
-    }
-  }
-  return href;
+  return canonicalRedirectHref(path);
 }
 
 export function canonicalizeInternalLinks(html = "") {
