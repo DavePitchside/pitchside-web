@@ -112,7 +112,7 @@ export default function PricingPage() {
               <div className="absolute h-52 w-52 rounded-full bg-[#CCFF00]/20 blur-3xl md:h-80 md:w-80" />
               <div className="relative h-[230px] w-[115px] rotate-[10deg] drop-shadow-[0_28px_32px_rgba(0,0,0,0.32)] sm:h-[280px] sm:w-[140px] md:h-[430px] md:w-[215px] lg:h-[460px] lg:w-[230px]">
                 <Image
-                  src="/mockup-3.jpg"
+                  src="/mockup-3.png"
                   alt="Pitchside app stats screen"
                   fill
                   priority

@@ -10,7 +10,7 @@ Concrete stack:
 - React `19.2.4` and React Compiler enabled via `next.config.mjs`.
 - Firebase Web SDK `12.16.0` for Auth, Firestore, and Storage.
 - Tailwind CSS `4.2.4` using Tailwind v4 CSS-first config in `src/app/globals.css`.
-- Framer Motion `12.38.0`, Lenis `1.3.23`, lucide-react `1.14.0`, Phosphor icons, Three/R3F dependencies.
+- Framer Motion `12.38.0`, Lenis `1.3.23`, and lucide-react `1.14.0` for motion, smooth scrolling, and icons.
 - JavaScript/JSX codebase, not TypeScript. Schema examples below are TypeScript-style inferred contracts for future migration/context.
 - Path alias: `@/*` maps to `./src/*` via `jsconfig.json`.
 
@@ -32,6 +32,8 @@ src/components/tools/    Tool hub, tool shell, and interactive tool client compo
 src/components/ui/       shadcn-style primitive(s), currently button
 src/lib/                 Firebase setup, content policy, metadata/date helpers, tools data
 public/                  Static images, logos, SVG corner assets, mockups
+docs/                    Contributor reports, cleanup manifests, and architecture notes
+migrations/cms/applied/  Applied CMS migration JSON kept for traceability; not runtime content
 ```
 
 Server/Client split:
@@ -303,7 +305,7 @@ Public read flows:
 - `/technology/[slug]` queries `pages` by `slug` and requires `parentPage.url === "/technology"`.
 - `/blog/[slug]` queries `posts` by `slug`, filters by `isIndexableContent`, builds metadata, JSON-LD, article blocks, FAQs, and recommendations.
 - `/tools` and `/tools/[slug]` start from static definitions in `src/lib/tools.js`; Firestore `tools` docs override copy/SEO fields.
-- `/sitemap.xml` combines static routes, static tool routes, indexable `pages`, and indexable `posts`.
+- `/sitemap.xml` combines static routes, static tool routes, indexable `pages`, and indexable `posts`. Date normalization is handled in `src/app/sitemap.js` for Firestore Timestamp values, JavaScript Dates, ISO strings, and missing/invalid dates.
 
 Route handlers:
 
