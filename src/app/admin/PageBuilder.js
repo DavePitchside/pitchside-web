@@ -24,6 +24,53 @@ const llmDescriptionPlanningReplacements = [
   [/\bseo\b/g, "search"],
 ];
 
+const safeTechnologyStats = [
+  { value: "Private beta", label: "Current\nStatus" },
+  { value: "5, 6 and 7-a-side", label: "Supported\nFormats" },
+  { value: "Review required", label: "Output\nStatus" },
+];
+
+const safeTechnologyStack = [
+  {
+    id: "vision",
+    icon: "vision",
+    title: "Small-Sided Football Model",
+    desc: "Pitchside is being developed around phone-recorded 5-a-side, 6-a-side and 7-a-side football footage.",
+  },
+  {
+    id: "events",
+    icon: "ai",
+    title: "Event Detection in Testing",
+    desc: "The beta is testing supported events such as goals, assists, saves, passes and tackles. Output can vary by footage quality and should be reviewed.",
+  },
+  {
+    id: "review",
+    icon: "hardware",
+    title: "Reviewable Match Output",
+    desc: "Detected events and player assignments should be checked before treating the match record as final.",
+  },
+  {
+    id: "upload",
+    icon: "cloud",
+    title: "Private Beta Upload Flow",
+    desc: "Current upload and processing can take up to 45 minutes during testing.",
+  },
+];
+
+const staleTechnologyClaimPattern = /98%|<3m|under three minutes|trained on thousands of hours|broadcast-quality|proprietary optical engine|event accuracy|processing time/i;
+
+const hasStaleTechnologyClaim = (value) => staleTechnologyClaimPattern.test(JSON.stringify(value || ""));
+
+const sanitizeTechnologyFields = (data = {}) => ({
+  ...data,
+  technologyStats: Array.isArray(data.technologyStats) && data.technologyStats.length && !hasStaleTechnologyClaim(data.technologyStats)
+    ? data.technologyStats
+    : safeTechnologyStats,
+  technologyStack: Array.isArray(data.technologyStack) && data.technologyStack.length && !hasStaleTechnologyClaim(data.technologyStack)
+    ? data.technologyStack
+    : safeTechnologyStack,
+});
+
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const escapeHtmlAttribute = (value) => value
   .replaceAll("&", "&amp;")
@@ -303,64 +350,34 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   const isEditableContentPage = !isStaticCorePage || isTechnologyCorePage;
   const isArticlePage = pageType === "post" || pageType === "landing" || pageType === "technology" || isTechnologyCorePage;
   const isSlugLocked = isStaticCorePage || isToolPage;
+  const initialSafeData = pageType === "technology" || isTechnologyCorePage
+    ? sanitizeTechnologyFields(initialData || {})
+    : (initialData || {});
 
   // INITIALIZE STATE
   const [formData, setFormData] = useState({
-    title: initialData?.title || "",
-    metaTitle: initialData?.metaTitle || "",
-    slug: initialData?.slug || "",
-    metaDescription: initialData?.metaDescription || "",
-    intro: initialData?.intro || "",
-    badge: initialData?.badge || "",
-    llmDescription: initialData?.llmDescription || "",
-    landingLayout: initialData?.landingLayout || "centered",
+    title: initialSafeData?.title || "",
+    metaTitle: initialSafeData?.metaTitle || "",
+    slug: initialSafeData?.slug || "",
+    metaDescription: initialSafeData?.metaDescription || "",
+    intro: initialSafeData?.intro || "",
+    badge: initialSafeData?.badge || "",
+    llmDescription: initialSafeData?.llmDescription || "",
+    landingLayout: initialSafeData?.landingLayout || "centered",
     authorName: initialAuthor.name,
     authorUrl: initialAuthor.url,
-    parentPage: initialData?.parentPage || (pageType === "technology" ? technologyParentPage : null),
-    moreToRead: initialData?.moreToRead || [],
-    thumbnail: initialData?.thumbnail || "",
-    primaryImage: initialData?.primaryImage || "", 
+    parentPage: initialSafeData?.parentPage || (pageType === "technology" ? technologyParentPage : null),
+    moreToRead: initialSafeData?.moreToRead || [],
+    thumbnail: initialSafeData?.thumbnail || "",
+    primaryImage: initialSafeData?.primaryImage || "", 
     
-    heroBackground: initialData?.heroBackground || "",
-    technologyStats: initialData?.technologyStats?.length
-      ? initialData.technologyStats
-      : [
-          { value: "5-a-side trained", label: "Custom\nModel" },
-          { value: "5, 6 and 7-a-side", label: "Supported\nFormats" },
-          { value: "Improving with footage", label: "Beta\nStatus" },
-        ],
-    technologyStack: initialData?.technologyStack?.length
-      ? initialData.technologyStack
-      : [
-          {
-            id: "vision",
-            icon: "vision",
-            title: "Computer Vision for Small-Sided Football",
-            desc: "Pitchside is being developed around phone-recorded small-sided football footage, where camera angles, lighting and player spacing are different from professional broadcast footage.",
-          },
-          {
-            id: "ai",
-            icon: "ai",
-            title: "Event Detection in Testing",
-            desc: "The beta system is being tested to identify goals, assists, saves, passes and tackles from match footage, with accuracy expected to improve as more footage is reviewed.",
-          },
-          {
-            id: "hardware",
-            icon: "hardware",
-            title: "Phone-First Recording",
-            desc: "Pitchside aims to offer a phone-first workflow for teams that do not want to invest in dedicated football-camera hardware.",
-          },
-          {
-            id: "cloud",
-            icon: "cloud",
-            title: "Edge-to-Cloud Pipeline",
-            desc: "Uploads and processing are being tested during private beta. Current processing can take up to 45 minutes and the flow is expected to improve.",
-          },
-        ],
-    technologySections: initialData?.technologySections || [],
+    heroBackground: initialSafeData?.heroBackground || "",
+    technologyStats: initialSafeData?.technologyStats?.length ? initialSafeData.technologyStats : safeTechnologyStats,
+    technologyStack: initialSafeData?.technologyStack?.length ? initialSafeData.technologyStack : safeTechnologyStack,
+    technologySections: initialSafeData?.technologySections || [],
 
-    heroH1: initialData?.heroH1 || "",
-    hero: initialData?.hero || {
+    heroH1: initialSafeData?.heroH1 || "",
+    hero: initialSafeData?.hero || {
       eyebrow: "",
       primaryCtaLabel: "",
       secondaryCtaLabel: "",
@@ -368,13 +385,13 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       previewType: "",
       previewData: {},
     },
-    tldrPoints: initialData?.tldrPoints || [""], 
-    aeoQuickAnswer: initialData?.aeoQuickAnswer || "",
-    contentBlocks: initialData?.contentBlocks?.length
-      ? normalizeContentBlocks(initialData.contentBlocks).filter((block) => !isToolPage || block.type !== "image")
+    tldrPoints: initialSafeData?.tldrPoints || [""], 
+    aeoQuickAnswer: initialSafeData?.aeoQuickAnswer || "",
+    contentBlocks: initialSafeData?.contentBlocks?.length
+      ? normalizeContentBlocks(initialSafeData.contentBlocks).filter((block) => !isToolPage || block.type !== "image")
       : [],
-    ctaBlock: { ...defaultCtaBlock, ...(initialData?.ctaBlock || {}) },
-    faqs: initialData?.faqs || [{ question: "", answer: "" }]
+    ctaBlock: { ...defaultCtaBlock, ...(initialSafeData?.ctaBlock || {}) },
+    faqs: initialSafeData?.faqs || [{ question: "", answer: "" }]
   });
 
   const DRAFT_KEY = `pitchside_draft_${collectionName}`;
@@ -724,6 +741,9 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
       );
       if (pageType === "technology") {
         cleanData.parentPage = technologyParentPage;
+      }
+      if (pageType === "technology" || isTechnologyCorePage) {
+        Object.assign(cleanData, sanitizeTechnologyFields(cleanData));
       }
       if (isToolPage && cleanData.hero) {
         let previewData = cleanData.hero.previewData;
