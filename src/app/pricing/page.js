@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check, ShieldCheck, Smartphone, Timer, X } from "lucide-react";
-import { featureGroups, pricingFaqs, pricingPlans, PRICING_STATUS_NOTE } from "@/lib/pricing";
+import { featureGroups, pricingFaqs, pricingPlans } from "@/lib/pricing";
 import { companyInfo } from "@/lib/companyInfo";
 
 const statusStyles = {
@@ -85,50 +84,11 @@ function PlanCard({ plan }) {
 
 export default function PricingPage() {
   return (
-    <main className="min-h-screen bg-[#050505] pt-24 text-white md:pt-28">
-      <section className="flex min-h-[calc(100svh-6rem)] px-3 pb-8 sm:px-5 md:min-h-[calc(100svh-7rem)] md:px-12">
-        <div className="mx-auto max-w-7xl rounded-[1.5rem] border-[6px] border-[#CCFF00] bg-white p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.35),0_22px_80px_rgba(0,0,0,0.45)] md:rounded-[2rem]">
-          <div className="relative grid h-full min-h-[calc(100svh-8.5rem)] overflow-hidden rounded-[1.25rem] bg-[#F4F3EF] px-5 py-7 text-zinc-950 md:min-h-[calc(100svh-9rem)] md:grid-cols-[1fr_0.9fr] md:items-center md:px-14 md:py-9 lg:px-16">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_48%,rgba(204,255,0,0.22),transparent_29%),radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.9),transparent_35%)]" />
-            <div className="relative z-10 max-w-2xl">
-              <h1 className="max-w-[11ch] text-[clamp(2.35rem,11vw,4.75rem)] font-black uppercase leading-[0.84] tracking-normal text-black md:max-w-[14ch] lg:text-[4.85rem]" style={{ fontFamily: "var(--font-alpha)" }}>
-                Simple Pricing for the Matches You Actually Record
-              </h1>
-              <p className="mt-5 max-w-[32rem] text-sm font-black leading-snug text-black sm:text-base md:mt-6 md:text-lg">
-                Start with one monthly recording on Free. Paid adds weekly recording and Personal Clips when subscriptions go live.
-              </p>
-              <p className="mt-4 max-w-[34rem] text-xs font-black leading-snug text-black sm:text-sm md:mt-5 md:text-base">
-                {PRICING_STATUS_NOTE}
-              </p>
-              <button
-                type="button"
-                onClick={() => openEarlyAccess("Hero")}
-                className="mt-6 inline-flex min-h-14 items-center justify-center rounded-full border-2 border-black bg-[#CCFF00] px-7 text-sm font-black uppercase tracking-wide text-black shadow-[5px_5px_0px_#000] transition-colors hover:bg-black hover:text-[#CCFF00] active:scale-95 md:min-h-14 md:px-9 md:text-lg"
-              >
-                Join early access
-              </button>
-            </div>
-            <div className="relative z-10 mt-4 flex min-h-[210px] items-center justify-center md:mt-0 md:min-h-[460px]">
-              <div className="absolute h-52 w-52 rounded-full bg-[#CCFF00]/20 blur-3xl md:h-80 md:w-80" />
-              <div className="relative h-[230px] w-[115px] rotate-[10deg] drop-shadow-[0_28px_32px_rgba(0,0,0,0.32)] sm:h-[280px] sm:w-[140px] md:h-[430px] md:w-[215px] lg:h-[460px] lg:w-[230px]">
-                <Image
-                  src="/mockup-3.png"
-                  alt="Pitchside app stats screen"
-                  fill
-                  priority
-                  sizes="(max-width: 767px) 180px, (max-width: 1023px) 240px, 260px"
-                  className="object-contain"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="flex min-h-screen items-center bg-[#F4F3EF] px-5 py-16 text-black md:px-12">
+    <main className="min-h-screen bg-[#F4F3EF] text-white">
+      <section className="flex min-h-screen items-center bg-[#F4F3EF] px-5 pb-16 pt-32 text-black md:px-12 md:pt-36">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-center">
-            <h2 className="text-4xl font-black tracking-tight md:text-6xl">Free and Paid launch tiers</h2>
+            <h1 className="text-4xl font-black tracking-tight md:text-6xl">Free and Paid launch tiers</h1>
             <p className="mx-auto mt-4 max-w-3xl text-sm font-bold leading-relaxed text-zinc-600 md:text-lg">
               Weekly, monthly and annual are billing options for the same Paid tier, not separate feature plans.
             </p>

@@ -1,0 +1,127 @@
+{
+  "label": "2026-07-23-cms-server-rendered-foundation-seed",
+  "operator": "codex",
+  "notes": [
+    "Dry-run first. Do not use --confirm-production-write until the routePath duplicate report is clean and the owner has explicitly approved production writes.",
+    "This seed covers only representative pages for the initial CMS server-rendered foundation."
+  ],
+  "operations": [
+    {
+      "collection": "pages",
+      "docId": "route-grassroots-football-app",
+      "routePath": "/grassroots-football-app",
+      "merge": {
+        "routePath": "/grassroots-football-app",
+        "slug": "grassroots-football-app",
+        "parentPath": null,
+        "status": "draft",
+        "pageType": "hub",
+        "templateKey": "pitchside-product-hub",
+        "templateVersion": 1,
+        "title": "Grassroots Football App",
+        "seo": {
+          "metaTitle": "Grassroots Football App",
+          "metaDescription": "Explore Pitchside AI's private-beta football app for small-sided match stats, highlights, player records and recording workflows.",
+          "canonical": "/grassroots-football-app",
+          "robots": "index,follow"
+        },
+        "hero": {
+          "eyebrow": "Product hub",
+          "h1": "Grassroots football app for the matches you actually play",
+          "intro": "Pitchside is being built for phone-recorded small-sided football: match stats, highlights, personal records and practical recording workflows during private beta.",
+          "primaryCta": { "buttonText": "Join early access", "buttonUrl": "/contact" }
+        },
+        "blocks": [
+          {
+            "id": "product-routes",
+            "type": "featureGrid",
+            "title": "Choose the part of Pitchside you need",
+            "items": [
+              { "title": "Match review", "body": "Understand the complete weekly match-review result, from recording to supported output.", "href": "/football-analysis-app" },
+              { "title": "Stats and leaderboards", "body": "See how planned stats, personal history and leaderboards fit together.", "href": "/football-stats-app" },
+              { "title": "Video analysis workflow", "body": "Follow capture, upload, processing, review, correction and sharing.", "href": "/football-video-analysis" },
+              { "title": "Phone recording setup", "body": "Plan one-phone or two-phone recording setups with safety and consent in mind.", "href": "/technology/football-recording-setup" }
+            ]
+          },
+          { "id": "pricing", "type": "pricingTeaser", "title": "Planned launch pricing", "description": "Free and Paid are the planned app tiers. Weekly, monthly and annual are billing options for the same Paid tier." },
+          { "id": "cta", "type": "callToAction", "headline": "Get launch updates", "description": "Join the early access list for Pitchside private-beta updates.", "buttonText": "Join early access", "buttonUrl": "/contact" }
+        ],
+        "author": { "name": "Abdullah Luqman", "url": "/authors/abdullah-luqman" },
+        "reviewer": { "name": "Dave Coombs", "url": "/authors/dave-coombs" },
+        "publishedAt": "2026-07-23T00:00:00.000Z"
+      }
+    },
+    {
+      "collection": "pages",
+      "docId": "route-technology-football-recording-setup",
+      "routePath": "/technology/football-recording-setup",
+      "merge": {
+        "routePath": "/technology/football-recording-setup",
+        "slug": "football-recording-setup",
+        "parentPath": "/technology",
+        "status": "draft",
+        "pageType": "technology",
+        "templateKey": "pitchside-pitch-setup",
+        "templateVersion": 1,
+        "title": "Football Recording Setup",
+        "seo": {
+          "metaTitle": "How to Set Up Phones to Record a Football Match",
+          "metaDescription": "Set up one or two phones to record football, reduce blind spots and choose the right fence mount, post mount or tripod for your pitch.",
+          "canonical": "/technology/football-recording-setup",
+          "robots": "index,follow"
+        },
+        "hero": {
+          "eyebrow": "Recording setup",
+          "h1": "How to set up your phone to record a football match",
+          "intro": "Plan one-phone and two-phone football recording setups with safe mounting, consent, blind spots and venue rules in mind.",
+          "primaryCta": { "buttonText": "Join the launch list", "buttonUrl": "/contact" }
+        },
+        "blocks": [
+          {
+            "id": "one-phone-diagram",
+            "type": "pitchDiagram",
+            "title": "One-phone setup",
+            "description": "Example central sideline camera position for a compact small-sided pitch.",
+            "pitchFormat": "5-a-side",
+            "variant": "one-phone-sideline",
+            "cameras": [{ "id": "camera-1", "label": "Phone 1", "x": 50, "y": 94, "rotation": 270, "coverageAngle": 80, "coverageDepth": 75 }],
+            "blindSpots": [{ "id": "far-corners", "x": 50, "y": 10, "rx": 28, "ry": 8 }],
+            "markers": [{ "id": "halfway", "label": "Halfway", "x": 52, "y": 50 }],
+            "notes": ["Use an elevated central position where venue rules allow.", "Record a short test clip before kickoff.", "Avoid unnecessary panning and digital zoom."],
+            "caption": "Example only. Final placement depends on the pitch and safe mounting points."
+          },
+          {
+            "id": "two-phone-diagram",
+            "type": "pitchDiagram",
+            "title": "Two-phone setup",
+            "description": "Example opposing-halves setup for reducing blind spots on longer or wider small-sided pitches.",
+            "pitchFormat": "6-a-side or 7-a-side",
+            "variant": "two-phones-opposing-halves",
+            "cameras": [
+              { "id": "camera-1", "label": "Phone 1", "x": 28, "y": 94, "rotation": 285, "coverageAngle": 70, "coverageDepth": 68 },
+              { "id": "camera-2", "label": "Phone 2", "x": 72, "y": 6, "rotation": 105, "coverageAngle": 70, "coverageDepth": 68 }
+            ],
+            "blindSpots": [{ "id": "touchline-obstruction", "x": 7, "y": 50, "rx": 5, "ry": 30 }],
+            "markers": [{ "id": "kickoff-sync", "label": "Sync moment", "x": 50, "y": 50 }],
+            "notes": ["Record an obvious synchronisation moment on both phones.", "Secure both phones before kickoff.", "Keep orientation and settings consistent where possible."],
+            "caption": "Example only. Two phones reduce blind spots, but they do not remove every obstruction."
+          },
+          {
+            "id": "mounts-by-venue",
+            "type": "affiliateProductCards",
+            "title": "Mount type by venue",
+            "disclosure": "Some links may be affiliate links. Pitchside may earn a commission from qualifying purchases at no additional cost to you.",
+            "items": [
+              { "id": "budget-fence-mount", "title": "Budget fence mount", "bestFor": "Rigid fencing where the phone can be mounted safely outside the playing area.", "experienceLevel": "tested", "limitations": "Not suitable for loose netting or places where the phone could be struck by the ball.", "url": "https://amzn.to/44FurlS", "ctaText": "View budget mount", "lastChecked": "2026-07-23" },
+              { "id": "covered-fence-mount", "title": "Covered fence mount", "bestFor": "Outdoor venues where extra cover may help protect the phone from light weather exposure.", "experienceLevel": "researched", "limitations": "Does not remove the need for safe placement, venue permission or weather judgement.", "url": "https://amzn.to/4fpobUq", "ctaText": "View covered mount", "lastChecked": "2026-07-23" },
+              { "id": "post-mount", "title": "Post mount", "bestFor": "Secure posts where venue rules allow mounting outside the playing area.", "experienceLevel": "researched", "limitations": "Check post stability and make sure the mount cannot fall into the pitch or pedestrian routes.", "url": "https://amzn.to/4bnus1N", "ctaText": "View post mount", "lastChecked": "2026-07-23" }
+            ]
+          }
+        ],
+        "author": { "name": "Abdullah Luqman", "url": "/authors/abdullah-luqman" },
+        "reviewer": { "name": "Dave Coombs", "url": "/authors/dave-coombs" },
+        "publishedAt": "2026-07-23T00:00:00.000Z"
+      }
+    }
+  ]
+}

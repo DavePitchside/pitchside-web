@@ -61,7 +61,7 @@ export default async function sitemap() {
     const pagesSnap = await getDocs(collection(db, "pages"));
     dynamicPages = pagesSnap.docs.filter((doc) => isIndexableContent(doc.data())).map((doc) => {
       const data = doc.data();
-      const path = data.parentPage?.url === "/technology" ? `/technology/${data.slug}` : `/${data.slug}`;
+      const path = data.routePath || (data.parentPage?.url === "/technology" ? `/technology/${data.slug}` : `/${data.slug}`);
       return withOptionalLastModified({
           url: `${baseUrl}${path}`,
           changeFrequency: "weekly",

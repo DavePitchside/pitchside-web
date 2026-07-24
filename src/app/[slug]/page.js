@@ -7,6 +7,8 @@ import DynamicPageClient from "./DynamicPageClient";
 import { DELETED_SLUGS, isIndexableContent } from "@/lib/contentPolicy";
 import { cleanMetaTitle } from "@/lib/contentMeta";
 import { getMoreToRead } from "@/lib/recommendations";
+import CmsPageRenderer, { generateCmsMetadata } from "@/components/cms/CmsPageRenderer";
+import { getCmsPageByPath } from "@/lib/cms/pageLoader";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +57,9 @@ const getChildPosts = cache(async (parentUrl) => {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   if (DELETED_SLUGS.has(slug)) return {};
+  const cmsPage = await getCmsPageByPath(`/${slug}`, { allowFallback: true });
+  if (cmsPage) return generateCmsMetadata(`/${slug}`);
+
   const data = await getPageData(slug);
   if (!data) return {};
 
@@ -87,6 +92,9 @@ export default async function DynamicPage({ params }) {
   const { slug } = await params;
   if (slug === "how-pitchside-ai-works") permanentRedirect("/technology/how-pitchside-ai-works");
   if (DELETED_SLUGS.has(slug)) notFound();
+  const cmsPage = await getCmsPageByPath(`/${slug}`, { allowFallback: true });
+  if (cmsPage) return <CmsPageRenderer routePath={`/${slug}`} />;
+
   const data = await getPageData(slug);
   if (!data) notFound();
 

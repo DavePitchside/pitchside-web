@@ -149,6 +149,11 @@ async function firestoreFetch(token, url, options = {}) {
 }
 
 async function findBySlug(token, collectionName, slug) {
+  const results = await findByField(token, collectionName, "slug", slug);
+  return results[0] || null;
+}
+
+async function findByField(token, collectionName, fieldPath, value) {
   const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:runQuery`;
   const response = await firestoreFetch(token, url, {
     method: "POST",
@@ -157,18 +162,17 @@ async function findBySlug(token, collectionName, slug) {
         from: [{ collectionId: collectionName }],
         where: {
           fieldFilter: {
-            field: { fieldPath: "slug" },
+            field: { fieldPath },
             op: "EQUAL",
-            value: { stringValue: slug },
+            value: { stringValue: value },
           },
         },
-        limit: 1,
       },
     }),
   });
-  const found = response.find((item) => item.document)?.document;
-  if (!found) return null;
-  return { docId: found.name.split("/").pop(), document: found };
+  return response
+    .filter((item) => item.document)
+    .map((item) => ({ docId: item.document.name.split("/").pop(), document: item.document }));
 }
 
 function walkStrings(value, path = "content", result = []) {
@@ -211,6 +215,15 @@ async function planOperation(token, operation) {
   if (typeof mergeObject !== "object" || Array.isArray(mergeObject)) throw new Error("Operation merge data must be an object when provided.");
   if (!Object.keys(mergeObject).length && !operation.deleteFields?.length) {
     throw new Error("Each operation needs merge data or deleteFields.");
+  }
+
+  if (operation.collection === "pages" && (operation.routePath || mergeObject.routePath)) {
+    const routePath = operation.routePath || mergeObject.routePath;
+    const matches = await findByField(token, "pages", "routePath", routePath);
+    const unexpectedMatches = matches.filter((match) => match.docId !== operation.docId && match.docId !== operation.createDocId);
+    if (unexpectedMatches.length) {
+      throw new Error(`Duplicate routePath target "${routePath}" found in pages: ${unexpectedMatches.map((match) => match.docId).join(", ")}`);
+    }
   }
 
   const target = operation.docId
