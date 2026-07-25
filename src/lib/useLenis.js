@@ -17,12 +17,21 @@ let activeLenis = null;
 let activeAnimationFrame = null;
 let consumerCount = 0;
 
+function canUseSmoothScroll() {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const usesCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+  const lowCoreDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+  const lowMemoryDevice = navigator.deviceMemory && navigator.deviceMemory <= 4;
+
+  return !prefersReducedMotion && !usesCoarsePointer && !lowCoreDevice && !lowMemoryDevice;
+}
+
 export default function useLenis(options = DEFAULT_LENIS_OPTIONS) {
   const lenisRef = useRef(null);
 
   useEffect(() => {
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reducedMotionQuery.matches) return undefined;
+    if (!canUseSmoothScroll()) return undefined;
 
     consumerCount += 1;
 

@@ -1,6 +1,5 @@
 "use client";
 
-import useLenis from "@/lib/useLenis";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -160,8 +159,7 @@ export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
   const [currentMockup, setCurrentMockup] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-
-  useLenis();
+  const [reducedEffects, setReducedEffects] = useState(false);
   
   const mockupImages = ["/mockup-1.png", "/mockup-2.png", "/mockup-3.png", "/mockup-4.png"];
 
@@ -186,7 +184,14 @@ export default function Home() {
       mouseX.set(e.clientX); 
       mouseY.set(e.clientY); 
     };
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+      const usesCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+      const lowCoreDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+      const lowMemoryDevice = navigator.deviceMemory && navigator.deviceMemory <= 4;
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setReducedEffects(usesCoarsePointer || lowCoreDevice || lowMemoryDevice || prefersReducedMotion);
+    };
     
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("resize", checkMobile);
@@ -199,9 +204,10 @@ export default function Home() {
   }, [mouseX, mouseY]);
 
   useEffect(() => {
+    if (reducedEffects) return undefined;
     const timer = setInterval(() => setCurrentMockup((prev) => (prev + 1) % mockupImages.length), 4000); 
     return () => clearInterval(timer);
-  }, [mockupImages.length]);
+  }, [mockupImages.length, reducedEffects]);
 
   const nextMockup = () => setCurrentMockup((prev) => (prev + 1) % mockupImages.length);
   const prevMockup = () => setCurrentMockup((prev) => (prev - 1 + mockupImages.length) % mockupImages.length);
@@ -231,23 +237,23 @@ export default function Home() {
           ========================================= */}
       <section className="group fixed inset-x-0 top-0 z-0 w-screen h-[100svh] md:h-screen flex flex-col justify-center overflow-hidden bg-[#050505]">
         <h1 className="sr-only">Own the Cage — AI Football Camera &amp; Highlights App for Amateur &amp; Grassroots Players</h1>
-        <FilmGrain />
+        {!reducedEffects && <FilmGrain />}
         
         <div className="absolute inset-0 z-0 bg-[#050505]">
           {/* OPTIMIZATION: Hardware accelerated parallax images */}
           <motion.div 
-            style={{ y: yParallax, scale: 1.05 }} 
+            style={reducedEffects ? { scale: 1.05 } : { y: yParallax, scale: 1.05 }}
             className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
           >
             <Image src="/1.webp" alt="Cinematic Hero Background" fill className={`${HERO_IMAGE_CLASS} opacity-95 md:opacity-80`} priority />
           </motion.div>
 
-          <motion.div 
+          {!reducedEffects && <motion.div
             style={{ y: yParallax, scale: 1.05, maskImage: maskImage, WebkitMaskImage: maskImage }} 
             className="absolute inset-0 hidden md:block w-full h-full z-10 pointer-events-none transform-gpu will-change-transform"
           >
             <Image src="/1-neon.webp" alt="Revealed Neon Background" fill className={`${HERO_IMAGE_CLASS} opacity-100`} priority />
-          </motion.div>
+          </motion.div>}
           
           <div className="absolute inset-0 z-20 bg-gradient-to-b from-[#050505]/62 via-[#050505]/10 to-[#050505]/84 md:bg-gradient-to-r md:from-[#050505] md:via-[#050505]/70 md:to-transparent md:w-[70%] pointer-events-none transform-gpu" />
           <div className="absolute inset-0 z-20 bg-gradient-to-b from-[#050505]/42 via-transparent to-[#050505]/42 pointer-events-none transform-gpu" />
@@ -256,8 +262,8 @@ export default function Home() {
           <div className="absolute right-0 top-[12%] z-20 h-[48%] w-24 bg-[#CCFF00]/10 blur-[70px] md:hidden" />
         </div>
 
-        <EnhancedPlayerTrackingFrames />
-        <CinematicParticles />
+        {!reducedEffects && <EnhancedPlayerTrackingFrames />}
+        {!reducedEffects && <CinematicParticles />}
 
         <div className="absolute inset-x-6 top-24 bottom-7 z-20 pointer-events-none md:hidden">
           <CornerMark src="/corner-neon.svg" className="-top-4 -left-4 w-8 h-8" opacity="opacity-90" />
@@ -334,9 +340,9 @@ export default function Home() {
       {/* =========================================
           SECTION 2
           ========================================= */}
-      <div className="relative z-30 mt-[100vh] w-full bg-[#050505]">
+      <div className="deferred-section relative z-30 mt-[100vh] w-full bg-[#050505]">
         <section className="relative w-full min-h-screen h-auto py-16 md:py-32 bg-[#F4F3EF] text-zinc-950 overflow-hidden z-30 border border-zinc-200 flex flex-col justify-center">
-          <FilmGrain />
+          {!reducedEffects && <FilmGrain />}
           <div className="max-w-7xl mx-auto px-6 md:px-20 lg:px-24 flex flex-col lg:flex-row items-center justify-between gap-10 md:gap-16 w-full relative z-10">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, ease: SMOOTH_EASE }} className="w-full lg:w-1/2 relative z-10 flex justify-center lg:justify-start">
               <div className="group relative w-full max-w-[280px] sm:max-w-sm lg:max-w-md aspect-[4/5] bg-zinc-300 rounded-3xl overflow-hidden shadow-2xl border border-white/10 transform-gpu">
@@ -376,9 +382,9 @@ export default function Home() {
       {/* =========================================
           SECTION 3 & 4
           ========================================= */}
-      <div className="w-full bg-[#F4F3EF] flex flex-col">
+      <div className="deferred-section flex w-full flex-col bg-[#F4F3EF]">
         <section className="relative w-full min-h-screen h-auto py-24 md:py-32 bg-[#050505] text-white overflow-hidden z-20 flex flex-col justify-center border border-white/5">
-          <FilmGrain />
+          {!reducedEffects && <FilmGrain />}
           <div className="max-w-7xl mx-auto px-8 md:px-20 lg:px-24 w-full flex flex-col lg:flex-row gap-12 lg:gap-16 items-center justify-between relative z-10">
             <div className="flex flex-col gap-4 md:gap-8 w-full lg:w-1/2 justify-center order-2 lg:order-1">
               {features.map((feature) => (
@@ -411,7 +417,7 @@ export default function Home() {
         </section>
 
         <section className="relative w-full min-h-screen h-auto py-24 md:py-32 bg-[#F4F3EF] text-zinc-950 flex flex-col items-center justify-center overflow-hidden z-20 border border-zinc-200">
-          <FilmGrain />
+          {!reducedEffects && <FilmGrain />}
           <div className="text-center z-10 px-8 mb-8 md:mb-16 flex-shrink-0">
             <h2 className="font-alpha text-[clamp(2rem,10vw,5.5rem)] uppercase leading-[0.8] tracking-tighter text-[#CCFF00]" style={{ fontFamily: 'var(--font-alpha)', WebkitTextStroke: "1px #050505", textShadow: "2px 2px 0px rgba(0,0,0,0.5)" }}>
               YOUR MATCH STATS &<br className="hidden md:block" /> HIGHLIGHTS APP
@@ -445,9 +451,9 @@ export default function Home() {
         </section>
       </div>
 
-      <div className="w-full bg-[#F4F3EF]">
+      <div className="deferred-section w-full bg-[#F4F3EF]">
         <section className="relative w-full h-auto py-20 md:py-28 bg-[#050505] text-white overflow-hidden z-10 flex flex-col justify-center border border-white/5">
-          <FilmGrain />
+          {!reducedEffects && <FilmGrain />}
           <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 w-full relative z-10">
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-10 md:mb-14">
               <div>

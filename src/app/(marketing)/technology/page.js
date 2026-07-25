@@ -361,8 +361,6 @@ export default function TechnologyPage() {
             <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="bottom-6 right-6 md:bottom-10 md:right-10 rotate-180" />
             <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="bottom-6 left-6 md:bottom-10 md:left-10 -rotate-90" />
 
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.04)_1px,transparent_1px)] bg-[size:4vw_4vw] pointer-events-none z-0" />
-
             <div className="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 md:gap-12 w-full">
               <div className="max-w-3xl min-w-0">
                 <span className="text-zinc-500 font-mono text-[9px] sm:text-[10px] tracking-[0.18em] sm:tracking-[0.2em] uppercase mb-4 md:mb-6 block font-bold">{content.badge}</span>
@@ -435,8 +433,6 @@ export default function TechnologyPage() {
 
               <div className="lg:col-span-6 sticky top-32 hidden lg:block">
                 <div className="w-full aspect-[4/5] bg-[#0A0A0A] border border-white/10 rounded-[2rem] overflow-hidden relative shadow-[12px_12px_0px_rgba(204,255,0,0.1)] flex items-center justify-center">
-                  
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(204,255,0,0.05)_1px,transparent_1px)] bg-[size:2vw_2vw]" />
                   
                   <motion.div 
                     animate={{ rotate: 360 }} 
@@ -536,8 +532,6 @@ export default function TechnologyPage() {
             ========================================= */}
         <div className="w-full bg-[#050505] p-2 md:p-4">
           <section className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#050505] px-5 py-14 text-white shadow-[0_0_40px_rgba(0,0,0,0.35)] sm:px-8 md:rounded-[2rem] md:px-16 md:py-20 lg:px-20">
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(204,255,0,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:42px_42px]" />
-            
             <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="top-6 left-6 md:top-8 md:left-8" />
             <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />
             <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="bottom-6 right-6 md:bottom-8 md:right-8 rotate-180" />

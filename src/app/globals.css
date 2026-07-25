@@ -8,6 +8,8 @@
 @theme {
   --font-family-alpha: var(--font-alpha), sans-serif;
   --font-family-roobert: var(--font-roobert), sans-serif;
+  --radius-structural: 0px;
+  --radius-interactive: 9999px;
 }
 
 @layer base {
@@ -18,5 +20,21 @@
   body {
     background-color: var(--color-zinc-950);
     color: var(--color-zinc-50);
+  }
+}
+
+@layer components {
+  .surface-card,
+  [data-slot="card"] {
+    border-radius: var(--radius-structural);
+  }
+
+  .interactive-cta {
+    border-radius: var(--radius-interactive);
+  }
+
+  .deferred-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
   }
 }

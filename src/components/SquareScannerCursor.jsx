@@ -10,6 +10,11 @@ export default function SquareScannerCursor() {
   const smoothY = useSpring(cursorY, { damping: 50, stiffness: 400 });
 
   useEffect(() => {
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    const lowCoreDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+    const lowMemoryDevice = navigator.deviceMemory && navigator.deviceMemory <= 4;
+    if (!hasFinePointer || lowCoreDevice || lowMemoryDevice) return undefined;
+
     const handleMouseMove = (e) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);

@@ -102,11 +102,12 @@ export default function RootLayout({ children }) {
       </head>
       <body className="antialiased bg-zinc-950">
         <SiteSchema />
-        <SmoothScroll />
-        <SquareScannerCursor />
-        <Header />
-        {children}
-        <Footer />
+        <SmoothScroll>
+          <SquareScannerCursor />
+          <Header />
+          {children}
+          <Footer />
+        </SmoothScroll>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"

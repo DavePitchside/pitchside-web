@@ -3,20 +3,21 @@ import Link from "next/link";
 import { canonicalizeInternalLinks, canonicalInternalHref } from "@/lib/contentPolicy";
 import { pricingPlans } from "@/lib/pricing";
 import PitchDiagram from "@/components/cms/PitchDiagram";
+import SplitTextReveal from "@/components/motion/SplitTextReveal";
 
 const stripHtml = (value = "") => String(value).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 
 function RichHtml({ html, className = "" }) {
-  return <div className={className} dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(html || "") }} />;
+  return <SplitTextReveal html={canonicalizeInternalLinks(html || "")} className={className} />;
 }
 
 function Card({ children }) {
-  return <div className="rounded-2xl border-2 border-[#050505] bg-white p-5 shadow-[5px_5px_0px_#050505]">{children}</div>;
+  return <div className="rounded-none border-2 border-[#050505] bg-white p-5 shadow-[5px_5px_0px_#050505]">{children}</div>;
 }
 
 function HeadingBlock({ block }) {
   const Tag = Number(block.level) === 3 ? "h3" : "h2";
-  return <Tag className={Tag === "h3" ? "text-2xl font-black uppercase tracking-tight text-zinc-900" : "text-4xl font-black uppercase tracking-tight text-zinc-950 md:text-5xl"}>{block.text}</Tag>;
+  return <SplitTextReveal as={Tag} html={block.text} className={Tag === "h3" ? "text-2xl font-black uppercase tracking-tight text-zinc-900" : "text-4xl font-black uppercase tracking-tight text-zinc-950 md:text-5xl"} />;
 }
 
 function StatsGrid({ block }) {
@@ -53,7 +54,7 @@ function TableBlock({ block }) {
   return (
     <section>
       {block.title && <h2 className="mb-5 text-3xl font-black uppercase tracking-tight">{block.title}</h2>}
-      <div className="overflow-x-auto rounded-2xl border-4 border-[#050505] shadow-[6px_6px_0px_#050505]">
+      <div className="overflow-x-auto rounded-none border-4 border-[#050505] shadow-[6px_6px_0px_#050505]">
         <table className="w-full min-w-[640px] border-collapse bg-white text-left">
           <thead className="bg-[#050505] text-[#CCFF00]">
             <tr>{(block.headers || []).map((header) => <th key={header} className="p-4 text-xs font-black uppercase tracking-widest">{header}</th>)}</tr>
@@ -76,12 +77,12 @@ function TableBlock({ block }) {
 
 function PricingTeaser({ block }) {
   return (
-    <section className="rounded-2xl border-4 border-[#050505] bg-[#CCFF00] p-6 text-[#050505] shadow-[8px_8px_0px_#050505] md:p-8">
+    <section className="rounded-none border-4 border-[#050505] bg-[#CCFF00] p-6 text-[#050505] shadow-[8px_8px_0px_#050505] md:p-8">
       <h2 className="text-3xl font-black uppercase tracking-tight md:text-5xl">{block.title || "Planned launch pricing"}</h2>
       {block.description && <p className="mt-4 max-w-3xl text-sm font-black leading-relaxed">{block.description}</p>}
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         {pricingPlans.map((plan) => (
-          <div key={plan.id} className="rounded-xl border-2 border-[#050505] bg-white p-5">
+          <div key={plan.id} className="rounded-none border-2 border-[#050505] bg-white p-5">
             <h3 className="text-2xl font-black uppercase">{plan.name}</h3>
             <p className="mt-2 text-3xl font-black">{plan.price}</p>
             <p className="mt-3 text-sm font-bold text-zinc-700">{plan.allowance}</p>
@@ -112,7 +113,7 @@ function WorkflowSteps({ block }) {
 
 function ListPanel({ block }) {
   return (
-    <section className="rounded-2xl border-2 border-[#050505] bg-[#F4F3EF] p-6">
+    <section className="rounded-none border-2 border-[#050505] bg-[#F4F3EF] p-6">
       {block.title && <h2 className="mb-5 text-2xl font-black uppercase tracking-tight">{block.title}</h2>}
       <ul className="space-y-3">
         {(block.items || []).map((item, index) => (
@@ -137,7 +138,7 @@ function AffiliateCards({ block }) {
       <div className="grid gap-5 md:grid-cols-3">
         {(block.items || []).map((item) => (
           <Card key={item.id || item.title}>
-            {item.image && <div className="relative mb-4 aspect-video overflow-hidden rounded-xl bg-zinc-100"><Image src={item.image} alt={item.title} fill className="object-cover" /></div>}
+            {item.image && <div className="relative mb-4 aspect-video overflow-hidden rounded-none bg-zinc-100"><Image src={item.image} alt={item.title} fill className="object-cover" /></div>}
             <p className="mb-2 inline-flex rounded-full bg-[#CCFF00] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[#050505]">Paid link</p>
             <h3 className="text-xl font-black uppercase tracking-tight">{item.title}</h3>
             <p className="mt-2 text-sm font-bold text-zinc-700">{item.bestFor}</p>
@@ -162,7 +163,7 @@ function FaqBlock({ block }) {
       <h2 className="mb-6 text-3xl font-black uppercase tracking-tight">Frequently asked questions</h2>
       <div className="space-y-3">
         {items.map((faq) => (
-          <details key={faq.question} className="rounded-2xl border-2 border-[#050505] bg-white p-5">
+          <details key={faq.question} className="rounded-none border-2 border-[#050505] bg-white p-5">
             <summary className="cursor-pointer text-base font-black uppercase tracking-tight">{faq.question}</summary>
             <RichHtml html={faq.answer} className="mt-4 text-sm font-bold leading-relaxed text-zinc-700" />
           </details>
@@ -175,7 +176,7 @@ function FaqBlock({ block }) {
 function CtaBlock({ block }) {
   const href = canonicalInternalHref(block.buttonUrl || "/contact");
   return (
-    <section className="rounded-2xl border-4 border-[#050505] bg-[#050505] p-8 text-white shadow-[8px_8px_0px_#CCFF00]">
+    <section className="rounded-none border-4 border-[#050505] bg-[#050505] p-8 text-white shadow-[8px_8px_0px_#CCFF00]">
       <h2 className="text-3xl font-black uppercase tracking-tight">{block.headline}</h2>
       {block.description && <RichHtml html={block.description} className="mt-4 max-w-2xl text-sm font-bold leading-relaxed text-zinc-300" />}
       <Link href={href} className="mt-6 inline-flex rounded-full bg-[#CCFF00] px-6 py-3 text-xs font-black uppercase tracking-widest text-[#050505]">
@@ -196,7 +197,7 @@ export default function CmsBlock({ block }) {
   if (!block || block.hidden === true) return null;
   if (block.type === "heading") return <HeadingBlock block={block} />;
   if (block.type === "richText") return <RichHtml html={block.html} className="text-base font-medium leading-relaxed text-zinc-700 [&_a]:font-black [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-2 [&_a]:underline-offset-4" />;
-  if (block.type === "image" && block.src) return <figure className="relative aspect-video overflow-hidden rounded-2xl border-4 border-[#050505] shadow-[6px_6px_0px_#050505]"><Image src={block.src} alt={block.alt || stripHtml(block.caption) || ""} fill className="object-cover" />{block.caption && <figcaption className="absolute inset-x-0 bottom-0 bg-black/70 p-3 text-xs font-bold text-white">{block.caption}</figcaption>}</figure>;
+  if (block.type === "image" && block.src) return <figure className="relative aspect-video overflow-hidden rounded-none border-4 border-[#050505] shadow-[6px_6px_0px_#050505]"><Image src={block.src} alt={block.alt || stripHtml(block.caption) || ""} fill className="object-cover" />{block.caption && <figcaption className="absolute inset-x-0 bottom-0 bg-black/70 p-3 text-xs font-bold text-white">{block.caption}</figcaption>}</figure>;
   if (block.type === "statsGrid") return <StatsGrid block={block} />;
   if (block.type === "featureGrid" || block.type === "evidencePanel" || block.type === "mediaGallery") return <FeatureGrid block={block} />;
   if (block.type === "comparisonTable" || block.type === "statusTable") return <TableBlock block={block} />;

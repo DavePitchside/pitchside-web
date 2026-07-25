@@ -2,7 +2,7 @@
 
 import useLenis from "@/lib/useLenis";
 
-export default function SmoothScroll() {
+export default function SmoothScroll({ children }) {
   useLenis();
-  return null;
+  return children;
 }

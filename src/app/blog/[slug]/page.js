@@ -6,6 +6,7 @@ import { canonicalInternalHref, canonicalizeInternalLinks, isIndexableContent } 
 import { cleanMetaTitle, contentDateToIso, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate } from "@/lib/contentMeta";
 import { getMoreToRead } from "@/lib/recommendations";
 import MoreToRead from "@/components/MoreToRead";
+import SplitTextReveal from "@/components/motion/SplitTextReveal";
 
 export const dynamic = "force-dynamic";
 import Link from "next/link";
@@ -201,13 +202,11 @@ export default async function BlogPost({ params }) {
                 Read <Link href={post.parentPage.url} className="text-zinc-950 underline decoration-[#CCFF00] decoration-2 underline-offset-4">{post.parentPage.title}</Link>
               </p>
             )}
-            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9] mb-8">
-              {post.heroH1 || post.title}
-            </h1>
+            <SplitTextReveal as="h1" html={post.heroH1 || post.title} className="mb-8 text-4xl font-black uppercase leading-[0.9] tracking-tighter text-zinc-950 md:text-6xl" />
           </header>
 
           {displayImage && (
-            <div className="w-full aspect-video rounded-2xl overflow-hidden mb-12 border-4 border-zinc-950 shadow-[8px_8px_0px_#000] relative">
+            <div className="relative mb-12 aspect-video w-full overflow-hidden rounded-none border-4 border-zinc-950 shadow-[8px_8px_0px_#000]">
               <Image
                 src={displayImage}
                 alt={post.heroH1 || post.title}
@@ -220,7 +219,7 @@ export default async function BlogPost({ params }) {
           )}
 
           {post.tldrPoints?.length > 0 && post.tldrPoints[0] !== "" && (
-            <div className="bg-zinc-950 text-white p-6 md:p-8 rounded-xl mb-12 shadow-xl border-l-4 border-[#CCFF00]">
+            <div className="mb-12 rounded-none border-l-4 border-[#CCFF00] bg-zinc-950 p-6 text-white shadow-xl md:p-8">
               <h3 className="text-lg font-black uppercase tracking-widest mb-4 flex items-center gap-2">
                 TL;DR Summary
               </h3>
@@ -250,7 +249,7 @@ export default async function BlogPost({ params }) {
                 return (
                   <div
                     key={block.id}
-                    className="my-10 rounded-2xl overflow-hidden border-4 border-zinc-950 shadow-[6px_6px_0px_#000] relative aspect-video"
+                    className="relative my-10 aspect-video overflow-hidden rounded-none border-4 border-zinc-950 shadow-[6px_6px_0px_#000]"
                   >
                     <Image
                       src={block.content}
@@ -265,24 +264,26 @@ export default async function BlogPost({ params }) {
               }
               if (block.type === "h2" && block.content) {
                 return (
-                  <h2
+                  <SplitTextReveal
+                    as="h2"
                     key={block.id}
-                    className="text-3xl font-black uppercase tracking-tighter text-zinc-950 mt-16 mb-6 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-4 [&_a]:underline-offset-4"
-                    dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(block.content) }}
+                    className="mt-16 mb-6 text-3xl font-black uppercase tracking-tighter text-zinc-950 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-4 [&_a]:underline-offset-4"
+                    html={canonicalizeInternalLinks(block.content)}
                   />
                 );
               }
               if (block.type === "h3" && block.content) {
                 return (
-                  <h3
+                  <SplitTextReveal
+                    as="h3"
                     key={block.id}
-                    className="text-2xl font-bold tracking-tight text-zinc-900 mt-8 mb-4 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-2 [&_a]:underline-offset-4"
-                    dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(block.content) }}
+                    className="mt-8 mb-4 text-2xl font-bold tracking-tight text-zinc-900 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-2 [&_a]:underline-offset-4"
+                    html={canonicalizeInternalLinks(block.content)}
                   />
                 );
               }
               if (block.type === "paragraph" && block.content) {
-                return <p key={block.id} dangerouslySetInnerHTML={{ __html: canonicalizeInternalLinks(block.content) }} />;
+                return <SplitTextReveal key={block.id} html={canonicalizeInternalLinks(block.content)} />;
               }
               if (block.type === "list" && block.items?.length > 0) {
                 return (
@@ -303,7 +304,7 @@ export default async function BlogPost({ params }) {
                 return (
                   <div
                     key={block.id}
-                    className="w-full overflow-x-auto my-10 rounded-xl border-4 border-zinc-950 shadow-[6px_6px_0px_#000]"
+                    className="my-10 w-full overflow-x-auto rounded-none border-4 border-zinc-950 shadow-[6px_6px_0px_#000]"
                   >
                     <table className="w-full text-left border-collapse bg-white">
                       <thead>
@@ -341,12 +342,12 @@ export default async function BlogPost({ params }) {
           </div>
 
           {post.ctaBlock?.headline && (
-            <div className="bg-[#CCFF00] text-zinc-950 p-8 md:p-12 rounded-xl text-center my-16 border-4 border-zinc-950 shadow-[8px_8px_0px_rgba(9,9,11,1)]">
+            <div className="my-16 rounded-none border-4 border-zinc-950 bg-[#CCFF00] p-8 text-center text-zinc-950 shadow-[8px_8px_0px_rgba(9,9,11,1)] md:p-12">
               <h3 className="text-3xl font-black uppercase tracking-tighter mb-4">{post.ctaBlock.headline}</h3>
               <p className="text-lg font-medium mb-8 max-w-lg mx-auto" dangerouslySetInnerHTML={{ __html: post.ctaBlock.description || "" }} />
               <Link
                 href={canonicalInternalHref(post.ctaBlock.buttonUrl || "/contact")}
-                className="inline-block bg-zinc-950 text-white font-bold uppercase tracking-widest px-8 py-4 hover:bg-transparent hover:text-zinc-950 border-4 border-zinc-950 transition-colors"
+                className="inline-block rounded-full border-4 border-zinc-950 bg-zinc-950 px-8 py-4 font-bold uppercase tracking-widest text-white transition-colors hover:bg-transparent hover:text-zinc-950"
               >
                 {post.ctaBlock.buttonText || "Learn More"}
               </Link>
@@ -362,7 +363,7 @@ export default async function BlogPost({ params }) {
                 {visibleFaqs.map((faq, i) => (
                   <details
                     key={i}
-                    className="group bg-white border-2 border-zinc-950 p-6 rounded-lg cursor-pointer"
+                    className="group cursor-pointer rounded-none border-2 border-zinc-950 bg-white p-6"
                   >
                     <summary className="flex justify-between items-center font-bold text-lg list-none">
                       {faq.question}
