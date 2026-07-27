@@ -33,8 +33,8 @@ export default function ToolsHub({ hub = defaultToolsHub, tools = defaultTools }
         tools={tools}
       />
 
-      <section className="bg-[#F4F3EF] px-3 py-3 text-black md:px-4 md:py-4">
-        <div className="rounded-[1.5rem] border-2 border-black bg-[#F4F3EF] px-4 py-10 md:rounded-[2rem] md:px-8 md:py-16">
+      <section className="bg-[#F4F3EF] text-black">
+        <div className="border-2 border-black bg-[#F4F3EF] px-4 py-10 md:px-8 md:py-16">
           <div id="tools-grid" className="mx-auto grid max-w-7xl scroll-mt-28 gap-6 md:grid-cols-2 xl:grid-cols-3">
             {tools.map((tool) => {
               const Icon = icons[tool.slug] || Trophy;

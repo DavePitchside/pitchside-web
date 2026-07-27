@@ -352,8 +352,8 @@ export default function TechnologyPage() {
             SECTION 1: HERO
             Outer: Black | Inner: White
             ========================================= */}
-        <div className="w-full bg-zinc-950 p-2 md:p-4">
-          <section className="relative w-full min-h-[calc(100svh-16px)] md:min-h-[calc(100svh-32px)] flex flex-col justify-center overflow-hidden bg-[#F4F3EF] pt-[104px] md:pt-[130px] pb-12 md:pb-16 px-5 sm:px-8 md:px-20 lg:px-24 rounded-[1.5rem] md:rounded-[2rem] border border-white/5">
+        <div className="w-full bg-zinc-950">
+          <section className="relative w-full min-h-[calc(100svh-16px)] md:min-h-[calc(100svh-32px)] flex flex-col justify-center overflow-hidden bg-[#F4F3EF] pt-[104px] md:pt-[130px] pb-12 md:pb-16 px-5 sm:px-8 md:px-20 lg:px-24 border border-white/5">
             <FilmGrain />
             
             <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="top-[90px] left-6 md:left-10" />
@@ -361,10 +361,8 @@ export default function TechnologyPage() {
             <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="bottom-6 right-6 md:bottom-10 md:right-10 rotate-180" />
             <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="bottom-6 left-6 md:bottom-10 md:left-10 -rotate-90" />
 
-            <div className="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 md:gap-12 w-full">
+            <div className="max-w-7xl mx-auto relative z-10 w-full">
               <div className="max-w-3xl min-w-0">
-                <span className="text-zinc-500 font-mono text-[9px] sm:text-[10px] tracking-[0.18em] sm:tracking-[0.2em] uppercase mb-4 md:mb-6 block font-bold">{content.badge}</span>
-
                 <h1 className="mb-6 md:mb-8 max-w-full break-words text-[clamp(2.2rem,11vw,4rem)] font-black uppercase leading-[0.92] tracking-normal text-zinc-950 md:text-7xl lg:text-8xl [overflow-wrap:anywhere]" style={{ fontFamily: 'var(--font-alpha)' }}>
                   {content.heroH1}
                 </h1>
@@ -372,18 +370,6 @@ export default function TechnologyPage() {
                 <p className="max-w-xl text-sm font-bold leading-relaxed text-zinc-800 sm:text-base md:text-xl">
                   {content.intro}
                 </p>
-              </div>
-
-              {/* Data Blocks - Light Theme (Alignment Fixed) */}
-              <div className="grid w-full max-w-xl grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 lg:max-w-[560px]">
-                {content.technologyStats.map((stat, index) => (
-                  <div key={`${stat.value}-${index}`} className="grid min-h-[118px] min-w-0 grid-rows-[1fr_auto] items-stretch rounded-2xl border-2 border-zinc-900 bg-white p-4 shadow-[4px_4px_0px_#000] sm:min-h-[166px]">
-                    <div className="flex max-w-full items-start text-[clamp(1.85rem,10vw,2.8rem)] leading-[0.92] tracking-normal text-[#CCFF00] [overflow-wrap:anywhere] sm:text-[clamp(1.35rem,2.7vw,2.25rem)]" style={{ fontFamily: 'var(--font-alpha)', WebkitTextStroke: "1.1px #000" }}>{stat.value}</div>
-                    <div className="mt-4 self-end font-mono text-[8px] font-black uppercase leading-[1.35] tracking-[0.15em] text-zinc-900 sm:text-[9px]">
-                      {String(stat.label).split("\n").map((line) => <React.Fragment key={line}>{line}<br /></React.Fragment>)}
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </section>
@@ -393,8 +379,8 @@ export default function TechnologyPage() {
             SECTION 2: TECHNICAL DEEP DIVE
             Outer: White | Inner: Black
             ========================================= */}
-        <div className="w-full bg-[#F4F3EF] p-2 md:p-4">
-          <section className="relative w-full min-h-[calc(100svh-16px)] md:min-h-[calc(100svh-32px)] bg-[#050505] text-white overflow-hidden z-20 flex flex-col justify-center rounded-[1.5rem] md:rounded-[2rem] border border-zinc-200 py-20 md:py-32 px-5 sm:px-8 md:px-20 lg:px-24">
+        <div className="w-full bg-[#F4F3EF]">
+          <section className="relative w-full min-h-[calc(100svh-16px)] md:min-h-[calc(100svh-32px)] bg-[#050505] text-white overflow-hidden z-20 flex flex-col justify-center border border-zinc-200 py-20 md:py-32 px-5 sm:px-8 md:px-20 lg:px-24">
             
             <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="top-6 left-6 md:top-8 md:left-8" />
             <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />
@@ -479,8 +465,8 @@ export default function TechnologyPage() {
           </section>
         </div>
 
-        <div className="w-full bg-[#050505] p-2 md:p-4">
-          <section className="relative w-full max-w-full overflow-hidden rounded-[1.5rem] border border-zinc-200 bg-[#F4F3EF] px-5 py-16 text-zinc-950 sm:px-8 md:rounded-[2rem] md:px-20 md:py-28 lg:px-24">
+        <div className="w-full bg-[#050505]">
+          <section className="relative w-full max-w-full overflow-hidden border border-zinc-200 bg-[#F4F3EF] px-5 py-16 text-zinc-950 sm:px-8 md:px-20 md:py-28 lg:px-24">
             <FilmGrain />
             <div className="relative z-10 mx-auto grid w-full max-w-7xl min-w-0 gap-10">
               {content.technologySections.map((section) => (
@@ -530,8 +516,8 @@ export default function TechnologyPage() {
         {/* =========================================
             SECTION 3: CTA
             ========================================= */}
-        <div className="w-full bg-[#050505] p-2 md:p-4">
-          <section className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#050505] px-5 py-14 text-white shadow-[0_0_40px_rgba(0,0,0,0.35)] sm:px-8 md:rounded-[2rem] md:px-16 md:py-20 lg:px-20">
+        <div className="w-full bg-[#050505]">
+          <section className="relative w-full overflow-hidden border border-white/10 bg-[#050505] px-5 py-14 text-white shadow-[0_0_40px_rgba(0,0,0,0.35)] sm:px-8 md:px-16 md:py-20 lg:px-20">
             <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="top-6 left-6 md:top-8 md:left-8" />
             <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />
             <CornerMark src="/corner-neon.svg" opacity="opacity-80" className="bottom-6 right-6 md:bottom-8 md:right-8 rotate-180" />
@@ -562,8 +548,8 @@ export default function TechnologyPage() {
           </section>
         </div>
 
-        <div className="w-full bg-[#F4F3EF] p-2 md:p-4">
-          <section className="relative w-full overflow-hidden rounded-[1.5rem] border border-zinc-200 bg-[#050505] px-5 py-16 text-white sm:px-8 md:rounded-[2rem] md:px-20 md:py-24 lg:px-24">
+        <div className="w-full bg-[#F4F3EF]">
+          <section className="relative w-full overflow-hidden border border-zinc-200 bg-[#050505] px-5 py-16 text-white sm:px-8 md:px-20 md:py-24 lg:px-24">
             <div className="mx-auto grid w-full max-w-7xl min-w-0 gap-8">
               <div className="flex min-w-0 flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <div className="min-w-0">

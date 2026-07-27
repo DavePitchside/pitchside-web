@@ -13,6 +13,7 @@ import useLenis from "@/lib/useLenis";
 import { mergeToolContent, mergeToolsHubContent, tools, toolsHub } from "@/lib/tools";
 import { formatContentDate, getPublishedDate, getUpdatedDate, normalizeAuthorProfileUrl } from "@/lib/contentMeta";
 import { isDefaultPageImage } from "@/lib/pageImages";
+import { eeatPages } from "@/lib/eeatPages";
 
 // --- FIXED CORE PAGES ---
 const CORE_STATIC_PAGES = [
@@ -54,6 +55,27 @@ const ALL_STATIC_PAGE_IDS = new Set([
 ].map((page) => page.id));
 
 const getStaticPublicRoute = (page) => page.publicRoute || (page.slug === "/" ? "/" : `/${String(page.slug || "").replace(/^\/+/, "")}`);
+
+const authorityFallbackData = (page) => {
+  const source = eeatPages[page.id];
+  if (!source) return page;
+
+  const contentBlocks = source.sections.flatMap((section, sectionIndex) => [
+    { id: `${page.id}-heading-${sectionIndex}`, type: "h2", content: section.heading },
+    ...(section.body || []).map((content, bodyIndex) => ({ id: `${page.id}-paragraph-${sectionIndex}-${bodyIndex}`, type: "paragraph", content })),
+    ...(section.bullets?.length ? [{ id: `${page.id}-list-${sectionIndex}`, type: "list", items: section.bullets }] : []),
+  ]);
+
+  return {
+    ...page,
+    heroH1: source.title,
+    badge: source.eyebrow,
+    intro: source.description,
+    metaTitle: source.title,
+    metaDescription: source.description,
+    contentBlocks,
+  };
+};
 
 const TECHNOLOGY_PAGE_DEFAULTS = {
   id: "technology",
@@ -343,20 +365,36 @@ export default function AdminDashboard() {
     );
   }
 
-  const tabs = [
-    { id: "core_pages", label: "System Pages", icon: LayoutTemplate },
-    { id: "all_pages", label: "All Pages", icon: LayoutTemplate },
-    { id: "landing_pages", label: "SEO Landing Pages", icon: Target },
-    { id: "technology_pages", label: "Technology Pages", icon: Cpu },
-    { id: "posts", label: "Blog Engine", icon: FileText },
-    { id: "tools", label: "Tools", icon: Wrench },
-    { id: "cms_ops", label: "CMS Ops", icon: ShieldAlert },
-    { id: "authority_pages", label: "Authority", icon: ShieldCheck },
-    { id: "authors", label: "Authors", icon: Users },
-    { id: "footer", label: "Global Footer", icon: LinkIcon },
-    { id: "leads", label: "Contacts & Leads", icon: Users },
-    { id: "deletions", label: "Data Deletions", icon: UserX },
+  const tabGroups = [
+    {
+      label: "Page management",
+      tabs: [
+        { id: "core_pages", label: "System Pages", icon: LayoutTemplate },
+        { id: "all_pages", label: "All Pages", icon: LayoutTemplate },
+        { id: "landing_pages", label: "SEO Landing Pages", icon: Target },
+        { id: "technology_pages", label: "Technology Pages", icon: Cpu },
+        { id: "posts", label: "Blog Engine", icon: FileText },
+        { id: "tools", label: "Tools", icon: Wrench },
+      ],
+    },
+    {
+      label: "Governance & site",
+      tabs: [
+        { id: "authority_pages", label: "Authority", icon: ShieldCheck },
+        { id: "authors", label: "Authors", icon: Users },
+        { id: "footer", label: "Global Footer", icon: LinkIcon },
+      ],
+    },
+    {
+      label: "Operations",
+      tabs: [
+        { id: "cms_ops", label: "CMS Ops", icon: ShieldAlert },
+        { id: "leads", label: "Contacts & Leads", icon: Users },
+        { id: "deletions", label: "Data Deletions", icon: UserX },
+      ],
+    },
   ];
+  const tabs = tabGroups.flatMap((group) => group.tabs);
 
   return (
     <div className="w-full min-h-screen bg-zinc-950 p-2 md:p-4 flex flex-col font-roobert">
@@ -366,13 +404,19 @@ export default function AdminDashboard() {
           <div className="text-white text-xl font-black tracking-tighter flex items-center gap-2 mb-12">
             PITCHSIDE.AI<sup className="text-[10px] text-[#CCFF00]">®</sup>
           </div>
-          <div className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-zinc-600 mb-4 pl-2">System Core</div>
-          <nav className="flex flex-col gap-2">
-            {tabs.map((tab) => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === tab.id ? "bg-[#CCFF00] text-black shadow-[0_0_15px_rgba(204,255,0,0.2)]" : (tab.id === 'deletions' && activeTab !== 'deletions' ? "text-red-400/80 hover:bg-red-500/10 hover:text-red-400" : "text-zinc-400 hover:bg-white/5 hover:text-white")}`}>
-                <tab.icon className="w-4 h-4 shrink-0" />
-                <span className="text-xs font-bold uppercase tracking-widest">{tab.label}</span>
-              </button>
+          <nav className="flex flex-col gap-7">
+            {tabGroups.map((group) => (
+              <div key={group.label}>
+                <div className="mb-3 pl-2 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-zinc-600">{group.label}</div>
+                <div className="flex flex-col gap-2">
+                  {group.tabs.map((tab) => (
+                    <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === tab.id ? "bg-[#CCFF00] text-black shadow-[0_0_15px_rgba(204,255,0,0.2)]" : (tab.id === 'deletions' && activeTab !== 'deletions' ? "text-red-400/80 hover:bg-red-500/10 hover:text-red-400" : "text-zinc-400 hover:bg-white/5 hover:text-white")}`}>
+                      <tab.icon className="w-4 h-4 shrink-0" />
+                      <span className="text-xs font-bold uppercase tracking-widest">{tab.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </nav>
           <div className="mt-auto pt-8 border-t border-white/5">
@@ -501,8 +545,9 @@ export default function AdminDashboard() {
 
                       {/* --- TAB: AUTHORITY / TRUST PAGES --- */}
                       {activeTab === "authority_pages" && AUTHORITY_STATIC_PAGES.map((page) => {
+                        const fallbackData = authorityFallbackData(page);
                         const savedData = contentList.find(c => c.id === page.id);
-                        const dbData = savedData ? { ...page, ...savedData } : page;
+                        const dbData = savedData ? { ...fallbackData, ...savedData } : fallbackData;
                         const publicRoute = getStaticPublicRoute(dbData);
                         return (
                           <tr key={page.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
@@ -518,7 +563,7 @@ export default function AdminDashboard() {
                                 <a href={publicRoute} target="_blank" rel="noopener noreferrer" title="Open public authority page" className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
                                   <ExternalLink className="w-4 h-4" />
                                 </a>
-                                <button onClick={() => handleEdit({ id: page.id, ...page, ...dbData }, "core")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
+                                <button onClick={() => handleEdit({ id: page.id, ...fallbackData, ...dbData }, "authority")} className="p-2.5 text-zinc-400 hover:text-black hover:bg-[#CCFF00] rounded-xl border border-white/10 transition-all shadow-md">
                                   <Edit2 className="w-4 h-4" />
                                 </button>
                               </div>

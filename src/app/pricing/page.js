@@ -103,7 +103,7 @@ export default function PricingPage() {
       </section>
 
       <section className="px-5 py-12 md:px-12">
-        <div className="mx-auto max-w-7xl rounded-[1.5rem] border border-white/10 bg-[#0A0A0A] p-6 md:rounded-[2rem] md:p-10">
+        <div className="mx-auto max-w-7xl border border-white/10 bg-[#0A0A0A] p-6 md:p-10">
           <h2 className="mb-8 text-3xl font-black uppercase tracking-tight md:text-5xl">Complete feature comparison</h2>
           <div className="space-y-10">
             {featureGroups.map((group) => (
@@ -163,7 +163,7 @@ export default function PricingPage() {
       </section>
 
       <section className="px-5 py-12 md:px-12">
-        <div className="mx-auto max-w-7xl rounded-[1.5rem] border border-[#CCFF00]/30 bg-[#CCFF00] p-6 text-black md:rounded-[2rem] md:p-10">
+        <div className="mx-auto max-w-7xl border border-[#CCFF00]/30 bg-[#CCFF00] p-6 text-black md:p-10">
           <p className="mb-3 text-[10px] font-black uppercase tracking-[0.24em] text-black/60">Physical product separation</p>
           <h2 className="mb-4 text-3xl font-black uppercase tracking-tight md:text-5xl">The phone mount is separate</h2>
           <p className="max-w-3xl text-sm font-bold leading-relaxed text-black/75 md:text-lg">
@@ -194,7 +194,7 @@ export default function PricingPage() {
       </section>
 
       <section className="px-5 py-12 pb-24 md:px-12">
-        <div className="mx-auto max-w-7xl rounded-[1.5rem] border border-white/10 bg-[#F4F3EF] p-6 text-zinc-950 md:rounded-[2rem] md:p-10">
+        <div className="mx-auto max-w-7xl border border-white/10 bg-[#F4F3EF] p-6 text-zinc-950 md:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <p className="mb-3 text-[10px] font-black uppercase tracking-[0.24em] text-zinc-500">Trust and next step</p>

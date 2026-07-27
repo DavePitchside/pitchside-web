@@ -66,8 +66,8 @@ export default function AboutPage() {
             SECTION 1: THE "JUUN.J" HERO
             Outer: Black | Inner: White
             ========================================= */}
-        <div className="w-full bg-[#050505] p-2 md:p-4">
-          <section className="relative w-full h-[calc(100svh-16px)] md:h-[calc(100svh-32px)] overflow-hidden bg-[#F4F3EF] rounded-[1.5rem] md:rounded-[2rem] border border-white/5">
+        <div className="w-full bg-[#050505]">
+          <section className="relative w-full h-[calc(100svh-16px)] md:h-[calc(100svh-32px)] overflow-hidden bg-[#F4F3EF] border border-white/5">
             <FilmGrain />
             <TacticalPitch />
             
@@ -154,8 +154,8 @@ export default function AboutPage() {
             SECTION 2: THE ORIGIN & TRACTION
             Outer: White | Inner: Dark
             ========================================= */}
-        <div id="full-story" className="w-full bg-[#F4F3EF] p-2 md:p-4">
-          <section className="relative w-full min-h-[calc(100svh-16px)] h-auto py-24 md:py-32 bg-[#0A0A0A] text-white overflow-hidden z-20 flex flex-col justify-center rounded-[1.5rem] md:rounded-[2rem] border border-white/5 px-8 md:px-20 lg:px-24">
+        <div id="full-story" className="w-full bg-[#F4F3EF]">
+          <section className="relative w-full min-h-[calc(100svh-16px)] h-auto py-24 md:py-32 bg-[#0A0A0A] text-white overflow-hidden z-20 flex flex-col justify-center border border-white/5 px-8 md:px-20 lg:px-24">
             <FilmGrain />
             <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="top-6 left-6 md:top-8 md:left-8" />
             <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />
@@ -234,8 +234,8 @@ export default function AboutPage() {
             SECTION 3: MISSION GRID
             Outer: Black | Inner: Neon Green
             ========================================= */}
-        <div className="w-full bg-[#050505] p-2 md:p-4">
-          <section className="relative w-full py-24 md:py-32 bg-[#CCFF00] text-zinc-950 overflow-hidden z-10 flex flex-col justify-center rounded-[1.5rem] md:rounded-[2rem] border-4 border-black">
+        <div className="w-full bg-[#050505]">
+          <section className="relative w-full py-24 md:py-32 bg-[#CCFF00] text-zinc-950 overflow-hidden z-10 flex flex-col justify-center border-4 border-black">
             <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="top-6 left-6 md:top-8 md:left-8" />
             <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />
             <CornerMark src="/corner-dark.svg" opacity="opacity-40" className="bottom-6 right-6 md:bottom-8 md:right-8 rotate-180" />
@@ -277,8 +277,8 @@ export default function AboutPage() {
             SECTION 4: FAQ & CTA
             Outer: White | Inner: Black
             ========================================= */}
-        <div className="w-full bg-[#F4F3EF] p-2 md:p-4">
-          <section className="relative w-full py-24 md:py-32 bg-[#050505] text-white overflow-hidden z-10 flex flex-col justify-center rounded-[1.5rem] md:rounded-[2rem] border border-white/5">
+        <div className="w-full bg-[#F4F3EF]">
+          <section className="relative w-full py-24 md:py-32 bg-[#050505] text-white overflow-hidden z-10 flex flex-col justify-center border border-white/5">
             <FilmGrain />
             <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="top-6 left-6 md:top-8 md:left-8" />
             <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />

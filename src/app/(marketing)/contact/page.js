@@ -56,10 +56,10 @@ export default function ContactPage() {
     <>
 
       {/* OUTER PADDING WRAPPER: Matches site-wide Nixtio framing */}
-      <div className="w-full min-h-screen bg-zinc-950 p-2 md:p-4 flex flex-col">
+      <div className="w-full min-h-screen bg-zinc-950 flex flex-col">
         
         {/* MAIN CONTENT CONTAINER: The Brutalist #CCFF00 Design */}
-        <main className="w-full flex-1 flex items-center justify-center bg-[#CCFF00] text-zinc-950 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden relative shadow-[0_0_50px_rgba(0,0,0,0.5)] pt-32 pb-24 px-6 md:px-12">
+        <main className="w-full flex-1 flex items-center justify-center bg-[#CCFF00] text-zinc-950 overflow-hidden relative shadow-[0_0_50px_rgba(0,0,0,0.5)] pt-32 pb-24 px-6 md:px-12">
           <FilmGrain />
           
           {/* Brutalist Camera Crop Marks (Fixed Top Positioning) */}

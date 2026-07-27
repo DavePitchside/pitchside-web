@@ -345,11 +345,13 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   const initialAuthor = getContentAuthor(initialData);
   
   const isStaticCorePage = pageType === "core";
+  const isStaticAuthorityPage = pageType === "authority";
+  const isManagedStaticPage = isStaticCorePage || isStaticAuthorityPage;
   const isToolPage = pageType === "tool";
   const isTechnologyCorePage = isStaticCorePage && initialData?.id === "technology";
   const isEditableContentPage = !isStaticCorePage || isTechnologyCorePage;
   const isArticlePage = pageType === "post" || pageType === "landing" || pageType === "technology" || isTechnologyCorePage;
-  const isSlugLocked = isStaticCorePage || isToolPage;
+  const isSlugLocked = isManagedStaticPage || isToolPage;
   const initialSafeData = pageType === "technology" || isTechnologyCorePage
     ? sanitizeTechnologyFields(initialData || {})
     : (initialData || {});
@@ -395,6 +397,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
   });
 
   const DRAFT_KEY = `pitchside_draft_${collectionName}`;
+  const livePreviewPath = initialData ? getLandingPageRoute(initialData) : "";
 
   useEffect(() => {
     if (!isArticlePage) return;
@@ -787,8 +790,8 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
           updatedAt: serverTimestamp(),
         }, { merge: true });
       }
-      else if (initialData?.id && !isStaticCorePage) await updateDoc(doc(db, collectionName, initialData.id), { ...cleanData, updatedAt: serverTimestamp() });
-      else if (isStaticCorePage) await updateDoc(doc(db, "pages", initialData.id), { ...cleanData, updatedAt: serverTimestamp() }).catch(async () => { const { setDoc } = await import("firebase/firestore"); await setDoc(doc(db, "pages", initialData.id), { ...cleanData, createdAt: serverTimestamp() }); });
+      else if (initialData?.id && !isManagedStaticPage) await updateDoc(doc(db, collectionName, initialData.id), { ...cleanData, updatedAt: serverTimestamp() });
+      else if (isManagedStaticPage) await updateDoc(doc(db, "pages", initialData.id), { ...cleanData, updatedAt: serverTimestamp() }).catch(async () => { const { setDoc } = await import("firebase/firestore"); await setDoc(doc(db, "pages", initialData.id), { ...cleanData, createdAt: serverTimestamp() }); });
       else await addDoc(collection(db, collectionName), {
         ...cleanData,
         date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
@@ -831,7 +834,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
           <button onClick={onBack} className="p-3 bg-zinc-900 rounded-full hover:bg-[#CCFF00] hover:text-black transition-colors"><ArrowLeft className="w-5 h-5" /></button>
           <div>
             <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-white">
-              {isTechnologyCorePage ? "Technology Page Editor" : isStaticCorePage ? "System Route Meta" : isToolPage ? "Tool Content Editor" : pageType === "post" ? "Blog Editor" : pageType === "technology" ? "Technology Subpage Builder" : "SEO Landing Page Builder"}
+              {isTechnologyCorePage ? "Technology Page Editor" : isStaticAuthorityPage ? "Authority Page Editor" : isStaticCorePage ? "System Route Meta" : isToolPage ? "Tool Content Editor" : pageType === "post" ? "Blog Editor" : pageType === "technology" ? "Technology Subpage Builder" : "SEO Landing Page Builder"}
             </h1>
             {!initialData && <p className="text-zinc-500 text-[10px] uppercase font-bold tracking-widest mt-1">Auto-saving draft locally...</p>}
           </div>
@@ -1058,6 +1061,29 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
 
         {isEditableContentPage && !isTechnologyCorePage && (
           <>
+            {pageType === "landing" && livePreviewPath && (
+              <section className="overflow-hidden rounded-[1.5rem] border border-zinc-800 bg-zinc-900 shadow-xl">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4">
+                  <div>
+                    <h2 className="text-xs font-bold uppercase tracking-widest text-[#CCFF00]">2. Live page preview</h2>
+                    <p className="mt-1 text-xs text-zinc-500">This is the real public route, including the live header and page layout.</p>
+                  </div>
+                  <a href={livePreviewPath} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-[#CCFF00]/40 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-[#CCFF00] transition-colors hover:bg-[#CCFF00] hover:text-black">
+                    Open full page
+                  </a>
+                </div>
+                <div className="bg-black p-3 md:p-5">
+                  <div className="overflow-hidden rounded-xl border border-zinc-700 bg-white shadow-2xl">
+                    <iframe
+                      key={livePreviewPath}
+                      title={`Live preview: ${formData.title || formData.slug}`}
+                      src={livePreviewPath}
+                      className="h-[720px] w-full bg-white"
+                    />
+                  </div>
+                </div>
+              </section>
+            )}
             {isArticlePage && (
               <div className="grid gap-4 rounded-[1.5rem] border border-zinc-800 bg-zinc-900 p-6 shadow-xl md:grid-cols-3">
                 <div className="space-y-2">
@@ -1109,10 +1135,10 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                 </div>
               </div>
             )}
-            {/* 2. Hero & AEO */}
+            {/* Hero & AEO */}
             <div className="bg-zinc-900 p-6 rounded-[1.5rem] border border-zinc-800 space-y-6 shadow-xl">
               <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
-                <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest text-xs">2. Hero Section & TL;DR</h2>
+                <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest text-xs">{pageType === "landing" && livePreviewPath ? "3." : "2."} Hero Section & TL;DR</h2>
               </div>
               
               {/* HERO BACKGROUND UPLOADER */}

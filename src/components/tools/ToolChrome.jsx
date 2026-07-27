@@ -175,8 +175,8 @@ export function PremiumToolHero({
   previewData,
 }) {
   return (
-    <div className="w-full bg-[#050505] p-2 md:p-4">
-      <section className="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden rounded-[1.5rem] border border-white/5 bg-[#050505] px-5 pb-6 pt-[92px] md:min-h-[calc(100svh-32px)] md:rounded-[2rem] md:px-10 md:pb-10 md:pt-[112px] lg:px-16 xl:px-20">
+    <div className="w-full bg-[#050505]">
+      <section className="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden border border-white/5 bg-[#050505] px-5 pb-6 pt-[92px] md:min-h-[calc(100svh-32px)] md:px-10 md:pb-10 md:pt-[112px] lg:px-16 xl:px-20">
         <FilmGrain />
         <CornerMark className="left-6 top-[88px] hidden md:block md:left-10 md:top-[96px]" />
         <CornerMark className="right-6 top-[88px] hidden rotate-90 md:right-10 md:top-[96px] md:block" />
@@ -415,8 +415,8 @@ export function ToolShell({ tool, children, relatedGuides = [] }) {
         backHref="/tools"
         backLabel="Tools"
       />
-      <section className="overflow-hidden bg-[#F4F3EF] px-3 py-3 text-zinc-950 md:px-4 md:py-4">
-        <div className="overflow-hidden rounded-[1.5rem] border-2 border-black bg-[#F4F3EF] px-4 py-10 shadow-[0_0_60px_rgba(0,0,0,0.35)] md:rounded-[2rem] md:px-8 md:py-16">
+      <section className="overflow-hidden bg-[#F4F3EF] text-zinc-950">
+        <div className="overflow-hidden border-2 border-black bg-[#F4F3EF] px-4 py-10 shadow-[0_0_60px_rgba(0,0,0,0.35)] md:px-8 md:py-16">
           <div className="mx-auto grid max-w-7xl min-w-0 grid-cols-1 gap-12">
             <ProductStatusNotice className="max-w-3xl bg-zinc-950 text-zinc-200" />
             {children}

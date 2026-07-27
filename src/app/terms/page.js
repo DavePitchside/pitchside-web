@@ -1,7 +1,5 @@
 "use client";
 import useLenis from "@/lib/useLenis";
-import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FileText, ArrowLeft } from "lucide-react";
@@ -16,29 +14,15 @@ const FilmGrain = () => (
   />
 );
 
-const CornerMark = ({ className, src, opacity = "opacity-100" }) => (
-  <div className={`absolute w-6 h-6 md:w-10 md:h-10 pointer-events-none z-50 ${opacity} ${className}`}>
-    <Image src={src} alt="Corner Marking" fill className="object-contain" />
-  </div>
-);
-
 export default function Page() {
   useLenis();
 
   return (
     
-    <div className="flex flex-col w-full font-roobert bg-[#F4F3EF] min-h-screen p-2 md:p-4">
-      <section className="relative w-full min-h-[calc(100svh-16px)] md:min-h-[calc(100svh-32px)] bg-[#050505] text-white overflow-hidden rounded-[1.5rem] md:rounded-[2rem] border border-white/5 pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 lg:px-24">
+    <div className="flex flex-col w-full font-roobert bg-[#F4F3EF] min-h-screen">
+      <section className="relative w-full min-h-[calc(100svh-16px)] md:min-h-[calc(100svh-32px)] bg-[#F4F3EF] text-zinc-950 overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 lg:px-24">
         
         <FilmGrain />
-        <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="top-6 left-6 md:top-8 md:left-8" />
-        <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="top-6 right-6 md:top-8 md:right-8 rotate-90" />
-        <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="bottom-6 right-6 md:bottom-8 md:right-8 rotate-180" />
-        <CornerMark src="/corner-neon.svg" opacity="opacity-40" className="bottom-6 left-6 md:bottom-8 md:left-8 -rotate-90" />
-
-        {/* BACKGROUND TEXTURE */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4vw_4vw] pointer-events-none z-0" />
-
         <div className="max-w-3xl mx-auto relative z-10">
           
           {/* BACK BUTTON */}
@@ -49,11 +33,11 @@ export default function Page() {
           </motion.div>
 
           {/* HEADER */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: smoothEase }} className="mb-16 border-b border-white/10 pb-12">
-            <div className="w-12 h-12 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20 flex items-center justify-center mb-6">
-              <FileText className="w-6 h-6 text-[#CCFF00]" />
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: smoothEase }} className="mb-16 border-b border-zinc-300 pb-12">
+            <div className="w-12 h-12 rounded-xl bg-[#CCFF00] border border-zinc-950 flex items-center justify-center mb-6">
+              <FileText className="w-6 h-6 text-zinc-950" />
             </div>
-            <h1 className="text-5xl md:text-7xl uppercase tracking-tighter text-white mb-4" style={{ fontFamily: 'var(--font-alpha)' }}>
+            <h1 className="text-5xl md:text-7xl uppercase tracking-tighter text-zinc-950 mb-4" style={{ fontFamily: 'var(--font-alpha)' }}>
               Terms & Conditions
             </h1>
             <p className="text-[#CCFF00] font-mono text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">
@@ -64,7 +48,7 @@ export default function Page() {
           {/* CONTENT */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: smoothEase }}
-            className="prose prose-invert max-w-none prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-widest prose-headings:text-white prose-h2:text-xl prose-h2:mt-12 prose-h2:mb-6 prose-p:text-zinc-400 prose-p:leading-relaxed prose-p:text-sm md:prose-p:text-base prose-li:text-zinc-400 prose-li:text-sm md:prose-li:text-base prose-strong:text-white"
+            className="prose max-w-none prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-widest prose-headings:text-zinc-950 prose-h2:text-xl prose-h2:mt-12 prose-h2:mb-6 prose-p:text-zinc-700 prose-p:leading-relaxed prose-p:text-sm md:prose-p:text-base prose-li:text-zinc-700 prose-li:text-sm md:prose-li:text-base prose-strong:text-zinc-950"
           >
             
             <h2>Overview</h2>

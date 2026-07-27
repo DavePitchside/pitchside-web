@@ -12,5 +12,5 @@ export const metadata = {
 };
 
 export default function AffiliateDisclosurePage() {
-  return <EeatPage page={page} />;
+  return <EeatPage page={page} documentStyle />;
 }
