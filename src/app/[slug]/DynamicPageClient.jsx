@@ -21,6 +21,11 @@ const cleanCmsHtml = (html = "") => String(html).replace(
   (_match, quote, href) => `href=${quote}${cleanInternalHref(href)}${quote}`,
 );
 
+function EditableHtml({ as: Tag = "span", html, className, onChange, enabled = false, ...props }) {
+  if (!enabled) return <Tag className={className} dangerouslySetInnerHTML={{ __html: cleanCmsHtml(html) }} {...props} />;
+  return <Tag {...props} className={`${className || ""} cursor-text outline-none ring-1 ring-transparent hover:ring-[#CCFF00]/70 focus:ring-[#CCFF00]`} contentEditable suppressContentEditableWarning onBlur={(event) => onChange?.(event.currentTarget.innerHTML)} dangerouslySetInnerHTML={{ __html: cleanCmsHtml(html) }} />;
+}
+
 const LandingPricingTeaser = () => (
   <section className="mt-16 rounded-[2rem] border border-zinc-200 bg-[#F4F3EF] p-6 text-zinc-950 shadow-xl md:p-10">
     <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -77,8 +82,9 @@ const LandingAttribution = () => (
   </section>
 );
 
-export default function DynamicPageClient({ data, dataSource, childPosts = [], moreToRead = [] }) {
+export default function DynamicPageClient({ data, dataSource, childPosts = [], moreToRead = [], editor = null }) {
   const lenisRef = useLenis();
+  const isEditor = Boolean(editor);
   const isProductPage = dataSource === "pages";
 
   const { scrollYProgress, scrollY } = useScroll();
@@ -129,6 +135,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
       ? "text-[clamp(1.85rem,4.8vw,4.2rem)] md:text-[clamp(2.4rem,4.4vw,4.6rem)]"
       : "text-[clamp(2.4rem,6vw,6rem)]",
   ].join(" ");
+  const updateBlockContent = (id, content) => editor?.updateBlock(id, { content });
 
   return (
     <main className="relative flex flex-col w-full font-roobert overflow-x-hidden bg-[#050505] text-zinc-900 selection:bg-[#CCFF00] selection:text-black">
@@ -139,7 +146,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
       )}
 
       {/* Fixed parallax hero */}
-      <header className={`fixed top-0 left-0 w-full h-screen bg-[#050505] overflow-hidden flex flex-col items-center ${isCompactLayout ? "justify-center pt-20 pb-12" : "justify-center"} ${isSplitLayout ? "text-left" : "text-center"} z-0 px-6 md:px-12`}>
+      <header className={`${isEditor ? "relative min-h-[680px]" : "fixed top-0 left-0 h-screen"} w-full bg-[#050505] overflow-hidden flex flex-col items-center ${isCompactLayout ? "justify-center pt-20 pb-12" : "justify-center"} ${isSplitLayout ? "text-left" : "text-center"} z-0 px-6 md:px-12`}>
         <motion.div
           className="absolute top-[-10%] right-10 w-[600px] h-[600px] bg-[#CCFF00]/15 blur-[150px] rounded-full pointer-events-none"
           style={{ x: glowX, y: glowY, scale: glowScale }}
@@ -189,6 +196,9 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
               transition={{ duration: 1, ease: customEase }}
               className={heroTitleClass}
               style={{ fontFamily: "var(--font-alpha)" }}
+              contentEditable={isEditor}
+              suppressContentEditableWarning={isEditor}
+              onBlur={(event) => editor?.updateField("heroH1", event.currentTarget.innerHTML)}
             >
               {heroTitle}
             </motion.h1>
@@ -198,6 +208,9 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, delay: 0.1, ease: customEase }}
                 className={`text-zinc-400 font-light leading-relaxed ${isLongHeroTitle || isCompactLayout ? "text-base md:text-lg" : "text-lg md:text-xl"} ${isSplitLayout ? "max-w-xl" : "max-w-2xl"}`}
+                contentEditable={isEditor}
+                suppressContentEditableWarning={isEditor}
+                onBlur={(event) => editor?.updateField("intro", event.currentTarget.innerHTML)}
               >
                 {data.intro || data.metaDescription}
               </motion.p>
@@ -214,7 +227,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
       </header>
 
       {/* Sliding content area */}
-      <div data-header-theme="light" className="relative z-20 w-full bg-white rounded-t-[2.5rem] md:rounded-t-[4rem] shadow-[0_-20px_60px_rgba(0,0,0,0.6)] pt-16 md:pt-24 pb-32 px-6 md:px-12 lg:px-24 mt-[100vh]">
+      <div data-header-theme="light" className={`relative z-20 w-full bg-white ${isEditor ? "rounded-none mt-0" : "rounded-t-[2.5rem] md:rounded-t-[4rem] mt-[100vh]"} shadow-[0_-20px_60px_rgba(0,0,0,0.6)] pt-16 md:pt-24 pb-32 px-6 md:px-12 lg:px-24`}>
         <div className="absolute top-6 left-1/2 -translate-x-1/2 w-16 h-1.5 bg-zinc-200 rounded-full" />
         <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24 relative mt-8">
 
@@ -271,7 +284,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
                     (point, i) =>
                       point && (
                         <li key={i} className="flex items-start gap-4 text-zinc-800 text-lg font-medium leading-relaxed">
-                          <span dangerouslySetInnerHTML={{ __html: cleanCmsHtml(point) }} />
+                          <EditableHtml html={point} enabled={isEditor} onChange={(content) => editor?.updateArrayItem("tldrPoints", i, content)} />
                         </li>
                       )
                   )}
@@ -281,7 +294,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
 
             {data.aeoQuickAnswer && (
               <div className="text-2xl md:text-3xl font-light text-zinc-900 leading-snug mb-16 border-l-[3px] border-[#CCFF00] pl-8 py-2 bg-gradient-to-r from-[#CCFF00]/10 to-transparent">
-                <p dangerouslySetInnerHTML={{ __html: cleanCmsHtml(data.aeoQuickAnswer) }} />
+                <EditableHtml as="p" html={data.aeoQuickAnswer} enabled={isEditor} onChange={(content) => editor?.updateField("aeoQuickAnswer", content)} />
               </div>
             )}
 
@@ -299,27 +312,33 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
                 }
                 if (block.type === "h2" && block.content) {
                   return (
-                    <h2
+                    <EditableHtml
+                      as="h2"
                       id={block.id}
                       key={block.id}
                       className="font-alpha text-3xl md:text-4xl uppercase tracking-tighter text-zinc-900 mt-20 mb-6 scroll-mt-32 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-4 [&_a]:underline-offset-4"
                       style={{ fontFamily: "var(--font-alpha)" }}
-                      dangerouslySetInnerHTML={{ __html: cleanCmsHtml(block.content) }}
+                      html={block.content}
+                      enabled={isEditor}
+                      onChange={(content) => updateBlockContent(block.id, content)}
                     />
                   );
                 }
                 if (block.type === "h3" && block.content) {
                   return (
-                    <h3
+                    <EditableHtml
+                      as="h3"
                       id={block.id}
                       key={block.id}
                       className="text-xl md:text-2xl font-bold tracking-tight text-zinc-900 mt-12 mb-4 scroll-mt-32 [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-2 [&_a]:underline-offset-4"
-                      dangerouslySetInnerHTML={{ __html: cleanCmsHtml(block.content) }}
+                      html={block.content}
+                      enabled={isEditor}
+                      onChange={(content) => updateBlockContent(block.id, content)}
                     />
                   );
                 }
                 if (block.type === "paragraph" && block.content) {
-                  return <p key={block.id} dangerouslySetInnerHTML={{ __html: cleanCmsHtml(block.content) }} />;
+                  return <EditableHtml as="p" key={block.id} html={block.content} enabled={isEditor} onChange={(content) => updateBlockContent(block.id, content)} />;
                 }
                 if (block.type === "list" && block.items?.length > 0) {
                   return (
@@ -329,7 +348,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
                           item && (
                             <li key={idx} className="flex items-start gap-4 text-zinc-700">
                               <span aria-hidden="true" className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-[#CCFF00]" />
-                              <span dangerouslySetInnerHTML={{ __html: cleanCmsHtml(item) }} />
+                              <EditableHtml html={item} enabled={isEditor} onChange={(content) => editor?.updateListItem(block.id, idx, content)} />
                             </li>
                           )
                       )}
@@ -350,7 +369,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
                                 key={i}
                                 className={`p-5 text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-900 font-bold ${i === 0 ? "w-1/3" : "text-center"}`}
                               >
-                                {th}
+                                <EditableHtml html={th} enabled={isEditor} onChange={(content) => editor?.updateTableHeader(block.id, i, content)} />
                               </th>
                             ))}
                           </tr>
@@ -363,7 +382,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
                                   key={cIdx}
                                   className={`p-5 font-light text-zinc-700 text-base ${cIdx !== 0 ? "text-center" : ""}`}
                                 >
-                                  <span dangerouslySetInnerHTML={{ __html: cleanCmsHtml(td) }} />
+                                  <EditableHtml html={td} enabled={isEditor} onChange={(content) => editor?.updateTableCell(block.id, rIdx, cIdx, content)} />
                                 </td>
                               ))}
                             </tr>

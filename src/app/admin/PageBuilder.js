@@ -12,6 +12,7 @@ import { canonicalInternalHref } from "@/lib/contentPolicy";
 import { cleanMetaTitle, CONTENT_AUTHOR, formatContentDate, getContentAuthor, getPublishedDate, getUpdatedDate, normalizeAuthorProfileUrl } from "@/lib/contentMeta";
 import { tools, toolsHub } from "@/lib/tools";
 import { validateContentForPublication } from "@/lib/cmsValidation";
+import DynamicPageClient from "@/app/[slug]/DynamicPageClient";
 
 const cleanStorageFileName = (fileName) => fileName.replace(/[^a-zA-Z0-9.]/g, '');
 const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
@@ -1066,19 +1067,29 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4">
                   <div>
                     <h2 className="text-xs font-bold uppercase tracking-widest text-[#CCFF00]">2. Live page preview</h2>
-                    <p className="mt-1 text-xs text-zinc-500">This is the real public route, including the live header and page layout.</p>
+                    <p className="mt-1 text-xs text-zinc-500">Click text directly in the canvas to edit it. Use the controls below for media, tables, FAQs, and structure.</p>
                   </div>
                   <a href={livePreviewPath} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-[#CCFF00]/40 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-[#CCFF00] transition-colors hover:bg-[#CCFF00] hover:text-black">
                     Open full page
                   </a>
                 </div>
                 <div className="bg-black p-3 md:p-5">
-                  <div className="overflow-hidden rounded-xl border border-zinc-700 bg-white shadow-2xl">
-                    <iframe
-                      key={livePreviewPath}
-                      title={`Live preview: ${formData.title || formData.slug}`}
-                      src={livePreviewPath}
-                      className="h-[720px] w-full bg-white"
+                  <div
+                    data-lenis-prevent
+                    tabIndex={0}
+                    className="h-[720px] touch-pan-y overflow-y-scroll overscroll-contain rounded-xl border border-zinc-700 bg-white shadow-2xl [scrollbar-gutter:stable] focus:outline-none focus:ring-2 focus:ring-[#CCFF00]"
+                  >
+                    <DynamicPageClient
+                      data={formData}
+                      dataSource="pages"
+                      editor={{
+                        updateField: (field, value) => setFormData((current) => ({ ...current, [field]: value })),
+                        updateArrayItem: (field, index, value) => setFormData((current) => ({ ...current, [field]: current[field].map((item, itemIndex) => itemIndex === index ? value : item) })),
+                        updateBlock: (id, patch) => setFormData((current) => ({ ...current, contentBlocks: current.contentBlocks.map((block) => block.id === id ? { ...block, ...patch } : block) })),
+                        updateListItem: (id, index, value) => setFormData((current) => ({ ...current, contentBlocks: current.contentBlocks.map((block) => block.id === id ? { ...block, items: block.items.map((item, itemIndex) => itemIndex === index ? value : item) } : block) })),
+                        updateTableHeader: (id, index, value) => setFormData((current) => ({ ...current, contentBlocks: current.contentBlocks.map((block) => block.id === id ? { ...block, headers: block.headers.map((header, headerIndex) => headerIndex === index ? value : header) } : block) })),
+                        updateTableCell: (id, rowIndex, cellIndex, value) => setFormData((current) => ({ ...current, contentBlocks: current.contentBlocks.map((block) => block.id === id ? { ...block, rows: block.rows.map((row, currentRowIndex) => currentRowIndex === rowIndex ? { ...row, cells: row.cells.map((cell, currentCellIndex) => currentCellIndex === cellIndex ? value : cell) } : row) } : block) })),
+                      }}
                     />
                   </div>
                 </div>
