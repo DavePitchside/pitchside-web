@@ -65,8 +65,17 @@ function StandardTemplate({ page, designOptions }) {
 function PitchSetupTemplate({ page, designOptions }) {
   return (
     <main className="min-h-screen bg-[#F4F3EF] text-[#050505]">
-      <Hero page={page} designOptions={designOptions} />
-      <div className="mx-auto max-w-7xl space-y-10 px-5 py-14 md:px-12 md:py-20">
+      <div className="mx-auto max-w-7xl space-y-10 px-5 pb-14 pt-28 md:px-12 md:pb-20 md:pt-36">
+        <header className="max-w-4xl border-b-2 border-[#050505] pb-8 md:pb-10">
+          {page.hero.eyebrow && <p className="mb-4 font-mono text-[10px] font-black uppercase tracking-[0.24em] text-[#7a9900]">{page.hero.eyebrow}</p>}
+          <h1 className="text-4xl font-black uppercase leading-[0.92] tracking-tight text-[#050505] md:text-6xl">{page.hero.h1}</h1>
+          {page.hero.intro && <p className="mt-5 max-w-3xl text-base font-medium leading-relaxed text-zinc-700 md:text-lg">{page.hero.intro}</p>}
+          {page.hero.primaryCta?.buttonUrl && (
+            <Link href={page.hero.primaryCta.buttonUrl} className="mt-6 inline-flex rounded-full bg-[#050505] px-6 py-3 text-xs font-black uppercase tracking-widest text-[#CCFF00]">
+              {page.hero.primaryCta.buttonText || "Learn more"}
+            </Link>
+          )}
+        </header>
         {designOptions.showStatusNotice && <ProductStatusNotice className="!bg-[#050505] !text-zinc-200" />}
         <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
           <aside className="rounded-2xl border-2 border-[#050505] bg-white p-6 shadow-[6px_6px_0px_#050505] lg:sticky lg:top-28 lg:h-fit">

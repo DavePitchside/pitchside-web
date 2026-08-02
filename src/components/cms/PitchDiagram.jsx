@@ -35,6 +35,7 @@ export default function PitchDiagram({ block }) {
   const cameras = block.cameras?.length ? block.cameras : presets[block.variant] || presets["one-phone-sideline"];
   const blindSpots = block.blindSpots || [];
   const markers = block.markers || [];
+  const usePhoneMarkers = block.cameraStyle === "phone";
 
   return (
     <figure className="overflow-hidden rounded-2xl border-4 border-[#050505] bg-[#123018] shadow-[8px_8px_0px_#050505]">
@@ -56,8 +57,18 @@ export default function PitchDiagram({ block }) {
             {cameras.map((camera) => (
               <g key={camera.id}>
                 <path d={conePath(camera)} fill="#CCFF00" opacity="0.24" stroke="#CCFF00" strokeWidth="0.35" />
-                <circle cx={camera.x} cy={camera.y} r="3.4" fill="#050505" stroke="#CCFF00" strokeWidth="1.1" />
-                <text x={camera.x} y={Number(camera.y) - 5.5} textAnchor="middle" className="fill-[#CCFF00] text-[3px] font-bold uppercase">{camera.label}</text>
+                {usePhoneMarkers ? (
+                  <g transform={`rotate(${camera.markerRotation ?? 0} ${camera.x} ${camera.y})`}>
+                    <rect x={Number(camera.x) - 3} y={Number(camera.y) - 5.5} width="6" height="11" rx="2.7" fill="#050505" />
+                    <rect x={Number(camera.x) - 2.25} y={Number(camera.y) - 4.75} width="4.5" height="9.5" rx="1.95" fill="#CCFF00" />
+                    <circle cx={camera.x} cy={Number(camera.y) - 3.55} r="0.35" fill="#050505" />
+                  </g>
+                ) : (
+                  <>
+                    <circle cx={camera.x} cy={camera.y} r="3.4" fill="#050505" stroke="#CCFF00" strokeWidth="1.1" />
+                    <text x={camera.x} y={Number(camera.y) - 5.5} textAnchor="middle" className="fill-[#CCFF00] text-[3px] font-bold uppercase">{camera.label}</text>
+                  </>
+                )}
               </g>
             ))}
             {markers.map((marker) => (
