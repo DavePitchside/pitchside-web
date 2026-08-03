@@ -36,6 +36,7 @@ export default function PitchDiagram({ block }) {
   const blindSpots = block.blindSpots || [];
   const markers = block.markers || [];
   const usePhoneMarkers = block.cameraStyle === "phone";
+  const isHorizontalPitch = block.pitchOrientation === "horizontal";
 
   return (
     <figure className="overflow-hidden rounded-2xl border-4 border-[#050505] bg-[#123018] shadow-[8px_8px_0px_#050505]">
@@ -44,13 +45,26 @@ export default function PitchDiagram({ block }) {
           <svg viewBox="0 0 100 100" role="img" aria-labelledby={`${block.id}-title ${block.id}-desc`} className="aspect-[1.45/1] w-full rounded-xl bg-[#1e5a2a]">
             <title id={`${block.id}-title`}>{block.title}</title>
             <desc id={`${block.id}-desc`}>{block.description || "Example football recording setup diagram."}</desc>
-            <rect x="4" y="4" width="92" height="92" fill="none" stroke="#F4F3EF" strokeWidth="1.2" />
-            <line x1="50" y1="4" x2="50" y2="96" stroke="#F4F3EF" strokeWidth="0.8" />
-            <circle cx="50" cy="50" r="11" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
-            <rect x="35" y="4" width="30" height="12" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
-            <rect x="35" y="84" width="30" height="12" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
-            <text x="50" y="9" textAnchor="middle" className="fill-[#F4F3EF] text-[3px] uppercase">Goal</text>
-            <text x="50" y="94" textAnchor="middle" className="fill-[#F4F3EF] text-[3px] uppercase">Goal</text>
+            {isHorizontalPitch ? (
+              <>
+                <rect x="4" y="18" width="92" height="64" fill="none" stroke="#F4F3EF" strokeWidth="1.2" />
+                <line x1="50" y1="18" x2="50" y2="82" stroke="#F4F3EF" strokeWidth="0.8" />
+                <circle cx="50" cy="50" r="8" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
+                <rect x="4" y="35" width="12" height="30" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
+                <rect x="84" y="35" width="12" height="30" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
+                <path d="M 4 26 A 8 8 0 0 0 12 18 M 88 18 A 8 8 0 0 0 96 26 M 4 74 A 8 8 0 0 1 12 82 M 88 82 A 8 8 0 0 1 96 74" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
+              </>
+            ) : (
+              <>
+                <rect x="4" y="4" width="92" height="92" fill="none" stroke="#F4F3EF" strokeWidth="1.2" />
+                <line x1="50" y1="4" x2="50" y2="96" stroke="#F4F3EF" strokeWidth="0.8" />
+                <circle cx="50" cy="50" r="11" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
+                <rect x="35" y="4" width="30" height="12" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
+                <rect x="35" y="84" width="30" height="12" fill="none" stroke="#F4F3EF" strokeWidth="0.8" />
+                <text x="50" y="9" textAnchor="middle" className="fill-[#F4F3EF] text-[3px] uppercase">Goal</text>
+                <text x="50" y="94" textAnchor="middle" className="fill-[#F4F3EF] text-[3px] uppercase">Goal</text>
+              </>
+            )}
             {blindSpots.map((spot) => (
               <ellipse key={spot.id} cx={spot.x} cy={spot.y} rx={spot.rx || 10} ry={spot.ry || 7} fill="#050505" opacity="0.28" />
             ))}

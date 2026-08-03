@@ -46,6 +46,10 @@ export const getCmsPageByPath = cache(async (requestedRoutePath, { includeDraft 
     }
   } catch (error) {
     console.error("CMS routePath lookup failed:", error);
+    if (allowFallback && cmsSeedPages[routePath]) {
+      console.warn(`Using local CMS seed content for ${routePath} because Firestore is unavailable.`);
+      return normalizeCmsPage(cmsSeedPages[routePath], routePath);
+    }
     throw error;
   }
 
