@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function SquareScannerCursor() {
+  const pathname = usePathname();
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const smoothX = useSpring(cursorX, { damping: 50, stiffness: 400 });
@@ -23,6 +25,8 @@ export default function SquareScannerCursor() {
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [cursorX, cursorY]);
+
+  if (pathname === "/pricing") return null;
 
   return (
     <motion.div

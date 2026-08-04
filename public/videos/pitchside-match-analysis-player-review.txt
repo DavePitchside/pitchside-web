@@ -1,0 +1,1 @@
+A match result shows team scores, a match preview, and labelled goals, assists, tackles, saves and passes.

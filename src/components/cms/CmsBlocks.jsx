@@ -3,6 +3,8 @@ import Link from "next/link";
 import { canonicalizeInternalLinks, canonicalInternalHref } from "@/lib/contentPolicy";
 import { pricingPlans } from "@/lib/pricing";
 import PitchDiagram from "@/components/cms/PitchDiagram";
+import PitchsideVideoEvidence from "@/components/cms/PitchsideVideoEvidence";
+import { videoAssets } from "@/lib/cms/videoAssets";
 import SplitTextReveal from "@/components/motion/SplitTextReveal";
 
 const stripHtml = (value = "") => String(value).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -194,6 +196,7 @@ export function getVisibleFaqs(blocks = []) {
 }
 
 export default function CmsBlock({ block }) {
+  if (block.type === "videoEvidence" && videoAssets[block.videoId]) return <PitchsideVideoEvidence asset={videoAssets[block.videoId]} autoplay={block.autoplay} loop={block.loop} />;
   if (!block || block.hidden === true) return null;
   if (block.type === "heading") return <HeadingBlock block={block} />;
   if (block.type === "richText") return <RichHtml html={block.html} className="text-base font-medium leading-relaxed text-zinc-700 [&_a]:font-black [&_a]:underline [&_a]:decoration-[#CCFF00] [&_a]:decoration-2 [&_a]:underline-offset-4" />;

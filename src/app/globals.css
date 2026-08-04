@@ -24,6 +24,17 @@
 }
 
 @layer components {
+  .pricing-page {
+    font-family: var(--font-roobert), sans-serif;
+  }
+
+  .pricing-page h1,
+  .pricing-page h2 {
+    font-family: var(--font-alpha), sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
   .surface-card,
   [data-slot="card"] {
     border-radius: var(--radius-structural);

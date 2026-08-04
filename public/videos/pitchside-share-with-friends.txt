@@ -1,0 +1,1 @@
+A match result is open and the visible in-app Share action is shown. No completed destination is shown.

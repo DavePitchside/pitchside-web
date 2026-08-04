@@ -3,6 +3,18 @@ import { collection, doc, getDoc, getDocs, query, where } from "firebase/firesto
 import { db } from "@/lib/firebase";
 import { cmsSeedPages } from "@/lib/cms/seedPages";
 import { isPublishedCmsPage, normalizeCmsPage, normalizeRoutePath, routePathToDocId } from "@/lib/cms/pageSchema";
+import { frameEvidenceByRoute, videoPlacementIds } from "@/lib/cms/videoAssets";
+
+function withVideoPlacements(page) {
+  const ids = videoPlacementIds[page.routePath] || [];
+  const frame = frameEvidenceByRoute[page.routePath];
+  if ((!ids.length && !frame) || page.blocks.some((block) => block.type === "videoEvidence" || block.id === "app-frame-evidence")) return page;
+  const evidenceBlocks = [
+    ...ids.map((videoId, index) => ({ id: `video-${videoId}`, type: "videoEvidence", videoId, autoplay: false, loop: false, canonical: index === 0 })),
+    ...(frame ? [{ id: "app-frame-evidence", type: "image", src: frame.src, alt: frame.alt, caption: frame.caption }] : []),
+  ];
+  return { ...page, blocks: [...page.blocks.slice(0, 1), ...evidenceBlocks, ...page.blocks.slice(1)] };
+}
 
 function serializeTimestamps(value) {
   if (!value) return value;
@@ -41,18 +53,18 @@ export const getCmsPageByPath = cache(async (requestedRoutePath, { includeDraft 
     const routeDoc = directDoc || await getUniqueByRoutePath(routePath);
     if (routeDoc) {
       const page = normalizeCmsPage(routeDoc, routePath);
-      if (includeDraft || isPublishedCmsPage(page)) return page;
+      if (includeDraft || isPublishedCmsPage(page)) return withVideoPlacements(page);
       return null;
     }
   } catch (error) {
     console.error("CMS routePath lookup failed:", error);
     if (allowFallback && cmsSeedPages[routePath]) {
       console.warn(`Using local CMS seed content for ${routePath} because Firestore is unavailable.`);
-      return normalizeCmsPage(cmsSeedPages[routePath], routePath);
+      return withVideoPlacements(normalizeCmsPage(cmsSeedPages[routePath], routePath));
     }
     throw error;
   }
 
   if (!allowFallback || !cmsSeedPages[routePath]) return null;
-  return normalizeCmsPage(cmsSeedPages[routePath], routePath);
+  return withVideoPlacements(normalizeCmsPage(cmsSeedPages[routePath], routePath));
 });

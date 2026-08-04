@@ -4,6 +4,7 @@ import { getVisibleFaqs } from "@/components/cms/CmsBlocks";
 import { getCmsPageByPath } from "@/lib/cms/pageLoader";
 import { absoluteUrl, normalizeRoutePath, SITE_URL } from "@/lib/cms/pageSchema";
 import { cleanMetaTitle } from "@/lib/contentMeta";
+import { videoAssets } from "@/lib/cms/videoAssets";
 
 function stripHtml(value = "") {
   return String(value).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -81,7 +82,11 @@ function cmsSchemas(page) {
       }
     : null;
 
-  return [webPage, breadcrumb, faq].filter(Boolean);
+  const videos = page.blocks.filter((block) => block.type === "videoEvidence" && block.canonical && videoAssets[block.videoId]).map((block) => {
+    const video = videoAssets[block.videoId];
+    return { "@context": "https://schema.org", "@type": "VideoObject", name: video.title, description: video.description, thumbnailUrl: absoluteUrl(video.posterUrl), uploadDate: video.uploadedAt, duration: video.duration, contentUrl: absoluteUrl(video.assetUrl), author: { "@type": "Organization", name: video.authorName }, publisher: { "@type": "Organization", name: "Pitchside AI", logo: { "@type": "ImageObject", url: absoluteUrl("/logo.png") } } };
+  });
+  return [webPage, breadcrumb, faq, ...videos].filter(Boolean);
 }
 
 export default async function CmsPageRenderer({ routePath }) {

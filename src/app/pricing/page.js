@@ -84,7 +84,7 @@ function PlanCard({ plan }) {
 
 export default function PricingPage() {
   return (
-    <main className="min-h-screen bg-[#F4F3EF] text-white">
+    <main className="pricing-page min-h-screen bg-[#F4F3EF] text-white">
       <section className="flex min-h-screen items-center bg-[#F4F3EF] px-5 pb-16 pt-32 text-black md:px-12 md:pt-36">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-center">
@@ -102,7 +102,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="px-5 py-12 md:px-12">
+      <section className="bg-[#0A0A0A] px-5 py-12 md:px-12">
         <div className="mx-auto max-w-7xl border border-white/10 bg-[#0A0A0A] p-6 md:p-10">
           <h2 className="mb-8 text-3xl font-black uppercase tracking-tight md:text-5xl">Complete feature comparison</h2>
           <div className="space-y-10">
@@ -131,7 +131,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="px-5 py-12 md:px-12">
+      <section className="bg-[#0A0A0A] px-5 py-12 md:px-12">
         <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-3">
           {[
             {
@@ -152,7 +152,7 @@ export default function PricingPage() {
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <article key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <article key={item.title} className="rounded-2xl border border-white/10 bg-[#151515] p-6 text-white shadow-[0_10px_30px_rgba(0,0,0,0.18)]">
                 <Icon className="mb-5 h-7 w-7 text-[#CCFF00]" />
                 <h2 className="mb-3 text-2xl font-black uppercase tracking-tight">{item.title}</h2>
                 <p className="text-sm font-medium leading-relaxed text-zinc-400">{item.body}</p>
@@ -172,8 +172,8 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="px-5 py-12 md:px-12">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+      <section className="bg-[#0A0A0A] px-5 py-12 md:px-12">
+        <div className="mx-auto grid max-w-7xl gap-8 text-white lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <p className="mb-3 text-[10px] font-black uppercase tracking-[0.24em] text-[#CCFF00]">FAQ</p>
             <h2 className="text-3xl font-black uppercase tracking-tight md:text-5xl">Pricing questions</h2>

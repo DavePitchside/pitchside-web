@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useMotionValue, useSpring, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 import { stripHtml, tools } from "@/lib/tools";
+import PitchsideVideoEvidence from "@/components/cms/PitchsideVideoEvidence";
+import { videoAssets } from "@/lib/cms/videoAssets";
 
 import { 
   ArrowUpRight, ChevronLeft, ChevronRight, Target, CornerDownLeft, 
@@ -341,6 +343,9 @@ export default function Home() {
           SECTION 2
           ========================================= */}
       <div className="deferred-section relative z-30 mt-[100vh] w-full bg-[#050505]">
+        <section className="bg-[#F4F3EF] px-6 py-16 md:px-12 md:py-24">
+          <div className="mx-auto max-w-5xl"><PitchsideVideoEvidence asset={videoAssets["private-beta-walkthrough"]} /></div>
+        </section>
         <section className="relative w-full min-h-screen h-auto py-16 md:py-32 bg-[#F4F3EF] text-zinc-950 overflow-hidden z-30 border border-zinc-200 flex flex-col justify-center">
           {!reducedEffects && <FilmGrain />}
           <div className="max-w-7xl mx-auto px-6 md:px-20 lg:px-24 flex flex-col lg:flex-row items-center justify-between gap-10 md:gap-16 w-full relative z-10">

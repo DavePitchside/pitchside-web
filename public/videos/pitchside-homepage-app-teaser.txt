@@ -1,0 +1,1 @@
+A silent sequence shows the Feed, match result, privacy-redacted search view and Share action.

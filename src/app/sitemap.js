@@ -28,6 +28,7 @@ export default async function sitemap() {
     "/about",
     "/contact",
     "/technology",
+    "/technology/how-pitchside-ai-works",
     "/technology/football-recording-setup",
     "/tools",
     "/pricing",

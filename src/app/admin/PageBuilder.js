@@ -13,6 +13,7 @@ import { cleanMetaTitle, CONTENT_AUTHOR, formatContentDate, getContentAuthor, ge
 import { tools, toolsHub } from "@/lib/tools";
 import { validateContentForPublication } from "@/lib/cmsValidation";
 import DynamicPageClient from "@/app/[slug]/DynamicPageClient";
+import { videoAssets } from "@/lib/cms/videoAssets";
 
 const cleanStorageFileName = (fileName) => fileName.replace(/[^a-zA-Z0-9.]/g, '');
 const isLegacyPlaceholderImage = (url = "") => /^https?:\/\/(?:www\.)?pitchside\.ai\/images\//i.test(url);
@@ -606,6 +607,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
     if (type === "list") newBlock = { id: Date.now().toString(), type, items: [""] };
     else if (type === "table") newBlock = { id: Date.now().toString(), type, headers: ["Column 1", "Column 2"], rows: [{ cells: ["Data 1", "Data 2"] }] };
     else if (type === "image") newBlock = { id: Date.now().toString(), type, content: "" };
+    else if (type === "videoEvidence") newBlock = { id: Date.now().toString(), type, videoId: "" };
     else newBlock = { id: Date.now().toString(), type, content: "" };
 
     const newBlocks = [...formData.contentBlocks];
@@ -823,6 +825,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
         <button type="button" onClick={() => insertContentBlock(index, "list")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><ListIcon className="w-4 h-4" /></button>
         {!isToolPage && <button type="button" onClick={() => insertContentBlock(index, "image")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><ImageIcon className="w-4 h-4" /></button>}
         <button type="button" onClick={() => insertContentBlock(index, "table")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><TableIcon className="w-4 h-4" /></button>
+        <button type="button" title="Add video evidence" onClick={() => insertContentBlock(index, "videoEvidence")} className="p-2 text-zinc-500 hover:text-[#CCFF00] hover:bg-zinc-900 rounded-lg transition-colors"><Video className="w-4 h-4" /></button>
       </div>
     </div>
   );
@@ -1269,6 +1272,7 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                           {block.type === 'paragraph' && <><AlignLeft className="w-3 h-3"/> Paragraph</>}
                           {block.type === 'list' && <><ListIcon className="w-3 h-3"/> Bullet List</>}
                           {block.type === 'table' && <><TableIcon className="w-3 h-3"/> Matrix Table</>}
+                          {block.type === 'videoEvidence' && <><Video className="w-3 h-3"/> Video Evidence</>}
                         </div>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button type="button" onClick={() => moveBlock(index, -1)} className="p-1.5 text-zinc-500 hover:text-white bg-zinc-950 rounded border border-zinc-800"><ArrowUp className="w-3 h-3" /></button>
@@ -1309,6 +1313,16 @@ export default function PageBuilder({ initialData, collectionName, pageType, onB
                       {block.type === "h2" && <input type="text" placeholder="Main Section Title..." className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-[#CCFF00] font-black text-xl focus:border-[#CCFF00] outline-none" value={block.content || ""} onChange={(e) => updateBlockContent(block.id, e.target.value)} />}
                       {block.type === "h3" && <input type="text" placeholder="Sub-section Title..." className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white font-bold text-lg focus:border-[#CCFF00] outline-none" value={block.content || ""} onChange={(e) => updateBlockContent(block.id, e.target.value)} />}
                       {block.type === "paragraph" && <LinkableTextarea value={block.content || ""} onChange={(value) => updateBlockContent(block.id, value)} />}
+                      {block.type === "videoEvidence" && (
+                        <div className="space-y-2 pr-4">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Video asset</label>
+                          <select value={block.videoId || ""} onChange={(e) => setFormData({ ...formData, contentBlocks: formData.contentBlocks.map((item) => item.id === block.id ? { ...item, videoId: e.target.value } : item) })} className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-white outline-none focus:border-[#CCFF00]">
+                            <option value="">Choose a managed video…</option>
+                            {Object.values(videoAssets).map((asset) => <option key={asset.videoId} value={asset.videoId}>{asset.title}</option>)}
+                          </select>
+                          <p className="text-xs text-zinc-500">This stores the managed <code>videoId</code>; the page never stores a duplicate media URL.</p>
+                        </div>
+                      )}
                       
                       {/* LIST BLOCK */}
                       {block.type === "list" && (

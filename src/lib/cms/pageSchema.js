@@ -113,6 +113,7 @@ function legacyBlocks(data = {}) {
     else if (block.type === "list") blocks.push({ ...block, type: "limitations", items: block.items || [] });
     else if (block.type === "image") blocks.push({ ...block, type: "image", src: block.content, alt: block.alt || data.title || "" });
     else if (block.type === "table") blocks.push({ ...block, type: "comparisonTable" });
+    else if (block.type === "videoEvidence" && block.videoId) blocks.push({ ...block, type: "videoEvidence" });
   }
 
   if (Array.isArray(data.technologyStats) && data.technologyStats.length) {

@@ -1,0 +1,13 @@
+"use client";
+import { useEffect, useRef } from "react";
+
+function track(name, videoId) { window.gtag?.("event", name, { route: window.location.pathname, videoId }); }
+export default function PitchsideVideoEvidence({ asset, autoplay = false, loop = false }) {
+  const ref = useRef(null);
+  useEffect(() => { const video = ref.current; if (!video || !autoplay) return; const reduced = matchMedia("(prefers-reduced-motion: reduce)"); const observer = new IntersectionObserver(([entry]) => { if (!reduced.matches && entry.isIntersecting) video.play().catch(() => {}); else video.pause(); }, { threshold: .2 }); observer.observe(video); return () => observer.disconnect(); }, [autoplay]);
+  return <section className="overflow-hidden border-4 border-[#050505] bg-[#050505] text-white shadow-[8px_8px_0px_#050505]" aria-labelledby={`video-${asset.videoId}`}>
+    <div className="p-5 md:p-7"><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#CCFF00]">{asset.statusLabel}</p><h2 id={`video-${asset.videoId}`} className="mt-2 text-3xl font-black uppercase">{asset.title}</h2><p className="mt-3 max-w-3xl text-sm text-zinc-300">{asset.description}</p></div>
+    <video ref={ref} className="block h-auto w-full max-w-full" controls playsInline muted={autoplay} loop={loop} autoPlay={autoplay} preload="metadata" poster={asset.posterUrl} onPlay={() => track("video_play", asset.videoId)} onTimeUpdate={(e) => { const p = e.currentTarget.currentTime / e.currentTarget.duration; [0.25, .5, .75].forEach(n => { if (p >= n && !e.currentTarget.dataset[`p${n}`]) { e.currentTarget.dataset[`p${n}`] = "1"; track(`video_${n * 100}`, asset.videoId); } }); }} onEnded={() => track("video_complete", asset.videoId)} onLoadedMetadata={() => track("video_impression", asset.videoId)}><source src={asset.assetUrl} type="video/mp4" /></video>
+    <div className="p-5 text-sm text-zinc-300"><p><strong className="text-white">Duration:</strong> {asset.duration.replace("PT", "").replace("S", " seconds")} · Recorded <time dateTime={asset.recordedAt}>{asset.recordedAt}</time> · Reviewed by {asset.reviewerName}</p><details className="mt-3"><summary className="cursor-pointer font-bold text-[#CCFF00]">Visible-action transcript</summary><p className="mt-2 leading-relaxed">{asset.transcript}</p></details><p className="mt-4 text-xs leading-relaxed text-zinc-400">Pitchside is in private beta for suitable 5, 6 and 7-a-side footage. Processing can take up to 45 minutes; camera position, visibility, lighting, obstruction and kit similarity can affect results. Review important events and player assignments. Public availability is not confirmed.</p></div>
+  </section>;
+}

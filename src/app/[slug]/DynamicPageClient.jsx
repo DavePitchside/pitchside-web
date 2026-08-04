@@ -11,6 +11,8 @@ import MoreToRead from "@/components/MoreToRead";
 import ProductStatusNotice from "@/components/ProductStatusNotice";
 import { pricingPlans } from "@/lib/pricing";
 import { canonicalRedirectHref } from "@/lib/redirects.mjs";
+import PitchsideVideoEvidence from "@/components/cms/PitchsideVideoEvidence";
+import { videoAssets } from "@/lib/cms/videoAssets";
 
 const customEase = [0.16, 1, 0.3, 1];
 
@@ -300,6 +302,7 @@ export default function DynamicPageClient({ data, dataSource, childPosts = [], m
 
             <div className="flex flex-col space-y-6 text-lg md:text-xl text-zinc-700 font-light leading-relaxed">
               {data.contentBlocks?.map((block) => {
+                if (block.type === "videoEvidence" && videoAssets[block.videoId]) return <PitchsideVideoEvidence key={block.id} asset={videoAssets[block.videoId]} />;
                 if (block.type === "image" && block.content) {
                   return (
                     <div
