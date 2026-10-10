@@ -12,38 +12,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const clean = (value, max) =>
   typeof value === "string" ? value.trim().slice(0, max) : "";
 
-// TEMPORARY diagnostic: reports whether the Sheet webhook is configured and
-// reachable, without revealing values or writing a row. Remove before merge.
-export async function GET() {
-  const url = process.env.GOOGLE_SHEETS_WEBHOOK_URL || "";
-  const secret = process.env.GOOGLE_SHEETS_WEBHOOK_SECRET || "";
-  const { createHash } = await import("node:crypto");
-  const report = {
-    urlSet: Boolean(url),
-    urlEndsWithExec: url.trim().endsWith("/exec"),
-    urlHasWhitespace: url !== url.trim(),
-    secretSet: Boolean(secret),
-    secretLength: secret.length,
-    secretHasWhitespace: secret !== secret.trim(),
-    secretHashPrefix: secret ? createHash("sha256").update(secret).digest("hex").slice(0, 8) : null,
-  };
-  if (url) {
-    try {
-      const res = await fetch(url.trim(), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ secret: "diagnostic-probe" }),
-        signal: AbortSignal.timeout(8000),
-      });
-      report.probeStatus = res.status;
-      report.probeBody = (await res.text()).slice(0, 200);
-    } catch (error) {
-      report.probeError = String(error);
-    }
-  }
-  return Response.json(report);
-}
-
 export async function POST(request) {
   let body;
   try {
