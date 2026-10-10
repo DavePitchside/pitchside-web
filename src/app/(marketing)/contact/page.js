@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, CheckCircle2, Send } from "lucide-react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 
 // Subtle noise texture to keep it feeling premium
 const FilmGrain = () => (
@@ -35,16 +33,20 @@ export default function ContactPage() {
     setStatus("submitting");
     
     try {
-      // Pushing data to the 'leads' collection in Firebase
-      await addDoc(collection(db, "leads"), {
-        ...formData,
-        intent,
-        sourcePage: "/contact",
-        sourceUrl: typeof window !== "undefined" ? window.location.href : "/contact",
-        sourcePlacement: "Contact page form",
-        sourceComponent: "ContactPage",
-        createdAt: new Date().toISOString(),
+      // Saved to Firestore and forwarded to the Google Sheet by /api/leads
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          intent,
+          sourcePage: "/contact",
+          sourceUrl: typeof window !== "undefined" ? window.location.href : "/contact",
+          sourcePlacement: "Contact page form",
+          sourceComponent: "ContactPage",
+        }),
       });
+      if (!res.ok) throw new Error(`Lead submit failed: ${res.status}`);
       setStatus("success");
     } catch (error) {
       console.error("Error adding document: ", error);

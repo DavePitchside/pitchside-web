@@ -6,8 +6,6 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, X, Send, CheckCircle2 } from 'lucide-react';
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 
 export default function Header() {
   const pathname = usePathname() || '/';
@@ -112,16 +110,20 @@ export default function Header() {
     setSubmitStatus("submitting");
     
     try {
-      await addDoc(collection(db, "leads"), {
-        ...formData,
-        intent: modalConfig.type,
-        message: `Quick capture from ${modalConfig.source?.placement || 'UI'}`,
-        sourcePage: pathname,
-        sourceUrl: typeof window !== 'undefined' ? window.location.href : pathname,
-        sourcePlacement: modalConfig.source?.placement || 'UI',
-        sourceComponent: modalConfig.source?.component || 'Header',
-        createdAt: new Date().toISOString(),
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          intent: modalConfig.type,
+          message: `Quick capture from ${modalConfig.source?.placement || 'UI'}`,
+          sourcePage: pathname,
+          sourceUrl: typeof window !== 'undefined' ? window.location.href : pathname,
+          sourcePlacement: modalConfig.source?.placement || 'UI',
+          sourceComponent: modalConfig.source?.component || 'Header',
+        }),
       });
+      if (!res.ok) throw new Error(`Lead submit failed: ${res.status}`);
       setSubmitStatus("success");
       setTimeout(() => closeModal(), 2500);
     } catch (error) {
