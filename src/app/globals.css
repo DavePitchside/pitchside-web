@@ -4,10 +4,18 @@
 @source "../components";
 @source "../app";
 
-/* TAILWIND V4 FONT CONFIGURATION */
+/* TAILWIND V4 FONT CONFIGURATION
+   next/font sets --font-alpha-face and --font-roobert-face on <html>.
+   --font-sans makes Roobert the site-wide default; font-alpha / font-roobert
+   are the utility classes. "static" keeps the variables emitted so inline
+   styles using var(--font-alpha) keep working. */
+@theme static {
+  --font-sans: var(--font-roobert-face), ui-sans-serif, system-ui, sans-serif;
+  --font-alpha: var(--font-alpha-face), sans-serif;
+  --font-roobert: var(--font-roobert-face), sans-serif;
+}
+
 @theme {
-  --font-family-alpha: var(--font-alpha), sans-serif;
-  --font-family-roobert: var(--font-roobert), sans-serif;
   --radius-structural: 0px;
   --radius-interactive: 9999px;
 }

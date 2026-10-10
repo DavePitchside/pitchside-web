@@ -11,7 +11,7 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-ZYE6G6
 
 const alphaHeadline = localFont({
   src: "./fonts/AlphaHeadline-Regular.ttf",
-  variable: "--font-alpha",
+  variable: "--font-alpha-face",
   display: "swap",
 });
 
@@ -21,7 +21,7 @@ const roobert = localFont({
     { path: "./fonts/Roobert-Regular.otf", weight: "400", style: "normal" },
     { path: "./fonts/Roobert-Medium.otf", weight: "500", style: "normal" },
   ],
-  variable: "--font-roobert",
+  variable: "--font-roobert-face",
   display: "swap",
 });
 
